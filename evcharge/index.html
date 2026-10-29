@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Home Charging Cost Calculator — Cost Per Mile | ChargeCost</title>
+<meta name="description" content="True EV home-charging cost per mile with charger losses, rates and a gas-car comparison.">
+<link rel="canonical" href="https://finance.fixoraa.tech/evcharge/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="EV Home Charging Cost Calculator — Cost Per Mile | ChargeCost">
+<meta property="og:description" content="True EV home-charging cost per mile with charger losses, rates and a gas-car comparison.">
+<meta property="og:url" content="https://finance.fixoraa.tech/evcharge/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "ChargeCost",
+      "url": "https://finance.fixoraa.tech/evcharge/",
+      "applicationCategory": "Automotive Tools",
+      "operatingSystem": "Web",
+      "description": "True EV home-charging cost per mile with charger losses, rates and a gas-car comparison.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How much does it cost to charge an EV at home?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For a typical EV driven 12,000 miles a year at 30 kWh per 100 miles and 16 cents per kWh, about $640 a year — roughly $53 a month. Off-peak time-of-use rates can cut that nearly in half. This calculator uses your miles, your efficiency and your actual rate." } },
+        { "@type": "Question", "name": "What are charger efficiency losses?",
+          "acceptedAnswer": { "@type": "Answer", "text": "About 10 percent of the electricity you pay for never reaches the battery — it is lost as heat in the charger, cables and battery conditioning. A car that needs 30 kWh in the battery draws about 33 kWh from the wall. Most cost estimates ignore this; this calculator includes it." } },
+        { "@type": "Question", "name": "Is charging an EV really cheaper than gas?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Almost always, at home rates. A 28-mpg gas car at $3.50 a gallon costs 12.5 cents a mile in fuel; a typical EV at average residential rates costs 3 to 5 cents a mile. The gap narrows with expensive electricity or very efficient gas cars, which is why the side-by-side comparison matters." } },
+        { "@type": "Question", "name": "Should I switch to a time-of-use electricity rate?",
+          "acceptedAnswer": { "@type": "Answer", "text": "If your utility offers cheap overnight rates and you can schedule charging after midnight, usually yes — off-peak rates are often 40 to 60 percent cheaper. Toggle the time-of-use option above to see your exact savings with your utility's off-peak price." } },
+        { "@type": "Question", "name": "How do I find my EV's efficiency in kWh per 100 miles?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Check the window sticker or the EPA fuel economy site — EVs are rated in kWh per 100 miles, typically 25 to 35. Your car's trip computer often shows lifetime efficiency too. Use your real number rather than the brochure's if you drive mostly highway or in cold weather." } },
+        { "@type": "Question", "name": "Does fast charging cost more than home charging?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Much more — public DC fast charging typically costs 2 to 4 times residential rates per kWh. This calculator covers home charging, which is where 80 percent or more of charging happens for most owners. Heavy fast-charger users should blend both rates." } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#F2FAF7; --surface:#FFFFFF; --tint:#DDF4EC;
+  --accent:#1E805F; --accent-deep:#145A43; --accent-ink:#FFFFFF;
+  --ink:#1F332C; --muted:#54786C; --line:#C4E4D6;
+  --gas:#B07A1E;
+  --font:'Host Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:rgba(255,255,255,.94);border-bottom:2px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:0 4px 12px rgba(30,128,95,.35)}
+.fx-name{font-weight:800;font-size:21px;letter-spacing:-.02em}
+.fx-name small{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.16em;text-transform:uppercase}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;font-family:var(--font)}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+/* hero */
+.ev-hero{padding:44px 0 6px;text-align:center}
+.ev-eyebrow{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);background:var(--tint);border:1px solid var(--line);padding:6px 14px;border-radius:999px;margin-bottom:14px}
+.ev-hero h1{font-size:clamp(30px,4.6vw,46px);line-height:1.12;letter-spacing:-.025em;font-weight:800;margin-bottom:10px;max-width:760px;margin-left:auto;margin-right:auto}
+.ev-hero p{font-size:18px;color:var(--muted);max-width:660px;margin:0 auto}
+/* dial tool */
+.ev-panel{margin:28px 0 10px;background:var(--surface);border:2px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(30,128,95,.10);overflow:hidden}
+.ev-panel-head{padding:20px 28px 4px;text-align:center}
+.ev-panel-head h2{font-size:19px;font-weight:800}
+.ev-panel-head p{font-size:14px;color:var(--muted)}
+.ev-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ev-inputs{padding:24px 28px}
+.ev-results{padding:24px 28px;background:linear-gradient(180deg,#FBFEFC,var(--tint));border-left:2px dashed var(--line)}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.field .hint{font-weight:400;font-size:13px;color:var(--muted)}
+.field input[type=number]{font:inherit;padding:11px 13px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);width:100%;max-width:250px;font-family:var(--font)}
+.field input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.tou{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:11px 14px;max-width:340px;cursor:pointer}
+.tou input{accent-color:var(--accent);width:20px;height:20px}
+.tou span{font-weight:700;font-size:14px}
+.ev-dial{text-align:center;margin-bottom:8px}
+.ev-dial svg{max-width:260px;width:100%}
+.ev-dial .per-mile{font-size:15px;font-weight:800;color:var(--accent-deep);margin-top:-34px;margin-bottom:20px}
+.ev-compare{margin-top:6px}
+.ev-row{margin-bottom:12px}
+.ev-row .top{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:6px}
+.ev-bar{height:22px;border-radius:999px;background:#fff;border:2px solid var(--line);overflow:hidden}
+.ev-bar i{display:block;height:100%;border-radius:999px;transition:width .4s ease}
+.ev-bar.ev i{background:linear-gradient(90deg,var(--accent),#3CB086)}
+.ev-bar.gas i{background:linear-gradient(90deg,#D8A94E,var(--gas))}
+.ev-lines{list-style:none;font-size:15px;margin-top:14px}
+.ev-lines li{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-bottom:1px dashed var(--line)}
+.ev-lines li:last-child{border-bottom:0}
+.ev-lines .k{color:var(--muted)}
+.ev-lines .v{font-weight:800;text-align:right}
+.ev-save{background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:16px;text-align:center;margin-top:14px}
+.ev-save .n{font-size:34px;font-weight:800;letter-spacing:-.02em}
+.ev-save .l{font-size:13px;font-weight:700;opacity:.92;letter-spacing:.06em;text-transform:uppercase}
+/* article */
+.article-sec{margin:42px 0;max-width:780px}
+.article-sec h2{font-size:24px;letter-spacing:-.02em;margin:36px 0 12px;font-weight:800;color:var(--accent-deep)}
+.article-sec p{margin-bottom:14px;color:#2b4038}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px;color:#2b4038}
+.article-sec li{margin-bottom:6px}
+/* faq */
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--accent-deep)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent-deep)}
+.faq-sec details p{padding:14px 18px;color:#2b4038;font-size:15px}
+/* footer */
+.fx-footer{background:#14332a;color:#ddefe6;margin-top:44px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#a5c9ba;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#9fe0c2;font-weight:700}
+@media(max-width:760px){
+  .ev-grid{grid-template-columns:1fr}
+  .ev-results{border-left:0;border-top:2px dashed var(--line)}
+  .fx-nav{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/evcharge/" aria-label="ChargeCost home">
+      <span class="fx-tile" aria-hidden="true">&#9889;</span>
+      <span class="fx-name">ChargeCost<small>EV math</small></span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="ev-hero">
+    <span class="ev-eyebrow">Home charging economics</span>
+    <h1>EV Home Charging Cost Calculator: Your True Cost Per Mile</h1>
+    <p>Sticker efficiency is not what you pay for. This calculator adds the 10% charger loss, applies your real electricity rate — flat or time-of-use — and stacks the result against your gas car.</p>
+  </section>
+
+  <section class="ev-panel" aria-label="ChargeCost tool">
+    <div class="ev-panel-head">
+      <h2>Your charging profile</h2>
+      <p>Dial in the numbers — the gauge shows your true cost per mile.</p>
+    </div>
+    <div class="ev-grid">
+      <div class="ev-inputs">
+        <div class="field">
+          <label for="ev-miles">Miles driven per year</label>
+          <input type="number" id="ev-miles" value="12000" min="500" max="100000" step="500">
+        </div>
+        <div class="field">
+          <label for="ev-eff">EV efficiency <span class="hint">— kWh per 100 miles (window sticker)</span></label>
+          <input type="number" id="ev-eff" value="30" min="15" max="60" step="1">
+        </div>
+        <div class="field">
+          <label for="ev-flat">Electricity rate <span class="hint">— $ per kWh</span></label>
+          <input type="number" id="ev-flat" value="0.16" min="0.01" max="1" step="0.01">
+        </div>
+        <div class="field">
+          <label class="tou"><input type="checkbox" id="ev-tou" checked> <span>Time-of-use: I charge off-peak</span></label>
+        </div>
+        <div class="field" id="ev-offpeakwrap">
+          <label for="ev-offpeak">Off-peak rate <span class="hint">— $ per kWh overnight</span></label>
+          <input type="number" id="ev-offpeak" value="0.10" min="0.01" max="1" step="0.01">
+        </div>
+        <div class="field">
+          <label for="ev-mpg">Gas car MPG <span class="hint">— the car you compare against</span></label>
+          <input type="number" id="ev-mpg" value="28" min="5" max="80" step="1">
+        </div>
+        <div class="field">
+          <label for="ev-gasprice">Gas price <span class="hint">— $ per gallon</span></label>
+          <input type="number" id="ev-gasprice" value="3.50" min="1" max="10" step="0.05">
+        </div>
+      </div>
+      <div class="ev-results" aria-live="polite">
+        <div class="ev-dial">
+          <svg viewBox="0 0 200 118" role="img" aria-label="Cost per mile gauge">
+            <path d="M16 104 A84 84 0 0 1 184 104" fill="none" stroke="#E3F0E9" stroke-width="18" stroke-linecap="round"/>
+            <path id="ev-needle" d="M16 104 A84 84 0 0 1 184 104" fill="none" stroke="#1E805F" stroke-width="18" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="200"/>
+            <text x="100" y="86" text-anchor="middle" font-size="30" font-weight="800" fill="#145A43" id="ev-cpm">$0.033</text>
+            <text x="100" y="106" text-anchor="middle" font-size="11" fill="#54786C">EV cost / mile</text>
+          </svg>
+          <div class="per-mile">including ~10% charger losses</div>
+        </div>
+        <div class="ev-compare">
+          <div class="ev-row">
+            <div class="top"><span>&#9889; EV yearly fuel cost</span><span id="ev-year">$400</span></div>
+            <div class="ev-bar ev"><i id="ev-bar-ev" style="width:27%"></i></div>
+          </div>
+          <div class="ev-row">
+            <div class="top"><span>&#9981; Gas yearly fuel cost</span><span id="ev-gasyear">$1,500</span></div>
+            <div class="ev-bar gas"><i id="ev-bar-gas" style="width:100%"></i></div>
+          </div>
+        </div>
+        <ul class="ev-lines">
+          <li><span class="k">EV monthly</span><span class="v" id="ev-month">$33.33</span></li>
+          <li><span class="k">Gas cost / mile</span><span class="v" id="ev-gaspm">$0.125</span></li>
+          <li><span class="k">Wall kWh per year</span><span class="v" id="ev-kwh">4,000</span></li>
+        </ul>
+        <div class="ev-save">
+          <div class="n" id="ev-save">$1,100</div>
+          <div class="l">saved per year vs gas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec">
+    <h2>The Number on the Sticker Is Not What You Pay</h2>
+    <p>An EV rated at 30 kWh per 100 miles sounds like it sips 30 kilowatt-hours from your house for every hundred miles driven. It does not. Between the wall outlet and the battery sit a charger, cables, and battery thermal management, and together they waste roughly 10% of every kilowatt-hour as heat. Your car stores 30 kWh; your meter spins for 33. Almost every back-of-the-envelope EV cost estimate ignores this loss, quietly understating the real cost by a tenth.</p>
+    <p>That is the first correction this calculator makes. The second is your actual electricity rate — not the national average quoted in articles, but the number on your bill, including whether you can shift charging to cheap overnight hours. The third is the comparison that actually matters: not EV versus some abstract average, but EV versus the gas car sitting in your driveway today, with its real MPG and your local pump price. Three corrections, and the "EVs are cheaper" claim turns into your number.</p>
+    <h2>Doing the Math Yourself</h2>
+    <p>The full formula is simple enough to check. Annual wall energy equals miles per year, times kWh per 100 miles divided by 100, divided by 0.9 for charger efficiency. Multiply by your rate per kWh and you have the annual cost; divide by 12 for monthly, divide by miles for cost per mile. For the defaults — 12,000 miles, 30 kWh/100 mi, 16&cent;/kWh flat — that is 4,000 wall kWh and $640 a year, or 5.3 cents a mile. Switch to a 10-cent off-peak rate and it drops to $400 a year, 3.3 cents a mile.</p>
+    <p>The gas side is even simpler: miles divided by MPG times price per gallon. The same 12,000 miles in a 28-mpg car at $3.50 a gallon costs $1,500 a year — 12.5 cents a mile. The EV saves $860 to $1,100 a year depending on the rate, which is why fuel savings alone can cover a home charger installation in the first year or two.</p>
+    <h2>Time-of-Use Rates: The Cheapest Fuel You Will Ever Buy</h2>
+    <p>Many utilities sell electricity cheap overnight — often 40 to 60% below the daytime rate — because the grid is idle and they would rather you charge at 2 a.m. than at 6 p.m. EV drivers are the ideal customers for these plans: the car sits parked all night anyway, and every EV has scheduled charging built in. Set the car to start at midnight, and you wake up to a full battery bought at the cheapest rate on the menu.</p>
+    <p>Before switching plans, read the fine print. Time-of-use plans usually raise daytime and evening peak rates, so a household that runs air conditioning hard at 5 p.m. can give back some of the overnight savings. The calculator's toggle shows the EV side of the trade; check your whole bill before calling the utility. For most two-car households where the EV charges overnight, the math wins comfortably.</p>
+    <h2>When the EV Does Not Win</h2>
+    <p>Honesty requires the edge cases. If you pay 30 cents per kWh (common in parts of California and the Northeast) and drive only 3,000 miles a year in an inefficient EV, your per-mile cost can exceed a 40-mpg hybrid's — the calculator will show you exactly that, including a negative savings number. Heavy reliance on public DC fast charging, at 40–60 cents per kWh, erases the home-charging advantage for road warriors. And none of this fuel math includes purchase price, insurance, or depreciation, which dominate total cost of ownership.</p>
+    <p>But for the mainstream case — home charging, average rates, 10,000+ miles a year — the EV wins on fuel by a factor of two to four. The calculator exists so you can verify that for your rates instead of trusting a headline.</p>
+    <h2>Efficiency: Your Real kWh per 100 Miles</h2>
+    <p>The sticker number is measured in gentle lab conditions. Real efficiency moves with speed, temperature, and tires. Highway driving at 75 mph can add 20% consumption versus the rating; a cold winter with cabin heat can add 30–40% on short trips. Aggressive tires, roof boxes, and underinflation all take their cut.</p>
+    <p>Your car's trip computer is the honest source — most EVs show lifetime or trip efficiency. If you have driven through a winter, use the winter number for conservative planning; the calculator's result scales linearly, so 35 instead of 30 kWh/100 mi raises every cost figure by one-sixth. When comparing two EVs you are shopping, the efficiency gap between them matters more than reviewers suggest: a 25 kWh/100 mi car costs 17% less to fuel than a 30 kWh/100 mi one, every year you own it.</p>
+    <h2>Home Charger Costs and Payback</h2>
+    <p>A Level 2 home charger (240V) costs $400–$700 for the unit plus $300–$1,000 for installation, depending on your panel's spare capacity and the wire run. Against $800–$1,100 in annual fuel savings, payback typically lands in year one or two — faster if you are replacing a thirsty truck or SUV. Level 1 charging (a regular 120V outlet) costs nothing to install and adds 3–5 miles of range per hour, which genuinely suffices for drivers under 40 miles a day.</p>
+    <p>Check for utility rebates before you buy: many utilities subsidize chargers or offer discounted EV rate plans that require one. Some will even pay part of the installation. These incentives change yearly, so check your utility's current EV page rather than relying on old forum posts.</p>
+    <h2>Battery Degradation and the Long Game</h2>
+    <p>A common worry: does the battery fade and wreck the economics? Modern EV batteries typically retain 85–90% of capacity after 100,000 miles, and degradation slows after the first couple of years. A 10% range loss does not change your cost per mile — you still pay per kWh drawn from the wall. It only matters if the reduced range no longer covers your daily driving, which for most owners it does many times over.</p>
+    <p>To keep degradation slow, the standard advice holds: charge to 80–90% for daily use, save 100% for road trips, and avoid letting the car sit at 100% in summer heat. None of this affects the calculator's numbers, but it protects the asset behind them.</p>
+    <h2>Putting Your Numbers In</h2>
+    <p>Pull three numbers before you start: miles per year (your odometer or insurance estimate), your electricity rate per kWh (the all-in rate from your bill, or the off-peak rate if you will schedule charging), and your gas car's real MPG with your local pump price. Enter them above, toggle time-of-use if it applies, and read the verdict: your true EV cost per mile, the monthly and yearly totals, and the annual savings versus gas. If the savings clear a few hundred dollars, the fuel economics are settled — and you can spend your decision energy on the car itself.</p>
+  <h2>Charging Habits That Shave the Bill</h2>
+    <p>Beyond rates, habits move the number. Charging to 80% for daily use instead of 100% reduces battery stress and, on some rate plans, keeps you in cheaper tiers. Preconditioning the cabin while still plugged in means the energy comes from the wall, not the battery — a meaningful saving on cold mornings. If your utility has demand charges, avoid charging during the 4–9 p.m. peak even on flat-rate plans, since some utilities are moving EV-heavy households to demand-based billing. And keep tires inflated: every 1 PSI under costs roughly 0.3% in efficiency, which flows straight through to your cost per mile. Small habits, compounded over 12,000 miles, are worth real money.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How much does it cost to charge an EV at home?</summary><p>For a typical EV driven 12,000 miles a year at 30 kWh per 100 miles and 16 cents per kWh, about $640 a year — roughly $53 a month. Off-peak time-of-use rates can cut that nearly in half. This calculator uses your miles, your efficiency and your actual rate.</p></details>
+    <details><summary>What are charger efficiency losses?</summary><p>About 10 percent of the electricity you pay for never reaches the battery — it is lost as heat in the charger, cables and battery conditioning. A car that needs 30 kWh in the battery draws about 33 kWh from the wall. Most cost estimates ignore this; this calculator includes it.</p></details>
+    <details><summary>Is charging an EV really cheaper than gas?</summary><p>Almost always, at home rates. A 28-mpg gas car at $3.50 a gallon costs 12.5 cents a mile in fuel; a typical EV at average residential rates costs 3 to 5 cents a mile. The gap narrows with expensive electricity or very efficient gas cars, which is why the side-by-side comparison matters.</p></details>
+    <details><summary>Should I switch to a time-of-use electricity rate?</summary><p>If your utility offers cheap overnight rates and you can schedule charging after midnight, usually yes — off-peak rates are often 40 to 60 percent cheaper. Toggle the time-of-use option above to see your exact savings with your utility's off-peak price.</p></details>
+    <details><summary>How do I find my EV's efficiency in kWh per 100 miles?</summary><p>Check the window sticker or the EPA fuel economy site — EVs are rated in kWh per 100 miles, typically 25 to 35. Your car's trip computer often shows lifetime efficiency too. Use your real number rather than the brochure's if you drive mostly highway or in cold weather.</p></details>
+    <details><summary>Does fast charging cost more than home charging?</summary><p>Much more — public DC fast charging typically costs 2 to 4 times residential rates per kWh. This calculator covers home charging, which is where 80 percent or more of charging happens for most owners. Heavy fast-charger users should blend both rates.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">ChargeCost</div>
+    <p>ChargeCost computes your true EV home-charging cost per mile — with charger losses, your real rate, and a gas-car comparison.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+(function(){
+function num(id){return parseFloat(document.getElementById(id).value)||0;}
+function money(n,d){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+var touBox=document.getElementById('ev-tou');
+touBox.addEventListener('change',function(){
+  document.getElementById('ev-offpeakwrap').style.display=touBox.checked?'block':'none';
+  calc();
+});
+['ev-miles','ev-eff','ev-flat','ev-offpeak','ev-mpg','ev-gasprice'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',calc);
+});
+function calc(){
+  var miles=num('ev-miles'),eff=num('ev-eff'),flat=num('ev-flat'),off=num('ev-offpeak');
+  var mpg=num('ev-mpg'),gp=num('ev-gasprice');
+  if(miles<=0||eff<=0||mpg<=0)return;
+  var tou=touBox.checked;
+  var wall=miles*eff/100/0.9;
+  var rate=tou?off:flat;
+  var evYear=wall*rate, gasYear=miles/mpg*gp;
+  var evMile=evYear/miles, gasMile=gasYear/miles;
+  document.getElementById('ev-cpm').textContent=money(evMile,3).replace('$0','$0.');
+  document.getElementById('ev-cpm').textContent='$'+evMile.toFixed(3);
+  var frac=Math.min(1,evMile/0.20);
+  document.getElementById('ev-needle').style.strokeDashoffset=264-264*frac;
+  document.getElementById('ev-year').textContent=money(evYear,0);
+  document.getElementById('ev-gasyear').textContent=money(gasYear,0);
+  var mx=Math.max(evYear,gasYear,1);
+  document.getElementById('ev-bar-ev').style.width=(evYear/mx*100)+'%';
+  document.getElementById('ev-bar-gas').style.width=(gasYear/mx*100)+'%';
+  document.getElementById('ev-month').textContent=money(evYear/12,2);
+  document.getElementById('ev-gaspm').textContent='$'+gasMile.toFixed(3);
+  document.getElementById('ev-kwh').textContent=Math.round(wall).toLocaleString('en-US');
+  var sv=gasYear-evYear;
+  document.getElementById('ev-save').textContent=(sv<0?'-':'')+money(Math.abs(sv),0).replace('$','$');
+  document.getElementById('ev-save').textContent=(sv<0?'−$':'$')+Math.abs(Math.round(sv)).toLocaleString('en-US');
+}
+calc();
+})();
+</script>
+</body>
+</html>
