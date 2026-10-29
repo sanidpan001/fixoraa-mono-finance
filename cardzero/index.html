@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/cardzero/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CardZero — Debt Snowball vs Avalanche Payoff Calculator</title>
+<meta name="description" content="CardZero is a free debt snowball vs avalanche calculator that compares payoff strategies month by month. Handles 0% promo APR expiry, one-time windfalls, a smart hybrid plan, and skipped-payment tolerance. No signup.">
+<meta name="keywords" content="debt snowball vs avalanche calculator, credit card payoff planner, debt payoff calculator, debt snowball calculator, credit card debt payoff plan">
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which is better: the debt snowball or the debt avalanche?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mathematically, the avalanche (highest interest rate first) almost always costs less in total interest. Behaviorally, the snowball (smallest balance first) delivers faster first wins, which helps many people stay consistent. CardZero shows both side by side with your real numbers so you can weigh the exact dollar difference against your own motivation style."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does CardZero handle 0% promo APRs that expire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enter the promo rate and how many months it lasts on any debt. CardZero charges 0% (or your promo rate) during the promo window and automatically switches to the regular APR the month it expires. The Smart strategy even prioritizes debts whose promos expire soon so you can clear them before the rate jump."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I add a one-time extra payment, like a bonus or tax refund?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add any number of windfall events in the payment plan section — just pick the month number and the amount. CardZero funnels each windfall into that month's extra-payment pool in your strategy's target order, and shows exactly how many months and how much interest it saves."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I skip my extra payments for a few months?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the skip-months control to model it honestly. CardZero pauses your extra payments (minimums still continue) for the months you choose, then recomputes your debt-free date and shows the added months and extra interest in a tolerance view — so a rough patch becomes a plan, not a guilt spiral."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is CardZero really free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Unlimited free usage with no signup, no paywall, and no watermark. All calculations run in your browser; your debt details are never sent to a server unless you choose to save a scenario locally on your own device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is the payoff math?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CardZero uses standard monthly interest accrual (APR divided by 12), the same method most card payoff calculators use. Real-world results can shift slightly with daily compounding, due-date timing, or rate changes, so treat the projection as accurate within about a month. It also assumes no new charges and on-time payments."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .num { font-variant-numeric: tabular-nums; }
+  .debt-input { width: 100%; border: 1px solid #d6d3c7; border-radius: 0.5rem; padding: 0.45rem 0.6rem; font-size: 0.875rem; background: #fff; }
+  .debt-input:focus { outline: 2px solid #14532D; border-color: #14532D; }
+  .chip { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.7rem; border-radius: 9999px; }
+  .sched-wrap { max-height: 420px; overflow-y: auto; }
+  .sched-wrap::-webkit-scrollbar { width: 8px; }
+  .sched-wrap::-webkit-scrollbar-thumb { background: #14532D; border-radius: 4px; }
+  .sched-wrap::-webkit-scrollbar-track { background: #f0ecdc; }
+  input[type="number"]::-webkit-inner-spin-button { opacity: 1; }
+  .strategy-tab { border-bottom: 3px solid transparent; }
+  .strategy-tab.active { border-bottom-color: #DC2626; color: #14532D; font-weight: 700; }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+<body id="top" class="bg-[#FEFCE8] text-slate-900 antialiased">
+
+<!-- ============ STICKY HEADER ============ -->
+<header class="sticky top-0 z-50 bg-[#14532D] text-white shadow-md">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between">
+    <a href="#top" class="text-xl font-extrabold tracking-tight">Card<span class="text-[#f87171]">Zero</span></a>
+    <nav class="text-sm font-semibold space-x-5">
+      <a href="#top" class="hover:text-amber-200 transition">Home</a>
+      <a href="https://fixoraa.tech" class="hover:text-amber-200 transition">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TOP AD (verbatim) ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="mx-auto max-w-6xl px-4 sm:px-6 pt-8 pb-2">
+  <div class="flex flex-wrap items-center gap-3">
+    <span class="chip bg-[#14532D] text-white">Unlimited Free Usage</span>
+    <span class="chip bg-white border border-[#14532D]/30 text-[#14532D]">No signup &bull; No paywall &bull; No watermark</span>
+  </div>
+  <h1 class="mt-4 text-3xl sm:text-4xl font-extrabold text-[#14532D] tracking-tight">Debt Snowball vs Avalanche, Decided by Your Numbers</h1>
+  <p class="mt-3 text-slate-700 max-w-3xl">CardZero builds a month-by-month payoff plan for every debt you owe. Compare the snowball, avalanche, and a smart hybrid strategy side by side — with 0% promo-rate expiry, one-time windfalls, and honest math for the months life gets in the way.</p>
+</section>
+
+<!-- ============ TOOL ============ -->
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-6 space-y-6">
+
+  <!-- STEP 1: debts -->
+  <section class="bg-white rounded-2xl shadow-sm border border-[#14532D]/15 p-4 sm:p-6" aria-label="Your debts">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="text-lg font-bold text-[#14532D]"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#14532D] text-white text-sm mr-2">1</span>Your debts</h2>
+      <div class="flex gap-2">
+        <button id="btn-example" class="text-xs font-semibold px-3 py-2 rounded-lg border border-[#14532D]/40 text-[#14532D] hover:bg-[#14532D] hover:text-white transition">Load example</button>
+        <button id="btn-clear" class="text-xs font-semibold px-3 py-2 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition">Clear all</button>
+      </div>
+    </div>
+    <div class="overflow-x-auto mt-4">
+      <table class="w-full min-w-[760px] text-sm" id="debt-table">
+        <thead>
+          <tr class="text-left text-xs uppercase tracking-wide text-slate-500">
+            <th class="pb-2 pr-2">Debt name</th>
+            <th class="pb-2 pr-2 w-28">Balance ($)</th>
+            <th class="pb-2 pr-2 w-24">APR (%)</th>
+            <th class="pb-2 pr-2 w-28">Min. payment ($)</th>
+            <th class="pb-2 pr-2 w-24">Promo APR (%) <span class="normal-case font-normal">opt.</span></th>
+            <th class="pb-2 pr-2 w-24">Promo months <span class="normal-case font-normal">opt.</span></th>
+            <th class="pb-2 w-10"></th>
+          </tr>
+        </thead>
+        <tbody id="debt-rows"></tbody>
+      </table>
+    </div>
+    <button id="btn-add-debt" class="mt-3 text-sm font-bold px-4 py-2 rounded-lg bg-[#14532D] text-white hover:bg-[#0e3d21] transition">+ Add debt</button>
+    <p class="mt-2 text-xs text-slate-500">Promo APR is for 0% balance-transfer or intro offers: enter the promo rate and how many months it lasts — the rate jumps back to the regular APR afterwards.</p>
+  </section>
+
+  <!-- STEP 2: payment plan -->
+  <section class="bg-white rounded-2xl shadow-sm border border-[#14532D]/15 p-4 sm:p-6" aria-label="Payment plan">
+    <h2 class="text-lg font-bold text-[#14532D]"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#14532D] text-white text-sm mr-2">2</span>Your payment plan</h2>
+    <div class="grid sm:grid-cols-3 gap-4 mt-4">
+      <div>
+        <label class="text-xs font-bold uppercase tracking-wide text-slate-500" for="extra-input">Extra payment every month ($)</label>
+        <input id="extra-input" type="number" min="0" step="10" value="350" class="debt-input num mt-1">
+      </div>
+      <div>
+        <label class="text-xs font-bold uppercase tracking-wide text-slate-500" for="skip-input">Skip extra payments for (months)</label>
+        <input id="skip-input" type="number" min="0" max="24" step="1" value="0" class="debt-input num mt-1">
+        <p class="text-xs text-slate-500 mt-1">Models a rough patch: minimums continue, extras pause.</p>
+      </div>
+      <div>
+        <label class="text-xs font-bold uppercase tracking-wide text-slate-500">Start month</label>
+        <input id="start-input" type="month" class="debt-input mt-1">
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h3 class="text-sm font-bold text-[#14532D]">Windfall events <span class="font-normal text-slate-500">(one-time extra payments — bonus, tax refund, gift)</span></h3>
+        <button id="btn-add-windfall" class="text-xs font-bold px-3 py-2 rounded-lg border border-[#DC2626]/50 text-[#DC2626] hover:bg-[#DC2626] hover:text-white transition">+ Add windfall</button>
+      </div>
+      <div id="windfall-list" class="mt-2 space-y-2"></div>
+      <p id="windfall-empty" class="text-xs text-slate-400 mt-2">No windfalls yet. They are applied to that month's strategy target in full.</p>
+    </div>
+
+    <button id="btn-calc" class="mt-5 w-full sm:w-auto text-base font-extrabold px-8 py-3 rounded-xl bg-[#DC2626] text-white hover:bg-[#b91c1c] transition shadow">Calculate my payoff plan</button>
+    <p id="calc-error" class="hidden mt-3 text-sm font-semibold text-[#DC2626]"></p>
+  </section>
+
+  <!-- RESULTS: strategy comparison cards -->
+  <section id="results" class="hidden" aria-label="Strategy comparison">
+    <h2 class="text-lg font-bold text-[#14532D]"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#14532D] text-white text-sm mr-2">3</span>Strategy showdown</h2>
+    <div class="grid md:grid-cols-3 gap-4 mt-4" id="strategy-cards"></div>
+    <p class="mt-3 text-xs text-slate-500" id="winner-note"></p>
+  </section>
+
+  <!-- CHART -->
+  <section id="chart-section" class="hidden bg-white rounded-2xl shadow-sm border border-[#14532D]/15 p-4 sm:p-6" aria-label="Payoff timeline chart">
+    <h2 class="text-lg font-bold text-[#14532D]">Payoff timeline — total balance over time</h2>
+    <div class="flex flex-wrap gap-4 mt-3 text-xs font-semibold">
+      <span class="flex items-center gap-1.5"><span class="inline-block w-4 h-1.5 rounded bg-[#C9A227]"></span>Snowball</span>
+      <span class="flex items-center gap-1.5"><span class="inline-block w-4 h-1.5 rounded bg-[#14532D]"></span>Avalanche</span>
+      <span class="flex items-center gap-1.5"><span class="inline-block w-4 h-1.5 rounded bg-[#DC2626]"></span>Smart hybrid</span>
+    </div>
+    <div class="mt-2 overflow-x-auto"><div class="min-w-[560px]" id="chart"></div></div>
+  </section>
+
+  <!-- SKIP TOLERANCE -->
+  <section id="tolerance-section" class="hidden bg-white rounded-2xl shadow-sm border border-[#DC2626]/25 p-4 sm:p-6" aria-label="Skipped-month tolerance">
+    <h2 class="text-lg font-bold text-[#14532D]">Life happens: skipped-month tolerance</h2>
+    <p class="text-sm text-slate-600 mt-1" id="tolerance-sub"></p>
+    <div class="grid sm:grid-cols-2 gap-4 mt-4">
+      <div class="rounded-xl bg-[#FEFCE8] border border-[#14532D]/20 p-4">
+        <p class="text-xs font-bold uppercase tracking-wide text-slate-500">On plan</p>
+        <p class="mt-1 text-2xl font-extrabold text-[#14532D] num" id="tol-normal-months"></p>
+        <p class="text-sm text-slate-600 num" id="tol-normal-interest"></p>
+      </div>
+      <div class="rounded-xl bg-red-50 border border-[#DC2626]/30 p-4">
+        <p class="text-xs font-bold uppercase tracking-wide text-slate-500" id="tol-skip-label"></p>
+        <p class="mt-1 text-2xl font-extrabold text-[#DC2626] num" id="tol-skip-months"></p>
+        <p class="text-sm text-slate-600 num" id="tol-skip-interest"></p>
+      </div>
+    </div>
+    <div class="mt-4 flex flex-wrap gap-3 text-sm font-bold">
+      <span class="chip bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/30" id="tol-delta-months"></span>
+      <span class="chip bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/30" id="tol-delta-interest"></span>
+    </div>
+    <p class="mt-3 text-xs text-slate-500">This assumes minimums are still paid on time during the skipped months — only the extra payment pauses. Missing minimums is a different (and much costlier) story.</p>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule-section" class="hidden bg-white rounded-2xl shadow-sm border border-[#14532D]/15 p-4 sm:p-6" aria-label="Month-by-month schedule">
+    <h2 class="text-lg font-bold text-[#14532D]">Month-by-month schedule</h2>
+    <div class="flex gap-4 mt-2 border-b border-slate-200 text-sm" id="sched-tabs">
+      <button data-tab="snowball" class="strategy-tab pb-2 px-1 text-slate-500">Snowball</button>
+      <button data-tab="avalanche" class="strategy-tab pb-2 px-1 text-slate-500">Avalanche</button>
+      <button data-tab="smart" class="strategy-tab pb-2 px-1 text-slate-500">Smart hybrid</button>
+    </div>
+    <div id="payoff-order" class="mt-4"></div>
+    <div class="sched-wrap mt-4 border border-slate-200 rounded-xl overflow-x-auto">
+      <table class="w-full min-w-[640px] text-sm num">
+        <thead class="bg-[#14532D] text-white text-xs uppercase tracking-wide sticky top-0">
+          <tr>
+            <th class="text-left px-3 py-2">Month</th>
+            <th class="text-left px-3 py-2">Date</th>
+            <th class="text-right px-3 py-2">Payment</th>
+            <th class="text-right px-3 py-2">Principal</th>
+            <th class="text-right px-3 py-2">Interest</th>
+            <th class="text-right px-3 py-2">Balance</th>
+            <th class="text-left px-3 py-2">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="sched-body"></tbody>
+      </table>
+    </div>
+    <button id="btn-toggle-sched" class="mt-3 text-xs font-bold text-[#14532D] underline"></button>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <button id="btn-csv" class="text-xs font-bold px-4 py-2 rounded-lg bg-[#14532D] text-white hover:bg-[#0e3d21] transition">Download schedule (CSV)</button>
+    </div>
+  </section>
+
+  <!-- SAVE -->
+  <section class="bg-white rounded-2xl shadow-sm border border-[#14532D]/15 p-4 sm:p-6" aria-label="Save scenario">
+    <h2 class="text-lg font-bold text-[#14532D]">Save this scenario</h2>
+    <p class="text-xs text-slate-500 mt-1">Stored only in this browser (localStorage) — nothing leaves your device.</p>
+    <div class="flex flex-wrap gap-2 mt-3">
+      <input id="save-name" type="text" placeholder="Scenario name, e.g. Jan 2026 plan" class="debt-input max-w-xs" maxlength="40">
+      <button id="btn-save" class="text-sm font-bold px-4 py-2 rounded-lg bg-[#14532D] text-white hover:bg-[#0e3d21] transition">Save</button>
+    </div>
+    <div id="saved-list" class="mt-3 flex flex-wrap gap-2"></div>
+  </section>
+
+</main>
+
+<!-- ============ BOTTOM AD (verbatim) ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<script id="cardzero-core">
+/* ============================================================
+ * CardZero core payoff engine — pure functions, no DOM.
+ * Shared by cardzero.html (inlined verbatim) and the Node tests.
+ * Money values are plain numbers (dollars). APRs are percents.
+ * ============================================================ */
+(function (root, factory) {
+  if (typeof module === 'object' && module && module.exports) {
+    module.exports = factory();
+  } else {
+    root.CardZero = factory();
+  }
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var EPS = 1e-9;
+  var MAX_MONTHS = 1200; // 100-year safety cap
+
+  function clamp(v, lo, hi) {
+    if (!isFinite(v)) return lo;
+    return Math.min(hi, Math.max(lo, v));
+  }
+
+  function toNum(v, fallback) {
+    var n = parseFloat(v);
+    return isFinite(n) ? n : fallback;
+  }
+
+  function r2(n) { // round to cents for display
+    return Math.round((n + Number.EPSILON) * 100) / 100;
+  }
+
+  /* ---------- input sanitizing ---------- */
+
+  function sanitizeDebt(raw, idx) {
+    var d = raw || {};
+    var i = (idx == null ? 0 : idx);
+    var promoAPR = parseFloat(d.promoAPR);
+    var promoMonths = Math.max(0, Math.floor(toNum(d.promoMonths, 0)));
+    var hasPromo = isFinite(promoAPR) && promoMonths > 0;
+    return {
+      id: 'd' + i,
+      name: (d.name != null && String(d.name).trim() !== '') ? String(d.name).trim().slice(0, 40) : ('Debt ' + (i + 1)),
+      balance: Math.max(0, toNum(d.balance, 0)),
+      apr: clamp(toNum(d.apr, 0), 0, 100),
+      minimum: Math.max(0, toNum(d.minimum, 0)),
+      promoAPR: hasPromo ? clamp(promoAPR, 0, 100) : NaN,
+      promoMonths: hasPromo ? promoMonths : 0
+    };
+  }
+
+  function sanitizeDebts(rawList) {
+    var out = [];
+    (rawList || []).forEach(function (d, i) {
+      var s = sanitizeDebt(d, i);
+      if (s.balance > EPS) out.push(s);
+    });
+    return out;
+  }
+
+  function sanitizeWindfalls(rawList) {
+    var out = [];
+    (rawList || []).forEach(function (w) {
+      var month = Math.floor(toNum(w && w.month, 0));
+      var amount = Math.max(0, toNum(w && w.amount, 0));
+      if (month >= 1 && amount > EPS) out.push({ month: month, amount: amount });
+    });
+    out.sort(function (a, b) { return a.month - b.month; });
+    return out;
+  }
+
+  /* ---------- rate model (differentiator #1: promo APR expiry) ---------- */
+
+  // month is 1-based (month 1 = first payment month)
+  function effectiveAPR(debt, month) {
+    if (isFinite(debt.promoAPR) && debt.promoMonths > 0 && month <= debt.promoMonths) {
+      return debt.promoAPR;
+    }
+    return debt.apr;
+  }
+
+  function monthsUntilPromoExpiry(debt, month) {
+    if (isFinite(debt.promoAPR) && debt.promoMonths > 0 && month <= debt.promoMonths) {
+      return debt.promoMonths - month + 1;
+    }
+    return Infinity;
+  }
+
+  /* ---------- strategy ordering ---------- */
+
+  // differentiator #3: "smart" = promo-deadline aware hybrid
+  // `active` items may be debt objects or simulation state wrappers {debt, balance, ...}
+  function strategyOrder(active, month, strategy) {
+    function D(x) { return (x && x.debt) || x; }
+    function rateOf(x) { return effectiveAPR(D(x), month); }
+    var list = active.slice();
+    if (strategy === 'snowball') {
+      list.sort(function (a, b) {
+        return (a.balance - b.balance) || (rateOf(b) - rateOf(a));
+      });
+    } else if (strategy === 'avalanche') {
+      list.sort(function (a, b) {
+        return (rateOf(b) - rateOf(a)) || (a.balance - b.balance);
+      });
+    } else { // 'smart'
+      list.sort(function (a, b) {
+        var ea = monthsUntilPromoExpiry(D(a), month);
+        var eb = monthsUntilPromoExpiry(D(b), month);
+        var au = ea <= 6, bu = eb <= 6; // promo expiring within 6 months = urgent
+        if (au && bu) {
+          var c = ea - eb;
+          if (c !== 0) return c;
+        } else if (au) return -1;
+        else if (bu) return 1;
+        return (rateOf(b) - rateOf(a)) || (a.balance - b.balance);
+      });
+    }
+    return list;
+  }
+
+  /* ---------- month-by-month payoff simulation ---------- */
+
+  // opts: { extra, strategy, windfalls:[{month,amount}], skipMonths, startYear, startMonth(1-12) }
+  function simulateDebts(rawDebts, opts) {
+    opts = opts || {};
+    var debts = sanitizeDebts(rawDebts);
+    var extra = Math.max(0, toNum(opts.extra, 0));
+    var windfalls = sanitizeWindfalls(opts.windfalls);
+    var skipMonths = Math.max(0, Math.floor(toNum(opts.skipMonths, 0)));
+    var strategy = opts.strategy === 'snowball' || opts.strategy === 'avalanche' ? opts.strategy : 'smart';
+    var startYear = Math.floor(toNum(opts.startYear, new Date().getFullYear()));
+    var startMonth = clamp(Math.floor(toNum(opts.startMonth, new Date().getMonth() + 1)), 1, 12);
+
+    var state = debts.map(function (d) {
+      return { debt: d, balance: d.balance, interestPaid: 0, totalPaid: 0, paidOffMonth: null };
+    });
+
+    var schedule = [];
+    var totalInterest = 0, totalPaid = 0;
+    var month = 0;
+    var finished = state.length === 0;
+
+    function active() {
+      return state.filter(function (s) { return s.balance > EPS && s.paidOffMonth === null; });
+    }
+
+    while (!finished && month < MAX_MONTHS) {
+      month++;
+      var cur = active();
+      if (cur.length === 0) { finished = true; break; }
+
+      var monthlyExtra = (month <= skipMonths) ? 0 : extra; // differentiator #4
+      var windfall = 0;
+      windfalls.forEach(function (w) { if (w.month === month) windfall += w.amount; });
+
+      // 1) interest accrual at the effective APR for this month
+      var monthInterest = 0;
+      cur.forEach(function (s) {
+        var rate = effectiveAPR(s.debt, month) / 100 / 12;
+        var interest = s.balance * rate;
+        s.balance += interest;
+        s.interestPaid += interest;
+        monthInterest += interest;
+        totalInterest += interest;
+      });
+
+      // 2) minimum payments
+      var monthPayment = 0;
+      cur.forEach(function (s) {
+        var pay = Math.min(s.balance, s.debt.minimum);
+        s.balance -= pay;
+        s.totalPaid += pay;
+        monthPayment += pay;
+        if (s.balance <= EPS) { s.balance = 0; s.paidOffMonth = month; }
+      });
+
+      // 3) extra + windfall pool -> strategy target(s), cascading same month (differentiator #2)
+      var pool = monthlyExtra + windfall;
+      var order = strategyOrder(active(), month, strategy);
+      var oi = 0;
+      while (pool > EPS && oi < order.length) {
+        var t = order[oi];
+        var pay = Math.min(t.balance, pool);
+        t.balance -= pay;
+        t.totalPaid += pay;
+        monthPayment += pay;
+        pool -= pay;
+        if (t.balance <= EPS) { t.balance = 0; t.paidOffMonth = month; oi++; }
+        else break;
+      }
+
+      totalPaid += monthPayment;
+
+      var remaining = state.reduce(function (a, s) { return a + s.balance; }, 0);
+      schedule.push({
+        month: month,
+        year: startYear + Math.floor((startMonth - 1 + month - 1) / 12),
+        calMonth: ((startMonth - 1 + month - 1) % 12) + 1,
+        payment: monthPayment,
+        principal: monthPayment - monthInterest,
+        interest: monthInterest,
+        extraUsed: monthlyExtra + windfall,
+        windfall: windfall,
+        balance: remaining,
+        perDebt: state.map(function (s) {
+          return { name: s.debt.name, payment: null, interest: null, balance: s.balance, apr: effectiveAPR(s.debt, month) };
+        })
+      });
+
+      if (active().length === 0) finished = true;
+    }
+
+    var payoffOrder = state
+      .filter(function (s) { return s.paidOffMonth !== null; })
+      .sort(function (a, b) { return a.paidOffMonth - b.paidOffMonth; })
+      .map(function (s) {
+        return { name: s.debt.name, month: s.paidOffMonth, interestPaid: s.interestPaid, totalPaid: s.totalPaid };
+      });
+
+    var lastRow = schedule[schedule.length - 1];
+    return {
+      strategy: strategy,
+      months: month,
+      finished: finished,
+      debtFreeYear: finished && lastRow ? lastRow.year : null,
+      debtFreeCalMonth: finished && lastRow ? lastRow.calMonth : null,
+      totalPaid: totalPaid,
+      totalInterest: totalInterest,
+      payoffOrder: payoffOrder,
+      schedule: schedule,
+      windfalls: windfalls,
+      skipMonths: skipMonths
+    };
+  }
+
+  /* ---------- comparisons ---------- */
+
+  function compareStrategies(rawDebts, opts) {
+    opts = opts || {};
+    var out = {};
+    ['snowball', 'avalanche', 'smart'].forEach(function (s) {
+      var o = {};
+      for (var k in opts) o[k] = opts[k];
+      o.strategy = s;
+      out[s] = simulateDebts(rawDebts, o);
+    });
+    // winner = lowest total interest among finished plans
+    var winner = null;
+    ['snowball', 'avalanche', 'smart'].forEach(function (s) {
+      if (out[s].finished && (!winner || out[s].totalInterest < out[winner].totalInterest - EPS)) winner = s;
+    });
+    out.winner = winner;
+    return out;
+  }
+
+  // differentiator #4: what happens if extra payments are skipped for K months
+  function skipTolerance(rawDebts, opts, skipMonths) {
+    var normal = simulateDebts(rawDebts, opts);
+    var o = {};
+    for (var k in opts) o[k] = opts[k];
+    o.skipMonths = skipMonths;
+    var skipped = simulateDebts(rawDebts, o);
+    return {
+      skipMonths: skipMonths,
+      normal: normal,
+      skipped: skipped,
+      extraMonths: skipped.finished && normal.finished ? skipped.months - normal.months : null,
+      extraInterest: skipped.finished && normal.finished ? skipped.totalInterest - normal.totalInterest : null
+    };
+  }
+
+  /* ---------- formatting ---------- */
+
+  var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function fmtMoney(n) {
+    var v = r2(n || 0);
+    return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtMoney0(n) {
+    var v = Math.round(n || 0);
+    return '$' + v.toLocaleString('en-US');
+  }
+
+  function fmtMonthYear(year, calMonth) {
+    if (!year || !calMonth) return '—';
+    return MONTH_NAMES[calMonth - 1] + ' ' + year;
+  }
+
+  return {
+    EPS: EPS,
+    sanitizeDebt: sanitizeDebt,
+    sanitizeDebts: sanitizeDebts,
+    sanitizeWindfalls: sanitizeWindfalls,
+    effectiveAPR: effectiveAPR,
+    monthsUntilPromoExpiry: monthsUntilPromoExpiry,
+    strategyOrder: strategyOrder,
+    simulateDebts: simulateDebts,
+    compareStrategies: compareStrategies,
+    skipTolerance: skipTolerance,
+    fmtMoney: fmtMoney,
+    fmtMoney0: fmtMoney0,
+    fmtMonthYear: fmtMonthYear,
+    r2: r2
+  };
+});
+
+</script>
+<script>
+/* CardZero UI — reads debts, runs CardZero engine, renders results. */
+(function () {
+  'use strict';
+  var CZ = window.CardZero;
+  var $ = function (id) { return document.getElementById(id); };
+
+  var state = { debts: [], windfalls: [], lastResults: null, lastPlan: null, schedTab: 'smart', schedFull: false };
+  var STRAT_META = {
+    snowball: { name: 'Snowball', color: '#C9A227', desc: 'Smallest balance first — fast early wins, maximum motivation.' },
+    avalanche: { name: 'Avalanche', color: '#14532D', desc: 'Highest rate first — mathematically the cheapest payoff.' },
+    smart: { name: 'Smart Hybrid', color: '#DC2626', desc: 'Promo deadlines first, then highest rate — the best of both.' }
+  };
+
+  function defaultStartMonth() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------- debt rows ---------- */
+
+  function renderDebtRows() {
+    var tb = $('debt-rows');
+    tb.innerHTML = '';
+    state.debts.forEach(function (d, i) {
+      var tr = document.createElement('tr');
+      tr.className = 'border-t border-slate-100';
+      tr.innerHTML =
+        '<td class="py-2 pr-2"><input type="text" class="debt-input" data-f="name" maxlength="40" value="' + esc(d.name) + '" placeholder="e.g. Store Card"></td>' +
+        '<td class="py-2 pr-2"><input type="number" class="debt-input num" data-f="balance" min="0" step="0.01" value="' + d.balance + '"></td>' +
+        '<td class="py-2 pr-2"><input type="number" class="debt-input num" data-f="apr" min="0" max="100" step="0.01" value="' + d.apr + '"></td>' +
+        '<td class="py-2 pr-2"><input type="number" class="debt-input num" data-f="minimum" min="0" step="0.01" value="' + d.minimum + '"></td>' +
+        '<td class="py-2 pr-2"><input type="number" class="debt-input num" data-f="promoAPR" min="0" max="100" step="0.01" placeholder="0" value="' + (d.promoAPR === '' ? '' : d.promoAPR) + '"></td>' +
+        '<td class="py-2 pr-2"><input type="number" class="debt-input num" data-f="promoMonths" min="0" max="120" step="1" placeholder="12" value="' + (d.promoMonths === '' ? '' : d.promoMonths) + '"></td>' +
+        '<td class="py-2"><button class="text-[#DC2626] font-bold text-lg leading-none px-2" data-remove="' + i + '" aria-label="Remove debt">&times;</button></td>';
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll('input').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        var tr = inp.closest('tr');
+        var idx = Array.prototype.indexOf.call(tb.children, tr);
+        var f = inp.getAttribute('data-f');
+        state.debts[idx][f] = inp.value;
+        scheduleAutoCalc();
+      });
+    });
+    tb.querySelectorAll('[data-remove]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.debts.splice(parseInt(btn.getAttribute('data-remove'), 10), 1);
+        renderDebtRows();
+        scheduleAutoCalc();
+      });
+    });
+  }
+
+  function blankDebt() {
+    return { name: '', balance: '', apr: '', minimum: '', promoAPR: '', promoMonths: '' };
+  }
+
+  function exampleDebts() {
+    return [
+      { name: 'Store Card', balance: 2400, apr: 24.99, minimum: 60, promoAPR: 0, promoMonths: 12 },
+      { name: 'Visa Card', balance: 5800, apr: 21.99, minimum: 145, promoAPR: '', promoMonths: '' },
+      { name: 'Personal Loan', balance: 3200, apr: 12.9, minimum: 95, promoAPR: '', promoMonths: '' }
+    ];
+  }
+
+  /* ---------- windfalls ---------- */
+
+  function renderWindfalls() {
+    var list = $('windfall-list');
+    list.innerHTML = '';
+    $('windfall-empty').style.display = state.windfalls.length ? 'none' : 'block';
+    state.windfalls.forEach(function (w, i) {
+      var div = document.createElement('div');
+      div.className = 'flex flex-wrap items-center gap-2 bg-[#FEFCE8] border border-[#14532D]/20 rounded-lg px-3 py-2';
+      div.innerHTML =
+        '<span class="text-xs font-bold text-[#14532D]">Month</span>' +
+        '<input type="number" class="debt-input num" style="width:80px" min="1" max="600" step="1" value="' + w.month + '" data-wf="month">' +
+        '<span class="text-xs font-bold text-[#14532D]">$</span>' +
+        '<input type="number" class="debt-input num" style="width:130px" min="1" step="1" value="' + w.amount + '" data-wf="amount">' +
+        '<button class="text-[#DC2626] font-bold" data-wf-remove="' + i + '" aria-label="Remove windfall">&times; remove</button>';
+      list.appendChild(div);
+    });
+    list.querySelectorAll('[data-wf]').forEach(function (inp) {
+      inp.addEventListener('input', function () {
+        var div = inp.closest('div');
+        var idx = Array.prototype.indexOf.call(list.children, div);
+        state.windfalls[idx][inp.getAttribute('data-wf')] = inp.value;
+        scheduleAutoCalc();
+      });
+    });
+    list.querySelectorAll('[data-wf-remove]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.windfalls.splice(parseInt(btn.getAttribute('data-wf-remove'), 10), 1);
+        renderWindfalls();
+        scheduleAutoCalc();
+      });
+    });
+  }
+
+  /* ---------- calculation ---------- */
+
+  var autoTimer = null;
+  function scheduleAutoCalc() {
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(calculate, 600);
+  }
+
+  function readPlan() {
+    var debts = state.debts.map(function (d) {
+      return {
+        name: d.name, balance: d.balance, apr: d.apr, minimum: d.minimum,
+        promoAPR: d.promoAPR, promoMonths: d.promoMonths
+      };
+    }).filter(function (d) { return parseFloat(d.balance) > 0; });
+
+    var extra = parseFloat($('extra-input').value);
+    var skip = parseInt($('skip-input').value, 10);
+    var windfalls = state.windfalls.map(function (w) { return { month: w.month, amount: w.amount }; });
+
+    var startVal = $('start-input').value || defaultStartMonth();
+    var parts = startVal.split('-');
+    return {
+      debts: debts,
+      opts: {
+        extra: isFinite(extra) ? extra : 0,
+        skipMonths: isFinite(skip) ? Math.max(0, skip) : 0,
+        windfalls: windfalls,
+        startYear: parseInt(parts[0], 10),
+        startMonth: parseInt(parts[1], 10)
+      },
+      rawExtra: extra, rawSkip: skip
+    };
+  }
+
+  function showError(msg) {
+    var el = $('calc-error');
+    if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+    else el.classList.add('hidden');
+  }
+
+  function calculate() {
+    var plan = readPlan();
+    if (plan.debts.length === 0) {
+      showError('Add at least one debt with a balance above $0 to build your plan.');
+      return;
+    }
+    if (!isFinite(plan.rawExtra) || plan.rawExtra < 0) { showError('Extra monthly payment must be 0 or more.'); return; }
+    if (!isFinite(plan.rawSkip) || plan.rawSkip < 0) { showError('Skip months must be 0 or more.'); return; }
+    showError(null);
+
+    var res = CZ.compareStrategies(plan.debts, plan.opts);
+    state.lastResults = res;
+    state.lastPlan = plan;
+
+    // safety: if even minimums cannot dent the debt, flag it
+    var stuck = ['snowball', 'avalanche', 'smart'].some(function (s) { return !res[s].finished; });
+
+    renderStrategyCards(res, plan, stuck);
+    renderChart(res);
+    renderTolerance(plan);
+    renderScheduleTabs();
+    $('results').classList.remove('hidden');
+    $('chart-section').classList.remove('hidden');
+    $('schedule-section').classList.remove('hidden');
+    $('tolerance-section').classList.toggle('hidden', !plan.opts.skipMonths);
+    if (stuck) showError('Heads up: with these minimums, at least one strategy never pays the debt off (payments do not cover interest). Raise minimums or the extra payment.');
+  }
+
+  /* ---------- results rendering ---------- */
+
+  function monthsLabel(m) {
+    if (m < 12) return m + ' months';
+    var y = Math.floor(m / 12), r = m % 12;
+    return y + ' yr' + (y > 1 ? 's' : '') + (r ? ' ' + r + ' mo' : '');
+  }
+
+  function renderStrategyCards(res, plan, stuck) {
+    var wrap = $('strategy-cards');
+    wrap.innerHTML = '';
+    ['snowball', 'avalanche', 'smart'].forEach(function (s) {
+      var r = res[s], meta = STRAT_META[s];
+      var isWinner = res.winner === s;
+      var card = document.createElement('div');
+      card.className = 'rounded-2xl border-2 p-5 bg-white relative ' + (isWinner ? 'border-[#14532D] shadow-lg' : 'border-slate-200');
+      var first = r.payoffOrder.length ? r.payoffOrder[0] : null;
+      card.innerHTML =
+        (isWinner ? '<span class="absolute -top-3 left-4 chip bg-[#14532D] text-white">BEST DEAL</span>' : '') +
+        '<div class="flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full" style="background:' + meta.color + '"></span>' +
+        '<h3 class="font-extrabold text-lg text-slate-900">' + meta.name + '</h3></div>' +
+        '<p class="text-xs text-slate-500 mt-1">' + meta.desc + '</p>' +
+        (r.finished
+          ? '<div class="mt-4 space-y-2 text-sm">' +
+            '<div class="flex justify-between"><span class="text-slate-500">Debt-free in</span><strong class="num">' + monthsLabel(r.months) + '</strong></div>' +
+            '<div class="flex justify-between"><span class="text-slate-500">Debt-free date</span><strong class="num">' + esc(CZ.fmtMonthYear(r.debtFreeYear, r.debtFreeCalMonth)) + '</strong></div>' +
+            '<div class="flex justify-between"><span class="text-slate-500">Total interest</span><strong class="num text-[#DC2626]">' + CZ.fmtMoney(r.totalInterest) + '</strong></div>' +
+            '<div class="flex justify-between"><span class="text-slate-500">Total paid</span><strong class="num">' + CZ.fmtMoney(r.totalPaid) + '</strong></div>' +
+            '<div class="flex justify-between"><span class="text-slate-500">First debt cleared</span><strong>' + (first ? esc(first.name) + ' <span class="num text-slate-500">(mo ' + first.month + ')</span>' : '—') + '</strong></div>' +
+            '</div>'
+          : '<p class="mt-4 text-sm font-bold text-[#DC2626]">Never pays off — minimums do not cover the interest.</p>');
+      wrap.appendChild(card);
+    });
+
+    if (res.winner) {
+      var w = res.winner, worst = ['snowball', 'avalanche', 'smart'].reduce(function (a, s) {
+        return res[s].finished && res[s].totalInterest > res[a].totalInterest ? s : a;
+      }, 'snowball');
+      var save = res[worst].totalInterest - res[w].totalInterest;
+      $('winner-note').innerHTML = '<strong class="text-[#14532D]">' + STRAT_META[w].name + '</strong> saves <strong class="text-[#DC2626] num">' + CZ.fmtMoney(save) + '</strong> in interest vs ' + STRAT_META[worst].name.toLowerCase() + ' on your numbers.';
+    } else {
+      $('winner-note').textContent = '';
+    }
+  }
+
+  /* ---------- chart ---------- */
+
+  function renderChart(res) {
+    var keys = ['snowball', 'avalanche', 'smart'];
+    var series = keys.map(function (k) {
+      return { key: k, color: STRAT_META[k].color, pts: res[k].schedule.map(function (r) { return r.balance; }) };
+    });
+    var maxBal = Math.max.apply(null, series.map(function (s) { return s.pts[0] || 0; }).concat([1]));
+    var maxM = Math.max.apply(null, series.map(function (s) { return s.pts.length; }).concat([1]));
+    var W = 720, H = 260, padL = 58, padB = 28, padT = 10, padR = 10;
+    var iw = W - padL - padR, ih = H - padT - padB;
+    function X(i) { return padL + (maxM <= 1 ? 0 : (i / (maxM - 1)) * iw); }
+    function Y(v) { return padT + ih - (v / maxBal) * ih; }
+
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="w-full h-auto" role="img" aria-label="Balance over time chart">';
+    // gridlines
+    for (var g = 0; g <= 4; g++) {
+      var gy = padT + (ih / 4) * g;
+      var gv = maxBal * (1 - g / 4);
+      svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="#e7e2cf" stroke-width="1"/>';
+      svg += '<text x="' + (padL - 6) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" fill="#78716c">$' + shortNum(gv) + '</text>';
+    }
+    svg += '<text x="' + padL + '" y="' + (H - 8) + '" font-size="11" fill="#78716c">Month 1</text>';
+    svg += '<text x="' + (W - padR) + '" y="' + (H - 8) + '" text-anchor="end" font-size="11" fill="#78716c">Month ' + maxM + '</text>';
+    series.forEach(function (s) {
+      if (!s.pts.length) return;
+      var d = s.pts.map(function (v, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' ');
+      svg += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="2.5"/>';
+      var li = s.pts.length - 1;
+      svg += '<circle cx="' + X(li).toFixed(1) + '" cy="' + Y(s.pts[li]).toFixed(1) + '" r="4" fill="' + s.color + '"/>';
+    });
+    svg += '</svg>';
+    $('chart').innerHTML = svg;
+  }
+
+  function shortNum(v) {
+    if (v >= 1000) return (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'k';
+    return Math.round(v).toString();
+  }
+
+  /* ---------- tolerance ---------- */
+
+  function renderTolerance(plan) {
+    var k = plan.opts.skipMonths;
+    if (!k) return;
+    var baseOpts = {};
+    for (var key in plan.opts) baseOpts[key] = plan.opts[key];
+    baseOpts.skipMonths = 0;
+    var normal = CZ.compareStrategies(plan.debts, baseOpts);
+    // use the winner strategy's numbers for an apples-to-apples comparison
+    var wKey = normal.winner || 'smart';
+    var n = CZ.simulateDebts(plan.debts, Object.assign({}, baseOpts, { strategy: wKey }));
+    var s = CZ.simulateDebts(plan.debts, Object.assign({}, plan.opts, { strategy: wKey }));
+    $('tolerance-sub').textContent = 'Using the ' + STRAT_META[wKey].name.toLowerCase() + ' plan, what happens if you pause the extra $' + (plan.opts.extra) + '/month for the first ' + k + ' month' + (k > 1 ? 's' : '') + '?';
+    $('tol-skip-label').textContent = 'Skipping extras for ' + k + ' mo';
+    $('tol-normal-months').textContent = n.finished ? monthsLabel(n.months) + ' · ' + CZ.fmtMonthYear(n.debtFreeYear, n.debtFreeCalMonth) : 'Never pays off';
+    $('tol-normal-interest').textContent = n.finished ? 'Interest: ' + CZ.fmtMoney(n.totalInterest) : '—';
+    $('tol-skip-months').textContent = s.finished ? monthsLabel(s.months) + ' · ' + CZ.fmtMonthYear(s.debtFreeYear, s.debtFreeCalMonth) : 'Never pays off';
+    $('tol-skip-interest').textContent = s.finished ? 'Interest: ' + CZ.fmtMoney(s.totalInterest) : '—';
+    $('tol-delta-months').textContent = (s.finished && n.finished) ? '+' + (s.months - n.months) + ' months' : 'Plan breaks';
+    $('tol-delta-interest').textContent = (s.finished && n.finished) ? '+' + CZ.fmtMoney(s.totalInterest - n.totalInterest) + ' interest' : '';
+  }
+
+  /* ---------- schedule table ---------- */
+
+  function promoExpiryMonths(plan) {
+    // map month -> list of debt names whose promo expires that month
+    var map = {};
+    plan.debts.forEach(function (raw) {
+      var d = CZ.sanitizeDebt(raw, 0);
+      if (d.promoMonths > 0) {
+        map[d.promoMonths] = map[d.promoMonths] || [];
+        map[d.promoMonths].push(d.name);
+      }
+    });
+    return map;
+  }
+
+  function renderScheduleTabs() {
+    var tabs = $('sched-tabs').querySelectorAll('.strategy-tab');
+    tabs.forEach(function (t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === state.schedTab);
+      t.onclick = function () { state.schedTab = t.getAttribute('data-tab'); state.schedFull = false; renderScheduleTabs(); };
+    });
+    renderPayoffOrder();
+    renderSchedTable();
+  }
+
+  function renderPayoffOrder() {
+    var res = state.lastResults[state.schedTab];
+    var wrap = $('payoff-order');
+    if (!res.finished) { wrap.innerHTML = ''; return; }
+    wrap.innerHTML = '<p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Payoff order — ' + STRAT_META[state.schedTab].name + '</p>' +
+      '<div class="flex flex-wrap gap-2">' +
+      res.payoffOrder.map(function (p, i) {
+        return '<span class="chip bg-[#14532D]/10 text-[#14532D] border border-[#14532D]/25"><strong>' + (i + 1) + '</strong> ' + esc(p.name) +
+          ' <span class="num text-slate-500">· mo ' + p.month + '</span></span>';
+      }).join('') + '</div>';
+  }
+
+  function renderSchedTable() {
+    var res = state.lastResults[state.schedTab];
+    var plan = state.lastPlan;
+    var body = $('sched-body');
+    var expiry = promoExpiryMonths(plan);
+    var windByMonth = {};
+    res.windfalls.forEach(function (w) { windByMonth[w.month] = (windByMonth[w.month] || 0) + w.amount; });
+
+    var rows = res.schedule;
+    var shown = state.schedFull ? rows : rows.slice(0, 24);
+    var html = '';
+    shown.forEach(function (r) {
+      var notes = [];
+      if (windByMonth[r.month]) notes.push('<span class="chip bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/30">windfall ' + CZ.fmtMoney0(windByMonth[r.month]) + '</span>');
+      if (expiry[r.month]) notes.push('<span class="chip bg-amber-100 text-amber-800 border border-amber-300">promo ends: ' + esc(expiry[r.month].join(', ')) + '</span>');
+      html += '<tr class="border-t border-slate-100 ' + (r.month % 2 ? 'bg-white' : 'bg-[#FEFCE8]/60') + '">' +
+        '<td class="px-3 py-2">' + r.month + '</td>' +
+        '<td class="px-3 py-2">' + CZ.fmtMonthYear(r.year, r.calMonth) + '</td>' +
+        '<td class="px-3 py-2 text-right font-semibold">' + CZ.fmtMoney(r.payment) + '</td>' +
+        '<td class="px-3 py-2 text-right text-[#14532D]">' + CZ.fmtMoney(r.principal) + '</td>' +
+        '<td class="px-3 py-2 text-right text-[#DC2626]">' + CZ.fmtMoney(r.interest) + '</td>' +
+        '<td class="px-3 py-2 text-right font-semibold">' + CZ.fmtMoney(r.balance) + '</td>' +
+        '<td class="px-3 py-2">' + notes.join(' ') + '</td></tr>';
+    });
+    if (!state.schedFull && rows.length > 24) {
+      html += '<tr class="border-t border-slate-100"><td colspan="7" class="px-3 py-3 text-center text-xs text-slate-500">… ' + (rows.length - 24) + ' more months — expand to see the full schedule …</td></tr>';
+    }
+    body.innerHTML = html;
+    var btn = $('btn-toggle-sched');
+    if (rows.length > 24) {
+      btn.textContent = state.schedFull ? 'Show fewer months' : 'Show all ' + rows.length + ' months';
+      btn.style.display = '';
+    } else btn.style.display = 'none';
+  }
+
+  /* ---------- CSV ---------- */
+
+  function downloadCSV() {
+    var res = state.lastResults[state.schedTab];
+    if (!res) return;
+    var lines = ['Month,Date,Payment,Principal,Interest,Balance'];
+    res.schedule.forEach(function (r) {
+      lines.push([r.month, CZ.fmtMonthYear(r.year, r.calMonth), r.payment.toFixed(2), r.principal.toFixed(2), r.interest.toFixed(2), r.balance.toFixed(2)].join(','));
+    });
+    var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cardzero-' + state.schedTab + '-schedule.csv';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+
+  /* ---------- localStorage ---------- */
+
+  var LS_KEY = 'cardzero-scenarios-v1';
+
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function setSaved(list) {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+
+  function renderSaved() {
+    var wrap = $('saved-list');
+    wrap.innerHTML = '';
+    getSaved().forEach(function (sc, i) {
+      var chip = document.createElement('span');
+      chip.className = 'chip bg-white border border-[#14532D]/30 text-[#14532D]';
+      chip.innerHTML = esc(sc.name) + ' <button class="ml-1 font-bold text-[#DC2626]" data-load="' + i + '">load</button><button class="ml-1 font-bold text-slate-400" data-del="' + i + '" aria-label="Delete">&times;</button>';
+      wrap.appendChild(chip);
+    });
+    wrap.querySelectorAll('[data-load]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var sc = getSaved()[parseInt(b.getAttribute('data-load'), 10)];
+        if (!sc) return;
+        state.debts = sc.debts.map(function (d) { return Object.assign(blankDebt(), d); });
+        state.windfalls = (sc.windfalls || []).map(function (w) { return { month: w.month, amount: w.amount }; });
+        $('extra-input').value = sc.extra;
+        $('skip-input').value = sc.skip || 0;
+        renderDebtRows(); renderWindfalls();
+        calculate();
+      });
+    });
+    wrap.querySelectorAll('[data-del]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var list = getSaved();
+        list.splice(parseInt(b.getAttribute('data-del'), 10), 1);
+        setSaved(list); renderSaved();
+      });
+    });
+  }
+
+  /* ---------- wire up ---------- */
+
+  function init() {
+    $('start-input').value = defaultStartMonth();
+    state.debts = exampleDebts().map(function (d) {
+      var b = blankDebt();
+      for (var k in d) b[k] = d[k];
+      return b;
+    });
+    state.windfalls = [{ month: 8, amount: 1000 }];
+    renderDebtRows();
+    renderWindfalls();
+    renderSaved();
+
+    $('btn-add-debt').addEventListener('click', function () { state.debts.push(blankDebt()); renderDebtRows(); });
+    $('btn-example').addEventListener('click', function () {
+      state.debts = exampleDebts().map(function (d) { var b = blankDebt(); for (var k in d) b[k] = d[k]; return b; });
+      state.windfalls = [{ month: 8, amount: 1000 }];
+      renderDebtRows(); renderWindfalls(); calculate();
+    });
+    $('btn-clear').addEventListener('click', function () { state.debts = []; state.windfalls = []; renderDebtRows(); renderWindfalls(); calculate(); });
+    $('btn-add-windfall').addEventListener('click', function () { state.windfalls.push({ month: 6, amount: 500 }); renderWindfalls(); scheduleAutoCalc(); });
+    ['extra-input', 'skip-input', 'start-input'].forEach(function (id) {
+      $(id).addEventListener('input', scheduleAutoCalc);
+    });
+    $('btn-calc').addEventListener('click', calculate);
+    $('btn-toggle-sched').addEventListener('click', function () { state.schedFull = !state.schedFull; renderSchedTable(); });
+    $('btn-csv').addEventListener('click', downloadCSV);
+    $('btn-save').addEventListener('click', function () {
+      var name = $('save-name').value.trim() || ('Scenario ' + (getSaved().length + 1));
+      var plan = readPlan();
+      var list = getSaved();
+      list.push({ name: name, debts: plan.debts, windfalls: plan.windfalls, extra: plan.opts.extra, skip: plan.opts.skipMonths });
+      setSaved(list); renderSaved();
+      $('save-name').value = '';
+    });
+
+    calculate();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+
+
+<!-- ============ SEO ARTICLE ============ -->
+<section class="mx-auto max-w-6xl px-4 sm:px-6 py-10">
+<article id="seo-article" class="prose-article max-w-4xl mx-auto text-slate-800 leading-relaxed">
+<h2 class="text-2xl sm:text-3xl font-extrabold text-[#14532D]">Debt Snowball vs Avalanche: The Complete Guide to Paying Off Debt Faster</h2>
+
+<p class="mt-4">There is a moment in almost every debt story when the minimum payments stop feeling like progress. The balances barely move, the interest charges show up like rent you never agreed to, and every month ends with the same uneasy arithmetic. That is the moment a real plan becomes worth more than motivation — and it is exactly what a <strong>debt payoff calculator</strong> is built for. Instead of guessing which card to attack first, you model your actual balances, rates, and budget, and you let the math show you the cheapest and fastest route to zero.</p>
+
+<p class="mt-4">The two strategies every <strong>debt snowball vs avalanche calculator</strong> compares are simple to describe and surprisingly hard to choose between. The <strong>debt snowball</strong> method targets your smallest balance first. You pay every minimum, then throw all your extra money at the tiniest debt until it is gone. That freed-up payment rolls into the next-smallest debt, and the payments get bigger as the debts get fewer — like a snowball rolling downhill. The <strong>debt avalanche</strong> method works the same way except the target is your highest interest rate. You still pay every minimum and focus the extra on one account, but you pick the debt that is costing you the most per dollar, every dollar, every month.</p>
+
+<p class="mt-4">Mathematically, the avalanche wins almost every time. Interest is just a price tag on borrowed money, and paying the highest price tag first minimizes the total interest you will ever pay. In a typical three-card scenario — say $2,400 at 25%, $5,800 at 22%, and $3,200 at 13% with $350 extra a month — the avalanche usually shaves several months and hundreds of dollars off the snowball's totals. The gap grows with the spread between your rates: debts clustered within a few percentage points of each other barely differ between methods, while a 25% card sitting next to a 10% loan makes the avalanche's advantage obvious. A good <strong>credit card payoff planner</strong> does not make you take this on faith; it runs both strategies on your real numbers and shows the exact dollar difference.</p>
+
+<p class="mt-4">So why does the snowball exist at all? Because debt is not purely a math problem — it is a behavior problem that happens to involve numbers. Research on debt repayment has repeatedly found that people who close out entire accounts early are more likely to stay with the plan. The snowball gives you a win in month one or two: an account closed, a statement gone, a small ceremony of progress. The avalanche, by contrast, can feel like pouring money into a void for a year while your biggest balance barely bends. If you know yourself — if you have started budgets before and abandoned them by spring — the "motivation tax" of the snowball may be the cheapest option in practice, because the best strategy is the one you actually finish.</p>
+
+<p class="mt-4">This is where the simple two-way comparison that most free calculators offer starts to feel incomplete, and where a more serious <strong>credit card debt payoff plan</strong> needs to handle the messy realities of actual credit cards. The first reality is the <strong>0% promotional APR</strong>. Balance-transfer cards and store cards love introductory offers: 0% for 12, 15, or 21 months, then the rate jumps to something like 22% overnight. During the promo window, that debt is effectively free money — every payment goes straight to principal. A naive avalanche calculator that only looks at the regular APR would attack the promo balance last, which is correct today but potentially disastrous if the promo expires with a big balance left and the rate suddenly becomes your highest. The right question is not "what is the rate now?" but "what is the rate over the life of my plan?" CardZero models promo expiry explicitly: you enter the promo rate and how many months it lasts, and the simulation charges the promo rate until the deadline and the regular APR after it.</p>
+
+<p class="mt-4">The second reality is the <strong>windfall</strong> — the tax refund, the bonus, the sold furniture, the birthday money from a generous relative. Most calculators treat your payment as a flat monthly number forever, which means a $1,000 one-time payment has nowhere to go in the model. In real life, a windfall is one of the highest-leverage events in a debt plan: a lump sum applied to your current target does not just reduce that balance, it pulls every subsequent payoff date forward, because the freed-up payment starts rolling sooner. CardZero lets you schedule windfalls by month and funnels each one into that month's strategy target, cascading to the next debt if the target falls. Run the numbers once without the windfall and once with it — the difference in total interest is often the most motivating number on the page.</p>
+
+<p class="mt-4">The third reality is that pure strategies are rarely optimal in practice, which is why CardZero includes a third option: the <strong>smart hybrid</strong>. It starts from a simple observation — a promo rate about to expire is a deadline, and deadlines beat percentages. The smart strategy first targets any debt whose promotional rate expires within six months, ordered by urgency, then falls back to avalanche ordering (highest effective rate first). This captures the snowball's psychological insight (kill the urgent, time-boxed threat first) and the avalanche's mathematical insight (then kill the most expensive remaining debt) without requiring you to switch strategies manually. For households juggling a balance transfer alongside regular cards, the hybrid routinely beats both pure strategies on total interest while still delivering an early win.</p>
+
+<p class="mt-4">The fourth reality is the one nobody puts in a calculator and everybody lives through: <strong>life happens</strong>. The car needs brakes, the hours get cut, the holidays arrive. Extra payments get skipped. Most plans pretend this never occurs, so the first skipped month feels like failure and the plan gets abandoned. A better approach is to price the rough patch in advance. CardZero's skipped-month tolerance view pauses your extra payments for as many months as you choose — minimums still continue — and shows you the honest cost: how many extra months the plan takes, and how much extra interest the pause adds. Knowing that three skipped months cost you, say, four months and $180 of interest turns a vague fear into a concrete, survivable number. It also teaches the most important lesson of debt planning: minimums are sacred, extras are flexible, and a plan that survives contact with reality is better than a perfect plan you quit.</p>
+
+<p class="mt-4">How should you actually use a tool like this? Start with honest inputs. Pull your latest statements — not your memory of them — and enter each balance, APR, and minimum payment exactly. Include every revolving debt: credit cards, store cards, lines of credit. Fixed-installment loans can be included too, though their minimums rarely change. Set your extra payment to a number you can sustain for at least six months, not the heroic number you could manage once. Then compare all three strategies and look at three outputs: the debt-free date, the total interest, and the month your first debt disappears. If the avalanche saves you $900 but your first win arrives in month 14, ask yourself honestly whether you will still be following the plan in month 8. There is no shame in choosing the snowball for behavioral reasons — a <strong>debt snowball calculator</strong> exists precisely because the human side of the equation matters.</p>
+
+<p class="mt-4">A few practical tactics multiply whatever strategy you choose. First, <strong>stop adding new charges</strong> to the cards you are paying down; the simulation assumes no new borrowing, and new charges are the number-one reason real plans diverge from projected ones. Second, <strong>automate the minimums</strong> so a forgotten due date never triggers a late fee or penalty APR, which can instantly make your modeled rates fiction. Third, <strong>re-run the plan quarterly</strong>: rates change, balances move, and a promo you forgot about may be expiring. Fourth, if you take a balance-transfer offer, divide the transferred balance by the promo months and treat that as a non-negotiable monthly target — clearing it before expiry is almost always the highest-return move available. Fifth, keep a small emergency buffer before accelerating payments aggressively; every dollar sent to a card while you have zero savings is a dollar that the next surprise expense will force you to borrow back at full interest.</p>
+
+<p class="mt-4">It is also worth understanding what the math assumes, so you can trust it appropriately. CardZero uses standard monthly interest accrual — each month's interest equals the balance times the APR divided by 12 — which is the same method the major free payoff calculators use. Real cards compound daily and your due dates will not align perfectly with calendar months, so treat the projected debt-free month as accurate within about a month, not to the day. The model also assumes minimum payments stay fixed; in reality, card minimums usually shrink as the balance falls, which means your actual payoff may arrive slightly later than projected if you only ever pay the true minimum. Paying a fixed total each month — the minimum plus your extra — is both simpler and faster.</p>
+
+<p class="mt-4">Finally, a word about cost. Debt planning tools range from free calculators to paid apps with monthly subscriptions, and there is a quiet irony in paying a subscription to get out of debt. CardZero is free with unlimited usage, no account, and no watermark on anything you download, because the people who most need a payoff plan are the people least able to pay for one. Your numbers never leave your browser; scenarios you save are stored only on your own device. The goal is simple: give you the same month-by-month clarity that expensive tools offer, with the promo handling, windfall modeling, and skip tolerance they usually lack, so the plan you print or save is one you can actually follow to zero.</p>
+
+<p class="mt-4">Debt freedom is rarely a single heroic decision. It is a few hundred ordinary payments, aimed at the right target, in the right order, with a plan that survives the months when life intervenes. Run your numbers, pick the strategy you will finish, and start this month — the cheapest interest is the interest you never pay.</p>
+</article>
+
+<!-- ============ FAQS ============ -->
+<section class="max-w-4xl mx-auto mt-12" aria-label="Frequently asked questions">
+<h2 class="text-2xl font-extrabold text-[#14532D]">Frequently Asked Questions</h2>
+<div class="mt-6 space-y-3" id="faq-list">
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">Which is better: the debt snowball or the debt avalanche?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">Mathematically, the avalanche (highest interest rate first) almost always costs less in total interest. Behaviorally, the snowball (smallest balance first) delivers faster first wins, which helps many people stay consistent. CardZero shows both side by side with your real numbers so you can weigh the exact dollar difference against your own motivation style — and the Smart hybrid often beats both.</p>
+</details>
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">How does CardZero handle 0% promo APRs that expire?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">Enter the promo rate and how many months it lasts on any debt. CardZero charges the promo rate during the window and automatically switches to the regular APR the month it expires. The Smart strategy goes further: it prioritizes debts whose promos expire within six months, so you can clear them before the rate jumps.</p>
+</details>
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">Can I add a one-time extra payment, like a bonus or tax refund?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">Yes. Add any number of windfall events in the payment plan section — pick the month number and the amount. CardZero funnels each windfall into that month's extra-payment pool in your strategy's target order, cascading to the next debt if the target is fully paid, and shows exactly how many months and how much interest it saves.</p>
+</details>
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">What happens if I skip my extra payments for a few months?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">Use the skip-months control to model it honestly. CardZero pauses your extra payments (minimums still continue) for the months you choose, then recomputes your debt-free date and shows the added months and extra interest in a tolerance view — so a rough patch becomes a plan, not a guilt spiral.</p>
+</details>
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">Is CardZero really free to use?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">Yes. Unlimited free usage with no signup, no paywall, and no watermark. All calculations run in your browser; your debt details are never sent to a server. Scenarios you save are stored only in your own browser's local storage.</p>
+</details>
+
+<details class="faq-item bg-white rounded-xl border border-[#14532D]/15 px-5 py-4">
+<summary class="font-bold text-[#14532D] cursor-pointer list-none flex justify-between items-center">How accurate is the payoff math?<span class="text-[#DC2626] text-xl leading-none">+</span></summary>
+<p class="mt-3 text-slate-700 text-sm leading-relaxed">CardZero uses standard monthly interest accrual (APR divided by 12), the same method most card payoff calculators use. Real-world results can shift slightly with daily compounding, due-date timing, or rate changes, so treat the projection as accurate within about a month. It also assumes no new charges and on-time payments.</p>
+</details>
+
+</div>
+</section>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-[#14532D] text-white mt-8">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-extrabold text-lg">Card<span class="text-[#f87171]">Zero</span></p>
+    <p class="text-xs text-white/70 text-center">Free debt payoff planner. Educational estimates only — not financial advice.</p>
+    <nav class="text-sm font-semibold space-x-5">
+      <a href="#top" class="hover:text-amber-200 transition">Home</a>
+      <a href="https://fixoraa.tech" class="hover:text-amber-200 transition">More Tools</a>
+    </nav>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+</body>
+</html>
