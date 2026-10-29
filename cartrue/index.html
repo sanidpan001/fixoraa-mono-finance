@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/cartrue/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarTrue — True Cost of Car Ownership Calculator: Keep vs Buy New vs Buy Used</title>
+<meta name="description" content="CarTrue's free true cost of car ownership calculator compares buying new vs buying used vs keeping your current car over 5 years, with depreciation curves, age-based maintenance costs and true per-mile cost.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0D1117; --orange:#F97316; --sky:#38BDF8; --mint:#34D399; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Space Grotesk',system-ui,sans-serif; background:var(--bg); }
+  .mono{ font-family:'JetBrains Mono',ui-monospace,monospace; }
+  .panel{ background:#131A24; border:1px solid rgba(148,163,184,.16); border-radius:1rem; }
+  .field{ background:#0B1017; border:1px solid rgba(148,163,184,.22); border-radius:.6rem; color:#E2E8F0; padding:.55rem .7rem; width:100%; font-size:.92rem; }
+  .field:focus{ outline:none; border-color:var(--orange); box-shadow:0 0 0 3px rgba(249,115,22,.18); }
+  label.lbl{ display:block; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:#8FA0B5; margin-bottom:.3rem; }
+  .btn-fire{ background:linear-gradient(135deg,#F97316,#EA580C); color:#fff; font-weight:700; border-radius:.7rem; padding:.8rem 1.6rem; transition:transform .12s, box-shadow .12s; box-shadow:0 8px 24px rgba(249,115,22,.35); }
+  .btn-fire:hover{ transform:translateY(-1px); box-shadow:0 12px 30px rgba(249,115,22,.5); }
+  .badge-free{ display:inline-flex; align-items:center; gap:.45rem; background:rgba(56,189,248,.1); border:1px solid rgba(56,189,248,.45); color:#7DD3FC; font-size:.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; border-radius:9999px; padding:.4rem .95rem; }
+  .dot{ width:11px; height:11px; border-radius:9999px; box-shadow:0 0 10px currentColor; }
+  /* timeline lane */
+  .lane{ position:relative; padding:0 .5rem; }
+  .lane-track{ position:relative; margin-top:2.6rem; }
+  .lane-line{ position:absolute; top:9px; left:2rem; right:2rem; height:3px; border-radius:3px; background:linear-gradient(90deg,currentColor,currentColor); opacity:.35; }
+  .lane-nodes{ position:relative; display:flex; justify-content:space-between; }
+  .node{ display:flex; flex-direction:column; align-items:center; min-width:0; }
+  .node .tick{ width:20px; height:20px; border-radius:9999px; border:3px solid currentColor; background:#0D1117; z-index:1; }
+  .node .yr{ font-size:.68rem; color:#8FA0B5; margin-top:.35rem; text-transform:uppercase; letter-spacing:.08em; }
+  .node .amt{ font-size:.72rem; font-weight:700; color:#E2E8F0; white-space:nowrap; }
+  /* per-mile bars */
+  .pmbar{ height:14px; border-radius:9999px; transition:width .6s cubic-bezier(.22,1,.36,1); }
+  details.faq{ background:#131A24; border:1px solid rgba(148,163,184,.16); border-radius:.8rem; padding:1rem 1.25rem; }
+  details.faq summary{ cursor:pointer; font-weight:600; color:#F1F5F9; list-style:none; }
+  details.faq summary::-webkit-details-marker{ display:none; }
+  details.faq summary::after{ content:'+'; float:right; color:var(--orange); font-size:1.3rem; line-height:1; }
+  details.faq[open] summary::after{ content:'–'; }
+  details.faq p{ color:#94A3B8; margin-top:.6rem; line-height:1.7; }
+  .article h2{ color:#F8FAFC; font-size:1.45rem; font-weight:700; margin:2.2rem 0 .8rem; }
+  .article h3{ color:#E2E8F0; font-size:1.1rem; font-weight:600; margin:1.6rem 0 .5rem; }
+  .article p{ color:#9AA9BC; line-height:1.85; margin-bottom:1rem; }
+  .article strong{ color:#E2E8F0; }
+  .article ul, .article ol{ color:#9AA9BC; line-height:1.85; margin:0 0 1rem 1.25rem; }
+  .article ul{ list-style:disc; }
+  .article ol{ list-style:decimal; }
+  .article table{ width:100%; border-collapse:collapse; margin:1rem 0 1.5rem; font-size:.9rem; }
+  .article th{ text-align:left; color:#E2E8F0; border-bottom:1px solid rgba(148,163,184,.3); padding:.5rem .6rem; }
+  .article td{ color:#9AA9BC; border-bottom:1px solid rgba(148,163,184,.12); padding:.5rem .6rem; }
+  select.field option{ background:#131A24; }
+</style>
+</head>
+<body id="top" class="text-slate-200 antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-50 border-b border-slate-800/80" style="background:rgba(13,17,23,.94);backdrop-filter:blur(10px)">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 16l1.6-4.6A2 2 0 0 1 8.5 10h7a2 2 0 0 1 1.9 1.4L19 16" stroke="#F97316" stroke-width="2" stroke-linecap="round"/>
+        <rect x="3.5" y="14.5" width="17" height="4.5" rx="1.5" fill="#F97316"/>
+        <circle cx="7.5" cy="19" r="1.8" fill="#0D1117" stroke="#38BDF8" stroke-width="1.4"/>
+        <circle cx="16.5" cy="19" r="1.8" fill="#0D1117" stroke="#38BDF8" stroke-width="1.4"/>
+      </svg>
+      <span class="text-xl font-800 font-extrabold tracking-tight text-white">Car<span style="color:#F97316">True</span></span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm font-medium">
+      <a href="#top" class="text-slate-300 hover:text-white transition">Home</a>
+      <a href="https://fixoraa.tech" class="text-slate-300 hover:text-white transition">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-2 text-center">
+  <span class="badge-free"><span class="dot" style="color:#38BDF8;background:#38BDF8"></span>Unlimited Free Usage</span>
+  <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight text-white">True Cost of Car Ownership</h1>
+  <p class="mt-3 max-w-2xl mx-auto text-slate-400">Compare <strong class="text-orange-400">buying new</strong> vs <strong class="text-sky-300">buying used</strong> vs <strong class="text-emerald-300">keeping your current car</strong> — with real depreciation curves, age-based maintenance and true per-mile cost.</p>
+</section>
+
+<!-- TOP AD -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOOL ============ -->
+<main id="results" class="mx-auto max-w-6xl px-4 sm:px-6 py-6">
+
+  <!-- shared inputs -->
+  <div class="panel p-5 mb-5">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Your driving profile</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <label class="lbl" for="in-miles">Miles driven / year</label>
+        <input id="in-miles" class="field mono" type="number" min="0" step="500" value="12000">
+      </div>
+      <div>
+        <label class="lbl" for="in-fuel">Fuel price ($ / gallon)</label>
+        <input id="in-fuel" class="field mono" type="number" min="0" step="0.05" value="3.40">
+      </div>
+      <div>
+        <label class="lbl" for="in-horizon">Comparison horizon</label>
+        <select id="in-horizon" class="field mono">
+          <option value="3">3 years</option>
+          <option value="5" selected>5 years</option>
+          <option value="7">7 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- scenario inputs -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+
+    <div class="panel p-5" style="border-top:3px solid #F97316">
+      <h2 class="font-bold text-white mb-1 flex items-center gap-2"><span class="dot" style="color:#F97316;background:#F97316"></span>Buy New</h2>
+      <p class="text-xs text-slate-500 mb-4">Brand-new car, full warranty, steepest depreciation.</p>
+      <div class="space-y-3">
+        <div><label class="lbl" for="in-new-price">Purchase price ($)</label><input id="in-new-price" class="field mono" type="number" min="0" value="38000"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-new-down">Down (%)</label><input id="in-new-down" class="field mono" type="number" min="0" max="100" value="10"></div>
+          <div><label class="lbl" for="in-new-apr">Loan APR (%)</label><input id="in-new-apr" class="field mono" type="number" min="0" step="0.1" value="6.5"></div>
+        </div>
+        <div><label class="lbl" for="in-new-term">Loan term (years)</label><input id="in-new-term" class="field mono" type="number" min="1" max="10" value="6"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-new-ins">Insurance / yr ($)</label><input id="in-new-ins" class="field mono" type="number" min="0" value="1800"></div>
+          <div><label class="lbl" for="in-new-mpg">MPG</label><input id="in-new-mpg" class="field mono" type="number" min="1" step="0.5" value="30"></div>
+        </div>
+        <div><label class="lbl" for="in-new-maint">Base maintenance / yr ($)</label><input id="in-new-maint" class="field mono" type="number" min="0" value="650"></div>
+      </div>
+    </div>
+
+    <div class="panel p-5" style="border-top:3px solid #38BDF8">
+      <h2 class="font-bold text-white mb-1 flex items-center gap-2"><span class="dot" style="color:#38BDF8;background:#38BDF8"></span>Buy Used</h2>
+      <p class="text-xs text-slate-500 mb-4">Someone else took the first-year hit. Gentler depreciation.</p>
+      <div class="space-y-3">
+        <div><label class="lbl" for="in-used-price">Purchase price ($)</label><input id="in-used-price" class="field mono" type="number" min="0" value="22000"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-used-age">Car age now (yrs)</label><input id="in-used-age" class="field mono" type="number" min="0" value="4"></div>
+          <div><label class="lbl" for="in-used-down">Down (%)</label><input id="in-used-down" class="field mono" type="number" min="0" max="100" value="10"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-used-apr">Loan APR (%)</label><input id="in-used-apr" class="field mono" type="number" min="0" step="0.1" value="8.5"></div>
+          <div><label class="lbl" for="in-used-term">Loan term (years)</label><input id="in-used-term" class="field mono" type="number" min="1" max="10" value="5"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-used-ins">Insurance / yr ($)</label><input id="in-used-ins" class="field mono" type="number" min="0" value="1300"></div>
+          <div><label class="lbl" for="in-used-mpg">MPG</label><input id="in-used-mpg" class="field mono" type="number" min="1" step="0.5" value="28"></div>
+        </div>
+        <div><label class="lbl" for="in-used-maint">Base maintenance / yr ($)</label><input id="in-used-maint" class="field mono" type="number" min="0" value="850"></div>
+      </div>
+    </div>
+
+    <div class="panel p-5" style="border-top:3px solid #34D399">
+      <h2 class="font-bold text-white mb-1 flex items-center gap-2"><span class="dot" style="color:#34D399;background:#34D399"></span>Keep Current</h2>
+      <p class="text-xs text-slate-500 mb-4">No new debt — but maintenance climbs as the car ages.</p>
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-keep-age">Car age now (yrs)</label><input id="in-keep-age" class="field mono" type="number" min="0" value="8"></div>
+          <div><label class="lbl" for="in-keep-value">Current value ($)</label><input id="in-keep-value" class="field mono" type="number" min="0" value="9500"></div>
+        </div>
+        <div><label class="lbl" for="in-keep-bal">Remaining loan balance ($)</label><input id="in-keep-bal" class="field mono" type="number" min="0" value="4200"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-keep-apr">Loan APR (%)</label><input id="in-keep-apr" class="field mono" type="number" min="0" step="0.1" value="7"></div>
+          <div><label class="lbl" for="in-keep-left">Months left</label><input id="in-keep-left" class="field mono" type="number" min="1" value="18"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="lbl" for="in-keep-ins">Insurance / yr ($)</label><input id="in-keep-ins" class="field mono" type="number" min="0" value="1100"></div>
+          <div><label class="lbl" for="in-keep-mpg">MPG</label><input id="in-keep-mpg" class="field mono" type="number" min="1" step="0.5" value="26"></div>
+        </div>
+        <div><label class="lbl" for="in-keep-maint">Base maintenance / yr ($)</label><input id="in-keep-maint" class="field mono" type="number" min="0" value="900"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mb-8">
+    <button id="calc-btn" class="btn-fire text-lg">Calculate True Cost</button>
+    <p class="text-xs text-slate-500 mt-2">Results update live as you type. All math runs in your browser — nothing is uploaded.</p>
+  </div>
+
+  <!-- verdict -->
+  <div id="verdict" class="panel p-5 mb-6" style="border-color:rgba(249,115,22,.4)"></div>
+
+  <!-- scenario result cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+    <div id="res-new" class="panel p-5" style="border-top:3px solid #F97316"></div>
+    <div id="res-used" class="panel p-5" style="border-top:3px solid #38BDF8"></div>
+    <div id="res-keep" class="panel p-5" style="border-top:3px solid #34D399"></div>
+  </div>
+
+  <!-- timeline lanes -->
+  <div class="panel p-5 mb-6">
+    <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-2">Cost timeline — cumulative spend by year</h2>
+    <p class="text-xs text-slate-500 mb-4">Each node marks the running total you have truly spent (depreciation + loan interest + insurance + fuel + maintenance).</p>
+    <div class="space-y-7">
+      <div class="lane" style="color:#F97316">
+        <div class="text-sm font-bold text-white mb-1">Buy New</div>
+        <div class="lane-track"><div class="lane-line"></div><div id="tl-new" class="lane-nodes"></div></div>
+      </div>
+      <div class="lane" style="color:#38BDF8">
+        <div class="text-sm font-bold text-white mb-1">Buy Used</div>
+        <div class="lane-track"><div class="lane-line"></div><div id="tl-used" class="lane-nodes"></div></div>
+      </div>
+      <div class="lane" style="color:#34D399">
+        <div class="text-sm font-bold text-white mb-1">Keep Current</div>
+        <div class="lane-track"><div class="lane-line"></div><div id="tl-keep" class="lane-nodes"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- depreciation visualizer -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <div class="panel p-5">
+      <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">Depreciation curve visualizer</h2>
+      <p class="text-xs text-slate-500 mb-3">Projected resale value, year by year. Watch the new car fall off a cliff in year one.</p>
+      <div id="dep-chart"></div>
+    </div>
+    <div class="panel p-5">
+      <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">True per-mile cost</h2>
+      <p class="text-xs text-slate-500 mb-3">Total horizon cost divided by every mile you will drive. The number that ends arguments.</p>
+      <div id="pm-chart" class="space-y-4 pt-2"></div>
+      <div class="mt-6 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs uppercase tracking-wider text-slate-500">
+            <th class="py-2 pr-2">Cost item</th><th class="py-2 pr-2 text-right" style="color:#F97316">New</th><th class="py-2 pr-2 text-right" style="color:#38BDF8">Used</th><th class="py-2 text-right" style="color:#34D399">Keep</th>
+          </tr></thead>
+          <tbody id="breakdown" class="mono text-slate-300"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- BOTTOM AD -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEO ARTICLE ============ -->
+<section class="mx-auto max-w-6xl px-4 sm:px-6 pb-10">
+<article id="seo-article" class="article max-w-4xl mx-auto">
+
+<h2>The sticker price is a lie: what a true cost of car ownership calculator actually measures</h2>
+<p>Walk into a dealership and every number on the windscreen is designed to make you say yes. The monthly payment looks manageable, the fuel economy looks heroic, and the salesman assures you that "they all hold their value." A <strong>true cost of car ownership calculator</strong> exists to do the one thing the dealership will not: add up everything you will actually spend between the day you sign and the day you sell, and tell you the number that matters.</p>
+<p>The true cost of owning a car is not the purchase price. It is the sum of five forces pulling money out of your pocket every single year: <strong>depreciation</strong> (the value your car silently loses), <strong>financing cost</strong> (the interest you pay for the privilege of borrowing), <strong>insurance</strong>, <strong>fuel</strong>, and <strong>maintenance and repairs</strong>. Skip any one of them and the comparison between your options falls apart. A car that looks cheap on the lot can easily be the most expensive thing you own once all five are counted over five years.</p>
+<p>That is why the only honest way to decide is to compare complete scenarios side by side. This page does exactly that for the three timelines almost every driver faces: buying a brand-new car, buying a used car, or keeping the car you already have. Same driver, same miles, same fuel price — three different financial futures, laid out year by year on a timeline so you can see not just which option wins, but <em>when</em> and <em>why</em>.</p>
+
+<h2>Depreciation: the silent budget killer (and why the curve looks different for new vs used)</h2>
+<p>Depreciation is the largest cost of owning a new car, and it is the cost almost nobody budgets for, because you never write a cheque for it. A new car typically loses around 20% of its value in the first year alone — the infamous "drive it off the lot" cliff — then roughly 10% per year after that. On a $38,000 new car, that means more than $7,000 evaporates in year one. Over five years you can easily lose half the purchase price to depreciation alone, which dwarfs what you will spend on fuel or servicing in the same period.</p>
+<p>Used cars depreciate on a gentler curve. Because someone else already absorbed the first-year cliff, a four-year-old car loses value at roughly 10% a year from a much lower base. That is the entire financial case for buying used in one sentence: you let the first owner pay for the steepest part of the curve. The depreciation curve visualizer above shows this vividly — the new-car line falls off a cliff while the used and keep-current lines glide down far more gently.</p>
+<p>Your current car, meanwhile, has already done most of its depreciating. If it is worth $9,500 today, five more years of gentle decline might take it to around $5,600 — a loss of under $4,000. Compare that with the $15,000+ a new car can lose in the same window and you start to see why "keep driving it" is such a stubbornly good strategy.</p>
+
+<h2>Keep car or buy new? The math that actually decides it</h2>
+<p>The most common question drivers type into a search bar is some version of "should I keep my old car or buy a new one?" A <strong>keep car or buy new calculator</strong> answers it with arithmetic instead of feelings, and the arithmetic hinges on one curve: maintenance cost by car age.</p>
+<p>Here is the shape of that curve. A car in its first three years costs very little to maintain — often just tyres, oil and filters, much of it under warranty. Around year five, the wear items arrive: brakes, suspension bushes, batteries. By year eight to ten, the expensive stuff starts knocking: timing components, clutch or transmission work, air-conditioning, electronics. Maintenance does not rise in a straight line; it accelerates, roughly following a power curve where a twelve-year-old car can cost five to six times as much per year in upkeep as a new one.</p>
+<p>So keeping your car is not automatically free money. The correct comparison is: <strong>is this year's expected maintenance plus the year's depreciation more or less than a year of new-car ownership?</strong> A year of new-car ownership typically costs $8,000–$12,000 all-in (depreciation plus interest plus insurance plus fuel). If your eight-year-old car needs $2,800 of maintenance this year and loses $800 of value, keeping it still wins by a landslide. The new car only starts winning when repair bills become large, frequent and unpredictable — usually well past year ten, or when reliability itself becomes the issue.</p>
+<p>A useful rule of thumb mechanics have repeated for decades: if a single repair costs more than half of what the car is worth, or if annual repairs exceed roughly six months of new-car payments, it is time to run the numbers seriously. This calculator runs them for you, year by year, with the age-based maintenance curve built in — which is something most ownership calculators simply do not do. They treat maintenance as a flat number, and a flat number always flatters the new car.</p>
+
+<h2>Lease vs buy vs keep car: where does leasing fit?</h2>
+<p>No honest discussion of ownership cost is complete without the <strong>lease vs buy vs keep car</strong> debate, because leasing is marketed as the clever third way: a new car every three years with a low monthly payment and no repair bills. The catch is that leasing optimizes for monthly cash flow, not total cost.</p>
+<p>A lease payment covers the car's depreciation during the lease term plus interest (called the money factor) plus fees — and you build zero equity. At the end of three years you own nothing and start over. Run over a five- or ten-year horizon, serial leasing is almost always the most expensive way to drive, because you are perpetually paying for the steepest part of the depreciation curve — the exact part a used-car buyer gets for free — while never accumulating an asset.</p>
+<p>Leasing can still make sense in narrow situations: you drive predictable low miles (leases punish over-mileage hard, often 20–25 cents per extra mile), you genuinely need a new car every few years for work image, or a business can deduct the payments. But for a private driver comparing total five-year cost, the ranking is remarkably consistent: keeping a reliable car is cheapest, buying a lightly used car is next, buying new costs more, and leasing usually costs the most. This calculator models the three buy/keep scenarios directly; use its per-mile cost as the yardstick and ask any lease offer to beat it — most cannot.</p>
+
+<h2>True per-mile cost: the single number that ends arguments</h2>
+<p>Totals are hard to feel. Per-mile cost is not. Divide everything you will spend over the horizon — depreciation, interest, insurance, fuel, maintenance — by every mile you will drive, and you get the true price of each mile. Motoring associations have published versions of this figure for decades, and for a typical new car it lands somewhere between 60 and 80 cents a mile. Most drivers guess far lower, because they count fuel and forget depreciation.</p>
+<p>Per-mile cost is the great equalizer. It lets you compare a thirsty old SUV against an efficient new hybrid fairly, because it folds fuel economy, insurance differences and depreciation into one number. It also makes the "should I drive or fly / take the train" question answerable: if your true cost is 72 cents a mile, that 400-mile round trip costs you $288 in real terms, not the $60 of fuel you feel at the pump. When the calculator shows you 48 cents a mile for keeping your car versus 74 cents for buying new, the decision stops being emotional.</p>
+
+<h2>How your loan quietly changes the answer</h2>
+<p>Two buyers can purchase the identical car and end up with very different true costs, because financing is a cost multiplier. A longer loan term lowers the monthly payment but stretches interest across more years — a 7-year loan at 7% APR on $35,000 costs thousands more in interest than a 5-year loan on the same car. Used-car loans carry higher APRs than new-car loans, which eats into some of the used car's price advantage; this calculator applies a higher default APR to the used scenario for exactly that reason.</p>
+<p>The down payment matters too. Money you put down is money you do not pay interest on, and a bigger down payment protects you against negative equity — owing more than the car is worth, which happens fast when a new car drops 20% in year one while your loan balance barely moves. Rolling negative equity from an old loan into a new one is how people end up paying for two cars while driving one. If your current car still has a loan balance, enter it in the Keep Current panel: the calculator counts the remaining interest you will actually pay inside the horizon, not a penny more.</p>
+
+<h2>Insurance and fuel: the costs everyone underestimates</h2>
+<p>Insurance follows value: a new $38,000 car costs noticeably more to insure than the same model at eight years old, because the insurer's exposure is the car's replacement value. Full coverage on a new car versus liability-plus on an older one can differ by $500–$800 a year — $2,500 to $4,000 over five years, which is real money in a close comparison.</p>
+<p>Fuel is the most visible cost and therefore the most over-weighted in people's mental math. Yes, a new hybrid at 50 MPG spends far less on fuel than an old SUV at 18 MPG. But do the arithmetic: at 12,000 miles a year and $3.40 a gallon, the difference between 26 MPG and 32 MPG is about $370 a year. That will never, on its own, justify a new car's depreciation. Fuel efficiency is a tiebreaker between close options, not a reason to buy.</p>
+
+<h2>The maintenance curve by car age, explained</h2>
+<p>The age-based maintenance curve is this calculator's most important feature, so here is what is behind it. Maintenance cost is modelled as a multiple of a "healthy car" baseline — the roughly $600–$900 a year a mid-age car costs in routine servicing. The multiplier starts below 1.0 for a new car under warranty, crosses 1.0 around year four, and then climbs on a power curve:</p>
+<table>
+<tr><th>Car age</th><th>Cost multiplier</th><th>What typically needs doing</th></tr>
+<tr><td>0–3 years</td><td>0.6× – 1.1×</td><td>Oil, filters, tyres; mostly warranty-covered</td></tr>
+<tr><td>4–6 years</td><td>1.1× – 1.8×</td><td>Brakes, battery, suspension wear items</td></tr>
+<tr><td>7–9 years</td><td>1.8× – 3.1×</td><td>Timing components, clutch, A/C, wheel bearings</td></tr>
+<tr><td>10–12 years</td><td>3.1× – 5.4×</td><td>Transmission work, major electronics, rust repair</td></tr>
+<tr><td>13+ years</td><td>5.4× and up</td><td>Everything is a wear item now; budget for surprises</td></tr>
+</table>
+<p>These are averages, and individual cars vary enormously — a well-maintained Japanese sedan at year ten can be cheaper to run than a neglected European car at year six. Set the "base maintenance" input to reflect your car's reality: lower it for a car with a fresh service history, raise it if the dashboard already looks like a Christmas tree. The curve's job is to make the <em>direction</em> honest — costs rise with age, accelerating — so the keep scenario never gets an unfair free pass in the later years.</p>
+
+<h2>A worked example: one driver, three timelines</h2>
+<p>Take a driver doing 12,000 miles a year at $3.40 a gallon, comparing over five years. <strong>Buy new:</strong> a $38,000 car, 10% down, 6.5% APR over six years, $1,800 insurance, 30 MPG. Depreciation alone is roughly $18,100; interest adds about $7,000; insurance $9,000; fuel $6,800; maintenance (a young car, much of it under warranty) around $3,100. True five-year cost: roughly $43,000–$45,000, or about 73 cents a mile.</p>
+<p><strong>Buy used:</strong> a four-year-old car for $22,000, 10% down, 8.5% APR over five years, $1,300 insurance, 28 MPG. Depreciation roughly $9,000; interest about $4,600; insurance $6,500; fuel $7,300; maintenance (ages 4–8, climbing the curve) around $9,500. True five-year cost: roughly $36,000–$38,000, or about 61 cents a mile.</p>
+<p><strong>Keep current:</strong> an eight-year-old car worth $9,500 with $4,200 left on the loan, $1,100 insurance, 26 MPG. Depreciation under $3,900; remaining loan interest just $237; insurance $5,500; fuel $7,800; maintenance (ages 8–12, the steep part of the curve) around $19,000. True five-year cost: roughly $35,000–$37,000, or about 61 cents a mile.</p>
+<p>Notice what decided it. The new car lost on depreciation before the comparison even started. The used car and the old car finished nearly neck-and-neck — the old car won by only a few hundred dollars, <em>despite</em> carrying the highest maintenance bill of the three, because depreciation and interest, the two heavyweights, were nearly zero for it. That is the insight most people miss: maintenance feels expensive because you see the bills, while depreciation is invisible. The calculator makes the invisible visible — and shows you exactly how close the race is, so a single big repair bill either way can flip the winner.</p>
+
+<h2>Five mistakes people make with ownership calculators</h2>
+<ol>
+<li><strong>Comparing monthly payments instead of total cost.</strong> A 7-year loan has a lower payment than a 5-year loan on the same car and costs thousands more. Always compare the horizon total.</li>
+<li><strong>Using flat maintenance for every scenario.</strong> An eight-year-old car does not cost the same to maintain as a new one. Any calculator without an age-based curve flatters the keep scenario in early years and punishes it unfairly — or vice versa.</li>
+<li><strong>Forgetting the opportunity cost of the down payment.</strong> Strictly speaking, cash tied up in a car could have earned interest elsewhere. For most buyers this is a second-order effect, but on large down payments it is worth remembering.</li>
+<li><strong>Ignoring insurance differences.</strong> Get real quotes for each scenario before deciding; the gap between insuring new versus old is often bigger than the fuel-economy gap people obsess over.</li>
+<li><strong>Treating the result as a verdict instead of a starting point.</strong> The calculator gives you the financial answer. Reliability risk, safety tech, warranty peace of mind and simply wanting a nicer car are real factors — price them consciously rather than pretending they do not exist.</li>
+</ol>
+
+<h2>How to lower your true cost starting today</h2>
+<ul>
+<li><strong>Keep a reliable car longer.</strong> Years 5–9 are the golden zone: depreciation has flattened, the car is still reliable, and maintenance has not yet hit the steep part of the curve.</li>
+<li><strong>Buy at the depreciation sweet spot.</strong> Two- to four-year-old cars have shed the first-year cliff but retain modern safety tech and plenty of life.</li>
+<li><strong>Shorten the loan, enlarge the down payment.</strong> Every year shaved off the term and every extra percent down is interest you never pay.</li>
+<li><strong>Shop insurance annually.</strong> Loyalty is rarely rewarded in car insurance; a yearly comparison takes twenty minutes.</li>
+<li><strong>Maintain preventively.</strong> The maintenance curve assumes average care. Fresh fluids, timely belts and fixed-small-problems-early keep you on the low edge of the curve instead of the high edge.</li>
+<li><strong>Drive the efficient car you already own efficiently.</strong> Smooth driving and proper tyre pressure can cut fuel use 10–15% for free.</li>
+</ul>
+
+<h2>The bottom line</h2>
+<p>The cheapest car is rarely the one with the lowest price tag — it is the one with the lowest total cost per mile over the years you will actually own it. For most drivers, that means keeping a sound car longer than feels exciting, buying used when you must replace, and buying new only when you have priced the depreciation cliff with open eyes. Run your own numbers above: change the miles, nudge the maintenance base to match your car's reality, stretch the horizon to seven or ten years, and watch the timelines move. The answer that survives all of that is the answer you can trust.</p>
+
+</article>
+
+<!-- ============ FAQs ============ -->
+<div class="max-w-4xl mx-auto mt-10">
+<h2 class="text-2xl font-bold text-white mb-5">Frequently asked questions</h2>
+<div class="space-y-3">
+
+<details class="faq">
+<summary>How does the true cost of car ownership calculator work?</summary>
+<p>Enter your driving profile (annual miles, fuel price, comparison horizon) and the details of each scenario — price, loan terms, insurance, fuel economy and base maintenance. The calculator adds up five cost categories for every year of the horizon: depreciation (from new- or used-car depreciation curves), loan interest (from a real amortization schedule), insurance, fuel and age-based maintenance. It then shows each scenario's total horizon cost and true per-mile cost, ranks the scenarios cheapest-first, and plots cumulative spend on a year-by-year timeline so you can see exactly where each option pulls ahead or falls behind.</p>
+</details>
+
+<details class="faq">
+<summary>Is it cheaper to keep my current car or buy a new one?</summary>
+<p>In most cases, keeping a reliable current car is cheaper — often by $8,000–$15,000 over five years. The reason is that depreciation and loan interest, the two biggest costs of a new car, are close to zero on a car you already own. The keep scenario only loses when maintenance climbs past the steep part of the age curve (usually after year 10–12), when the car becomes unreliable, or when a single repair exceeds about half the car's value. Enter your car's real age and maintenance history above and the calculator will show you exactly where your break-even point sits.</p>
+</details>
+
+<details class="faq">
+<summary>How fast do new cars depreciate in the first five years?</summary>
+<p>A typical new car loses about 20% of its value in the first year, then roughly 10% per year after that — so after five years it is worth a little under half of what you paid. On a $38,000 car that is more than $19,000 of depreciation, making it the single largest cost of new-car ownership. Used cars depreciate more gently (around 10% a year from a lower base) because the first owner already absorbed the steepest drop. The depreciation curve visualizer on this page plots both curves so you can compare them directly.</p>
+</details>
+
+<details class="faq">
+<summary>What is a good per-mile cost for a car?</summary>
+<p>For a typical new car, 60–80 cents per mile all-in (depreciation, interest, insurance, fuel, maintenance) is normal; many drivers are surprised because they only count fuel, which is usually just 12–18 cents of that. A lightly used car often lands around 55–65 cents, and keeping a well-maintained older car can dip under 55 cents a mile. Anything under 45 cents a mile over a five-year horizon is excellent. Use the per-mile bars above as your personal benchmark — and compare any lease quote against them before signing.</p>
+</details>
+
+<details class="faq">
+<summary>Should I lease instead of buying or keeping my car?</summary>
+<p>Leasing usually costs more over five years than buying used or keeping your car, because lease payments cover the steepest part of the depreciation curve while building zero equity. Leasing can make sense if you drive predictable low miles, need a new car every few years, or can deduct payments as a business expense — but compare the lease's effective per-mile cost against the per-mile figures this calculator produces for the buy and keep scenarios. If the lease cannot beat your keep scenario's per-mile cost, it is a lifestyle choice, not a financial one.</p>
+</details>
+
+<details class="faq">
+<summary>How accurate is the age-based maintenance curve?</summary>
+<p>The curve models maintenance as a rising multiple of a baseline annual cost: under 1× for a new car in warranty, crossing 1× around year four, and climbing on an accelerating curve to 5× or more past year twelve. That shape matches real-world repair data — costs accelerate with age rather than rising in a straight line. Individual cars vary widely with brand, mileage and service history, so treat the curve as an honest average: set the "base maintenance" input higher for a car with a patchy history or lower for a meticulously serviced one, and the curve will scale accordingly.</p>
+</details>
+
+</div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-slate-800/80 mt-4">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 text-center">
+    <div class="text-lg font-extrabold text-white mb-1">Car<span style="color:#F97316">True</span></div>
+    <p class="text-xs text-slate-500">Free forever. No signup, no paywall, no watermark. All calculations run in your browser.</p>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the true cost of car ownership calculator work?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Enter your annual miles, fuel price and comparison horizon plus each scenario's price, loan terms, insurance, fuel economy and base maintenance. The calculator totals depreciation (from new/used depreciation curves), loan interest (amortization schedule), insurance, fuel and age-based maintenance for every year, then shows each scenario's total horizon cost and true per-mile cost, ranked cheapest-first with a year-by-year timeline." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it cheaper to keep my current car or buy a new one?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Keeping a reliable current car is usually cheaper by $8,000-$15,000 over five years, because depreciation and loan interest are near zero on a car you own. The keep scenario loses when maintenance climbs past the steep part of the age curve (after year 10-12), reliability drops, or one repair exceeds about half the car's value." }
+    },
+    {
+      "@type": "Question",
+      "name": "How fast do new cars depreciate in the first five years?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A typical new car loses about 20% in year one and roughly 10% per year after, ending five years at under half its purchase price. Used cars depreciate more gently at around 10% a year from a lower base because the first owner absorbed the steepest drop." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good per-mile cost for a car?",
+      "acceptedAnswer": { "@type": "Answer", "text": "60-80 cents per mile all-in is normal for a new car, 55-65 cents for lightly used, and under 55 cents for a well-maintained older car. Under 45 cents per mile over five years is excellent." }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I lease instead of buying or keeping my car?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Leasing usually costs more over five years than buying used or keeping your car, since payments cover the steepest depreciation while building no equity. Compare the lease's effective per-mile cost against the buy and keep per-mile figures before deciding." }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is the age-based maintenance curve?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The curve models maintenance as a rising multiple of a baseline: under 1x under warranty, 1x around year four, accelerating to 5x or more past year twelve, matching real-world repair data. Adjust the base maintenance input to your car's service history for a personalized result." }
+    }
+  ]
+}
+</script>
+
+<script id="v3-cartrue-ownership-cost-lib">
+'use strict';
+/* CarTrue true-cost-of-ownership engine — pure functions only.
+   No DOM, no window, no document. Safe to eval in Node or inline in a page. */
+
+function parseNum(v, fallback) {
+  if (typeof v === 'number' && isFinite(v)) return v;
+  if (typeof v === 'string') {
+    var n = parseFloat(v.replace(/[$,%\s,]/g, ''));
+    return isFinite(n) ? n : fallback;
+  }
+  return fallback;
+}
+
+function clampNum(n, lo, hi) {
+  if (!isFinite(n)) n = lo;
+  return Math.min(hi, Math.max(lo, n));
+}
+
+function formatMoney(n) {
+  if (n === null || n === undefined || !isFinite(n)) return '—';
+  var sign = n < 0 ? '-' : '';
+  var a = Math.abs(n);
+  if (a >= 1e6) return sign + '$' + (a / 1e6).toFixed(2) + 'M';
+  if (a >= 1e3) return sign + '$' + (a / 1e3).toFixed(2) + 'K';
+  return sign + '$' + Math.round(a).toString();
+}
+
+/* ---------- loan math ---------- */
+function loanPayment(principal, aprPct, termMonths) {
+  principal = Math.max(0, parseNum(principal, 0));
+  termMonths = Math.max(1, Math.round(parseNum(termMonths, 60)));
+  var r = Math.max(0, parseNum(aprPct, 0)) / 100 / 12;
+  if (r === 0) return principal / termMonths;
+  var k = Math.pow(1 + r, termMonths);
+  return principal * r * k / (k - 1);
+}
+
+// Amortize `principal` over `termMonths` at `aprPct`, but only count the
+// portion of the loan that falls inside `horizonMonths`. Returns per-year interest.
+function loanCost(principal, aprPct, termMonths, horizonMonths) {
+  principal = Math.max(0, parseNum(principal, 0));
+  termMonths = Math.max(1, Math.round(parseNum(termMonths, 60)));
+  horizonMonths = Math.max(1, Math.round(parseNum(horizonMonths, 60)));
+  var months = Math.min(termMonths, horizonMonths);
+  var r = Math.max(0, parseNum(aprPct, 0)) / 100 / 12;
+  var pay = loanPayment(principal, aprPct, termMonths);
+  var bal = principal, interest = 0, byYear = [];
+  for (var i = 0; i < months; i++) {
+    var ip = bal * r;
+    var pp = Math.min(pay - ip, bal);
+    if (pp < 0) pp = 0;
+    bal -= pp;
+    interest += ip;
+    var yi = Math.floor(i / 12);
+    byYear[yi] = (byYear[yi] || 0) + ip;
+  }
+  return { months: months, payment: pay, totalPaid: pay * months, interestPaid: interest, interestByYear: byYear };
+}
+
+/* ---------- depreciation ---------- */
+// New car: steep first-year hit (~20%), then ~10%/yr.
+function residualFactorNew(year) {
+  year = Math.max(0, parseNum(year, 0));
+  if (year <= 0) return 1;
+  return 0.80 * Math.pow(0.90, year - 1);
+}
+// Used / current car: gentler steady ~10%/yr decline.
+function residualFactorUsed(year) {
+  year = Math.max(0, parseNum(year, 0));
+  if (year <= 0) return 1;
+  return Math.pow(0.90, year);
+}
+// Value series year 0..years for a vehicle starting at `price`.
+function depreciationSeries(price, years, isNew) {
+  price = Math.max(0, parseNum(price, 0));
+  years = Math.max(0, Math.round(parseNum(years, 5)));
+  var out = [];
+  for (var y = 0; y <= years; y++) {
+    var f = isNew ? residualFactorNew(y) : residualFactorUsed(y);
+    out.push({ year: y, residual: price * f, lost: price - price * f });
+  }
+  return out;
+}
+
+/* ---------- age-based maintenance curve ---------- */
+// Maintenance cost rises non-linearly as a car ages. Multiplier of the
+// user's base (average healthy-car) annual maintenance at a given age.
+function maintMultiplier(ageYears) {
+  var a = Math.max(0, parseNum(ageYears, 0));
+  return 0.6 + 0.09 * Math.pow(a, 1.6);
+}
+function maintForYear(base, age) {
+  return Math.max(0, parseNum(base, 0)) * maintMultiplier(age);
+}
+function maintenanceSeries(startAge, base, years) {
+  startAge = Math.max(0, parseNum(startAge, 0));
+  base = Math.max(0, parseNum(base, 0));
+  years = Math.max(0, Math.round(parseNum(years, 5)));
+  var out = [];
+  for (var y = 0; y < years; y++) {
+    var age = startAge + y;
+    out.push({ age: age, cost: base * maintMultiplier(age) });
+  }
+  return out;
+}
+
+/* ---------- scenario engine ---------- */
+// common: {annualMiles, fuelPrice, fuelPricePerUnit, horizonYears}
+// cfg (buy new / buy used):
+//   {id, label, isNew, price, downPct, aprPct, termYears,
+//    insuranceAnnual, mpg, maintBase, startAge}
+// cfg (keep current):
+//   {id, label, isKeep:true, valueNow, loanBalance, loanAprPct, loanMonthsLeft,
+//    insuranceAnnual, mpg, maintBase, startAge}
+function buildScenario(common, cfg) {
+  cfg = cfg || {};
+  common = common || {};
+  var miles = Math.max(0, parseNum(common.annualMiles, 12000));
+  var fuel = Math.max(0, parseNum(common.fuelPrice, 3.4));
+  var horizon = clampNum(Math.round(parseNum(common.horizonYears, 5)), 1, 15);
+  var price = Math.max(0, parseNum(cfg.price, 0));
+  var mpg = Math.max(0.1, parseNum(cfg.mpg, 30));
+  var insurance = Math.max(0, parseNum(cfg.insuranceAnnual, 0));
+  var maintBase = Math.max(0, parseNum(cfg.maintBase, 0));
+  var startAge = Math.max(0, parseNum(cfg.startAge, 0));
+
+  var principal, aprPct, termMonths;
+  if (cfg.isKeep) {
+    principal = Math.max(0, parseNum(cfg.loanBalance, 0));
+    aprPct = Math.max(0, parseNum(cfg.loanAprPct, 0));
+    termMonths = Math.max(1, Math.round(parseNum(cfg.loanMonthsLeft, 0)));
+  } else {
+    var downPct = clampNum(parseNum(cfg.downPct, 0), 0, 100);
+    principal = Math.max(0, price * (1 - downPct / 100));
+    aprPct = Math.max(0, parseNum(cfg.aprPct, 0));
+    termMonths = Math.max(1, Math.round(parseNum(cfg.termYears, 5))) * 12;
+  }
+  var loan = loanCost(principal, aprPct, termMonths, horizon * 12);
+
+  var depBase, factor;
+  if (cfg.isKeep) {
+    depBase = Math.max(0, parseNum(cfg.valueNow, 0));
+    factor = residualFactorUsed;
+  } else {
+    depBase = price;
+    factor = cfg.isNew ? residualFactorNew : residualFactorUsed;
+  }
+
+  var fuelYear = (miles / mpg) * fuel;
+  var yearly = [];
+  var depT = 0, intT = 0, insT = 0, fuelT = 0, maintT = 0, cum = 0;
+  for (var y = 1; y <= horizon; y++) {
+    var depYear = depBase * (factor(y - 1) - factor(y));
+    var intYear = loan.interestByYear[y - 1] || 0;
+    var insYear = insurance;
+    var mYear = maintForYear(maintBase, startAge + y - 1);
+    var tot = depYear + intYear + insYear + fuelYear + mYear;
+    cum += tot;
+    depT += depYear; intT += intYear; insT += insYear; fuelT += fuelYear; maintT += mYear;
+    yearly.push({
+      year: y, age: startAge + y - 1,
+      depreciation: depYear, interest: intYear, insurance: insYear,
+      fuel: fuelYear, maintenance: mYear, total: tot, cumulative: cum
+    });
+  }
+  return {
+    id: cfg.id || 'scenario',
+    label: cfg.label || 'Scenario',
+    horizon: horizon,
+    annualMiles: miles,
+    depreciation: depT,
+    interest: intT,
+    insurance: insT,
+    fuel: fuelT,
+    maintenance: maintT,
+    total: cum,
+    endValue: depBase * factor(horizon),
+    perMile: miles > 0 ? cum / (miles * horizon) : null,
+    yearly: yearly,
+    loanPayment: loan.payment,
+    loanMonthsInHorizon: loan.months
+  };
+}
+
+// Rank scenarios cheapest-first. Returns [{id,label,total,perMile,rank,gapToWinner}]
+// plus winnerSavings = how much the winner saves vs the runner-up.
+function rankScenarios(results) {
+  var sorted = results.slice().sort(function (a, b) { return a.total - b.total; });
+  var ranked = sorted.map(function (r, i) {
+    return {
+      id: r.id, label: r.label, total: r.total, perMile: r.perMile,
+      rank: i + 1, gapToWinner: r.total - sorted[0].total
+    };
+  });
+  return {
+    ranked: ranked,
+    winner: ranked[0],
+    winnerSavings: sorted.length > 1 ? sorted[1].total - sorted[0].total : 0
+  };
+}
+
+/* ---------- depreciation curve visualizer (pure SVG string) ---------- */
+// curves: [{label, color, points: [[year, residual], ...]}]
+function depreciationSVG(curves, opts) {
+  opts = opts || {};
+  var W = 680, H = 300;
+  var padL = 66, padR = 18, padT = 20, padB = 44;
+  var years = 5, maxY = 1;
+  curves.forEach(function (c) {
+    c.points.forEach(function (p) {
+      if (p[0] > years) years = p[0];
+      if (p[1] > maxY) maxY = p[1];
+    });
+  });
+  maxY = Math.ceil(maxY / 10000) * 10000;
+  function X(y) { return padL + (W - padL - padR) * (y / years); }
+  function Y(v) { return H - padB - (H - padT - padB) * (v / maxY); }
+  function fmt(v) { return formatMoney(Math.round(v)); }
+
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="w-full h-auto" role="img" aria-label="Depreciation curve chart">';
+  // horizontal gridlines + y labels
+  for (var g = 0; g <= 4; g++) {
+    var gv = maxY * g / 4, gy = Y(gv);
+    s += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy +
+         '" stroke="rgba(148,163,184,.15)" stroke-width="1"/>';
+    s += '<text x="' + (padL - 8) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" fill="#94A3B8">' +
+         fmt(gv) + '</text>';
+  }
+  // x labels + year lines
+  for (var yr = 0; yr <= years; yr++) {
+    var xx = X(yr);
+    s += '<line x1="' + xx + '" y1="' + padT + '" x2="' + xx + '" y2="' + (H - padB) +
+         '" stroke="rgba(148,163,184,.08)" stroke-width="1"/>';
+    s += '<text x="' + xx + '" y="' + (H - padB + 20) + '" text-anchor="middle" font-size="11" fill="#94A3B8">' +
+         'Yr ' + yr + '</text>';
+  }
+  // curves
+  curves.forEach(function (c) {
+    var pts = c.points.map(function (p) { return X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); }).join(' ');
+    s += '<polyline points="' + pts + '" fill="none" stroke="' + c.color +
+         '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+    c.points.forEach(function (p) {
+      s += '<circle cx="' + X(p[0]).toFixed(1) + '" cy="' + Y(p[1]).toFixed(1) +
+           '" r="4" fill="' + c.color + '" stroke="#0D1117" stroke-width="2"/>';
+    });
+  });
+  // legend
+  var lx = padL + 8;
+  curves.forEach(function (c) {
+    s += '<rect x="' + lx + '" y="2" width="12" height="12" rx="3" fill="' + c.color + '"/>';
+    s += '<text x="' + (lx + 17) + '" y="12" font-size="12" fill="#CBD5E1">' + c.label + '</text>';
+    lx += 17 + c.label.length * 7.2 + 22;
+  });
+  s += '</svg>';
+  return s;
+}
+
+/* ---------- defaults (also used by the page's UI script) ---------- */
+function defaultInputs() {
+  return {
+    common: { annualMiles: 12000, fuelPrice: 3.40, horizonYears: 5 },
+    buyNew: {
+      id: 'new', label: 'Buy New', isNew: true,
+      price: 38000, downPct: 10, aprPct: 6.5, termYears: 6,
+      insuranceAnnual: 1800, mpg: 30, maintBase: 650, startAge: 0
+    },
+    buyUsed: {
+      id: 'used', label: 'Buy Used', isNew: false,
+      price: 22000, downPct: 10, aprPct: 8.5, termYears: 5,
+      insuranceAnnual: 1300, mpg: 28, maintBase: 850, startAge: 4
+    },
+    keep: {
+      id: 'keep', label: 'Keep Current', isKeep: true,
+      startAge: 8, valueNow: 9500,
+      loanBalance: 4200, loanAprPct: 7, loanMonthsLeft: 18,
+      insuranceAnnual: 1100, mpg: 26, maintBase: 900
+    }
+  };
+}
+
+</script>
+<script>
+/* CarTrue UI wiring — reads inputs, calls the pure lib, renders the dashboard. */
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function num(id, fb) { var el = $(id); return parseNum((el && el.value !== undefined ? el.value : ''), fb); }
+
+  var COLORS = { new: '#F97316', used: '#38BDF8', keep: '#34D399' };
+  var TL = { new: 'tl-new', used: 'tl-used', keep: 'tl-keep' };
+  var RC = { new: 'res-new', used: 'res-used', keep: 'res-keep' };
+  var LB = { new: 'Buy New', used: 'Buy Used', keep: 'Keep Current' };
+
+  function readCommon() {
+    var h = parseInt($('in-horizon').value, 10);
+    return {
+      annualMiles: Math.max(0, num('in-miles', 12000)),
+      fuelPrice: Math.max(0, num('in-fuel', 3.40)),
+      horizonYears: (h >= 1 && h <= 15) ? h : 5
+    };
+  }
+
+  function readScenarios(common) {
+    var n = buildScenario(common, {
+      id: 'new', label: LB.new, isNew: true,
+      price: num('in-new-price', 38000), downPct: num('in-new-down', 10),
+      aprPct: num('in-new-apr', 6.5), termYears: num('in-new-term', 6),
+      insuranceAnnual: num('in-new-ins', 1800), mpg: num('in-new-mpg', 30),
+      maintBase: num('in-new-maint', 650), startAge: 0
+    });
+    var u = buildScenario(common, {
+      id: 'used', label: LB.used, isNew: false,
+      price: num('in-used-price', 22000), downPct: num('in-used-down', 10),
+      aprPct: num('in-used-apr', 8.5), termYears: num('in-used-term', 5),
+      insuranceAnnual: num('in-used-ins', 1300), mpg: num('in-used-mpg', 28),
+      maintBase: num('in-used-maint', 850), startAge: num('in-used-age', 4)
+    });
+    var k = buildScenario(common, {
+      id: 'keep', label: LB.keep, isKeep: true,
+      startAge: num('in-keep-age', 8), valueNow: num('in-keep-value', 9500),
+      loanBalance: num('in-keep-bal', 4200), loanAprPct: num('in-keep-apr', 7),
+      loanMonthsLeft: Math.max(1, Math.round(num('in-keep-left', 18))),
+      insuranceAnnual: num('in-keep-ins', 1100), mpg: num('in-keep-mpg', 26),
+      maintBase: num('in-keep-maint', 900)
+    });
+    return [n, u, k];
+  }
+
+  function pmText(s) { return s.perMile === null ? '—' : '$' + s.perMile.toFixed(2) + '/mi'; }
+
+  function rowHTML(label, v) {
+    return '<div class="flex justify-between py-1.5 border-b border-slate-800/60 text-sm">' +
+      '<span class="text-slate-400">' + label + '</span>' +
+      '<span class="mono text-slate-200">' + v + '</span></div>';
+  }
+
+  function renderVerdict(rank, common) {
+    var w = rank.winner;
+    var runner = rank.ranked.length > 1 ? rank.ranked[1] : null;
+    var html = '<div class="flex flex-col sm:flex-row sm:items-center gap-3">' +
+      '<div class="text-3xl">🏆</div><div>' +
+      '<div class="text-lg font-bold text-white">' + w.label + ' wins — lowest true cost</div>' +
+      '<div class="text-slate-400 text-sm mt-1"><strong class="text-white">' + formatMoney(w.total) +
+      '</strong> total over ' + common.horizonYears + ' years (' + (w.perMile === null ? '—' : '$' + w.perMile.toFixed(2)) +
+      ' per mile)' + (runner ? ', saving <strong class="text-emerald-300">' + formatMoney(rank.winnerSavings) +
+      '</strong> vs ' + runner.label + '.' : '.') + '</div>' +
+      '</div></div>';
+    $('verdict').innerHTML = html;
+  }
+
+  function renderCard(s, info, id) {
+    var badge = info.rank === 1
+      ? '<span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:rgba(52,211,153,.15);color:#6EE7B7;border:1px solid rgba(52,211,153,.4)">CHEAPEST</span>'
+      : '<span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:rgba(148,163,184,.1);color:#94A3B8;border:1px solid rgba(148,163,184,.3)">+' + formatMoney(info.gapToWinner) + ' vs winner</span>';
+    var html = '<div class="flex items-start justify-between mb-3"><h3 class="font-bold text-white">' + s.label + '</h3>' + badge + '</div>' +
+      '<div class="text-3xl font-extrabold text-white mono">' + formatMoney(s.total) + '</div>' +
+      '<div class="text-sm text-slate-400 mb-3">' + s.horizon + '-year true cost · <strong class="text-sky-300">' + pmText(s) + '</strong> per mile</div>' +
+      rowHTML('Depreciation', formatMoney(s.depreciation)) +
+      rowHTML('Loan interest', formatMoney(s.interest)) +
+      rowHTML('Insurance', formatMoney(s.insurance)) +
+      rowHTML('Fuel', formatMoney(s.fuel)) +
+      rowHTML('Maintenance', formatMoney(s.maintenance)) +
+      rowHTML('Resale value at end', formatMoney(s.endValue)) +
+      rowHTML('Monthly loan payment', s.loanPayment > 0 ? '$' + s.loanPayment.toFixed(0) + '/mo' : 'none');
+    $(id).innerHTML = html;
+  }
+
+  function renderTimeline(s, elId) {
+    var html = '';
+    s.yearly.forEach(function (pt) {
+      html += '<div class="node"><div class="tick"></div>' +
+        '<div class="yr">Yr ' + pt.year + '</div>' +
+        '<div class="amt mono">' + formatMoney(pt.cumulative) + '</div></div>';
+    });
+    $(elId).innerHTML = html;
+  }
+
+  function renderDepChart(scenarios, common) {
+    var h = common.horizonYears;
+    var bases = {
+      new: num('in-new-price', 38000),
+      used: num('in-used-price', 22000),
+      keep: num('in-keep-value', 9500)
+    };
+    var curves = scenarios.map(function (s) {
+      var isNew = s.id === 'new';
+      var series = depreciationSeries(bases[s.id], h, isNew);
+      return {
+        label: s.label,
+        color: COLORS[s.id],
+        points: series.map(function (p) { return [p.year, p.residual]; })
+      };
+    });
+    $('dep-chart').innerHTML = depreciationSVG(curves);
+  }
+
+  function renderPerMile(scenarios) {
+    var vals = scenarios.map(function (s) { return s.perMile === null ? 0 : s.perMile; });
+    var max = Math.max.apply(null, vals.concat([0.01]));
+    var html = '';
+    scenarios.forEach(function (s, i) {
+      var pct = Math.max(2, (vals[i] / max) * 100);
+      html += '<div><div class="flex justify-between text-sm mb-1.5"><span class="font-semibold text-white">' +
+        s.label + '</span><span class="mono" style="color:' + COLORS[s.id] + '">' + pmText(s) + '</span></div>' +
+        '<div class="w-full rounded-full" style="background:rgba(148,163,184,.12)">' +
+        '<div class="pmbar" style="width:' + pct.toFixed(1) + '%;background:' + COLORS[s.id] + '"></div></div></div>';
+    });
+    $('pm-chart').innerHTML = html;
+  }
+
+  function renderBreakdown(scenarios) {
+    var n = scenarios[0], u = scenarios[1], k = scenarios[2];
+    var rows = [
+      ['Depreciation', n.depreciation, u.depreciation, k.depreciation],
+      ['Loan interest', n.interest, u.interest, k.interest],
+      ['Insurance', n.insurance, u.insurance, k.insurance],
+      ['Fuel', n.fuel, u.fuel, k.fuel],
+      ['Maintenance', n.maintenance, u.maintenance, k.maintenance]
+    ];
+    var html = '';
+    rows.forEach(function (r) {
+      html += '<tr class="border-b border-slate-800/60"><td class="py-2 pr-2 text-slate-400">' + r[0] + '</td>' +
+        '<td class="py-2 pr-2 text-right">' + formatMoney(r[1]) + '</td>' +
+        '<td class="py-2 pr-2 text-right">' + formatMoney(r[2]) + '</td>' +
+        '<td class="py-2 text-right">' + formatMoney(r[3]) + '</td></tr>';
+    });
+    html += '<tr><td class="py-2 pr-2 font-bold text-white">TOTAL</td>' +
+      '<td class="py-2 pr-2 text-right font-bold text-white">' + formatMoney(n.total) + '</td>' +
+      '<td class="py-2 pr-2 text-right font-bold text-white">' + formatMoney(u.total) + '</td>' +
+      '<td class="py-2 text-right font-bold text-white">' + formatMoney(k.total) + '</td></tr>';
+    $('breakdown').innerHTML = html;
+  }
+
+  function recalc() {
+    var common = readCommon();
+    var scenarios = readScenarios(common);
+    var rank = rankScenarios(scenarios);
+    renderVerdict(rank, common);
+    scenarios.forEach(function (s) {
+      var info = rank.ranked.filter(function (r) { return r.id === s.id; })[0];
+      renderCard(s, info, RC[s.id]);
+      renderTimeline(s, TL[s.id]);
+    });
+    renderDepChart(scenarios, common);
+    renderPerMile(scenarios);
+    renderBreakdown(scenarios);
+  }
+
+  document.querySelectorAll('input, select').forEach(function (el) {
+    el.addEventListener('input', recalc);
+    el.addEventListener('change', recalc);
+  });
+  $('calc-btn').addEventListener('click', recalc);
+  recalc();
+})();
+</script>
+</body>
+</html>
