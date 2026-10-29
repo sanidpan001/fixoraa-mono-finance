@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LoanOverpay — Loan Overpayment Savings Calculator: Interest Saved & Years Cut</title>
+<meta name="description" content="See how extra loan payments cut interest and shorten your loan with LoanOverpay, the loan overpayment savings calculator.">
+<link rel="canonical" href="https://finance.fixoraa.tech/loanoverpay/">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"LoanOverpay","applicationCategory":"Finance","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "Does an extra payment reduce my monthly EMI?", "acceptedAnswer": {"@type": "Answer", "text": "Usually no: most lenders keep the EMI the same and shorten the loan term, which is why this tool reports time saved."}},{"@type": "Question", "name": "Is it better to overpay or save?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on interest rates: overpaying a high-rate loan often beats low-rate savings, but keep an emergency fund first."}},{"@type": "Question", "name": "How much extra should I pay?", "acceptedAnswer": {"@type": "Answer", "text": "Even a small sustainable amount helps; this tool lets you test amounts to find one that balances saving with monthly comfort."}},{"@type": "Question", "name": "Are there charges for overpaying?", "acceptedAnswer": {"@type": "Answer", "text": "Some lenders cap free overpayments or charge early repayment fees, so check your loan terms before paying extra."}},{"@type": "Question", "name": "Does overpaying early save more?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, early extra payments remove interest from many future months, so they save more than the same amount paid late."}},{"@type": "Question", "name": "What if my rate changes?", "acceptedAnswer": {"@type": "Answer", "text": "Re-run the calculation at the new rate, because higher rates increase both the cost of the loan and the value of overpaying."}}]}</script>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:'IBM Plex Mono',monospace;background:#FFFBEB;color:#451A03;line-height:1.6}
+a{color:#B45309} header{background:#78350F;color:#FFFFFF;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:#FFFFFF;text-decoration:none}
+.mark{width:44px;height:44px;border-radius:4px;background:#B45309;color:#fff;display:grid;place-items:center;font-size:24px}
+.btn{display:inline-block;padding:10px 16px;border-radius:999px;background:#B45309;color:#fff;text-decoration:none;font-weight:700;border:0;cursor:pointer}
+.btn2{background:transparent;color:#FFFFFF;border:2px solid #FFFFFF}
+.wrap{max-width:960px;margin:0 auto;padding:16px} .badge{display:inline-block;background:#FDE68A;color:#451A03;border:1px solid #B45309;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.card{background:#fff;border:1px solid #FDE68A;border-radius:4px;padding:20px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.card{border:1px dashed #B45309}
+label{display:block;font-weight:700;margin:12px 0 4px} input,select,textarea{width:100%;padding:12px;border:1.5px solid #FDE68A;border-radius:10px;font-size:16px;font-family:inherit}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px} @media(max-width:600px){.grid{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start}}
+.res{margin-top:16px;padding:16px;background:#FDE68A;border-radius:4px;font-size:18px} .res b{font-size:26px}
+.err{color:#b91c1c;font-weight:700} article{background:#fff;border-radius:4px;padding:24px;margin-top:20px} article h2{margin-top:28px}
+.faq details{background:#fff;border:1px solid #FDE68A;border-radius:12px;padding:14px;margin:10px 0} .faq summary{font-weight:700;cursor:pointer}
+footer{background:#78350F;color:#FFFFFF;padding:28px 16px;margin-top:24px} footer a{color:#FFFFFF;font-weight:700}
+.hist{font-size:14px;background:#fff;border:1px dashed #B45309;padding:10px;border-radius:10px;margin-top:12px;white-space:pre-wrap}
+</style></head>
+<body>
+<header><a class="logo" href="https://fixoraa.tech"><span class="mark">🧾</span>LoanOverpay</a>
+<nav><a class="btn btn2" href="https://fixoraa.tech">Home</a> <a class="btn btn2" href="https://fixoraa.tech">More Tools</a></nav></header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="wrap">
+<p><span class='badge'>🧾 Unlimited Free Usage</span></p><h1>Loan Overpayment Savings</h1><p style='font-family:monospace'>RECEIPT — LOAN ANALYSIS<br>Extra payment → interest saved + tenure cut. Not a plain EMI calculator.</p>
+<section class="card" aria-label="Tool">
+<div class="grid"><div><label for="P">Loan amount ($)</label><input id="P" type="number" step="any" value="100000" placeholder="Loan amount ($)"></div><div><label for="ra">Annual rate (%)</label><input id="ra" type="number" step="any" value="6" placeholder="Annual rate (%)"></div><div><label for="yrs">Term (years)</label><input id="yrs" type="number" step="any" value="20" placeholder="Term (years)"></div><div><label for="ex">Extra payment per month ($)</label><input id="ex" type="number" step="any" value="200" placeholder="Extra payment per month ($)"></div></div><div style="margin-top:14px"><button class="btn" onclick="calc()">Calculate</button> <button class="btn" onclick="resetF()">Reset</button></div><div style="margin-top:10px">Presets: <button class="btn" type="button" onclick="applyPreset({"P": 100000, "ra": 6, "yrs": 20, "ex": 200})">100k · 6% · 20y + $200</button> <button class="btn" type="button" onclick="applyPreset({"P": 200000, "ra": 5, "yrs": 30, "ex": 300})">200k · 5% · 30y + $300</button> <button class="btn" type="button" onclick="applyPreset({"P": 100000, "ra": 6, "yrs": 20, "ex": 0})">No extra</button> </div>
+<div id="err" class="err" role="alert"></div>
+<div id="res" class="res" style="display:none"></div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+<button class="btn" onclick="saveHist()">Save to history</button>
+<button class="btn" onclick="copyRes()">Copy result</button>
+<button class="btn" onclick="dlCSV()">Export CSV</button></div>
+<div id="hist" class="hist" style="display:none"></div>
+
+</section>
+<div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article><p>An extra payment does two jobs at once: it reduces the balance that future interest is charged on, and it brings the final payment forward, so the saving compounds over the remaining life of the loan. Many borrowers focus only on the monthly payment, yet a modest extra amount paid consistently can save tens of thousands in interest and cut years from a mortgage or personal loan. This loan overpayment savings calculator is deliberately not a plain EMI calculator: it compares the normal schedule with the accelerated schedule and reports the interest saved and the tenure cut, which are the two figures that decide whether overpaying is worthwhile.</p>
+<h2>How to use this calculator</h2>
+<p>Enter the loan amount, annual interest rate and original term, then the extra amount you could pay every month on top of the normal payment. The tool simulates month-by-month amortisation for both schedules, charging interest on the remaining balance each month and applying the extra payment directly to principal. It reports the normal EMI for reference, then the interest and duration with and without the extra payment, so the benefit is unmistakable.</p>
+<ol><li>Enter the original loan amount and annual interest rate exactly as shown on your loan statement.</li><li>Enter the original term in years, not the remaining term, unless you adjust the balance to the current balance.</li><li>Enter the extra monthly amount you can sustain, starting small if necessary.</li><li>Press Calculate and read interest saved and months saved first.</li><li>Try a larger extra amount to see whether the additional saving justifies the tighter monthly budget.</li><li>Check your lender for overpayment limits or early repayment charges before committing.</li></ol>
+<h2>Understanding your results</h2>
+<p><strong>Interest saved.</strong> Normal total interest minus total interest with extra payments. This is the headline benefit and it usually grows disproportionately, because early extra payments remove interest from many future months.</p>
+<p><strong>Time saved.</strong> Normal months minus accelerated months, shown in months and years. Even a small extra payment can cut years from a long mortgage because the final years are mostly principal.</p>
+<p><strong>Normal EMI and interest.</strong> The baseline schedule without extra payments, included so the comparison is transparent and the saving can be verified.</p>
+<p><strong>Accelerated schedule.</strong> The duration and total interest when the extra payment is applied every month until the loan clears, assuming the rate stays constant.</p>
+<h2>Practical tips</h2><ul><li>Pay extra early in the loan life, when interest makes up the largest share of each payment, for the biggest saving.</li><li>Make extra payments regular rather than occasional, because consistency compounds month after month.</li><li>Use windfalls such as bonuses or tax refunds as lump-sum overpayments in addition to a monthly extra amount.</li><li>Keep an emergency fund intact, since money overpaid is often hard to withdraw quickly.</li><li>Check whether your lender applies extra payments to principal immediately or holds them, because the timing affects the saving.</li><li>Re-run the calculation after a rate change, since higher rates make overpayment more valuable.</li></ul>
+<h2>Common mistakes to avoid</h2><ul><li>Treating the EMI calculator result as the overpayment result, which hides the saving entirely.</li><li>Assuming an extra payment reduces the monthly EMI, when most lenders keep the EMI and shorten the term instead.</li><li>Overpaying while carrying expensive credit-card debt, which should usually be cleared first.</li><li>Ignoring early repayment charges or annual overpayment caps that limit the benefit.</li><li>Committing to an unsustainable extra amount and then stopping, instead of choosing a smaller amount that lasts.</li></ul>
+<h2>Who benefits most</h2>
+<p>Mortgage holders, personal-loan borrowers, and anyone deciding between overpaying and saving or investing will find this comparison decisive. It is especially useful for borrowers in the early years of a long loan, where the interest saving is largest, and for people receiving a pay rise who want to direct part of it toward debt freedom. Financial educators also use it to demonstrate compounding in reverse.</p>
+<h2>Worked example</h2>
+<p>A loan of 100,000 at six percent over twenty years has a normal monthly payment of about 716.43 and total interest of about 71,943. Adding 200 per month clears the loan in about 159 months instead of 240, with total interest of about 44,931, saving about 27,012 in interest and 81 months, or 6.8 years. That saving comes from a total extra contribution of about 31,800, so the return on the extra payments is substantial, though it should still be compared with other uses of the money.</p>
+<h2>Checking and re-running your result</h2>
+<p>Re-run the calculator with your current balance and remaining term rather than the original figures once you have been paying for a while, and confirm with your lender how extra payments are applied. If the lender charges for overpayment above a cap, test an amount just below the cap. Keep a record of the saving so the motivation to continue stays visible during years when progress feels slow.</p><h2>Three real scenarios</h2>
+<p>A young couple with a 200,000 mortgage at five percent over thirty years pays about 1,073.64 per month, and adding 300 per month saves roughly 78,258 in interest while cutting 135 months, about 11.3 years, a result that often surprises people who expect a small extra payment to make only a small difference. A car-loan borrower with 20,000 at eight percent over five years who adds 100 per month clears the loan about thirteen months early and saves roughly 1,036 in interest, a smaller absolute saving but a meaningful one relative to the loan size. A borrower near the end of a loan, with only three years remaining, gains far less from the same extra payment, because most interest has already been paid and the remaining interest pool is small. Timing therefore matters as much as amount: extra payments are most powerful early, when the balance is large and many interest-bearing months lie ahead, and least powerful when the finish line is already close.</p>
+<h2>Edge cases and limits</h2>
+<p>Several complications can reduce the benefit. Some lenders charge early repayment fees or cap penalty-free overpayments at ten percent of the balance per year, so a large extra payment may trigger a charge that offsets part of the saving. Others hold extra payments in a suspense account until a threshold is reached, delaying the interest benefit. Variable-rate loans change the arithmetic whenever the rate moves, and a borrower who overpays instead of building an emergency fund may face high-cost borrowing later if income stops. Tax matters too: in some systems mortgage interest is deductible, which lowers the effective rate and therefore the value of overpaying, while in others it is not. Finally, money overpaid is usually illiquid, unlike savings, so the decision should balance guaranteed interest saved against flexibility lost, rather than treating the saving as free money.</p>
+<h2>Making overpayment a habit</h2>
+<p>Start with an amount that survives a bad month, such as the cost of a weekly takeaway, and automate it as a standing order on payday so willpower is not required each month. Increase the amount whenever income rises, directing half of any pay rise to overpayment and half to lifestyle, which keeps progress painless. Review the loan annually: check the remaining balance, the current rate and any cap on free overpayments, and re-run this calculator with updated figures to see the remaining saving. Celebrate milestones, such as each year cut from the term, because debt freedom is a long project and visible milestones sustain motivation. If circumstances tighten, reduce the extra payment rather than stopping entirely, since even a small regular amount keeps the compounding benefit alive.</p>
+</article>
+<section class="faq"><h2>Frequently asked questions</h2><details><summary>Does an extra payment reduce my monthly EMI?</summary><p>Usually no: most lenders keep the EMI the same and shorten the loan term, which is why this tool reports time saved.</p></details><details><summary>Is it better to overpay or save?</summary><p>It depends on interest rates: overpaying a high-rate loan often beats low-rate savings, but keep an emergency fund first.</p></details><details><summary>How much extra should I pay?</summary><p>Even a small sustainable amount helps; this tool lets you test amounts to find one that balances saving with monthly comfort.</p></details><details><summary>Are there charges for overpaying?</summary><p>Some lenders cap free overpayments or charge early repayment fees, so check your loan terms before paying extra.</p></details><details><summary>Does overpaying early save more?</summary><p>Yes, early extra payments remove interest from many future months, so they save more than the same amount paid late.</p></details><details><summary>What if my rate changes?</summary><p>Re-run the calculation at the new rate, because higher rates increase both the cost of the loan and the value of overpaying.</p></details></section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer><p><strong>LoanOverpay</strong> — Extra payments, measured in years and money saved.</p>
+<p>LoanOverpay shows exactly how much interest extra payments save and how many years they cut from a loan.</p>
+<p><a href="https://fixoraa.tech">Home</a> &nbsp;|&nbsp; <a href="https://fixoraa.tech">More Tools</a></p>
+<p>Made by <a href="https://fixoraa.tech">Fixoraa</a></p></footer>
+<script id="pure">function loanSim(P,annPct,years,extra){var r=annPct/100/12,n=years*12;var emi=r===0?P/n:P*r/(1-Math.pow(1+r,-n));
+function run(ex){var bal=P,tot=0,m=0;while(bal>0.005&&m<10000){var intr=bal*r;var pay=Math.min(emi+ex,bal+intr);tot+=intr;bal=bal+intr-pay;m++;}
+return{months:m,interest:tot};}
+var base=run(0),withEx=run(extra);
+return{emi:emi,baseMonths:base.months,baseInterest:base.interest,months:withEx.months,interest:withEx.interest,saved:base.interest-withEx.interest,monthsSaved:base.months-withEx.months};}</script>
+<script>function calc(){showErr('');var P=num('P'),r=num('ra'),y=num('yrs'),ex=num('ex');
+ if(P<=0||y<=0||r<0||ex<0){showErr('Enter positive loan and term, and non-negative rate and extra payment.');return;}
+ var s=loanSim(P,r,y,ex);
+ showRes('<b>Interest saved: $'+s.saved.toFixed(2)+'</b> &nbsp;|&nbsp; Time saved: '+s.monthsSaved+' months ('+(s.monthsSaved/12).toFixed(1)+' years)<br>Normal EMI: $'+s.emi.toFixed(2)+' · Normal interest: $'+s.baseInterest.toFixed(2)+' ('+s.baseMonths+' months) · With extra: $'+s.interest.toFixed(2)+' ('+s.months+' months)');}
+function applyPreset(o){for(var k in o){var e=document.getElementById(k);if(e)e.value=o[k];}calc();}
+function resetF(){var els=document.querySelectorAll('input,select');els.forEach(function(e){if(e.type!=='button')e.value='';});document.getElementById('res').style.display='none';document.getElementById('err').textContent='';}
+function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+
+function showRes(html){var r=document.getElementById('res');r.style.display='block';r.innerHTML=html;window._last=html.replace(/<[^>]+>/g,' ');}
+function showErr(m){document.getElementById('err').textContent=m;}
+function saveHist(){if(!window._last)return;var k='hist_loanoverpay';var a=JSON.parse(localStorage.getItem(k)||'[]');a.unshift(new Date().toLocaleString()+': '+window._last);localStorage.setItem(k,JSON.stringify(a.slice(0,10)));var d=document.getElementById('hist');d.style.display='block';d.textContent=a.join('\n');}
+function copyRes(){if(window._last&&navigator.clipboard)navigator.clipboard.writeText(window._last);}
+function dlCSV(){if(!window._last)return;var b=new Blob([window._last],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='loanoverpay-result.csv';a.click();}
+</script>
+</body></html>
