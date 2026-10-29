@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile Phone Plan Comparison — Find the Cheapest Plan for Your Usage</title>
+<meta name="description" content="Compare mobile phone plans by true monthly cost: enter your data usage and see which plan is cheapest, including overage charges.">
+<link rel="canonical" href="https://finance.fixoraa.tech/phoneplan/">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Mobile Phone Plan Comparison — Find the Cheapest Plan for Your Usage">
+<meta property="og:description" content="Compare mobile phone plans by true monthly cost: enter your data usage and see which plan is cheapest, including overage charges.">
+<meta property="og:url" content="https://finance.fixoraa.tech/phoneplan/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "PhonePlan",
+      "url": "https://finance.fixoraa.tech/phoneplan/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Compare mobile phone plans by true monthly cost: enter your data usage and see which plan is cheapest, including overage charges.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is an unlimited plan always cheapest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. For light users a capped plan is cheaper. Unlimited wins only when your usage is high enough that overage charges exceed the price difference."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much data do I use per month?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check your phone's data usage screen or your carrier's app for the last three months, and use your highest recent month for a cautious comparison."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a data overage charge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The price per extra gigabyte once you exceed your included allowance. High overage rates can make a cheap plan expensive."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does throttling cost extra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Throttled plans slow your speed instead of charging more, but the slower speed can make video and work frustrating."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I compare plans at average or peak usage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Compare both. Choose the plan that is cheapest at your average and still reasonable at your peak month."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do family plans save money?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Often yes. Compare the total family cost against the sum of individual plans for the same total usage."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#f0fdfa; --surface:#ffffff; --accent:#115e59; --accent-ink:#ffffff;
+  --ink:#042f2e; --muted:#155e5b; --line:#99f6e4;
+  --display:'Manrope',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.pp-sub{color:var(--muted);margin:.4rem 0 1.2rem}.pp-use{display:block;font-weight:600;margin-bottom:1rem}.pp-use input{padding:.6rem;border:1px solid var(--line);border-radius:10px;margin-left:.5rem;width:120px}.pp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem}.pp-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.1rem}.pp-card h2{font-size:1.15rem;margin-bottom:.6rem}.pp-card label{display:block;font-weight:600;margin-bottom:.6rem}.pp-card input{width:100%;padding:.55rem;border:1px solid var(--line);border-radius:10px;margin-top:.25rem}#pp-copy{margin-top:1rem;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:.6rem 1.1rem;font-weight:700;cursor:pointer}@media(max-width:640px){.pp-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="PhonePlan home">
+      <span class="fx-logo-tile" aria-hidden="true">📱</span>
+      <span class="fx-brand">PhonePlan</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-plan-compare" aria-label="PhonePlan tool">
+<h1>Mobile Phone Plan Comparison</h1><p class="pp-sub">Enter your data usage and up to three plans. The cheapest true monthly cost wins.</p><label class="pp-use">Your monthly data usage (GB) <input id="pp-used" type="number" min="0" value="15"></label><div class="pp-grid"><div class="pp-card"><h2>Plan A</h2><label>Monthly fee <input id="pp-a-fee" type="number" min="0" value="20"></label><label>Included data (GB) <input id="pp-a-inc" type="number" min="0" value="10"></label><label>Overage per GB <input id="pp-a-over" type="number" min="0" value="5"></label><p>Total: <strong id="pp-a-total">—</strong></p></div><div class="pp-card"><h2>Plan B</h2><label>Monthly fee <input id="pp-b-fee" type="number" min="0" value="30"></label><label>Included data (GB) <input id="pp-b-inc" type="number" min="0" value="1000"></label><label>Overage per GB <input id="pp-b-over" type="number" min="0" value="0"></label><p>Total: <strong id="pp-b-total">—</strong></p></div><div class="pp-card"><h2>Plan C</h2><label>Monthly fee <input id="pp-c-fee" type="number" min="0" value="25"></label><label>Included data (GB) <input id="pp-c-inc" type="number" min="0" value="20"></label><label>Overage per GB <input id="pp-c-over" type="number" min="0" value="3"></label><p>Total: <strong id="pp-c-total">—</strong></p></div></div><p id="pp-winner"></p><button id="pp-copy">Copy comparison</button>
+  </section>
+  <div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+<h2>How mobile plan pricing really works</h2>
+<p>Mobile phone plans look simple on an advertisement, a monthly fee for a bundle of data, minutes, and texts, but the true cost depends on how much you actually use, what happens when you exceed your allowance, and which extras are bundled into the headline price. Some plans charge a high per-gigabyte overage rate once your data allowance runs out, which can turn a cheap-looking plan into an expensive one for a heavy user, while others throttle your speed instead of charging more, which costs nothing extra but makes the phone frustratingly slow. Unlimited plans remove the overage question entirely, but they often cost more than a capped plan for a light or moderate user, and some unlimited plans throttle video quality or deprioritise your traffic during congestion, which means unlimited does not always mean uncompromised. This comparison tool calculates the true monthly cost of each plan for your actual data usage, so you compare real totals rather than advertised fees.</p>
+<p>Minutes and texts matter less than they once did, because most plans now include unlimited calls and texts, but data is now the main variable, and it varies enormously between users, from under two gigabytes a month for a light user who mainly uses Wi-Fi to over fifty gigabytes for a heavy streamer who watches video on mobile data. Roaming, international calls, handset financing, and family discounts can all change the ranking too, and a plan that looks expensive for one person can be excellent value for a family that shares data or for a traveller who roams frequently. The tool focuses on the most common comparison, monthly fee plus data overage, because that is where most people overpay, and it lets you adjust usage to see how the ranking changes as your habits change. If your usage varies month to month, compare plans at your average usage and at your highest recent month, and choose the plan that is cheapest across both scenarios rather than the one that wins in a single unusually light month.</p>
+<h2>How to compare plans with this tool</h2>
+<p>Enter your typical monthly data usage, then fill in up to three plans with their monthly fee, included data allowance, and overage rate per extra gigabyte, using zero overage for a truly unlimited plan or a throttled plan that does not charge extra. The tool calculates each plan's total monthly cost for your usage, highlights the cheapest plan, and shows how much extra data would cost on each plan, so the trade-offs are visible at a glance. The presets load a realistic comparison: a cheap capped plan, a mid-range plan, and an unlimited plan, which is a useful starting point if you are unsure what plans look like in your market. Adjust the figures to match real offers you are considering, including any introductory discounts, because a plan that is cheap for six months and expensive thereafter may not be the best choice over a full year.</p>
+<p>The usage slider, represented here by the usage input, is the most important control, because changing it from five gigabytes to twenty gigabytes can completely reverse the ranking of the same three plans. A capped plan wins for light users, an unlimited plan wins for heavy users, and the crossover point, where the two totals are equal, is exactly the usage level at which you should switch. The tool shows that crossover implicitly through the totals, and you can find it precisely by trying usages around the point where the cheapest plan changes. The copy-comparison button produces a short summary of the three totals for your usage, which is handy for discussing options with family members or for keeping a record of the offers you compared before signing a contract.</p>
+<h2>Data usage: how much do you really use?</h2>
+<p>Most people overestimate or underestimate their data usage, and the most reliable figure comes from your phone's own data usage screen or your carrier's app, which shows actual usage for recent months rather than a guess. Check at least three months, because a single month with a holiday, a new app, or a period without Wi-Fi can distort the average, and use the highest of the three months for a cautious comparison if you dislike overage charges. Video streaming is by far the largest consumer, with standard-definition video using roughly one gigabyte per hour and high-definition video using roughly three gigabytes per hour, while music streaming uses roughly one hundred megabytes per hour and social media browsing uses far less unless it auto-plays video. Downloading apps, updating software, and backing up photos over mobile data can also create sudden spikes, and setting your phone to update only over Wi-Fi is the simplest way to prevent them.</p>
+<p>If your usage is consistently below your allowance, you are paying for data you never use, and a cheaper capped plan will almost certainly save money, while if you regularly exceed your allowance, the overage charges are likely costing more than the price difference to an unlimited plan. A useful habit is to review your plan every six months against your actual usage, because usage patterns change when you move house, change jobs, start commuting, or adopt a new streaming habit, and carriers rarely volunteer a cheaper plan when your usage falls. The tool makes that review quick: enter your latest usage, enter your current plan and two alternatives, and the cheapest option is immediately visible. Over a year, the saving from a single well-timed switch often exceeds a hundred in your currency, which is a meaningful return for five minutes of comparison.</p>
+<h2>Beyond price: speed, coverage and contract terms</h2>
+<p>Price is not the only factor, and the cheapest plan on paper can be a poor choice if its network coverage is weak where you live, work, and travel, because a phone that cannot connect is useless at any price. Coverage maps are a starting point, but real-world experience from friends on the same network in the same area is more reliable, and a short trial or a monthly rolling plan lets you test coverage before committing to a long contract. Speed also matters, particularly for video and tethering, and some budget plans cap speeds or deprioritise traffic, which may be invisible in normal browsing but noticeable when streaming or working remotely. Contract length, early termination fees, handset financing, and price rises during the contract all affect the true cost, and a plan with a low headline price that rises annually may cost more over two years than a stable, slightly dearer plan.</p>
+<p>Family and shared plans deserve a separate comparison, because sharing a large data pool across several lines often costs less per person than separate individual plans, even though the headline total looks larger. The tool compares single-line costs, so for a family comparison, enter the total shared allowance and the total family usage, and compare the family total against the sum of individual totals from separate comparisons. Roaming is another factor that can dominate the decision for frequent travellers: a plan with inclusive roaming in your destinations can save far more than its price premium, while a plan with high roaming charges can produce a shocking bill from a single trip. Always check roaming and international terms before travelling, and consider a local SIM or an eSIM for longer trips, which is often far cheaper than roaming on any home plan.</p>
+<h2>Worked examples and common mistakes</h2>
+<p>Consider a worked example: your usage is fifteen gigabytes per month. Plan A charges twenty per month, includes ten gigabytes, and charges five per extra gigabyte, so its total is twenty plus five times five, which is forty-five. Plan B charges thirty per month for unlimited data, so its total is thirty, and it is the cheapest option despite having the highest headline fee, which is exactly the trap this tool is designed to reveal. A second example at five gigabytes of usage reverses the result: Plan A costs twenty, because usage is within its allowance, while Plan B still costs thirty, so the capped plan wins by ten. An edge case at zero usage gives each plan's fee alone, which is a useful check that the tool is handling allowances correctly. These three cases are the tests this tool was built against, and they show why usage, not headline price, decides the best plan.</p>
+<p>The most common phone plan mistakes are choosing a plan by headline price without checking overage rates, ignoring your actual usage, signing a long contract without testing coverage, and forgetting that introductory prices rise after a few months. Another frequent error is paying for unlimited data when usage is consistently low, which is like renting a lorry to carry a single shopping bag every month. Finally, many people never review their plan at all, staying on the same expensive plan for years while their usage falls and cheaper options appear. A twice-yearly comparison with this tool, using real usage figures from your phone, avoids all of these mistakes and keeps your mobile bill close to the minimum for the service you actually need.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>Is an unlimited plan always cheapest?</summary><p>No. For light users a capped plan is cheaper. Unlimited wins only when your usage is high enough that overage charges exceed the price difference.</p></details>
+<details><summary>How much data do I use per month?</summary><p>Check your phone's data usage screen or your carrier's app for the last three months, and use your highest recent month for a cautious comparison.</p></details>
+<details><summary>What is a data overage charge?</summary><p>The price per extra gigabyte once you exceed your included allowance. High overage rates can make a cheap plan expensive.</p></details>
+<details><summary>Does throttling cost extra?</summary><p>No. Throttled plans slow your speed instead of charging more, but the slower speed can make video and work frustrating.</p></details>
+<details><summary>Should I compare plans at average or peak usage?</summary><p>Compare both. Choose the plan that is cheapest at your average and still reasonable at your peak month.</p></details>
+<details><summary>Do family plans save money?</summary><p>Often yes. Compare the total family cost against the sum of individual plans for the same total usage.</p></details>
+  </section>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">PhonePlan</div>
+    <p>PhonePlan compares up to three mobile plans by true monthly cost for your actual data usage, including overage.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function planCost(fee,incGB,overRate,usedGB){fee=+fee||0;incGB=+incGB||0;overRate=+overRate||0;usedGB=+usedGB||0;var extra=Math.max(0,usedGB-incGB)*overRate;return{total:Math.round((fee+extra)*100)/100,extra:Math.round(extra*100)/100};}
+function ppRender(){var used=+document.getElementById('pp-used').value||0;var plans=[['a','Plan A'],['b','Plan B'],['c','Plan C']];var best=null;plans.forEach(function(p){var r=planCost(document.getElementById('pp-'+p[0]+'-fee').value,document.getElementById('pp-'+p[0]+'-inc').value,document.getElementById('pp-'+p[0]+'-over').value,used);document.getElementById('pp-'+p[0]+'-total').textContent='£'+r.total.toFixed(2)+' (overage £'+r.extra.toFixed(2)+')';if(!best||r.total<best.total)best={name:p[1],total:r.total};});document.getElementById('pp-winner').textContent='Cheapest for '+used+' GB: '+best.name+' at £'+best.total.toFixed(2)+' per month.';}
+['pp-used','pp-a-fee','pp-a-inc','pp-a-over','pp-b-fee','pp-b-inc','pp-b-over','pp-c-fee','pp-c-inc','pp-c-over'].forEach(function(id){document.getElementById(id).addEventListener('input',ppRender);});
+document.getElementById('pp-copy').onclick=function(){var t='PhonePlan at '+document.getElementById('pp-used').value+' GB: A '+document.getElementById('pp-a-total').textContent+', B '+document.getElementById('pp-b-total').textContent+', C '+document.getElementById('pp-c-total').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t);};
+ppRender();
+</script>
+</body>
+</html>
