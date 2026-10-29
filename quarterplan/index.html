@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiscal Quarter Dates Calculator | QuarterPlan</title>
+<meta name="description" content="Get exact fiscal quarter dates, week and day counts, OKR presets, a milestone checklist, and a live quarter progress bar. Free quarter planner.">
+<link rel="canonical" href="https://finance.fixoraa.tech/quarterplan/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Fiscal Quarter Dates Calculator | QuarterPlan">
+<meta property="og:description" content="Get exact fiscal quarter dates, week and day counts, OKR presets, a milestone checklist, and a live quarter progress bar. Free quarter planner.">
+<meta property="og:url" content="https://finance.fixoraa.tech/quarterplan/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Khand:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "QuarterPlan",
+      "url": "https://finance.fixoraa.tech/quarterplan/",
+      "applicationCategory": "Date & Time",
+      "operatingSystem": "Web",
+      "description": "Get exact fiscal quarter dates, week and day counts, OKR presets, a milestone checklist, and a live quarter progress bar. Free quarter planner.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are the exact dates of Q1, Q2, Q3, and Q4?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For calendar quarters: Q1 is January 1 to March 31, Q2 is April 1 to June 30, Q3 is July 1 to September 30, and Q4 is October 1 to December 31. The tool computes these for any year, handling leap years automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many days and weeks are in a quarter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It varies: Q1 has 90 days in a common year (91 in a leap year), Q2 has 91, and Q3 and Q4 have 92 each. In weeks, that's roughly 12.9 to 13.1 weeks. The tool shows the exact day and week count for any quarter you select."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between calendar quarters and fiscal quarters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Calendar quarters always start in January. Fiscal quarters follow an organization's fiscal year, which can start in any month \u2014 for example, a company with an April fiscal year has its Q1 in April\u2013June. The date math is identical; only the labels shift."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I use the quarter progress bar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Select the current quarter and year, and the bar shows what percentage of the quarter's days have elapsed as of today. Compare it with your milestone completion: if elapsed time is ahead of completed work, re-scope while there's still time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes a good quarterly milestone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A dated, verifiable outcome with a single owner \u2014 for example, 'ship onboarding v2 to all users by August 15.' Space 4 to 6 milestones across the quarter, front-load at least one, and describe outcomes rather than activities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a 13-week quarter in finance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It's a way of dividing the year into four 13-week periods (91 days each) instead of calendar months, used for cash-flow forecasting and retail calendars. Thirteen weeks divides neatly into weekly forecasts, making liquidity gaps visible earlier."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F2F4F0; --surface:#FFFFFF; --accent:#365314; --accent-ink:#FFFFFF;
+  --ink:#1F2937; --muted:#5C6675; --line:#DAE0D4;
+  --display:'Khand',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.qp-wrap{font-family:'Khand',Inter,system-ui,sans-serif;background:#F2F4F0;color:#1F2937;padding:56px 20px 80px;}
+.qp-hero{max-width:960px;margin:0 auto 34px;text-align:center;}
+.qp-logo{width:72px;height:72px;margin:0 auto 16px;border-radius:20px;background:linear-gradient(135deg,#365314,#7d9a3f);font-size:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(54,83,20,.25);}
+.qp-hero h1{font-size:clamp(30px,4.6vw,48px);line-height:1.08;margin:0 0 12px;font-weight:600;letter-spacing:-.01em;}
+.qp-tag{font-size:17px;color:#5C6675;margin:0;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.6;}
+.qp-layout{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start;}
+.qp-left{background:#FFFFFF;border:1px solid #DAE0D4;border-radius:22px;padding:26px;box-shadow:0 16px 40px rgba(54,83,20,.08);}
+.qp-left h2{font-size:19px;margin:0 0 14px;font-weight:600;}
+.qp-field{margin-bottom:16px;}
+.qp-field label{display:block;font-weight:600;font-size:13px;color:#5C6675;margin-bottom:6px;}
+.qp-field input{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:2px solid #DAE0D4;border-radius:12px;font-family:inherit;color:#1F2937;background:#F2F4F0;}
+.qp-field input:focus{outline:none;border-color:#365314;background:#fff;}
+.qp-qbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.qp-qbtn{border:2px solid #DAE0D4;background:#F2F4F0;border-radius:14px;padding:12px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;color:#1F2937;}
+.qp-qbtn.active{border-color:#365314;background:#365314;color:#fff;}
+.qp-okr{margin-top:6px;}
+.qp-okr h3{font-size:15px;margin:0 0 10px;color:#5C6675;font-weight:600;}
+.qp-okrs{display:grid;gap:8px;}
+.qp-okrbtn{border:1px dashed #365314;background:#F5F8F1;border-radius:12px;padding:10px 12px;font-family:inherit;font-size:14px;cursor:pointer;color:#365314;text-align:left;font-weight:500;}
+.qp-okrbtn:hover{background:#365314;color:#fff;}
+.qp-right{display:grid;gap:20px;}
+.qp-range{background:linear-gradient(135deg,#365314,#64852f);border-radius:24px;padding:36px 30px;color:#fff;box-shadow:0 20px 50px rgba(54,83,20,.28);}
+.qp-range .qp-qlabel{font-size:15px;opacity:.85;margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase;}
+.qp-range .qp-dates{font-size:clamp(24px,3.6vw,36px);font-weight:600;margin-bottom:10px;}
+.qp-range .qp-dur{font-size:17px;opacity:.92;}
+.qp-card{background:#FFFFFF;border:1px solid #DAE0D4;border-radius:22px;padding:26px;box-shadow:0 10px 30px rgba(54,83,20,.06);}
+.qp-card h2{font-size:20px;margin:0 0 12px;font-weight:600;}
+.qp-msrow{display:flex;gap:10px;margin:10px 0 16px;}
+.qp-msrow input{flex:1;box-sizing:border-box;padding:12px;font-size:15px;border:2px solid #DAE0D4;border-radius:12px;font-family:inherit;color:#1F2937;}
+.qp-msrow input:focus{outline:none;border-color:#365314;}
+.qp-msrow button{padding:12px 20px;border:none;border-radius:12px;background:#365314;color:#fff;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;}
+.qp-mslist{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+.qp-mslist li{display:flex;gap:12px;align-items:center;background:#F2F4F0;border:1px solid #DAE0D4;border-radius:12px;padding:11px 14px;font-size:15px;}
+.qp-mslist li.done span{text-decoration:line-through;color:#5C6675;}
+.qp-mslist input[type=checkbox]{width:20px;height:20px;accent-color:#365314;}
+.qp-mslist .qp-del{margin-left:auto;border:none;background:none;color:#b0492f;font-size:16px;cursor:pointer;}
+.qp-empty{color:#5C6675;font-size:14.5px;}
+.qp-prog{height:22px;background:#F2F4F0;border:1px solid #DAE0D4;border-radius:999px;overflow:hidden;margin:12px 0 8px;}
+.qp-progfill{height:100%;background:linear-gradient(90deg,#365314,#8aa844);border-radius:999px;transition:width .4s;}
+.qp-progtxt{font-size:15px;color:#5C6675;margin:0;}
+.qp-progtxt strong{color:#365314;}
+@media (max-width:760px){.qp-layout{grid-template-columns:1fr;}.qp-wrap{padding:40px 14px 60px;}.qp-range{padding:28px 20px;}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="QuarterPlan home">
+      <span class="fx-logo-tile" aria-hidden="true">🗓️</span>
+      <span class="fx-brand">QuarterPlan</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-split-panel" aria-label="QuarterPlan tool">
+<section class="qp-wrap">
+<div class="qp-hero">
+<div class="qp-logo" aria-hidden="true">🗓️</div>
+<h1>Fiscal Quarter Dates Calculator</h1>
+<p class="qp-tag">Pick a year and a quarter — get exact dates, week and day counts, OKR presets, and a live progress bar.</p>
+</div>
+<div class="qp-layout">
+<div class="qp-left">
+<h2>Quarter picker</h2>
+<div class="qp-field"><label for="qp-year">Year</label><input id="qp-year" type="number" min="1990" max="2100" step="1" value="2026"></div>
+<div class="qp-qbtns" role="group" aria-label="Quarter">
+<button type="button" class="qp-qbtn" data-q="1">Q1</button>
+<button type="button" class="qp-qbtn" data-q="2">Q2</button>
+<button type="button" class="qp-qbtn" data-q="3">Q3</button>
+<button type="button" class="qp-qbtn active" data-q="4">Q4</button>
+</div>
+<div class="qp-okr">
+<h3>OKR cadence presets</h3>
+<div class="qp-okrs">
+<button type="button" class="qp-okrbtn" data-preset="Q1 · Reboot and foundations: audit last year, set 3 objectives, ship one quick win.">Q1 — Reboot &amp; foundations</button>
+<button type="button" class="qp-okrbtn" data-preset="Q2 · Accelerate growth: double down on what worked, launch the big bet, review mid-year.">Q2 — Accelerate growth</button>
+<button type="button" class="qp-okrbtn" data-preset="Q3 · Deepen and optimize: fix bottlenecks, improve retention, prepare Q4 capacity.">Q3 — Deepen &amp; optimize</button>
+<button type="button" class="qp-okrbtn" data-preset="Q4 · Finish strong: close the year, clear the backlog, plan next year's Q1.">Q4 — Finish strong</button>
+</div>
+</div>
+</div>
+<div class="qp-right">
+<div class="qp-range">
+<div class="qp-qlabel" id="qp-qlabel">Q4 2026</div>
+<div class="qp-dates" id="qp-dates">Oct 1, 2026 – Dec 31, 2026</div>
+<div class="qp-dur" id="qp-dur">92 days · 13.1 weeks</div>
+</div>
+<div class="qp-card">
+<h2>Milestone checklist</h2>
+<div class="qp-msrow"><input id="qp-msin" type="text" placeholder="Add a milestone, e.g. Launch v2"><button type="button" id="qp-msadd">Add</button></div>
+<ul class="qp-mslist" id="qp-mslist"></ul>
+<p class="qp-empty" id="qp-msempty">No milestones yet — add your first one above.</p>
+</div>
+<div class="qp-card">
+<h2>Quarter progress</h2>
+<div class="qp-prog"><div class="qp-progfill" id="qp-progfill" style="width:0%"></div></div>
+<p class="qp-progtxt" id="qp-progtxt">Select the current quarter to see live progress.</p>
+</div>
+</div>
+</div>
+</section>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>What a Fiscal Quarter Actually Is</h2><p>A quarter is one fourth of a year — three months — and it is the heartbeat of business planning. Public companies report earnings quarterly, sales teams carry quarterly targets, and product teams plan roadmaps in quarterly chunks. Calendar quarters are simple: Q1 is January through March, Q2 is April through June, Q3 is July through September, and Q4 is October through December. Fiscal quarters follow the same idea but can start in any month, depending on a company's or country's fiscal year. The calculator above handles calendar quarters for any year you choose, giving you exact start and end dates without the mental arithmetic.</p><p>Why do quarters matter so much? Because a year is too long to steer by and a month is too short to build anything meaningful. Ninety-ish days is the sweet spot: long enough to ship real work, short enough that the deadline creates urgency. This is why the OKR framework — objectives and key results — runs on quarterly cadences, and why the milestone checklist above pairs naturally with the date range it belongs to.</p><h2>Exact Quarter Dates and How They Are Computed</h2><p>Computing a quarter's range is straightforward once you know the rule: the start month is (quarter − 1) × 3 + 1 and the end month is quarter × 3. Q1 starts in month 1 and ends in month 3; Q4 starts in month 10 and ends in month 12. The only tricky part is the last day of the end month, which is 30 for April, June, September, and November, 31 for the rest, and 28 or 29 for February in Q1 — leap years included. The tool computes this with the classic date trick of asking for day zero of the following month, so leap years are handled automatically.</p><p>Here are the 2026 calendar quarters as reference:</p><table><thead><tr><th>Quarter</th><th>Start</th><th>End</th><th>Days</th><th>Weeks</th></tr></thead><tbody><tr><td>Q1 2026</td><td>Jan 1, 2026</td><td>Mar 31, 2026</td><td>90</td><td>12.9</td></tr><tr><td>Q2 2026</td><td>Apr 1, 2026</td><td>Jun 30, 2026</td><td>91</td><td>13.0</td></tr><tr><td>Q3 2026</td><td>Jul 1, 2026</td><td>Sep 30, 2026</td><td>92</td><td>13.1</td></tr><tr><td>Q4 2026</td><td>Oct 1, 2026</td><td>Dec 31, 2026</td><td>92</td><td>13.1</td></tr></tbody></table><p>Notice that quarters are not equal: Q1 in a non-leap year has 90 days, while Q3 and Q4 have 92. If you are comparing quarterly results, normalize by day count or by working days — otherwise Q1 will always look slightly worse for no reason at all.</p><h2>Planning a Quarter: The OKR Cadence</h2><p>The most proven way to run a quarter is the OKR cadence: set 3 to 5 objectives at the quarter's start, attach measurable key results to each, score them weekly, and grade them honestly at the end. The presets above give each quarter a thematic shape. Q1 is for rebooting — auditing the previous year, setting the annual direction, and shipping one quick win to build momentum. Q2 is for acceleration — doubling down on whatever is working and launching the year's big bet while there is still time to recover from surprises.</p><p>Q3 is the quarter most teams waste. Summer vacations thin the ranks and the year-end still feels far away, so it drifts. The winning Q3 playbook is to deepen and optimize: fix the bottlenecks Q2 exposed, improve retention and reliability, and build capacity for the Q4 push. Q4 is for finishing strong — closing the year's commitments, clearing the backlog, and doing the planning that makes next year's Q1 start fast instead of slow.</p><ul><li><strong>Week 1–2:</strong> set objectives, define key results, assign owners. No work without an owner.</li><li><strong>Weekly:</strong> score each key result 0–1.0 and discuss only the ones that moved or stalled.</li><li><strong>Mid-quarter:</strong> a hard review. Kill objectives that no longer matter; re-scope the rest.</li><li><strong>Final week:</strong> grade everything, write down what you learned, and carry only the lessons forward.</li></ul><h2>The 13-Week Quarter and Cash Flow</h2><p>Finance teams often think in 13-week quarters rather than calendar months, because 13 weeks × 7 days = 91 days, which maps neatly onto most quarters and divides beautifully into weekly cash-flow forecasts. The 13-week cash flow is the standard tool for managing liquidity: project every inflow and outflow week by week for the next thirteen weeks, and you will see cash crunches coming while you can still do something about them.</p><p>The week counts above matter for staffing too. A quarter with 13.1 weeks and several public holidays has meaningfully fewer productive days than the raw day count suggests. When you set quarterly targets, convert them to per-working-week rates first — a sales target of 100 units in a 12-working-week quarter is 8–9 units a week, a number a team can actually pace against. The progress bar above visualizes exactly this pacing: if you are 50% through the quarter's days but 30% through the target, you have a gap to close.</p><h2>Milestones That Actually Get Hit</h2><p>A milestone is a dated, verifiable event — "launch v2 to 10% of users by May 15" — not a vague intention like "make progress on v2." The checklist above works best with three rules. First, every milestone gets a date, even a rough one; undated milestones drift. Second, every milestone gets one owner; shared ownership is no ownership. Third, milestones describe outcomes, not activities — "signed 5 design partners" beats "work on partnerships."</p><p>Space milestones evenly across the quarter rather than clustering them at the end. End-loaded plans hide trouble until it is too late to fix; a milestone in week 3 that slips tells you in week 3 that the plan needs surgery. Aim for 4 to 6 milestones per quarter: fewer and you are flying blind, more and you are managing the list instead of the work.</p><h2>Quarter Progress: Reading the Bar Honestly</h2><p>The progress bar shows what fraction of the selected quarter's days have elapsed as of today. It is deliberately simple — day-based, not effort-based — because its job is to be an impartial mirror. Compare it against your milestone completion honestly: if the bar says 60% and your milestones say 30%, you are behind, no matter how busy everyone feels.</p><p>Two honest uses beat one clever one. First, the <strong>mid-quarter gut check</strong>: at 50% elapsed, you should be roughly 50% through your key results; if not, re-scope now while there is still half a quarter to work with. Second, the <strong>planning trigger</strong>: when the bar passes 75%, start drafting next quarter's objectives. Teams that plan the next quarter during the last two weeks of the current one start fast; teams that wait for the quarter to end lose the first two weeks to planning.</p><h2>Quarterly Reviews That Change Behavior</h2><p>Most quarterly reviews fail in the same quiet way: they become slide decks about what happened instead of decisions about what happens next. A review that changes behavior has three parts and fits on one page. First, the scoreboard — every key result scored honestly from 0 to 1.0, with the misses explained in one sentence each. Second, the decisions — which objectives continue, which get killed, and what new bets the next quarter needs. Third, the lessons — written down, because unwritten lessons evaporate by February.</p><p>The scoring culture matters more than the scores. In the original OKR tradition, a 0.7 is a good score: it means the goal was ambitious enough to stretch the team. Teams that punish anything below 1.0 quickly learn to set safe, boring goals — and then wonder why quarters feel flat. Celebrate the ambitious miss more loudly than the easy win, and the quality of objectives rises within two quarters.</p><p>Run the review in the final week of the quarter, not the first week of the next one. Momentum compounds: a team that closes Q3 on Friday and opens Q4 planning on Monday starts fast, while a team that waits loses the most energetic week of the quarter to looking backward. The milestone checklist above doubles as review input — checked items are your evidence, unchecked ones are your agenda.</p><h3>The one-page quarterly review template</h3><ol><li><strong>Scores:</strong> each key result, 0–1.0, one-sentence explanation for anything under 0.7.</li><li><strong>Wins:</strong> the three things that moved the needle most, and why they worked.</li><li><strong>Misses:</strong> the two biggest gaps, with root causes — not excuses.</li><li><strong>Decisions:</strong> continue, kill, or change for every objective.</li><li><strong>Next quarter:</strong> draft objectives and owners, finalized within five working days.</li></ol><p>Keep every review in the same folder. After four quarters you will own a candid history of what your team actually does under pressure — more valuable than any dashboard, because it records the reasoning, not just the numbers.</p><h2>Quarters Beyond the Calendar</h2><p>Not every organization runs on calendar quarters. Retailers often use 4-4-5 calendars (two 4-week months and one 5-week month per quarter) so that every quarter has the same number of selling days and year-over-year comparisons stay clean. Governments and many companies run fiscal years starting in April, July, or October, shifting every quarter boundary. If your organization uses one of these, treat this tool's calendar quarters as the translation layer: compute the calendar range here, then map it to your fiscal labels.</p><p>Whatever calendar you use, the discipline is the same: define the quarter's boundaries exactly, set a small number of measurable objectives, track a few dated milestones, and check progress against elapsed time without flinching. Quarters are how organizations turn annual ambitions into weekly action — and now you can see exactly where every quarter starts, ends, and stands.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What are the exact dates of Q1, Q2, Q3, and Q4?</summary><p>For calendar quarters: Q1 is January 1 to March 31, Q2 is April 1 to June 30, Q3 is July 1 to September 30, and Q4 is October 1 to December 31. The tool computes these for any year, handling leap years automatically.</p></details>
+<details><summary>How many days and weeks are in a quarter?</summary><p>It varies: Q1 has 90 days in a common year (91 in a leap year), Q2 has 91, and Q3 and Q4 have 92 each. In weeks, that's roughly 12.9 to 13.1 weeks. The tool shows the exact day and week count for any quarter you select.</p></details>
+<details><summary>What is the difference between calendar quarters and fiscal quarters?</summary><p>Calendar quarters always start in January. Fiscal quarters follow an organization's fiscal year, which can start in any month — for example, a company with an April fiscal year has its Q1 in April–June. The date math is identical; only the labels shift.</p></details>
+<details><summary>How do I use the quarter progress bar?</summary><p>Select the current quarter and year, and the bar shows what percentage of the quarter's days have elapsed as of today. Compare it with your milestone completion: if elapsed time is ahead of completed work, re-scope while there's still time.</p></details>
+<details><summary>What makes a good quarterly milestone?</summary><p>A dated, verifiable outcome with a single owner — for example, 'ship onboarding v2 to all users by August 15.' Space 4 to 6 milestones across the quarter, front-load at least one, and describe outcomes rather than activities.</p></details>
+<details><summary>What is a 13-week quarter in finance?</summary><p>It's a way of dividing the year into four 13-week periods (91 days each) instead of calendar months, used for cash-flow forecasting and retail calendars. Thirteen weeks divides neatly into weekly forecasts, making liquidity gaps visible earlier.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">QuarterPlan</div>
+    <p>QuarterPlan computes any quarter's exact date range and duration, then helps you plan it with OKR presets, milestones, and a live progress bar.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function quarterRange(year,quarter){var sm=(quarter-1)*3+1,em=quarter*3;var lastDay=new Date(year,em,0).getDate();function pad(n){return (n<10?'0':'')+n;}return [year+'-'+pad(sm)+'-01',year+'-'+pad(em)+'-'+pad(lastDay)];}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){
+var yearEl=document.getElementById('qp-year'),labelEl=document.getElementById('qp-qlabel'),datesEl=document.getElementById('qp-dates'),durEl=document.getElementById('qp-dur'),progFill=document.getElementById('qp-progfill'),progTxt=document.getElementById('qp-progtxt'),msIn=document.getElementById('qp-msin'),msAdd=document.getElementById('qp-msadd'),msList=document.getElementById('qp-mslist'),msEmpty=document.getElementById('qp-msempty');
+var q=4;
+var qbtns=document.querySelectorAll('.qp-qbtn');
+function monthName(m){return ['January','February','March','April','May','June','July','August','September','October','November','December'][m-1];}
+function pretty(iso){var a=iso.split('-');return monthName(parseInt(a[1],10))+' '+parseInt(a[2],10)+', '+a[0];}
+function quarterDays(yearx,qx){var r=quarterRange(yearx,qx);var s=new Date(r[0]+'T12:00:00'),e=new Date(r[1]+'T12:00:00');return Math.round((e-s)/86400000)+1;}
+function render(){var y=parseInt(yearEl.value,10);if(isNaN(y))y=new Date().getFullYear();var r=quarterRange(y,q);var days=quarterDays(y,q);var weeks=(days/7).toFixed(1);
+if(labelEl)labelEl.textContent='Q'+q+' '+y;
+if(datesEl)datesEl.textContent=pretty(r[0])+' \u2013 '+pretty(r[1]);
+if(durEl)durEl.textContent=days+' days \u00b7 '+weeks+' weeks';
+var now=new Date();now.setHours(0,0,0,0);
+var s=new Date(r[0]+'T00:00:00'),e=new Date(r[1]+'T00:00:00');
+var pct=0;
+if(now<s)pct=0;else if(now>e)pct=100;else pct=Math.round(((now-s)/86400000+1)/days*100);
+if(progFill)progFill.style.width=pct+'%';
+if(progTxt){var curQ=Math.floor(now.getMonth()/3)+1;if(y===now.getFullYear()&&q===curQ){progTxt.innerHTML='This quarter is <strong>'+pct+'%</strong> complete as of today.';}else if(y<now.getFullYear()||(y===now.getFullYear()&&q<curQ)){progTxt.innerHTML='This quarter is <strong>complete</strong>.';}else{progTxt.innerHTML='This quarter has <strong>not started yet</strong>.';}}}
+function renderMs(){if(!msList)return;var items=msList.querySelectorAll('li');if(msEmpty)msEmpty.style.display=items.length?'none':'block';}
+function addMilestone(text){if(!msList||!text.trim())return;var li=document.createElement('li');var cb=document.createElement('input');cb.type='checkbox';cb.setAttribute('aria-label','Mark milestone done');var sp=document.createElement('span');sp.textContent=text.trim();var del=document.createElement('button');del.type='button';del.className='qp-del';del.textContent='\u00d7';del.setAttribute('aria-label','Remove milestone');del.addEventListener('click',function(){li.remove();renderMs();});cb.addEventListener('change',function(){li.classList.toggle('done',cb.checked);});li.appendChild(cb);li.appendChild(sp);li.appendChild(del);msList.appendChild(li);renderMs();}
+qbtns.forEach(function(b){b.addEventListener('click',function(){qbtns.forEach(function(x){x.classList.remove('active');});b.classList.add('active');q=parseInt(b.getAttribute('data-q'),10);render();});});
+if(yearEl)yearEl.addEventListener('input',render);
+var okrBtns=document.querySelectorAll('.qp-okrbtn');
+okrBtns.forEach(function(b){b.addEventListener('click',function(){addMilestone(b.getAttribute('data-preset'));});});
+if(msAdd)msAdd.addEventListener('click',function(){addMilestone(msIn.value);msIn.value='';});
+if(msIn)msIn.addEventListener('keydown',function(e){if(e.key==='Enter'){addMilestone(msIn.value);msIn.value='';}});
+render();renderMs();});}
+
+</script>
+</body>
+</html>
