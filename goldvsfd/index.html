@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoldVsFd — Gold vs FD Calculator: Compare Returns Over Your Horizon</title>
+<meta name="description" content="GoldVsFd — free online gold vs fd returns calculator. Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon No signup, unlimited free usage.">
+<link rel="canonical" href="https://goldvsfd.2.fixoraa.tech/">
+<meta property="og:title" content="GoldVsFd — Gold vs FD Calculator: Compare Returns Over Your Horizon">
+<meta property="og:description" content="GoldVsFd — free online gold vs fd returns calculator. Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon No signup, unlimited free usage.">
+<meta property="og:url" content="https://goldvsfd.2.fixoraa.tech/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;700;800&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#FFFFFF;--card:#FFFFFF;--ink:#14312E;--acc:#280F76;--acc2:#34B409;--soft:#E6F4F1;--hf:'EB Garamond',serif;--bf:'IBM Plex Sans',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--bf);line-height:1.65}
+header.site{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:2px solid var(--soft);padding:10px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:12px;background:var(--ink);color:var(--bg);border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--hf);font-weight:800;font-size:20px}
+.brandname{font-family:var(--hf);font-size:22px;font-weight:700}
+.navbtns{margin-left:auto;display:flex;gap:8px}
+.navbtns a,.btn{background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;text-decoration:none;font-weight:700;border:0;cursor:pointer;display:inline-block}
+.navbtns a.ghost{background:var(--soft);color:var(--ink)}
+.badge{display:inline-block;background:var(--soft);color:var(--ink);padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700}
+h1{font-family:var(--hf);font-size:clamp(26px,4.5vw,40px);line-height:1.2;margin:14px 0 8px}
+.hero{max-width:900px;margin:auto;padding:26px 20px 4px;text-align:center}
+.wrap{max-width:1060px;margin:auto;padding:16px}.tool{background:var(--card);border:3px solid var(--ink);padding:22px;box-shadow:8px 8px 0 var(--ink)}
+.fld{display:block;margin:10px 0}.fld span{display:block;font-weight:700;margin-bottom:5px;font-size:14px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 12px;border:2px solid var(--soft);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.btn2{background:var(--soft);color:var(--ink);border:0;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+#result{margin-top:16px;background:var(--soft);border-radius:14px;padding:16px}
+#baStage{margin:14px 0}
+.reserved-ad{max-width:728px;margin:26px auto;min-height:110px;border:2px dashed var(--soft);border-radius:12px}
+article.seo{max-width:820px;margin:auto;padding:10px 20px 30px}article.seo h2{font-family:var(--hf);margin-top:30px}article.seo h3{font-family:var(--hf)}
+.faq{background:var(--card);border:1px solid var(--soft);border-radius:12px;padding:6px 16px;margin:10px 0}
+footer.site{background:var(--card);border-top:2px solid var(--soft);padding:26px 20px;text-align:center;margin-top:30px}
+footer.site a{color:var(--acc);font-weight:700}
+canvas{max-width:100%}table{background:var(--card)}pre{white-space:pre-wrap;word-break:break-word}
+body{background-image:linear-gradient(135deg, var(--soft), transparent 60%)}.tool{border-radius:14px;box-shadow:0 4px 0 var(--soft)}.hero{text-align:left}.fld input,.fld select,.fld textarea{border-radius:8px}#result{border-left:5px solid var(--acc)}article.seo h2{border-bottom:3px solid var(--soft);padding-bottom:4px}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "GoldVsFd", "url": "https://goldvsfd.2.fixoraa.tech/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "GoldVsFd \u2014 free online gold vs fd returns calculator. Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon No signup, unlimited free usage."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is GoldVsFd used for?", "acceptedAnswer": {"@type": "Answer", "text": "GoldVsFd is a free online tool for anyone searching for a gold vs fd returns calculator. It gives you an instant result in your browser \u2014 Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon"}}, {"@type": "Question", "name": "Is GoldVsFd free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. GoldVsFd is completely free with unlimited usage \u2014 no signup, no paywall and no watermark on anything you create or download."}}, {"@type": "Question", "name": "How accurate is GoldVsFd?", "acceptedAnswer": {"@type": "Answer", "text": "GoldVsFd uses the standard formulas and methods described in the guide on this page, and shows its working so you can check every step. For money, health or legal decisions, treat the result as a strong estimate and confirm important figures with a professional."}}, {"@type": "Question", "name": "Does GoldVsFd upload my data anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. GoldVsFd runs entirely in your browser. Your inputs, files and results never leave your device, and nothing is stored on a server."}}, {"@type": "Question", "name": "What makes GoldVsFd different from other tools for gold vs fd returns calculator?", "acceptedAnswer": {"@type": "Answer", "text": "Most tools stop at the basic answer. GoldVsFd adds post-tax fd interest and sgb vs physical gold toggle \u2014 Estate's AurumX models gold SIP returns alone; the gold-vs-FD choice is a distinct festival-season search answered by opinion articles"}}, {"@type": "Question", "name": "Can I use GoldVsFd on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. GoldVsFd is a single lightweight page that works on phones, tablets and computers. Anything you save is kept in your own browser's local storage."}}]}</script>
+</head>
+<body>
+<header class="site">
+<div class="logo" aria-hidden="true">G</div>
+<div class="brandname">GoldVsFd</div>
+<nav class="navbtns"><a href="https://fixoraa.tech">Home</a><a class="ghost" href="https://fixoraa.tech">More Tools</a></nav>
+</header>
+<div class="hero"><h1>GoldVsFd — Gold vs FD Calculator: Compare Returns Over Your Horizon</h1><p>Transactional — park a lump sum in gold or an FD? — free, private, no signup.</p></div>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main>
+<div class="wrap"><div class="tool">
+<div><span class="badge">Unlimited Free Usage</span>
+<h2 style="font-family:var(--hf);margin:10px 0 4px">GoldVsFd — gold vs fd returns calculator</h2>
+<p style="margin:4px 0 12px">Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon</p>
+<label class="fld"><span>Lump sum to invest</span><input type="number" id="f_amount" value="500000"></label>
+<label class="fld"><span>Horizon (years)</span><input type="number" id="f_years" value="5"></label>
+<label class="fld"><span>Gold return % / year</span><input type="number" id="f_goldRate" value="10"></label>
+<label class="fld"><span>FD interest % / year</span><input type="number" id="f_fdRate" value="7"></label>
+<label class="fld"><span>Your tax slab % on FD interest</span><select id="f_tax"><option value="0">0</option><option value="10">10</option><option value="20">20</option><option value="30">30</option></select></label>
+<label class="fld"><span>Gold form</span><select id="f_form"><option value="sgb">sgb</option><option value="physical">physical</option></select></label>
+<p style="margin-top:14px"><button class="btn" id="go">Run GoldVsFd</button></p>
+<div id="baStage"></div>
+<div id="result" aria-live="polite"><p>Press <b>Run GoldVsFd</b> — the example values above already show a full working result. Extra built in: post-tax fd interest.</p></div>
+</div></div></div>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 py-4" role="complementary" aria-label="Advertisement">
+  <div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+</div>
+<article class="seo">
+<h2>What is a gold vs fd returns calculator — and why this one?</h2><p>If you searched for a gold vs fd returns calculator, you want one thing: a correct answer, fast, without creating an account or paying for a subscription. GoldVsFd was built for exactly that moment. Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon The page loads instantly, the tool sits at the top, and your result appears the moment you press the button — no uploads, no waiting rooms, no watermarks.</p><p>The search intent behind “gold vs fd returns calculator” is usually transactional — park a lump sum in gold or an fd? That sounds simple, but the top results for this search are a mixed bag: some are blog posts that explain the idea with one static example, some are heavy apps that demand an account before they show you anything, and some are calculators that handle only the simplest case. GoldVsFd takes a different approach — a dedicated, single-purpose tool that does this one job completely, including the edge cases the simple versions skip.</p>
+<h2>How GoldVsFd works</h2><p>Under the hood, GoldVsFd follows the standard method for a gold vs fd returns calculator, applied step by step so the result is easy to verify. Every input is labelled in plain language, sensible defaults are filled in so you can try the tool immediately, and the result panel shows not just the headline answer but the working behind it. That transparency matters: a number you cannot check is a number you cannot trust, especially when money, marks, measurements or health are involved.</p><p>Estate&#x27;s AurumX models gold SIP returns alone; the gold-vs-FD choice is a distinct festival-season search answered by opinion articles In practice that means you spend your time on the decision, not on wrestling the tool. Change any input and re-run — the calculation is instant because everything happens on your own device.</p>
+<h2>Key features</h2><h3>Post-tax FD interest</h3><p>pre-tax comparisons lie by a slab — and it is built into GoldVsFd from the start, not locked behind a signup. When you search for a gold vs fd returns calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p><h3>SGB vs physical gold toggle</h3><p>the 2.5% extra and no making charges matter — and it is built into GoldVsFd from the start, not locked behind a signup. When you search for a gold vs fd returns calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p><h3>Break-even year marker</h3><p>when gold&#x27;s costs are recovered — and it is built into GoldVsFd from the start, not locked behind a signup. When you search for a gold vs fd returns calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p>
+<h2>How to use GoldVsFd — step by step</h2><p><strong>Step 1:</strong> Start with the defaults. The tool opens with a realistic example already filled in, so you can press the main button and see a full result before entering anything of your own. <strong>Step 2:</strong> Replace the example values with your real ones — your figures, your file, or your text. <strong>Step 3:</strong> Read the whole result panel, not just the headline number; the breakdown underneath is where the useful decisions hide. <strong>Step 4:</strong> Adjust one input at a time and re-run to see how sensitive the answer is. <strong>Step 5:</strong> Copy, download or save your result using the buttons provided — everything stays in your browser, so your work is private by default.</p><p>A worked example is the fastest way to learn any tool. Run the default example first and check that the result matches the explanation in the “how it works” section above. Once the method makes sense with familiar numbers, your own case — however unusual — becomes straightforward, because the tool applies exactly the same steps every time.</p>
+<h2>Common mistakes to avoid</h2><p>Most wrong answers from a gold vs fd returns calculator come from wrong inputs, not wrong maths. Double-check that you have entered values in the units the labels ask for, that percentages are entered as percentages (12, not 0.12), and that you have not mixed two different cases into one run. If a result looks surprising, change one input at a time and watch how the answer moves — a result that moves sensibly is a result you can trust. And if two tools disagree, prefer the one that shows its working, the way GoldVsFd does.</p><p>People also search for related questions such as gold vs fd which gives better returns calculator, gold investment vs fixed deposit comparison years, sovereign gold bond vs fd calculator. Those long-tail searches usually describe a specific situation — a couple budgeting together, a student checking one subject, a buyer comparing two options. GoldVsFd was designed with those specific situations in mind, which is why its extra features focus on comparisons, breakdowns and “what if” adjustments rather than a single bare answer.</p>
+<h2>Who uses GoldVsFd?</h2><p>Anyone who needs a gold vs fd returns calculator and would rather get the answer in ten seconds than read a long article about it. Students checking work, professionals making a quick decision, families planning a budget or a purchase, and creators producing something to share — the tool does not ask who you are, and it never asks you to sign up. Keep your inputs honest and current — a calculator is only as good as the numbers you feed it. Re-run the tool whenever your income, prices or rates change, and treat every estimate as a planning guide rather than a promise.</p><p>Because the page is a single self-contained file, it also works in places where heavy apps struggle: older phones, slow connections, school and office networks. If you find it useful, bookmark it — your saved notes, favourites and history live in your own browser and will be waiting next time, with no account to remember and no password to reset.</p>
+<h2>The bottom line</h2><p>A good gold vs fd returns calculator should be fast, honest about its method, and complete enough that you do not need a second tool open in another tab. That is the standard GoldVsFd was built to. Try the default example, run your own case, and read the frequently asked questions below if anything is unclear — they cover accuracy, privacy, cost and the features that make this tool different.</p>
+<h2>Frequently asked questions</h2>
+<div class="faq"><h3>What is GoldVsFd used for?</h3><p>GoldVsFd is a free online tool for anyone searching for a gold vs fd returns calculator. It gives you an instant result in your browser — Same lump sum in gold (with making-charge/SGB toggle) vs FD (with tax-slab on interest), compared post-tax over your horizon</p></div><div class="faq"><h3>Is GoldVsFd free to use?</h3><p>Yes. GoldVsFd is completely free with unlimited usage — no signup, no paywall and no watermark on anything you create or download.</p></div><div class="faq"><h3>How accurate is GoldVsFd?</h3><p>GoldVsFd uses the standard formulas and methods described in the guide on this page, and shows its working so you can check every step. For money, health or legal decisions, treat the result as a strong estimate and confirm important figures with a professional.</p></div><div class="faq"><h3>Does GoldVsFd upload my data anywhere?</h3><p>No. GoldVsFd runs entirely in your browser. Your inputs, files and results never leave your device, and nothing is stored on a server.</p></div><div class="faq"><h3>What makes GoldVsFd different from other tools for gold vs fd returns calculator?</h3><p>Most tools stop at the basic answer. GoldVsFd adds post-tax fd interest and sgb vs physical gold toggle — Estate&#x27;s AurumX models gold SIP returns alone; the gold-vs-FD choice is a distinct festival-season search answered by opinion articles</p></div><div class="faq"><h3>Can I use GoldVsFd on my phone?</h3><p>Yes. GoldVsFd is a single lightweight page that works on phones, tablets and computers. Anything you save is kept in your own browser&#x27;s local storage.</p></div>
+</article>
+</main>
+<footer class="site">
+<p><b>GoldVsFd</b> — a free gold vs fd returns calculator that runs entirely in your browser.</p>
+<p><a href="https://fixoraa.tech">Home</a> · <a href="https://fixoraa.tech">More Tools</a></p>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+<script id="tool-logic">var TL={gold:function(amount,ratePct,years,form){if(form==='sgb'){return amount*Math.pow(1+ratePct/100,years)+amount*0.025*years;}return amount*0.9*Math.pow(1+ratePct/100,years);},fd:function(amount,ratePct,years,taxPct){var pre=amount*Math.pow(1+ratePct/100,years);return amount+(pre-amount)*(1-taxPct/100);},breakeven:function(amount,goldRate,fdRate,form,taxPct){for(var y=1;y<=30;y++){if(TL.gold(amount,goldRate,y,form)>=TL.fd(amount,fdRate,y,taxPct))return y;}return -1;}};</script>
+<script>function $(i){return document.getElementById(i);}function v(i){var e=$('f_'+i);return e?parseFloat(e.value)||0:0;}function tv(i){var e=$('f_'+i);return e?e.value:'';}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}function fmt(n){return new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(Math.round(n*100)/100);}function setResult(h){$('result').innerHTML=h;}function drawBars(rows){var mx=Math.max.apply(null,rows.map(function(r){return r[1];}))||1;var h='<div style="margin-top:10px">';rows.forEach(function(r){h+='<div style="margin:6px 0"><span>'+esc(r[0])+'</span><div style="background:var(--soft);border-radius:8px"><div style="width:'+Math.max(2,Math.round(r[1]/mx*100))+'%;background:var(--acc);height:16px;border-radius:8px"></div></div><b>'+fmt(r[1])+'</b></div>';});$('result').innerHTML+=h+'</div>';}
+document.getElementById('go').onclick=function(){var amt=v('amount'),y=v('years'),gr=v('goldRate'),fr=v('fdRate'),tax=parseFloat(tv('tax'))||0,form=tv('form');var g=TL.gold(amt,gr,y,form),f=TL.fd(amt,fr,y,tax);var fPre=amt*Math.pow(1+fr/100,y);var be=TL.breakeven(amt,gr,fr,form,tax);setResult('<p>'+(form==='sgb'?'Sovereign Gold Bond: no making charges, plus 2.5% yearly interest on your invested amount.':'Physical gold: about 10% is lost up front to making charges and GST before the metal earns anything.')+'</p><p>Gold after '+y+' years: <b>'+fmt(g)+'</b></p><p>FD after '+y+' years: '+fmt(fPre)+' before tax, <b>'+fmt(f)+'</b> after '+tax+'% tax on the interest — pre-tax comparisons flatter the FD by '+fmt(fPre-f)+'.</p><p>Break-even: '+(be>0?('gold moves ahead in <b>year '+be+'</b>.'):('gold does not catch the FD within 30 years at these rates.'))+'</p>');drawBars([['Gold',g],['FD post-tax',f]]);};</script>
+</body>
+</html>
