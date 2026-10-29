@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/compomint/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CompoMint — Compound Interest &amp; Investment Growth Calculator</title>
+<meta name="description" content="CompoMint is a free compound interest calculator: compare 3 investment scenarios side-by-side, adjust for inflation, see fee drag from expense ratios, and get year-by-year growth with CSV export.">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root { --paper:#FFF7ED; --emerald:#065F46; --copper:#B45309; --ink:#1C1917; --line:#E9DFC9; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--paper); color:var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .serif-num, .serif { font-family: Georgia, "Times New Roman", serif; }
+  .card { background:#FFFEFA; border:1px solid var(--line); border-radius:1rem; box-shadow:0 1px 2px rgba(28,25,23,.05); }
+  .rule { border-top:2px solid var(--emerald); }
+  .field { width:100%; background:#fff; border:1px solid #D9CFAF; border-radius:.6rem; padding:.55rem .75rem; font-size:.95rem; color:var(--ink); }
+  .field:focus { outline:2px solid var(--emerald); outline-offset:1px; border-color:var(--emerald); }
+  label.lbl { display:block; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:#78716C; margin-bottom:.3rem; font-weight:600; }
+  .btn-primary { background:var(--emerald); color:#fff; border-radius:.7rem; padding:.65rem 1.4rem; font-weight:700; transition:transform .08s ease, background .15s; }
+  .btn-primary:hover { background:#047857; } .btn-primary:active { transform:scale(.98); }
+  .btn-ghost { border:1px solid var(--line); background:#fff; border-radius:.7rem; padding:.55rem 1.1rem; font-weight:600; font-size:.9rem; transition:background .15s; }
+  .btn-ghost:hover { background:#FFF1DE; }
+  .badge-free { display:inline-flex; align-items:center; gap:.4rem; background:#ECFDF5; color:#065F46; border:1px solid #A7F3D0; font-size:.75rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:.35rem .8rem; border-radius:999px; }
+  .faq-item { border:1px solid var(--line); border-radius:.8rem; background:#FFFEFA; overflow:hidden; }
+  .faq-a { max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .faq-item.open .faq-a { max-height:600px; }
+  .faq-item.open .faq-chev { transform:rotate(180deg); }
+  .faq-chev { transition:transform .2s; }
+  .kicker { font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--copper); font-weight:700; }
+  table.data { border-collapse:collapse; width:100%; font-size:.85rem; }
+  table.data th { background:#065F46; color:#fff; font-weight:600; text-align:right; padding:.55rem .7rem; white-space:nowrap; position:sticky; top:0; }
+  table.data th:first-child, table.data td:first-child { text-align:left; }
+  table.data td { border-bottom:1px solid #F1E7D2; padding:.5rem .7rem; text-align:right; font-variant-numeric:tabular-nums; }
+  table.data tr:nth-child(even) td { background:#FDF6E8; }
+  .tick { accent-color:#065F46; width:1.1rem; height:1.1rem; }
+  input[type=range].slider { accent-color:#065F46; }
+  #chart_tip { pointer-events:none; transition:opacity .12s; }
+  .no-print {}
+  @media print { .no-print { display:none !important; } }
+  .dropcap::first-letter { font-family:Georgia,serif; font-size:3.2em; float:left; line-height:.9; padding-right:.12em; color:var(--emerald); font-weight:700; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ STICKY HEADER ============ -->
+<header class="sticky top-0 z-40 border-b" style="background:rgba(255,247,237,.96); border-color:var(--line); backdrop-filter:blur(6px);">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2" aria-label="CompoMint home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#065F46"/><path d="M10 20c2-5 4-8 6-8s4 3 6 8" stroke="#FFF7ED" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="16" cy="9.5" r="2.2" fill="#B45309"/></svg>
+      <span class="serif text-2xl font-bold tracking-tight" style="color:var(--emerald);">CompoMint</span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm font-semibold">
+      <a href="#top" class="hover:underline" style="color:var(--ink);">Home</a>
+      <a href="https://fixoraa.tech" class="hover:underline" style="color:var(--copper);">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TOP AD ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOOL ============ -->
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+
+  <div class="mb-6">
+    <p class="kicker mb-2">The wealth ledger</p>
+    <h1 class="serif text-4xl sm:text-5xl font-bold leading-tight" style="color:var(--ink);">Watch money grow <em style="color:var(--emerald);">on money.</em></h1>
+    <p class="mt-3 text-stone-600 max-w-2xl">CompoMint projects your investments year by year, compares three strategies side by side, strips out inflation, and exposes exactly what fees quietly take from you.</p>
+    <div class="mt-4 flex flex-wrap items-center gap-3">
+      <span class="badge-free"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Unlimited Free Usage</span>
+      <span class="text-xs text-stone-500">No signup &middot; no paywall &middot; no watermark &middot; everything runs in your browser</span>
+    </div>
+  </div>
+
+  <div id="err_box" class="hidden mb-4 card p-4 text-sm font-semibold" style="border-color:#FCA5A5; background:#FEF2F2; color:#991B1B;" role="alert"></div>
+
+  <div class="grid lg:grid-cols-12 gap-6">
+
+    <!-- ===== INPUTS PANEL ===== -->
+    <section class="lg:col-span-4 card p-5 sm:p-6" aria-label="Calculator inputs">
+      <h2 class="serif text-xl font-bold mb-1" style="color:var(--emerald);">Your plan</h2>
+      <p class="text-xs text-stone-500 mb-5">Shared by all three scenarios below.</p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="lbl" for="cur_currency">Currency</label>
+          <select id="cur_currency" class="field">
+            <option value="USD">USD — US Dollar ($)</option>
+            <option value="INR">INR — Indian Rupee (₹)</option>
+            <option value="EUR">EUR — Euro (€)</option>
+            <option value="GBP">GBP — British Pound (£)</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl" for="in_principal">Initial investment</label>
+          <input id="in_principal" type="number" min="0" step="any" value="10000" class="field serif-num text-lg" placeholder="e.g. 10000">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="lbl" for="in_contrib">Contribution</label>
+            <input id="in_contrib" type="number" min="0" step="any" value="500" class="field serif-num text-lg" placeholder="e.g. 500">
+          </div>
+          <div>
+            <label class="lbl" for="sel_contribFreq">Every</label>
+            <select id="sel_contribFreq" class="field">
+              <option value="12" selected>Month</option>
+              <option value="4">Quarter</option>
+              <option value="1">Year</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="lbl" for="sel_compFreq">Compounding frequency</label>
+          <select id="sel_compFreq" class="field">
+            <option value="365">Daily</option>
+            <option value="12" selected>Monthly</option>
+            <option value="4">Quarterly</option>
+            <option value="2">Semi-annually</option>
+            <option value="1">Annually</option>
+          </select>
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <label class="lbl" for="in_years">Duration</label>
+            <span class="serif-num text-lg font-bold" style="color:var(--copper);"><span id="years_out">30</span> yrs</span>
+          </div>
+          <input id="in_years" type="range" min="1" max="50" value="30" class="slider w-full" aria-label="Duration in years">
+        </div>
+        <div>
+          <label class="lbl" for="in_inflation">Expected inflation (% / yr)</label>
+          <input id="in_inflation" type="number" min="0" max="20" step="0.1" value="3" class="field serif-num text-lg">
+        </div>
+        <label class="flex items-start gap-3 cursor-pointer card p-3" style="background:#FDF6E8;">
+          <input id="chk_real" type="checkbox" class="tick mt-0.5">
+          <span class="text-sm"><strong>Show inflation-adjusted (real) values</strong><br><span class="text-stone-500 text-xs">See what your future balance is worth in today's purchasing power.</span></span>
+        </label>
+        <div class="flex flex-wrap gap-2 pt-1">
+          <button id="btn_calc" class="btn-primary flex-1 min-w-[8rem]">Calculate</button>
+          <button id="btn_save" class="btn-ghost" title="Save these scenarios in this browser">Save</button>
+          <button id="btn_reset" class="btn-ghost" title="Restore defaults">Reset</button>
+        </div>
+        <p id="save_note" class="text-xs text-stone-500 hidden">Saved scenarios restored from this browser.</p>
+      </div>
+    </section>
+
+    <!-- ===== SCENARIO CARDS ===== -->
+    <section class="lg:col-span-8" aria-label="Scenario comparison">
+      <div class="flex items-baseline justify-between mb-3 flex-wrap gap-2">
+        <h2 class="serif text-xl font-bold" style="color:var(--emerald);">Three futures, side by side</h2>
+        <p class="text-xs text-stone-500">Edit each scenario's annual return. Chart updates live.</p>
+      </div>
+      <div id="scenario_cards" class="grid sm:grid-cols-3 gap-4"><!-- rendered by JS --></div>
+
+      <!-- ===== SHARED CHART ===== -->
+      <div class="card p-5 sm:p-6 mt-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+          <h3 class="serif text-lg font-bold">Growth chart <span class="text-sm font-sans font-normal text-stone-500" id="chart_mode_label">— nominal values</span></h3>
+          <div id="chart_legend" class="flex flex-wrap gap-3 text-xs font-semibold"><!-- rendered --></div>
+        </div>
+        <div id="chart_wrap" class="relative">
+          <div id="chart_box"><!-- svg injected --></div>
+          <div id="chart_tip" class="absolute z-10 opacity-0 card px-3 py-2 text-xs" style="background:#FFFEFA;"></div>
+        </div>
+        <p class="text-xs text-stone-500 mt-2">Hover the chart to inspect any year. Shaded band = total money you put in.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== FEE DRAG ===== -->
+  <section class="card p-5 sm:p-6 mt-6" aria-label="Fee drag analysis">
+    <div class="flex items-baseline justify-between flex-wrap gap-2 mb-1">
+      <h2 class="serif text-xl font-bold" style="color:var(--emerald);">The silent thief: fee drag</h2>
+      <p class="text-xs text-stone-500">Same plan, same returns — minus a 1% or 2% annual expense ratio.</p>
+    </div>
+    <p class="text-sm text-stone-600 mb-4 max-w-3xl">A fund that charges 1% doesn't cost you 1% of the final balance — it compounds against you every year. Over decades, the gap is staggering.</p>
+    <div id="fee_bars" class="space-y-4"><!-- rendered --></div>
+  </section>
+
+  <!-- ===== SIMPLE VS COMPOUND + RULE OF 72 ===== -->
+  <div class="grid lg:grid-cols-2 gap-6 mt-6">
+    <section class="card p-5 sm:p-6" aria-label="Simple versus compound interest">
+      <h2 class="serif text-xl font-bold mb-1" style="color:var(--emerald);">Simple vs. compound</h2>
+      <p class="text-xs text-stone-500 mb-4">Primary scenario — what reinvesting your gains actually buys you.</p>
+      <div class="flex items-end gap-6 h-44 mb-4" id="sc_bars">
+        <div class="flex-1 flex flex-col items-center justify-end h-full">
+          <div id="bar_simple" class="w-full rounded-t-lg" style="background:#D6C9A8; height:20%; min-height:8px;"></div>
+          <p class="text-xs font-semibold mt-2 text-center">Simple interest<br><span id="s_final_simple" class="serif-num text-base font-bold">—</span></p>
+        </div>
+        <div class="flex-1 flex flex-col items-center justify-end h-full">
+          <div id="bar_compound" class="w-full rounded-t-lg" style="background:linear-gradient(180deg,#065F46,#047857); height:80%; min-height:8px;"></div>
+          <p class="text-xs font-semibold mt-2 text-center">Compound interest<br><span id="s_final_compound" class="serif-num text-base font-bold" style="color:var(--emerald);">—</span></p>
+        </div>
+      </div>
+      <p class="text-sm text-stone-600">Compounding adds <strong id="s_extra" class="serif-num" style="color:var(--copper);">—</strong> on top of simple interest — money your gains earned <em>for</em> you.</p>
+    </section>
+
+    <section class="card p-5 sm:p-6" aria-label="Rule of 72">
+      <h2 class="serif text-xl font-bold mb-1" style="color:var(--emerald);">Rule of 72</h2>
+      <p class="text-xs text-stone-500 mb-4">Divide 72 by your annual return to estimate how fast money doubles.</p>
+      <div id="rule72_chips" class="space-y-3"><!-- rendered --></div>
+      <p class="text-xs text-stone-500 mt-4">At 8%, your money doubles roughly every 9 years — that's three doublings in 27 years. Time is the multiplier.</p>
+    </section>
+  </div>
+
+  <!-- ===== YEAR BY YEAR TABLE ===== -->
+  <section class="card p-5 sm:p-6 mt-6" aria-label="Year by year breakdown">
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="serif text-xl font-bold" style="color:var(--emerald);">Year-by-year ledger</h2>
+        <p class="text-xs text-stone-500">Every year's balance, contributions, and interest earned.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="lbl !mb-0" for="sel_tableScenario">Scenario</label>
+        <select id="sel_tableScenario" class="field !w-auto"></select>
+        <button id="btn_csv" class="btn-ghost">Download CSV</button>
+      </div>
+    </div>
+    <div class="overflow-x-auto max-h-[26rem] overflow-y-auto rounded-lg border" style="border-color:var(--line);">
+      <table class="data" id="tbl_breakdown">
+        <thead><tr><th>Year</th><th>Start balance</th><th>Contributed (total)</th><th>Interest earned</th><th>End balance</th><th>In today's money</th></tr></thead>
+        <tbody id="tb_breakdown"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- ============ BOTTOM AD ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEO ARTICLE ============ -->
+<section class="mx-auto max-w-4xl px-4 sm:px-6 py-10">
+  <article id="seo-article" class="card p-6 sm:p-10">
+    <p class="kicker mb-3">The CompoMint guide</p>
+    <h2 class="serif text-3xl sm:text-4xl font-bold mb-6" style="color:var(--ink);">Compound Interest: The Complete Guide to Making Your Money Grow</h2>
+
+    <p class="dropcap text-stone-700 leading-relaxed mb-5">Compound interest is the closest thing finance has to a magic trick: you earn returns not only on the money you originally invested, but also on all the returns those investments have already produced. Each year's gains become part of next year's base, so growth accelerates the longer you stay invested. A lump sum left alone for thirty years at a steady return can end up many times larger than the same money invested for only ten — and the difference has almost nothing to do with picking winners and almost everything to do with patience.</p>
+
+    <p class="text-stone-700 leading-relaxed mb-5">The idea is simple enough to explain to a teenager, yet most people underestimate it wildly. Ask someone what $10,000 grows to in 30 years at 8% a year and the guesses cluster far below the real answer of about $100,600. Our brains think in straight lines; compounding curves upward. That gap between intuition and mathematics is exactly why a calculator matters — it replaces gut feeling with the curve.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">The formula, in plain English</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">The standard compound interest formula is <strong>A = P(1 + r/n)<sup>nt</sup></strong>, where <strong>P</strong> is your starting principal, <strong>r</strong> is the annual rate, <strong>n</strong> is how many times per year interest compounds, and <strong>t</strong> is the number of years. The exponent is the whole story: it means the rate is applied again and again to an ever-larger number. When you add regular contributions, each deposit gets its own compounding runway, and earlier deposits contribute far more to the final total than later ones — which is why starting five years earlier often beats contributing more later.</p>
+    <p class="text-stone-700 leading-relaxed mb-5">Consider two savers. Maya invests $300 a month from age 25 to 35 — ten years, $36,000 total — then stops and never adds another dollar. Arjun waits until 35 and invests $300 a month from 35 to 65 — thirty years, $108,000 total. At 8% annual return, Maya ends up with roughly $550,000 while Arjun ends up with roughly $448,000. Maya contributed a third as much money and finished ahead, purely because her money had twenty extra years to compound. Time is the input you can never buy back.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Why time beats rate</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Chasing an extra two percentage points of return feels productive, but extending your time horizon is usually more powerful — and far less risky. Take $10,000 invested with no further contributions. At 10% for 20 years it becomes about $67,300. At 8% for 30 years it becomes about $100,600. The lower rate wins because it had ten more years to work. This is the logic behind starting retirement savings in your twenties even with tiny amounts: small deposits with long runways routinely beat large deposits with short ones.</p>
+    <p class="text-stone-700 leading-relaxed mb-5">There is a second reason to prefer time over rate. Higher returns almost always demand higher risk, and risk means volatility — years where the market falls 20% or more. A plan that depends on earning 12% a year can be wrecked by a single bad stretch at the wrong moment. A plan that depends on thirty years of steady 7% compounding is far more forgiving. CompoMint's three-scenario comparison exists for exactly this reason: model a conservative, a moderate, and an optimistic return side by side, and plan around the conservative one.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">How often compounding happens matters — a little</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Interest can compound annually, quarterly, monthly, or daily. More frequent compounding means each interest payment starts earning its own interest sooner, so daily compounding beats annual compounding at the same nominal rate. The difference, however, is modest: $10,000 at 8% for 30 years grows to about $100,627 with annual compounding and about $110,203 with daily compounding — roughly a 9.5% improvement. Worth having, but it should never be the deciding factor between two investments. The rate and the time horizon dominate; frequency is a tiebreaker. That said, when you are comparing bank deposits or bonds, always compare the effective annual rate rather than the quoted nominal rate, because frequency differences are baked into that single number.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Simple interest vs. compound interest</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Simple interest pays returns only on your original principal — $10,000 at 8% simple interest earns $800 every year, forever, for a 30-year total of $24,000 in interest. Compound interest reinvests each year's $800 so that it earns its own returns, producing about $90,600 in interest over the same period. The $66,600 difference is interest earned on interest. In the real world, simple interest shows up in some short-term loans and older savings products; virtually every long-term investment — index funds, retirement accounts, reinvested dividends — compounds. The CompoMint dashboard shows both numbers for your plan so the value of reinvesting is never abstract.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">The Rule of 72: doubling time in your head</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Divide 72 by any annual rate and you get a surprisingly accurate estimate of how many years it takes money to double at that rate. At 6%, money doubles every 12 years; at 8%, every 9 years; at 12%, every 6 years. The rule also runs in reverse: if you want your money to double in 10 years, you need roughly a 7.2% return. It is a mental shortcut, not a precise formula — it works best for rates between about 4% and 15% — but it is the fastest way to sanity-check any projection. When a projection looks too good to be true, the Rule of 72 will usually tell you why: doubling every 5 years requires a sustained 14.4% return, which no diversified portfolio has ever delivered over decades.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Nominal returns lie; real returns tell the truth</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">A projection that says you will have $850,000 in thirty years sounds like a fortune — until you remember that prices rise too. At 3% annual inflation, $850,000 in thirty years buys what about $350,000 buys today. The number on the statement grew, but its purchasing power grew far less. Financial planners call the statement number the <em>nominal</em> return and the purchasing-power number the <em>real</em> return, and only the real return determines the life that money can buy.</p>
+    <p class="text-stone-700 leading-relaxed mb-5">The precise conversion uses the Fisher equation: real rate = (1 + nominal rate) ÷ (1 + inflation rate) − 1. So a 7% nominal return with 3% inflation is a real return of about 3.88%, not 4%. The rough shortcut of subtracting (7 − 3 = 4) is close enough for conversation but compounds into meaningful error over decades, which is why CompoMint uses the exact Fisher calculation. Toggle the inflation-adjusted view on the calculator and watch long-horizon projections shrink to their honest size — then plan your contributions around the honest number, not the flattering one.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Fees: the 1% that eats 30%</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Here is the least intuitive fact in personal finance: a fund charging a 1% annual expense ratio does not cost you 1% of your money. It costs you roughly 1% of your <em>growth, every year, compounded</em> — which over long horizons devours a shocking share of the final balance. Take $10,000 invested at 8% for 30 years with $500 monthly contributions. With no fees, the final balance is about $854,000. With a 1% annual fee (net return 7%), it falls to about $691,000 — the fee took $163,000, nearly a fifth of the total. With a 2% fee (net return 6%), the balance collapses to about $562,000: the fee consumed $292,000, more than a third.</p>
+    <p class="text-stone-700 leading-relaxed mb-5">This is why low-cost index funds, which often charge 0.03% to 0.20% a year, have quietly made their investors richer than most actively managed funds charging 1% or more. The active fund does not need to be slightly better to justify its fee — it needs to beat the index by the full fee, every year, for decades, which very few manage. Before choosing any investment product, run its expense ratio through the fee-drag panel above. A 2% annual advisory fee sounds modest in a brochure; expressed as $292,000 missing from your retirement, it tends to concentrate the mind.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Monthly contributions: the habit that beats the lump sum debate</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">Mathematicians will tell you that investing a lump sum immediately beats spreading it out, because markets rise more often than they fall and earlier money compounds longer. They are right — and it hardly matters, because most people do not have lump sums sitting around. What most people have is a paycheck, and the realistic choice is between investing part of it every month or spending it. Automatic monthly contributions win behaviorally: they remove willpower from the equation, they buy through market dips without requiring courage, and they convert compounding from a theory into a habit. The calculator's contribution settings let you model monthly, quarterly, or annual deposits so you can see exactly how much the habit is worth over your chosen horizon.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">Five mistakes that quietly break compounding</h3>
+    <p class="text-stone-700 leading-relaxed mb-5"><strong>Starting late.</strong> Every year you wait is a year of compounding you can never recover — see Maya and Arjun above. <strong>Raiding the account.</strong> Withdrawing $20,000 in year ten does not cost you $20,000; it costs you $20,000 plus thirty years of growth on it, which at 8% is over $200,000. <strong>Ignoring inflation.</strong> Planning around nominal balances produces targets that feel safe and retirements that are not. <strong>Paying high fees.</strong> As shown above, a 2% drag can erase a third of a lifetime of saving. <strong>Chasing last year's winner.</strong> Switching strategies every few years resets your compounding clock on whatever you abandoned, and the switching itself usually happens at exactly the wrong moment.</p>
+
+    <h3 class="serif text-2xl font-bold mt-8 mb-4" style="color:var(--emerald);">How to use CompoMint's three scenarios</h3>
+    <p class="text-stone-700 leading-relaxed mb-5">A single projection is a fantasy; three projections are a plan. Set Scenario A to a conservative return (say 5–6%, roughly a cautious bond-heavy mix), Scenario B to a moderate return (7–8%, a balanced portfolio), and Scenario C to an optimistic return (10%+, an equity-heavy portfolio in a good stretch). If your goal — a house deposit, a retirement number, a child's education fund — is reachable even in Scenario A, your plan is robust. If it only works in Scenario C, you need to save more, save longer, or rethink the goal. Then toggle the inflation adjustment on and repeat the exercise in today's money. The honest, slightly smaller numbers are the ones worth planning around.</p>
+    <p class="text-stone-700 leading-relaxed mb-5">Finally, remember what this calculator is and is not. It is a precise model of an imprecise future: the arithmetic is exact, but the inputs — your future returns, future inflation, your own consistency — are estimates. Markets do not deliver 8% every year; they deliver a jagged sequence that averages out near 8% over long stretches, and the jaggedness matters if you need the money at a specific date. Use these projections to choose a savings rate and a strategy, revisit them once a year, and treat the real enemy — delay, withdrawals, inflation, and fees — with the respect the numbers say they deserve. Compound interest rewards the patient and punishes the distracted; the calculator just shows you the scoreboard.</p>
+
+    <p class="text-xs text-stone-500 mt-8 pt-6" style="border-top:1px solid var(--line);">Disclaimer: CompoMint provides educational estimates only and is not financial advice. Projections assume a constant annual return, which real investments never deliver. Past performance does not guarantee future results. Consider consulting a qualified financial adviser before making investment decisions.</p>
+  </article>
+
+  <!-- ============ FAQs ============ -->
+  <div class="mt-10">
+    <h2 class="serif text-3xl font-bold mb-6 text-center" style="color:var(--ink);">Frequently asked questions</h2>
+    <div class="space-y-3" id="faq_list">
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>What is the compound interest formula?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">The basic formula is A = P(1 + r/n)<sup>nt</sup>: final amount equals principal times one plus the periodic rate, raised to the total number of compounding periods. With regular contributions, each deposit is grown separately with the same formula and the results are added together. CompoMint applies this period by period, so monthly contributions with quarterly compounding are handled exactly.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>How does the Rule of 72 work?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">Divide 72 by your annual return percentage to estimate the years needed for money to double. At 8%, money doubles roughly every 9 years (72 ÷ 8 = 9). It works best for rates between 4% and 15% and is a mental shortcut, not an exact calculation — CompoMint shows the doubling time for each of your three scenarios automatically.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>What is the difference between nominal and real (inflation-adjusted) returns?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">Nominal return is the number on your statement; real return is what that money can actually buy after inflation. The exact conversion is the Fisher equation: real rate = (1 + nominal) ÷ (1 + inflation) − 1. At 3% inflation, $850,000 in 30 years has the purchasing power of about $350,000 today. Toggle the inflation-adjusted view in CompoMint to see every projection in today's money.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>How do fees and expense ratios reduce compound growth?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">A fee is subtracted from your return every year before compounding, so a 1% expense ratio on an 8% return leaves you compounding at 7%. Over 30 years, that 1% drag can erase roughly a fifth of the final balance, and a 2% fee can erase more than a third. The fee-drag panel above quantifies this in dollars for your exact plan — it is usually the most eye-opening number on the page.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>Does compounding frequency matter — monthly vs. annually?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">Yes, but modestly. More frequent compounding lets each interest payment start earning sooner. On $10,000 at 8% for 30 years, daily compounding beats annual compounding by about 9.5%. The interest rate and the time horizon matter far more than frequency — treat frequency as a tiebreaker, and always compare products using their effective annual rate.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left p-4 sm:p-5 font-semibold" aria-expanded="false">
+          <span>Are compound interest projections guaranteed?</span>
+          <svg class="faq-chev shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="faq-a"><p class="px-4 sm:px-5 pb-5 text-sm text-stone-600 leading-relaxed">No. The math is exact but the inputs are estimates: real markets deliver jagged year-to-year returns that only average out over long periods, and inflation and fees shift over time. Use projections to pick a savings rate and test it across conservative, moderate, and optimistic scenarios — CompoMint's three-scenario view is built for this — and revisit your plan annually rather than trusting a single number.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What is the compound interest formula?", "acceptedAnswer": { "@type": "Answer", "text": "The basic formula is A = P(1 + r/n)^nt: final amount equals principal times one plus the periodic rate, raised to the total number of compounding periods. With regular contributions, each deposit is grown separately and the results are added together." } },
+    { "@type": "Question", "name": "How does the Rule of 72 work?", "acceptedAnswer": { "@type": "Answer", "text": "Divide 72 by your annual return percentage to estimate the years needed for money to double. At 8%, money doubles roughly every 9 years. It works best for rates between 4% and 15% as a mental shortcut." } },
+    { "@type": "Question", "name": "What is the difference between nominal and real (inflation-adjusted) returns?", "acceptedAnswer": { "@type": "Answer", "text": "Nominal return is the number on your statement; real return is purchasing power after inflation, computed with the Fisher equation: real rate = (1 + nominal) / (1 + inflation) - 1. At 3% inflation, $850,000 in 30 years buys what about $350,000 buys today." } },
+    { "@type": "Question", "name": "How do fees and expense ratios reduce compound growth?", "acceptedAnswer": { "@type": "Answer", "text": "A fee is subtracted from your return every year before compounding, so a 1% expense ratio on an 8% return leaves 7% compounding. Over 30 years a 1% drag can erase roughly a fifth of the final balance; a 2% fee can erase more than a third." } },
+    { "@type": "Question", "name": "Does compounding frequency matter — monthly vs. annually?", "acceptedAnswer": { "@type": "Answer", "text": "Modestly. More frequent compounding lets each interest payment start earning sooner — about a 9.5% improvement going from annual to daily compounding at 8% over 30 years. Rate and time horizon matter far more; compare products on effective annual rate." } },
+    { "@type": "Question", "name": "Are compound interest projections guaranteed?", "acceptedAnswer": { "@type": "Answer", "text": "No. The math is exact but inputs are estimates: real markets deliver jagged returns that only average out over long periods. Test plans across conservative, moderate, and optimistic scenarios and revisit annually." } }
+  ]
+}
+</script>
+
+<!-- ============ FOOTER ============ -->
+<footer class="mt-6 border-t" style="border-color:var(--line);">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="serif text-lg font-bold" style="color:var(--emerald);">CompoMint</p>
+    <p class="text-xs text-stone-500 text-center">Free compound interest calculator. Educational estimates only — not financial advice.</p>
+    <a href="https://fixoraa.tech" class="text-sm font-semibold hover:underline" style="color:var(--copper);">More Tools</a>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script>
+/*__PURE_START__*/
+'use strict';
+/* ===== CompoMint pure calculation logic — no DOM access. ===== */
+
+function cmToNum(v, fallback) {
+  var n = (typeof v === 'string' && v.trim() === '') ? NaN : Number(v);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function cmClamp(v, min, max) {
+  if (!Number.isFinite(v)) return min;
+  return Math.min(max, Math.max(min, v));
+}
+
+function cmCompact(v) {
+  v = Number(v) || 0;
+  var a = Math.abs(v);
+  if (a >= 1e9) return (v / 1e9).toFixed(1) + 'B';
+  if (a >= 1e6) return (v / 1e6).toFixed(1) + 'M';
+  if (a >= 1e3) return (v / 1e3).toFixed(1) + 'K';
+  return v.toFixed(0);
+}
+
+var CM_CURRENCIES = {
+  USD: { locale: 'en-US', label: 'USD — US Dollar ($)' },
+  INR: { locale: 'en-IN', label: 'INR — Indian Rupee' },
+  EUR: { locale: 'de-DE', label: 'EUR — Euro' },
+  GBP: { locale: 'en-GB', label: 'GBP — British Pound' }
+};
+
+function formatMoney(amount, code) {
+  var c = CM_CURRENCIES[code] || CM_CURRENCIES.USD;
+  var cur = CM_CURRENCIES[code] ? code : 'USD';
+  var n = Number(amount);
+  if (!Number.isFinite(n)) n = 0;
+  try {
+    return new Intl.NumberFormat(c.locale, { style: 'currency', currency: cur, maximumFractionDigits: 0 }).format(n);
+  } catch (e) {
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+}
+
+/*
+ * Core simulator. Contributions are added at the end of each compounding period,
+ * distributed evenly: perPeriod = (contrib * contribPerYear) / compPerYear.
+ * p: { principal, ratePct, years, contrib, contribPerYear, compPerYear }
+ */
+function simulate(p) {
+  var principal = Math.max(0, cmToNum(p.principal, 0));
+  var rate = cmClamp(cmToNum(p.ratePct, 0), 0, 100) / 100;
+  var years = Math.round(cmClamp(cmToNum(p.years, 0), 0, 100));
+  var contrib = Math.max(0, cmToNum(p.contrib, 0));
+  var contribPerYear = Math.round(cmClamp(cmToNum(p.contribPerYear, 12), 1, 365));
+  var compPerYear = Math.round(cmClamp(cmToNum(p.compPerYear, 12), 1, 365));
+  var periodRate = rate / compPerYear;
+  var perPeriod = (contrib * contribPerYear) / compPerYear;
+  var balance = principal;
+  var schedule = [];
+  for (var y = 1; y <= years; y++) {
+    var start = balance;
+    for (var i = 0; i < compPerYear; i++) {
+      balance = balance * (1 + periodRate) + perPeriod;
+    }
+    var contributed = contrib * contribPerYear * y;
+    schedule.push({
+      year: y,
+      startBalance: start,
+      endBalance: balance,
+      contributed: contributed,
+      interest: balance - contributed - principal
+    });
+  }
+  var totalContrib = contrib * contribPerYear * years;
+  return {
+    principal: principal,
+    ratePct: rate * 100,
+    years: years,
+    balance: balance,
+    contributed: totalContrib,
+    interest: balance - totalContrib - principal,
+    schedule: schedule
+  };
+}
+
+/* Simple interest: principal earns r*t, contributions earn nothing. */
+function simpleVsCompound(p) {
+  var principal = Math.max(0, cmToNum(p.principal, 0));
+  var rate = cmClamp(cmToNum(p.ratePct, 0), 0, 100) / 100;
+  var years = Math.round(cmClamp(cmToNum(p.years, 0), 0, 100));
+  var contrib = Math.max(0, cmToNum(p.contrib, 0));
+  var contribPerYear = Math.round(cmClamp(cmToNum(p.contribPerYear, 12), 1, 365));
+  var totalContrib = contrib * contribPerYear * years;
+  var simpleInterest = principal * rate * years;
+  var simpleFinal = principal + simpleInterest + totalContrib;
+  var compound = simulate(p);
+  return {
+    simpleFinal: simpleFinal,
+    simpleInterest: simpleInterest,
+    compoundFinal: compound.balance,
+    compoundInterest: compound.interest,
+    extraFromCompounding: compound.balance - simpleFinal
+  };
+}
+
+/* Years for money to double at ratePct; null when not meaningful. */
+function ruleOf72(ratePct) {
+  var r = cmToNum(ratePct, 0);
+  if (!Number.isFinite(r) || r <= 0) return null;
+  return 72 / r;
+}
+
+/* Purchasing power of a nominal future amount. */
+function realValue(nominal, inflationPct, years) {
+  var n = cmToNum(nominal, 0);
+  var i = cmClamp(cmToNum(inflationPct, 0), 0, 100) / 100;
+  var y = Math.max(0, cmToNum(years, 0));
+  return n / Math.pow(1 + i, y);
+}
+
+/* Exact real rate via Fisher equation (percent). */
+function fisherRealRate(nominalPct, inflationPct) {
+  var r = cmClamp(cmToNum(nominalPct, 0), 0, 100) / 100;
+  var i = cmClamp(cmToNum(inflationPct, 0), 0, 100) / 100;
+  return ((1 + r) / (1 + i) - 1) * 100;
+}
+
+/* Fee drag: same plan at full rate vs rate-minus-fee. */
+function feeDrag(p, feePct) {
+  var fee = cmClamp(cmToNum(feePct, 0), 0, 25);
+  var noFee = simulate(p);
+  var q = {};
+  for (var k in p) { if (Object.prototype.hasOwnProperty.call(p, k)) q[k] = p[k]; }
+  q.ratePct = Math.max(0, cmToNum(p.ratePct, 0) - fee);
+  var withFee = simulate(q);
+  var drag = noFee.balance - withFee.balance;
+  return {
+    feePct: fee,
+    noFee: noFee.balance,
+    withFee: withFee.balance,
+    drag: drag,
+    dragPct: noFee.balance > 0 ? (drag / noFee.balance) * 100 : 0
+  };
+}
+
+/*
+ * Compare named scenarios sharing base inputs; each scenario overrides ratePct.
+ * base: { principal, years, contrib, contribPerYear, compPerYear, inflationPct }
+ * scenarios: [{ name, ratePct }, ...]
+ */
+function compareScenarios(base, scenarios) {
+  var inflation = cmClamp(cmToNum(base.inflationPct, 3), 0, 100);
+  var years = Math.round(cmClamp(cmToNum(base.years, 0), 0, 100));
+  return scenarios.map(function (s) {
+    var q = {};
+    for (var k in base) { if (Object.prototype.hasOwnProperty.call(base, k)) q[k] = base[k]; }
+    q.ratePct = s.ratePct;
+    var sim = simulate(q);
+    return {
+      name: String(s.name == null ? '' : s.name),
+      ratePct: cmToNum(s.ratePct, 0),
+      principal: Math.max(0, cmToNum(base.principal, 0)),
+      finalBalance: sim.balance,
+      contributed: sim.contributed,
+      interest: sim.interest,
+      schedule: sim.schedule,
+      realBalance: realValue(sim.balance, inflation, years),
+      fee1: feeDrag(q, 1),
+      fee2: feeDrag(q, 2),
+      doubleYears: ruleOf72(s.ratePct)
+    };
+  });
+}
+
+function scheduleToCSV(schedule) {
+  var lines = ['Year,Balance Start,Balance End,Total Contributed,Interest Earned'];
+  for (var i = 0; i < schedule.length; i++) {
+    var r = schedule[i];
+    lines.push(r.year + ',' + r.startBalance.toFixed(2) + ',' + r.endBalance.toFixed(2) + ',' + r.contributed.toFixed(2) + ',' + r.interest.toFixed(2));
+  }
+  return lines.join('\n');
+}
+
+/*
+ * Inline SVG growth chart as a string. series: [{ name, color, values: [y1..yn] }].
+ * opts: { width, height, currency, contribValues (optional cumulative contributions) }
+ */
+function growthChartSVG(series, opts) {
+  opts = opts || {};
+  var W = opts.width || 720, H = opts.height || 320;
+  var padL = 10, padR = 64, padT = 14, padB = 28;
+  var currency = opts.currency || 'USD';
+  var n = 0, maxV = 0, i, s;
+  for (s = 0; s < series.length; s++) {
+    if (series[s].values.length > n) n = series[s].values.length;
+    for (i = 0; i < series[s].values.length; i++) {
+      if (series[s].values[i] > maxV) maxV = series[s].values[i];
+    }
+  }
+  if (maxV <= 0) maxV = 1;
+  function X(idx) { return padL + (n <= 1 ? (W - padL - padR) / 2 : (idx / (n - 1)) * (W - padL - padR)); }
+  function Y(v) { return padT + (1 - v / maxV) * (H - padT - padB); }
+  var out = '<svg id="cm_chart_svg" viewBox="0 0 ' + W + ' ' + H + '" class="w-full h-auto" role="img" aria-label="Investment growth comparison chart">';
+  if (n === 0) {
+    out += '<text x="' + (W / 2) + '" y="' + (H / 2) + '" text-anchor="middle" font-size="14" fill="#A8A29E">No data yet</text></svg>';
+    return out;
+  }
+  // contribution band
+  if (opts.contribValues && opts.contribValues.length === n) {
+    var band = '';
+    for (i = 0; i < n; i++) band += (i ? ' L' : 'M') + X(i).toFixed(1) + ' ' + Y(opts.contribValues[i]).toFixed(1);
+    band += ' L' + X(n - 1).toFixed(1) + ' ' + Y(0).toFixed(1) + ' L' + X(0).toFixed(1) + ' ' + Y(0).toFixed(1) + ' Z';
+    out += '<path d="' + band + '" fill="#B45309" opacity="0.12"/>';
+  }
+  // gridlines
+  for (var g = 0; g <= 4; g++) {
+    var gv = maxV * g / 4, gy = Y(gv);
+    out += '<line x1="' + padL + '" y1="' + gy.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + gy.toFixed(1) + '" stroke="#EDE4CF" stroke-width="1"/>';
+    out += '<text x="' + (W - padR + 6) + '" y="' + (gy + 3.5).toFixed(1) + '" font-size="10" fill="#A8A29E">' + cmCompact(gv) + '</text>';
+  }
+  // x labels
+  var step = Math.max(1, Math.ceil(n / 6));
+  for (i = 0; i < n; i += step) {
+    out += '<text x="' + X(i).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="10" fill="#A8A29E">Yr ' + (i + 1) + '</text>';
+  }
+  // series lines + points
+  for (s = 0; s < series.length; s++) {
+    var pts = '';
+    for (i = 0; i < series[s].values.length; i++) pts += (i ? ' ' : '') + X(i).toFixed(1) + ',' + Y(series[s].values[i]).toFixed(1);
+    out += '<polyline points="' + pts + '" fill="none" stroke="' + series[s].color + '" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>';
+    for (i = 0; i < series[s].values.length; i += Math.max(1, Math.ceil(n / 12))) {
+      out += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(series[s].values[i]).toFixed(1) + '" r="3.4" fill="' + series[s].color + '" stroke="#FFFEFA" stroke-width="1.4"><title>' + series[s].name + ' — Year ' + (i + 1) + ': ' + formatMoney(series[s].values[i], currency) + '</title></circle>';
+    }
+  }
+  out += '<line id="cm_guide" x1="-10" y1="' + padT + '" x2="-10" y2="' + (H - padB) + '" stroke="#1C1917" stroke-width="1" opacity="0.35"/>';
+  out += '</svg>';
+  return out;
+}
+
+/* Validate shared plan inputs; '' means valid. */
+function validateBase(p) {
+  var principal = cmToNum(p.principal, NaN);
+  if (!Number.isFinite(principal) || principal < 0) return 'Enter an initial investment of 0 or more.';
+  if (principal > 1000000000) return 'Initial investment is too large (max 1,000,000,000).';
+  var contrib = cmToNum(p.contrib, NaN);
+  if (!Number.isFinite(contrib) || contrib < 0) return 'Enter a contribution amount of 0 or more.';
+  if (contrib > 10000000) return 'Contribution is too large (max 10,000,000 per period).';
+  var rate = cmToNum(p.ratePct, NaN);
+  if (!Number.isFinite(rate) || rate < 0 || rate > 30) return 'Annual return must be between 0% and 30%.';
+  var years = cmToNum(p.years, NaN);
+  if (!Number.isFinite(years) || Math.round(years) < 1 || Math.round(years) > 50) return 'Duration must be between 1 and 50 years.';
+  var infl = cmToNum(p.inflationPct, NaN);
+  if (!Number.isFinite(infl) || infl < 0 || infl > 20) return 'Inflation must be between 0% and 20%.';
+  return '';
+}
+
+function validateScenarioRate(r) {
+  var v = cmToNum(r, NaN);
+  if (!Number.isFinite(v) || v < 0 || v > 30) return 'Scenario return must be between 0% and 30%.';
+  return '';
+}
+/*__PURE_END__*/
+</script>
+
+<script>
+/* ===== CompoMint UI wiring (DOM). Pure logic above is tested in Node. ===== */
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var STORE_KEY = 'compomint-state-v1';
+  var SC_COLORS = ['#065F46', '#B45309', '#1C1917'];
+  var SC_DEFAULTS = [
+    { name: 'Steady', ratePct: 6 },
+    { name: 'Balanced', ratePct: 8 },
+    { name: 'Growth', ratePct: 10 }
+  ];
+  var lastResults = null, lastBase = null, renderTimer = null;
+
+  function readBase() {
+    return {
+      principal: $('in_principal').value,
+      contrib: $('in_contrib').value,
+      contribPerYear: parseInt($('sel_contribFreq').value, 10),
+      compPerYear: parseInt($('sel_compFreq').value, 10),
+      years: parseInt($('in_years').value, 10),
+      inflationPct: $('in_inflation').value,
+      ratePct: 8
+    };
+  }
+  function readScenarios() {
+    var out = [];
+    for (var i = 0; i < 3; i++) {
+      out.push({ name: ($('sc_name_' + i).value || '').trim() || SC_DEFAULTS[i].name, ratePct: $('sc_rate_' + i).value });
+    }
+    return out;
+  }
+  function currency() { return $('cur_currency').value; }
+
+  function showError(msg) {
+    var box = $('err_box');
+    if (!msg) { box.classList.add('hidden'); box.textContent = ''; return; }
+    box.classList.remove('hidden'); box.textContent = msg;
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function renderScenarioCards(results, showReal) {
+    var wrap = $('scenario_cards'), legend = $('chart_legend');
+    wrap.innerHTML = ''; legend.innerHTML = '';
+    results.forEach(function (r, i) {
+      var col = SC_COLORS[i];
+      var heroVal = showReal ? r.realBalance : r.finalBalance;
+      var card = document.createElement('div');
+      card.className = 'card p-4 sm:p-5';
+      card.style.borderTop = '4px solid ' + col;
+      card.innerHTML =
+        '<div class="grid grid-cols-2 gap-2 mb-3">' +
+          '<input id="sc_name_' + i + '" class="field !py-1.5 !px-2 text-sm font-bold" value="' + escapeHtml(r.name) + '" aria-label="Scenario ' + (i + 1) + ' name" maxlength="18">' +
+          '<div class="flex items-center gap-1"><input id="sc_rate_' + i + '" type="number" min="0" max="30" step="0.1" class="field !py-1.5 !px-2 text-sm serif-num font-bold" value="' + r.ratePct + '" aria-label="Scenario ' + (i + 1) + ' annual return percent"><span class="text-sm font-bold" style="color:' + col + '">%</span></div>' +
+        '</div>' +
+        '<p class="lbl !mb-1">' + (showReal ? 'Final value · in today\'s money' : 'Final balance') + '</p>' +
+        '<p class="serif-num text-3xl font-bold mb-3" style="color:' + col + ';">' + formatMoney(heroVal, currency()) + '</p>' +
+        '<dl class="text-sm space-y-1.5">' +
+          row('Initial investment', formatMoney(r.principal, currency())) +
+          row('Contributions', formatMoney(r.contributed, currency())) +
+          (showReal ? '' : row('Real value today', formatMoney(r.realBalance, currency()))) +
+          row('Interest earned', formatMoney(r.interest, currency())) +
+          row('Lost to 1% fee', '<span style="color:#B91C1C;">−' + formatMoney(r.fee1.drag, currency()) + '</span>') +
+          row('Lost to 2% fee', '<span style="color:#B91C1C;">−' + formatMoney(r.fee2.drag, currency()) + '</span>') +
+          row('Doubles every', r.doubleYears == null ? '—' : r.doubleYears.toFixed(1) + ' yrs') +
+        '</dl>';
+      wrap.appendChild(card);
+      var li = document.createElement('span');
+      li.innerHTML = '<span class="inline-block w-3 h-3 rounded-full align-middle mr-1" style="background:' + col + '"></span>' + escapeHtml(r.name) + ' (' + r.ratePct + '%)';
+      legend.appendChild(li);
+      $('sc_name_' + i).addEventListener('input', scheduleRender);
+      $('sc_rate_' + i).addEventListener('input', scheduleRender);
+    });
+    function row(k, v) {
+      return '<div class="flex justify-between gap-2"><dt class="text-stone-500">' + k + '</dt><dd class="serif-num font-semibold text-right">' + v + '</dd></div>';
+    }
+  }
+
+  function renderChart(results, base, showReal) {
+    var infl = parseFloat(base.inflationPct) || 0;
+    var yrs = parseInt(base.years, 10) || 0;
+    var series = results.map(function (r, i) {
+      var vals = r.schedule.map(function (row) { return showReal ? realValue(row.endBalance, infl, row.year) : row.endBalance; });
+      return { name: r.name, color: SC_COLORS[i], values: vals };
+    });
+    var contribVals = results.length && results[0].schedule.length
+      ? results[0].schedule.map(function (row) { return showReal ? realValue(row.contributed, infl, row.year) : row.contributed; })
+      : [];
+    $('chart_box').innerHTML = growthChartSVG(series, { width: 720, height: 320, currency: currency(), contribValues: contribVals });
+    $('chart_mode_label').textContent = showReal ? '— inflation-adjusted (today\'s money)' : '— nominal values';
+    wireChartTip(series, yrs, showReal, infl);
+  }
+
+  function wireChartTip(series, yrs, showReal, infl) {
+    var wrap = $('chart_wrap'), tip = $('chart_tip'), box = $('chart_box');
+    var svg = box.querySelector('svg'); if (!svg) return;
+    var guide = svg.querySelector('#cm_guide');
+    function hide() { tip.style.opacity = '0'; if (guide) guide.setAttribute('x1', '-10'), guide.setAttribute('x2', '-10'); }
+    box.onmousemove = function (ev) {
+      if (!series.length || !series[0].values.length) { hide(); return; }
+      var rect = box.getBoundingClientRect();
+      var svgW = 720, padL = 10, padR = 64;
+      var relX = (ev.clientX - rect.left) / rect.width * svgW;
+      var n = series[0].values.length;
+      var idx = Math.round((relX - padL) / ((svgW - padL - padR) / Math.max(1, n - 1)));
+      idx = Math.max(0, Math.min(n - 1, idx));
+      var html = '<p class="font-bold mb-1">Year ' + (idx + 1) + '</p>';
+      series.forEach(function (s) {
+        html += '<p><span class="inline-block w-2 h-2 rounded-full mr-1" style="background:' + s.color + '"></span>' + escapeHtml(s.name) + ': <strong class="serif-num">' + formatMoney(s.values[idx], currency()) + '</strong></p>';
+      });
+      tip.innerHTML = html;
+      tip.style.opacity = '1';
+      var tipX = (ev.clientX - rect.left) + 14, tipY = (ev.clientY - rect.top) - 10;
+      tipX = Math.min(tipX, rect.width - 170); tipY = Math.max(tipY, 4);
+      tip.style.left = tipX + 'px'; tip.style.top = tipY + 'px';
+      if (guide) {
+        var gx = padL + (n <= 1 ? (svgW - padL - padR) / 2 : (idx / (n - 1)) * (svgW - padL - padR));
+        guide.setAttribute('x1', gx.toFixed(1)); guide.setAttribute('x2', gx.toFixed(1));
+      }
+    };
+    box.onmouseleave = hide;
+  }
+
+  function renderFeeBars(results, showReal) {
+    var wrap = $('fee_bars'); wrap.innerHTML = '';
+    results.forEach(function (r, i) {
+      var max = Math.max(r.finalBalance, r.fee1.withFee, r.fee2.withFee, 1);
+      function bar(val, color, label, sub) {
+        var pct = Math.max(1.5, (val / max) * 100);
+        return '<div class="mb-1.5"><div class="flex justify-between text-xs mb-1"><span class="font-semibold">' + label + '</span><span class="serif-num font-bold">' + formatMoney(val, currency()) + '</span></div>' +
+          '<div class="h-3 rounded-full" style="background:#F1E7D2;"><div class="h-3 rounded-full" style="width:' + pct.toFixed(1) + '%; background:' + color + ';"></div></div>' +
+          (sub ? '<p class="text-xs text-stone-500 mt-0.5">' + sub + '</p>' : '') + '</div>';
+      }
+      var sec = document.createElement('div');
+      sec.className = 'rounded-xl p-4';
+      sec.style.background = '#FDF6E8';
+      sec.innerHTML = '<p class="font-bold mb-2"><span class="inline-block w-3 h-3 rounded-full mr-2" style="background:' + SC_COLORS[i] + '"></span>' + escapeHtml(r.name) + ' · ' + r.ratePct + '%/yr</p>' +
+        bar(r.finalBalance, SC_COLORS[i], 'No fees', 'Your full compounding power.') +
+        bar(r.fee1.withFee, '#D97706', 'With 1% annual fee', 'You lose <strong class="serif-num">' + formatMoney(r.fee1.drag, currency()) + '</strong> (' + r.fee1.dragPct.toFixed(1) + '% of the total).') +
+        bar(r.fee2.withFee, '#B91C1C', 'With 2% annual fee', 'You lose <strong class="serif-num">' + formatMoney(r.fee2.drag, currency()) + '</strong> (' + r.fee2.dragPct.toFixed(1) + '% of the total).');
+      wrap.appendChild(sec);
+    });
+  }
+
+  function renderSimpleCompound(results, base) {
+    var r = results[0];
+    var q = { principal: base.principal, ratePct: r.ratePct, years: base.years, contrib: base.contrib, contribPerYear: base.contribPerYear, compPerYear: base.compPerYear };
+    var s = simpleVsCompound(q);
+    $('s_final_simple').textContent = formatMoney(s.simpleFinal, currency());
+    $('s_final_compound').textContent = formatMoney(s.compoundFinal, currency());
+    $('s_extra').textContent = '+' + formatMoney(s.extraFromCompounding, currency());
+    var max = Math.max(s.simpleFinal, s.compoundFinal, 1);
+    $('bar_simple').style.height = Math.max(4, (s.simpleFinal / max) * 100) + '%';
+    $('bar_compound').style.height = Math.max(4, (s.compoundFinal / max) * 100) + '%';
+  }
+
+  function renderRule72(results) {
+    var wrap = $('rule72_chips'); wrap.innerHTML = '';
+    results.forEach(function (r, i) {
+      var d = document.createElement('div');
+      d.className = 'flex items-center justify-between rounded-xl px-4 py-3';
+      d.style.background = '#FDF6E8';
+      d.innerHTML = '<span class="font-semibold text-sm"><span class="inline-block w-3 h-3 rounded-full mr-2" style="background:' + SC_COLORS[i] + '"></span>' + escapeHtml(r.name) + ' · ' + r.ratePct + '%</span>' +
+        '<span class="serif-num text-lg font-bold" style="color:' + SC_COLORS[i] + ';">' + (r.doubleYears == null ? '—' : '≈ ' + r.doubleYears.toFixed(1) + ' years to double') + '</span>';
+      wrap.appendChild(d);
+    });
+  }
+
+  function renderTable(results, base, showReal) {
+    var sel = $('sel_tableScenario');
+    var keep = parseInt(sel.value, 10);
+    sel.innerHTML = '';
+    results.forEach(function (r, i) {
+      var o = document.createElement('option');
+      o.value = i; o.textContent = r.name + ' (' + r.ratePct + '%)';
+      sel.appendChild(o);
+    });
+    sel.value = Number.isFinite(keep) && keep >= 0 && keep < results.length ? keep : 0;
+    var r = results[parseInt(sel.value, 10) || 0];
+    var infl = parseFloat(base.inflationPct) || 0;
+    var tb = $('tb_breakdown'); tb.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    r.schedule.forEach(function (row) {
+      var tr = document.createElement('tr');
+      function td(v, bold) { var c = document.createElement('td'); c.textContent = v; if (bold) c.className = 'font-bold'; return c; }
+      tr.appendChild(td('Year ' + row.year));
+      tr.appendChild(td(formatMoney(row.startBalance, currency())));
+      tr.appendChild(td(formatMoney(row.contributed, currency())));
+      tr.appendChild(td(formatMoney(row.interest, currency())));
+      tr.appendChild(td(formatMoney(row.endBalance, currency()), true));
+      tr.appendChild(td(formatMoney(realValue(row.endBalance, infl, row.year), currency())));
+      frag.appendChild(tr);
+    });
+    tb.appendChild(frag);
+  }
+
+  function calculate() {
+    var base = readBase();
+    var err = validateBase(base);
+    var scenarios = readScenarios();
+    if (!err) {
+      for (var i = 0; i < scenarios.length; i++) {
+        var se = validateScenarioRate(scenarios[i].ratePct);
+        if (se) { err = 'Scenario "' + scenarios[i].name + '": ' + se; break; }
+      }
+    }
+    if (err) { showError(err); return; }
+    showError('');
+    // clamp scenario inputs into valid range for display consistency
+    scenarios.forEach(function (s) { s.ratePct = Math.min(30, Math.max(0, parseFloat(s.ratePct) || 0)); });
+    var results = compareScenarios(base, scenarios);
+    lastResults = results; lastBase = base;
+    var showReal = $('chk_real').checked;
+    renderScenarioCards(results, showReal);
+    renderChart(results, base, showReal);
+    renderFeeBars(results, showReal);
+    renderSimpleCompound(results, base);
+    renderRule72(results);
+    renderTable(results, base, showReal);
+  }
+
+  function scheduleRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(calculate, 350);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function downloadCSV() {
+    if (!lastResults) return;
+    var idx = parseInt($('sel_tableScenario').value, 10) || 0;
+    var r = lastResults[idx];
+    var csv = scheduleToCSV(r.schedule);
+    var blob = new Blob([csv], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'compomint-' + r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-schedule.csv';
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+
+  function saveState() {
+    try {
+      var state = {
+        base: readBase(),
+        scenarios: readScenarios(),
+        currency: currency(),
+        showReal: $('chk_real').checked
+      };
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      var n = $('save_note'); n.classList.remove('hidden'); n.textContent = 'Saved just now — scenarios restore automatically on your next visit.';
+      setTimeout(function () { n.textContent = 'Saved scenarios restored from this browser.'; }, 3000);
+    } catch (e) { showError('Could not save in this browser (storage unavailable).'); }
+  }
+
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return false;
+      var s = JSON.parse(raw);
+      if (!s || !s.base) return false;
+      $('in_principal').value = s.base.principal;
+      $('in_contrib').value = s.base.contrib;
+      $('sel_contribFreq').value = String(s.base.contribPerYear);
+      $('sel_compFreq').value = String(s.base.compPerYear);
+      $('in_years').value = s.base.years;
+      $('in_inflation').value = s.base.inflationPct;
+      $('cur_currency').value = s.currency || 'USD';
+      $('chk_real').checked = !!s.showReal;
+      // scenario inputs are rendered in cards; stash for first render
+      window.__cm_saved_scenarios = s.scenarios;
+      $('save_note').classList.remove('hidden');
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function applyDefaults() {
+    // pre-render hidden scenario inputs so first calculate() has values
+    var host = document.createElement('div');
+    host.style.display = 'none';
+    SC_DEFAULTS.forEach(function (d, i) {
+      var saved = (window.__cm_saved_scenarios && window.__cm_saved_scenarios[i]) || {};
+      var nm = document.createElement('input'); nm.id = 'sc_name_' + i; nm.value = saved.name || d.name;
+      var rt = document.createElement('input'); rt.id = 'sc_rate_' + i; rt.value = (saved.ratePct != null ? saved.ratePct : d.ratePct);
+      host.appendChild(nm); host.appendChild(rt);
+    });
+    document.body.appendChild(host);
+  }
+
+  function wireStatic() {
+    ['in_principal', 'in_contrib', 'in_inflation', 'cur_currency'].forEach(function (id) {
+      $(id).addEventListener('input', scheduleRender);
+    });
+    ['sel_contribFreq', 'sel_compFreq'].forEach(function (id) {
+      $(id).addEventListener('change', scheduleRender);
+    });
+    $('in_years').addEventListener('input', function () {
+      $('years_out').textContent = $('in_years').value;
+      scheduleRender();
+    });
+    $('chk_real').addEventListener('change', scheduleRender);
+    $('btn_calc').addEventListener('click', calculate);
+    $('btn_save').addEventListener('click', saveState);
+    $('btn_reset').addEventListener('click', function () {
+      try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+      location.reload();
+    });
+    $('btn_csv').addEventListener('click', downloadCSV);
+    $('sel_tableScenario').addEventListener('change', function () {
+      if (lastResults && lastBase) renderTable(lastResults, lastBase, $('chk_real').checked);
+    });
+    // FAQ accordion
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      var btn = item.querySelector('.faq-q');
+      btn.addEventListener('click', function () {
+        var open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  }
+
+  // init
+  var restored = loadState();
+  applyDefaults();
+  wireStatic();
+  $('years_out').textContent = $('in_years').value;
+  calculate();
+})();
+</script>
+</body>
+</html>
