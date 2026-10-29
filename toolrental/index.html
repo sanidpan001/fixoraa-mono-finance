@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool Rent vs Buy Calculator — After How Many Days Is Buying Cheaper Than Renting?</title>
+<meta name="description" content="Find the break-even point between renting and buying a tool, from daily rental cost and purchase price, so you can decide with numbers.">
+<link rel="canonical" href="https://finance.fixoraa.tech/toolrental/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Tool Rent vs Buy Calculator — After How Many Days Is Buying Cheaper Than Renting?">
+<meta property="og:description" content="Find the break-even point between renting and buying a tool, from daily rental cost and purchase price, so you can decide with numbers.">
+<meta property="og:url" content="https://finance.fixoraa.tech/toolrental/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "ToolRental",
+      "url": "https://finance.fixoraa.tech/toolrental/",
+      "applicationCategory": "Home",
+      "operatingSystem": "Web",
+      "description": "Find the break-even point between renting and buying a tool, from daily rental cost and purchase price, so you can decide with numbers.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I calculate rent vs buy break-even?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide the purchase price by the daily rental cost and round up. That number of days is the break-even point: fewer days favour renting, more days favour buying."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I include delivery and consumables?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Add rental extras such as delivery, blades, and late fees to the rental side for a realistic comparison."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does resale value change the decision?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. If you can resell the tool, subtract the expected resale price from the purchase price before calculating break-even, which lowers the break-even days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is renting always cheaper for short jobs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Almost always, because a rental shop spreads the tool's cost across many customers, while a buyer pays the full price for one job."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about tool libraries?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tool libraries lend tools for free or for a small membership fee, which can beat both renting and buying for occasional use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I buy a cheap tool instead of renting a professional one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if the cheap tool can do the job well. For skilled jobs like floor sanding, a professional rental machine may produce a much better result."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do weekend rental charges work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many shops charge for each calendar day, including weekends and holidays, so a Friday-to-Monday rental may count as three or four days. Confirm before booking."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my project runs longer than planned?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Extra rental days can quickly make buying cheaper. Build buffer days into your plan, and reconsider buying if the project is likely to slip."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FEF2F2; --surface:#FFFFFF; --accent:#991B1B; --accent-ink:#ffffff;
+  --ink:#2B1212; --muted:#475569; --line:#FECACA;
+  --display:'Zilla Slab',serif; --body:'Public Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+
+.tool-card{max-width:720px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.tool-card h1{font-family:var(--display);font-size:1.7rem;line-height:1.2;margin-bottom:.4rem}
+.tool-card .sub{color:var(--muted);margin-bottom:1.2rem}
+.tool-card label{display:block;font-weight:600;margin:.9rem 0 .3rem}
+.tool-card input,.tool-card select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;background:#fff;color:#111;min-height:44px}
+.tool-card .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.calc-btn{width:100%;margin-top:1.2rem;padding:.85rem;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px}
+.presets{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.presets button{padding:.5rem .9rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px}
+.result{margin-top:1.2rem;padding:1rem 1.2rem;border-radius:14px;background:var(--bg);border:1px solid var(--line);font-size:1.05rem}
+.result .big{font-size:1.5rem;font-weight:800}
+.muted{color:var(--muted);font-size:.95rem}
+.hist{margin-top:1rem;font-size:.95rem}
+.hist li{margin:.3rem 0}
+.copy-btn{margin-top:.7rem;padding:.55rem 1rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer}
+.maze-grid{font-family:monospace;line-height:1;letter-spacing:0;white-space:pre;overflow-x:auto;font-size:14px}
+@media (max-width:640px){.tool-card{padding:1rem;border-radius:16px}.tool-card .row{grid-template-columns:1fr}.tool-card h1{font-size:1.35rem}.result .big{font-size:1.25rem}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="ToolRental home">
+      <span class="fx-logo-tile" aria-hidden="true">🔧</span>
+      <span class="fx-brand">ToolRental</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-rental-tag" aria-label="ToolRental tool">
+<div class="tool-card"><h1>Tool Rent vs Buy Calculator</h1><p class="sub">Enter the daily rental cost and the purchase price to find the break-even number of days.</p>
+<div class="row"><div><label for="tr-rent">Rental cost (per day)</label><input id="tr-rent" type="number" value="25" min="0" step="0.5"></div><div><label for="tr-price">Purchase price</label><input id="tr-price" type="number" value="300" min="0"></div></div>
+<label for="tr-days">Days you expect to need it (optional)</label><input id="tr-days" type="number" value="10" min="0">
+<div class="presets"><button type="button" data-preset="drill">Drill</button><button type="button" data-preset="saw">Tile saw</button><button type="button" data-preset="sander">Floor sander</button></div>
+<button class="calc-btn" id="tr-calc" type="button">Calculate break-even</button>
+<div class="result" id="tr-result" aria-live="polite">Enter costs and press Calculate.</div>
+<button class="copy-btn" id="tr-copy" type="button">Copy result</button>
+<div class="hist"><strong>Recent calculations</strong><ul id="tr-hist"></ul></div></div>
+  </section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+<h2>The rent versus buy question every DIYer faces</h2>
+<p>Every home project reaches the same moment: you need a tool you do not own, and you must decide whether to rent it or buy it. Renting feels safe, because you pay only for the days you need and you return the tool when you are done. Buying feels satisfying, because the tool is yours and you can use it again. Both feelings are unreliable guides, because the right answer depends on arithmetic, not on enthusiasm. If you need a tool for three days and it rents for 25 a day, renting costs 75, while buying may cost 300. If you need it for twenty days, renting costs 500, while buying still costs 300. Somewhere between those extremes lies the break-even point, the number of days at which renting and buying cost the same, and this calculator finds it.</p>
+<p>The break-even formula is simple: divide the purchase price by the daily rental cost, and round up to the next whole day. A tool costing 300 that rents for 25 a day breaks even at twelve days. Below twelve days, renting is cheaper. Above twelve days, buying is cheaper, before any other costs are considered. That simple division is the core of the decision, and it is worth doing before every project, because intuition often gets it wrong. People overestimate how often they will reuse a tool, and they underestimate how quickly rental days accumulate when a project slips, a weekend intervenes, or a part is delayed. Rental days have a habit of growing, while a purchase price stays fixed.</p>
+<h2>How to use this calculator</h2>
+<p>Enter the daily rental cost, including any standard charges the rental shop quotes, and the purchase price of a comparable tool, not the cheapest tool available if its quality differs greatly from the rental tool. Enter the number of days you expect to need the tool, and the calculator will compare that with the break-even point and tell you which option is cheaper for your project. Use the presets for common tools as a starting point, then replace the figures with your local rental shop's actual rates, because rental prices vary widely by region and by tool. The result also shows the cost of renting for your expected days, so you can see the saving or extra cost in plain numbers rather than as an abstract break-even day.</p>
+<h2>Typical rent versus buy examples</h2>
+<table><tr><th>Tool</th><th>Rent per day</th><th>Buy price</th><th>Break-even</th><th>Verdict for a 3-day job</th></tr>
+<tr><td>Cordless drill</td><td>15</td><td>120</td><td>8 days</td><td>Rent (45 vs 120)</td></tr>
+<tr><td>Tile saw</td><td>35</td><td>350</td><td>10 days</td><td>Rent (105 vs 350)</td></tr>
+<tr><td>Floor sander</td><td>50</td><td>600</td><td>12 days</td><td>Rent (150 vs 600)</td></tr>
+<tr><td>Pressure washer</td><td>25</td><td>250</td><td>10 days</td><td>Rent (75 vs 250)</td></tr>
+<tr><td>Ladder, extension</td><td>20</td><td>180</td><td>9 days</td><td>Rent (60 vs 180)</td></tr></table>
+<p>The table shows a pattern that surprises many DIYers: for short jobs, renting is almost always cheaper, even for tools that seem inexpensive to buy. The reason is that rental shops spread the purchase cost of a tool across many customers, while a buyer pays the whole cost for a single project. Buying wins only when the tool will be used for many days, or repeatedly across several projects. That is why the break-even point is more useful than a general rule such as always rent or always buy. It turns a vague preference into a number of days, and you can compare that number with your honest project plan.</p>
+<h2>Costs beyond the headline price</h2>
+<p>The simple break-even calculation is a starting point, not the whole story. Renting usually includes maintenance, and if a rental tool breaks through normal use, the shop replaces it, while a broken owned tool is your problem and your repair bill. Renting also avoids storage: large tools such as floor sanders, tile saws, and ladders take up garage space all year for a few days of use. Buying, on the other hand, may include accessories, batteries, and a warranty, and a good tool may retain resale value, which reduces its effective cost. If you can resell a 300 tool for 150 after your project, its effective cost is 150, and the break-even point halves. Always consider resale value when the tool is a popular brand in good condition.</p>
+<p>Other hidden costs cut both ways. Rental shops may charge for delivery, for late return, for cleaning, or for consumables such as blades, belts, and sandpaper, which are often excluded from the rental rate. A weekend rental may be charged as two or three days even if you use the tool for only a few hours, and a public holiday can add a day you did not plan. Buying has its own hidden costs: storage, maintenance, replacement parts, and the cost of the space the tool occupies. A tool bought for a single job and never used again is not an asset; it is clutter with a purchase price. Be honest about which of these apply to you, and adjust the break-even figure accordingly: add rental extras to the rental side, and subtract expected resale value from the buying side.</p>
+<h2>How often will you really reuse it?</h2>
+<p>Reuse is the factor that most often distorts the decision. Before buying, list the specific future jobs that would use the tool, not vague intentions such as might be handy one day. A drill that will be used for shelving, furniture assembly, and garden projects across a year is a good purchase even if the first job alone favours renting. A tile saw that will be used for one bathroom and then stored is not, unless you genuinely plan more tiling. Ask yourself when the next use will happen: if it is within six months, buying gains credibility; if it is someday, renting is safer. Also consider borrowing: a neighbour, friend, or tool library may lend the tool for free, which beats both renting and buying, and tool libraries are growing in many communities precisely for this reason.</p>
+<p>Skill and quality matter too. Rental tools are usually professional-grade, maintained by the shop, and supplied with instructions, while a cheap purchased tool may be frustrating to use and may produce a worse result. For a skilled job such as floor sanding, where technique and machine quality affect the finish, a professional rental machine may be worth more than its rental cost suggests. For a simple job such as drilling, a mid-range purchased tool may be perfectly adequate and more convenient than a rental trip. Match the tool quality to the job's demands, not just to the price, and remember that a poor result may need redoing, which costs far more than either rental or purchase.</p>
+<h2>When renting is clearly better</h2>
+<ul><li>One-off or rare jobs, such as floor sanding a single room.</li><li>Large, heavy, or bulky tools you cannot store easily.</li><li>Specialist tools that need professional maintenance.</li><li>Jobs where a professional-grade machine affects the result.</li><li>Projects with uncertain duration, where buying locks in cost but renting can be extended.</li><li>When you want to try a tool before committing to a purchase.</li></ul>
+<h2>When buying is clearly better</h2>
+<ul><li>Tools you will use repeatedly, such as a drill, a saw, or a sander for regular projects.</li><li>Small, cheap tools where rental trips cost more in time than the tool costs.</li><li>Jobs spread over many weekends, where rental days accumulate.</li><li>When you value having the tool immediately available without a trip to the shop.</li><li>When resale value is high and the effective cost is low.</li><li>When you are building skills and want to practise with your own tool.</li></ul>
+<h2>Worked examples</h2>
+<p>A drill renting for 15 a day and costing 120 to buy breaks even at eight days. A three-day job costs 45 to rent and 120 to buy, so renting saves 75. A floor sander renting for 50 a day and costing 600 breaks even at twelve days; a five-day job costs 250 to rent, saving 350 against buying, but a fifteen-day job costs 750 to rent, making buying cheaper by 150. A pressure washer renting for 25 a day and costing 250 breaks even at ten days. These examples assume no extra charges and no resale value; add rental extras to the rental side and subtract resale value from the buying side for a personalised result. The calculator gives you the headline break-even, and your adjustments give you the real decision.</p>
+<h2>Renting tips</h2>
+<p>Book early for weekends, when popular tools sell out, and confirm what is included: blades, belts, dust bags, and extension leads are often extra. Inspect the tool before leaving the shop, note any existing damage, and ask for a demonstration if you have not used that model before. Return the tool clean and on time, because late and cleaning charges are the most common rental surprises. Keep the rental period realistic: a project that slips by a day because of weather or a missing part should have buffer days in the plan, because a single extra rental day can change the break-even comparison. Finally, ask about weekend rates and multi-day discounts, which many shops offer and which can move the break-even point in renting's favour.</p>
+<h2>Buying tips</h2>
+<p>Buy a tool that matches the rental tool's capability, not a cheaper version that will frustrate you. Check reviews for reliability, check that batteries and accessories are available, and check the warranty. Consider buying a refurbished professional tool, which often offers better value than a new budget tool. Store the tool properly, with its manual and accessories together, so it is ready for its next use rather than a puzzle in a box. And keep the receipt: it helps with warranty claims and with resale, both of which affect the true cost of ownership. A well-chosen purchased tool, used repeatedly and maintained, is one of the best value purchases a homeowner can make.</p>
+<h3>The decision in one sentence</h3>
+<p>If your honest project days are fewer than the break-even days, rent; if they are more, or if you have specific future jobs in mind, buy. Run the numbers before the project starts, and the decision will be easy, which leaves your energy for the project itself.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How do I calculate rent vs buy break-even?</summary><p>Divide the purchase price by the daily rental cost and round up. That number of days is the break-even point: fewer days favour renting, more days favour buying.</p></details>
+<details><summary>Should I include delivery and consumables?</summary><p>Yes. Add rental extras such as delivery, blades, and late fees to the rental side for a realistic comparison.</p></details>
+<details><summary>Does resale value change the decision?</summary><p>Yes. If you can resell the tool, subtract the expected resale price from the purchase price before calculating break-even, which lowers the break-even days.</p></details>
+<details><summary>Is renting always cheaper for short jobs?</summary><p>Almost always, because a rental shop spreads the tool's cost across many customers, while a buyer pays the full price for one job.</p></details>
+<details><summary>What about tool libraries?</summary><p>Tool libraries lend tools for free or for a small membership fee, which can beat both renting and buying for occasional use.</p></details>
+<details><summary>Should I buy a cheap tool instead of renting a professional one?</summary><p>Only if the cheap tool can do the job well. For skilled jobs like floor sanding, a professional rental machine may produce a much better result.</p></details>
+<details><summary>How do weekend rental charges work?</summary><p>Many shops charge for each calendar day, including weekends and holidays, so a Friday-to-Monday rental may count as three or four days. Confirm before booking.</p></details>
+<details><summary>What if my project runs longer than planned?</summary><p>Extra rental days can quickly make buying cheaper. Build buffer days into your plan, and reconsider buying if the project is likely to slip.</p></details>
+  </section>
+</main>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">ToolRental</div>
+    <p>ToolRental finds the day renting stops being cheaper than buying a tool.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function calcToolRental(rentPerDay, purchasePrice){if(rentPerDay<=0||purchasePrice<=0)return 0;return Math.ceil(purchasePrice/rentPerDay);}
+if (typeof document !== 'undefined') {
+var hist8=[];
+function renderTR(){var r=+document.getElementById('tr-rent').value,p=+document.getElementById('tr-price').value,d=+document.getElementById('tr-days').value;var be=calcToolRental(r,p);var rentCost=r*d;var verdict=d<be?'Renting is cheaper for '+d+' days':(d>be?'Buying is cheaper for '+d+' days':'Equal at break-even');document.getElementById('tr-result').innerHTML='<p class="big">Break-even: '+be+' days</p><p>Renting for '+d+' days costs '+rentCost.toFixed(2)+' vs buying at '+p.toFixed(2)+'</p><p class="muted">'+verdict+'</p>';hist8.unshift('Break-even '+be+' days');if(hist8.length>5)hist8.pop();document.getElementById('tr-hist').innerHTML=hist8.map(function(x){return '<li>'+x+'</li>';}).join('');}
+document.getElementById('tr-calc').onclick=renderTR;
+var ps8=document.querySelectorAll('[data-preset]');
+ps8.forEach(function(b){b.onclick=function(){if(b.dataset.preset==='drill'){document.getElementById('tr-rent').value=15;document.getElementById('tr-price').value=120;}if(b.dataset.preset==='saw'){document.getElementById('tr-rent').value=35;document.getElementById('tr-price').value=350;}if(b.dataset.preset==='sander'){document.getElementById('tr-rent').value=50;document.getElementById('tr-price').value=600;}renderTR();};});
+document.getElementById('tr-copy').onclick=function(){var t=document.getElementById('tr-result').innerText||'';if(typeof navigator!=='undefined'&&navigator.clipboard){navigator.clipboard.writeText(t);} };
+}
+</script>
+</body>
+</html>
