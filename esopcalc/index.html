@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESOP Tax Calculator India: Perquisite &amp; Gains – EsopCalc</title>
+<meta name="description" content="Calculate ESOP tax in India: perquisite value taxed at your slab on exercise, plus capital gains tax on sale. Compare exercise-now vs exercise-later scenarios.">
+<link rel="canonical" href="https://finance.fixoraa.tech/esopcalc/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="ESOP Tax Calculator India: Perquisite &amp; Gains – EsopCalc">
+<meta property="og:description" content="Calculate ESOP tax in India: perquisite value taxed at your slab on exercise, plus capital gains tax on sale. Compare exercise-now vs exercise-later scenarios.">
+<meta property="og:url" content="https://finance.fixoraa.tech/esopcalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "EsopCalc",
+      "url": "https://finance.fixoraa.tech/esopcalc/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Calculate ESOP tax in India: perquisite value taxed at your slab on exercise, plus capital gains tax on sale. Compare exercise-now vs exercise-later scenarios.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is the ESOP perquisite value calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The perquisite value is (FMV on exercise date \u2212 exercise price) \u00d7 number of options. It is added to your salary income and taxed at your slab rate in the year of exercise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I pay tax on ESOPs if I do not sell the shares?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The perquisite tax is payable in the year of exercise even if you do not sell the shares. It is deducted as TDS from your salary by your employer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the capital gains tax rate on ESOPs in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For listed shares, gains are long-term after 12 months (taxed at 12.5% above \u20b91.25 lakh annual exemption); for unlisted shares the threshold is 24 months. Short-term gains are taxed at your slab rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my ESOP cost price the exercise price or the FMV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your cost of acquisition for capital gains is the FMV on the exercise date, not the exercise price. This avoids taxing the perquisite amount twice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "If the share price falls after exercise, do I get the perquisite tax back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Perquisite tax once paid is not refunded if the share price falls. You may have a capital loss on sale, but the salary-stage tax stands \u2014 a key risk of exercising at high valuations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I reduce tax on my ESOPs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Exercising early, when the FMV is low, minimises the perquisite. Also consider spreading exercises across years, holding past the long-term threshold, and staggering sales to use annual exemptions."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F4F1FF; --surface:#FFFFFF; --accent:#5B3DF5; --accent-ink:#FFFFFF;
+  --ink:#221C3A; --muted:#5E5878; --line:#DCD4F5;
+  --display:'Space Grotesk',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.ec-wrap{max-width:1060px;margin:0 auto;padding:8px 4px;font-family:Inter,system-ui,sans-serif;color:#221C3A}.ec-head{text-align:center;padding:36px 16px 26px}.ec-logo{font-size:46px}.ec-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.9rem,4.5vw,2.8rem);margin:12px 0 8px;letter-spacing:-.01em}.ec-tag{color:#5E5878;font-size:1.05rem;max-width:600px;margin:0 auto}.ec-grid{display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:start}.ec-inputs,.ec-results{background:#fff;border:1px solid #DCD4F5;border-radius:22px;padding:26px;box-shadow:0 16px 44px -28px rgba(91,61,245,.3)}.ec-h2{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;margin:0 0 18px}.ec-h3{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin:0 0 12px}.ec-inputs label{display:grid;gap:7px;font-size:.85rem;font-weight:600;color:#5E5878;margin-bottom:15px}.ec-inputs input,.ec-inputs select{border:1.5px solid #DCD4F5;border-radius:12px;padding:12px 14px;font-size:1rem;min-height:48px;width:100%;box-sizing:border-box;color:#221C3A;background:#FBFAFF}.ec-inputs input:focus,.ec-inputs select:focus{outline:2px solid #5B3DF5;border-color:#5B3DF5}.ec-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ec-card{background:#F7F4FF;border:1px solid #E4DCFA;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}.ec-k{font-size:.8rem;font-weight:600;color:#5E5878}.ec-v{font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:700}.ec-hl{color:#5B3DF5}.ec-s{font-size:.78rem;color:#5E5878;line-height:1.5}.ec-total{display:flex;justify-content:space-between;align-items:center;background:#5B3DF5;color:#fff;border-radius:16px;padding:18px 22px;margin-top:16px;font-size:1.05rem}.ec-total strong{font-size:1.8rem}.ec-compare{margin-top:20px;border-top:1px solid #DCD4F5;padding-top:18px}.ec-cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ec-cmpgrid>div{background:#FBFAFF;border:1px solid #E4DCFA;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}.ec-verdict{margin-top:12px;background:#EAF7EC;border:1px solid #BFE3C6;color:#1E5B2A;border-radius:12px;padding:12px 16px;font-size:.92rem;font-weight:600}.ec-disc{font-size:.78rem;color:#5E5878;line-height:1.6;margin-top:16px}@media(max-width:760px){.ec-grid{grid-template-columns:1fr}.ec-cards{grid-template-columns:1fr}.ec-cmpgrid{grid-template-columns:1fr}.ec-inputs,.ec-results{padding:20px 16px}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="EsopCalc home">
+      <span class="fx-logo-tile" aria-hidden="true">📊</span>
+      <span class="fx-brand">EsopCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-split-panel" aria-label="EsopCalc tool">
+<div class="ec-wrap">
+  <div class="ec-head"><div class="ec-logo">📊</div><h1 class="ec-h1">ESOP Tax Calculator</h1><p class="ec-tag">Perquisite tax at exercise, capital gains at sale — both, in one view.</p></div>
+  <div class="ec-grid">
+    <div class="ec-inputs">
+      <h2 class="ec-h2">Your grant</h2>
+      <label>Exercise price (₹)<input id="ec-ex" type="number" min="0" value="100"></label>
+      <label>FMV on exercise date (₹)<input id="ec-fmv" type="number" min="0" value="400"></label>
+      <label>Expected sale price (₹)<input id="ec-sale" type="number" min="0" value="600"></label>
+      <label>Number of options<input id="ec-qty" type="number" min="1" value="100"></label>
+      <label>Your tax slab<select id="ec-slab"><option value="0">No tax (0%)</option><option value="0.05">5%</option><option value="0.1">10%</option><option value="0.15">15%</option><option value="0.2">20%</option><option value="0.25">25%</option><option value="0.3" selected>30%</option></select></label>
+      <label>Later scenario: sale price if you wait (₹)<input id="ec-sale2" type="number" min="0" value="900"></label>
+    </div>
+    <div class="ec-results">
+      <h2 class="ec-h2">Tax breakdown</h2>
+      <div class="ec-cards">
+        <div class="ec-card"><span class="ec-k">Perquisite value</span><span class="ec-v" id="ec-perq">₹0</span><span class="ec-s">Taxed as salary in the year of exercise</span></div>
+        <div class="ec-card"><span class="ec-k">Tax on perquisite (slab)</span><span class="ec-v ec-hl" id="ec-perqtax">₹0</span><span class="ec-s" id="ec-perqnote"></span></div>
+        <div class="ec-card"><span class="ec-k">Capital gain on sale</span><span class="ec-v" id="ec-gain">₹0</span><span class="ec-s">Sale price minus FMV at exercise</span></div>
+        <div class="ec-card"><span class="ec-k">Tax on capital gain (12.5%)</span><span class="ec-v ec-hl" id="ec-gtax">₹0</span><span class="ec-s">Long-term rate used for this estimate</span></div>
+      </div>
+      <div class="ec-total"><span>Total tax payable</span><strong id="ec-total">₹0</strong></div>
+      <div class="ec-compare"><h3 class="ec-h3">Exercise now vs wait</h3><div class="ec-cmpgrid"><div><span class="ec-k">Sell now @ <b id="ec-nowp">₹600</b></span><span class="ec-v" id="ec-nownet">₹0</span><span class="ec-s">Net after all taxes</span></div><div><span class="ec-k">Wait and sell @ <b id="ec-laterp">₹900</b></span><span class="ec-v" id="ec-laternet">₹0</span><span class="ec-s">Net after all taxes</span></div></div><p class="ec-verdict" id="ec-verdict"></p></div>
+      <p class="ec-disc">Simplified estimate. Actual tax depends on holding period (short vs long term), surcharge, cess and your employer's TDS. Consult a tax advisor.</p>
+    </div>
+  </div>
+</div>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>How ESOP Taxation Works in India</h2>
+<p>Employee Stock Options (ESOPs) are taxed in India at two distinct moments, and confusing the two is the most expensive mistake an employee can make. The first tax hits when you exercise your options — that is, when you actually buy the shares at your discounted exercise price. The difference between the fair market value (FMV) of the share on the exercise date and the price you paid is called the perquisite value, and it is taxed as salary income at your marginal slab rate in that year. The second tax hits when you later sell those shares: the difference between your sale price and the FMV at exercise is a capital gain, taxed at capital-gains rates. Two events, two different tax heads, two different rates.</p>
+<p>Consider a concrete example. You hold 100 options with an exercise price of ₹100. On the day you exercise, the company's share is worth ₹400 (the FMV). Your perquisite is (₹400 − ₹100) × 100 = ₹30,000, and if you are in the 30% slab you pay ₹9,000 as part of your salary tax that year — even though you have not sold a single share or received any cash. A year later you sell at ₹600. Your capital gain is (₹600 − ₹400) × 100 = ₹20,000, taxed at the applicable capital-gains rate. The calculator above walks through exactly this split and then compares selling now versus waiting.</p>
+<h2>Stage 1: The Perquisite Tax at Exercise</h2>
+<p>The perquisite value is determined by a formal valuation on the exercise date — for listed companies it is the market price; for unlisted startups it comes from a merchant banker valuation. Your employer treats this perquisite as part of your salary and deducts TDS on it, so many employees first discover the tax when their payslip shrinks in the exercise month. Because it is salary income, the perquisite also attracts surcharge and the 4% health and education cess on top of your slab rate, and it counts toward your total income for the year — potentially pushing you into a higher slab.</p>
+<p>The cruel part of stage 1 is the cash-flow mismatch: you owe real tax on paper wealth. If you exercise options in a startup whose shares you cannot sell, you may pay lakhs in tax on value you cannot liquidate. This is why experienced employees model the perquisite tax before exercising, and why some negotiate with employers for a buyback window or exercise only what they can afford to hold.</p>
+<h3>What reduces the perquisite</h3>
+<p>Very little. The perquisite formula is mechanical: FMV minus exercise price, times quantity. A lower FMV at exercise (exercising early, when the startup valuation is modest) shrinks it dramatically — the classic reason startup employees exercise as early as possible. Once the FMV is fixed on the exercise date, the number is locked in forever, even if the share price later collapses.</p>
+<h2>Stage 2: Capital Gains on Sale</h2>
+<p>When you sell, your cost of acquisition is deemed to be the FMV on the exercise date — not the exercise price you actually paid. This prevents double taxation of the perquisite amount. The gain is then classified as short-term or long-term depending on your holding period, counted from the exercise date (not the grant or vesting date).</p>
+<p>For listed shares, holding more than 12 months makes the gain long-term, taxed at 12.5% above the annual ₹1.25 lakh exemption. For unlisted shares the long-term threshold is 24 months. Short-term gains are taxed at your slab rate. The calculator uses the 12.5% long-term rate for its estimate, which matches the common case of an employee who exercises and holds listed shares for over a year — but if you sell within months of exercising, your actual tax could be much higher, at full slab rates.</p>
+<h3>A side-by-side comparison</h3>
+<p>Using the example above (exercise ₹100, FMV ₹400, 100 options, 30% slab): selling immediately at ₹600 produces a ₹20,000 capital gain and ₹2,500 tax at 12.5%, for a total tax of ₹11,500. Waiting and selling at ₹900 produces a ₹50,000 gain and ₹6,250 tax, for a total of ₹15,250. Waiting costs ₹3,750 more in tax but nets far more cash overall — ₹90,000 minus taxes versus ₹60,000 minus taxes. The comparison panel in the calculator makes this trade-off explicit: tax is only one input; post-tax cash in hand is the decision metric.</p>
+<h2>The Holding-Period Trap</h2>
+<p>The most dangerous ESOP scenario is exercising at a high FMV and watching the price fall before you sell. Suppose you exercise when FMV is ₹400 (perquisite ₹30,000, tax ₹9,000) and later sell at ₹350. Your capital "gain" is negative — a ₹5,000 capital loss — but the ₹9,000 perquisite tax is already paid and non-refundable. You are out of pocket on tax for wealth that evaporated. This asymmetry is why the standard advice is to exercise early (low FMV) and sell only when you are comfortable with the price, never letting the perquisite tax exceed cash you can afford to lose.</p>
+<h2>ESOPs vs RSUs: A Quick Contrast</h2>
+<p>Restricted Stock Units (RSUs) are simpler: there is no exercise price, so the entire FMV on the vesting date is the perquisite, taxed as salary. On sale, the gain is sale price minus vesting-date FMV. The two-stage structure is identical to ESOPs; only the perquisite base is larger because you paid nothing. Employees switching between startups (ESOP-heavy) and listed tech companies (RSU-heavy) should expect the same framework with bigger stage-1 numbers under RSUs.</p>
+<h2>Tax Planning Levers That Actually Work</h2>
+<ul>
+<li><strong>Exercise early</strong> when the FMV is low to minimise the perquisite — the single highest-impact move.</li>
+<li><strong>Spread exercises across financial years</strong> to avoid spiking into a higher slab or surcharge bracket in one year.</li>
+<li><strong>Hold past the long-term threshold</strong> (12 months listed, 24 months unlisted) before selling to access lower capital-gains rates.</li>
+<li><strong>Use the ₹1.25 lakh annual LTCG exemption</strong> on listed shares by staggering sales across years where practical.</li>
+<li><strong>Keep exercise-date FMV proof</strong> — valuation reports and payslips — because your entire stage-2 cost basis depends on it.</li>
+</ul>
+<h2>Filing and Documentation</h2>
+<p>Report the perquisite under salary income (it appears in your Form 16) and the sale under capital gains in Schedule CG of your ITR. Mismatches between your employer's TDS filings and your return are a common scrutiny trigger, so reconcile the perquisite figure in Form 16 with your own calculation before filing. Keep grant letters, vesting schedules, exercise confirmations, FMV valuation reports, and sale contract notes for at least eight years.</p>
+<h2>How This Calculator Helps</h2>
+<p>EsopCalc separates the two tax events visually so you never conflate them: perquisite cards show the salary-stage tax at your chosen slab, capital-gain cards show the sale-stage tax, and the comparison panel answers the real question — is waiting worth it after tax? Enter your numbers before you exercise, not after, and the cash-flow surprise disappears.</p>
+<h2>Startup ESOPs vs Listed RSUs</h2>
+<p>The two-stage tax framework is identical for startup ESOPs and listed-company RSUs, but the lived experience differs sharply. Startup ESOPs usually have tiny exercise prices and low early FMVs — exercising early keeps the perquisite small — but the shares are illiquid, so you pay real tax on paper wealth you cannot sell. Listed RSUs vest into sellable shares, so you can sell-to-cover the tax immediately; the perquisite is simply the market price on vesting day. Startup employees should also watch for buyback windows and secondary sales, which create the liquidity events that make exercising affordable. Whatever the company type, model both tax stages before acting — the calculator above handles either case.</p>
+<h2>Leaving the Company: The Exercise Window</h2>
+<p>Resignation starts a countdown. Most companies give you ninety days after your last working day to exercise vested options — unexercised options lapse afterwards. Ninety days is rarely enough to arrange liquidity for the exercise cost plus the perquisite tax, so departing employees often face a painful choice: find the cash or forfeit years of vesting. Before resigning, model the full outflow with the calculator above, check whether your company offers an extended exercise window or a buyback, and negotiate the window in your offer letter when joining — it is far easier to secure generous terms then than to beg for extra days later.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How is the ESOP perquisite value calculated?</summary><p>The perquisite value is (FMV on exercise date − exercise price) × number of options. It is added to your salary income and taxed at your slab rate in the year of exercise.</p></details>
+<details><summary>Do I pay tax on ESOPs if I do not sell the shares?</summary><p>No. The perquisite tax is payable in the year of exercise even if you do not sell the shares. It is deducted as TDS from your salary by your employer.</p></details>
+<details><summary>What is the capital gains tax rate on ESOPs in India?</summary><p>For listed shares, gains are long-term after 12 months (taxed at 12.5% above ₹1.25 lakh annual exemption); for unlisted shares the threshold is 24 months. Short-term gains are taxed at your slab rate.</p></details>
+<details><summary>Is my ESOP cost price the exercise price or the FMV?</summary><p>Your cost of acquisition for capital gains is the FMV on the exercise date, not the exercise price. This avoids taxing the perquisite amount twice.</p></details>
+<details><summary>If the share price falls after exercise, do I get the perquisite tax back?</summary><p>No. Perquisite tax once paid is not refunded if the share price falls. You may have a capital loss on sale, but the salary-stage tax stands — a key risk of exercising at high valuations.</p></details>
+<details><summary>How can I reduce tax on my ESOPs?</summary><p>Exercising early, when the FMV is low, minimises the perquisite. Also consider spreading exercises across years, holding past the long-term threshold, and staggering sales to use annual exemptions.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">EsopCalc</div>
+    <p>EsopCalc splits your ESOP tax into perquisite and capital-gains parts with slab-wise totals.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function esopTax(exercisePrice,fmv,salePrice,qty,slabRate){var perquisite=Math.max(0,fmv-exercisePrice)*qty;var perqTax=Math.round(perquisite*slabRate*100)/100;var capGain=Math.max(0,salePrice-fmv)*qty;var capTax=Math.round(capGain*0.125*100)/100;return{perquisite:perquisite,perqTax:perqTax,capGain:capGain,capTax:capTax,total:Math.round((perqTax+capTax)*100)/100};}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){function fmt(n){return'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});}function val(id){return parseFloat(document.getElementById(id).value)||0;}function recalc(){var ex=val('ec-ex'),fmv=val('ec-fmv'),sale=val('ec-sale'),qty=Math.max(1,Math.round(val('ec-qty'))||1),slab=parseFloat(document.getElementById('ec-slab').value),sale2=val('ec-sale2');var r=esopTax(ex,fmv,sale,qty,slab);document.getElementById('ec-perq').textContent=fmt(r.perquisite);document.getElementById('ec-perqtax').textContent=fmt(r.perqTax);document.getElementById('ec-perqnote').textContent='At '+(slab*100)+'% slab, deducted via salary TDS';document.getElementById('ec-gain').textContent=fmt(r.capGain);document.getElementById('ec-gtax').textContent=fmt(r.capTax);document.getElementById('ec-total').textContent=fmt(r.total);var nowNet=sale*qty-r.total,laterR=esopTax(ex,fmv,sale2,qty,slab),laterNet=sale2*qty-laterR.total;document.getElementById('ec-nowp').textContent=fmt(sale);document.getElementById('ec-laterp').textContent=fmt(sale2);document.getElementById('ec-nownet').textContent=fmt(nowNet);document.getElementById('ec-laternet').textContent=fmt(laterNet);var v=document.getElementById('ec-verdict');if(sale2>sale){v.textContent='Waiting nets '+fmt(laterNet-nowNet)+' more after tax, but costs '+fmt(laterR.total-r.total)+' extra tax.';}else if(sale2<sale){v.textContent='Selling now nets '+fmt(nowNet-laterNet)+' more after tax.';}else{v.textContent='Both scenarios are identical — change the later sale price to compare.';}}var ids=['ec-ex','ec-fmv','ec-sale','ec-qty','ec-slab','ec-sale2'];for(var i=0;i<ids.length;i++){document.getElementById(ids[i]).addEventListener('input',recalc);document.getElementById(ids[i]).addEventListener('change',recalc);}recalc();});}
+</script>
+</body>
+</html>
