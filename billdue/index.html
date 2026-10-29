@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monthly Bills Calculator — Total Your Bills &amp; Next Due Dates</title>
+<meta name="description" content="Calculate your total monthly bills and find your next due date in days with the free BillDue monthly bills calculator.">
+<link rel="canonical" href="https://finance.fixoraa.tech/billdue/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Monthly Bills Calculator — Total Your Bills &amp; Next Due Dates">
+<meta property="og:description" content="Calculate your total monthly bills and find your next due date in days with the free BillDue monthly bills calculator.">
+<meta property="og:url" content="https://finance.fixoraa.tech/billdue/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "BillDue",
+      "url": "https://finance.fixoraa.tech/billdue/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Calculate your total monthly bills and find your next due date in days with the free BillDue monthly bills calculator.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a monthly bills calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It adds up all your recurring monthly bills into one total and shows your next due date and how many days remain until it, so you can plan payments and avoid late fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which bills should I include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Include every recurring bill: rent or mortgage, utilities, phone, internet, insurance, loan payments, subscriptions, and childcare. Convert annual bills to monthly equivalents by dividing by twelve."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does it use a 30-day month?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard 30-day month keeps the days-until calculation consistent and transparent. In February or 31-day months the true gap may differ by a day, so confirm exact dates on the bill itself."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I run it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Once a month, ideally on payday or the first of the month, and again whenever a bill amount or due date changes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if a due date falls on a weekend?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many providers shift the due date to the next business day or process the payment early. Check your provider's policy and enter the effective date you must pay by."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it track variable bills?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. For bills that vary, like electricity, enter a typical or worst-case amount so your total reflects reality rather than a best-case month."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I lower my monthly total?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with duplicate subscriptions, then renegotiate internet, phone, and insurance, and align due dates with payday to avoid overdraft fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my bill data stored anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The calculation runs entirely in your browser and nothing you enter is sent to a server."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FFF8E7; --surface:#FFFFFF; --accent:#0E7C5B; --accent-ink:#FFFFFF;
+  --ink:#1E2A24; --muted:#44554C; --line:#E8DCC3;
+  --display:'Fraunces',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+
+.tool-card{max-width:46rem;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:0 10px 30px rgba(0,0,0,.07)}
+.tool-card h1{font-family:var(--display);font-size:1.9rem;line-height:1.2;margin-bottom:.4rem;letter-spacing:-.01em}
+.tool-card .lead{color:var(--muted);margin-bottom:1.2rem}
+.tool-card label{display:block;font-weight:600;margin:.9rem 0 .3rem}
+.tool-card input,.tool-card select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);color:var(--ink);min-height:44px}
+.tool-card .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tool-card button.calc{margin-top:1.2rem;width:100%;padding:.85rem;border:none;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px}
+.tool-card button.calc:hover{filter:brightness(.94)}
+.presets{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.presets button{padding:.5rem 1rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px}
+.presets button:hover{background:var(--accent);color:var(--accent-ink)}
+.result{margin-top:1.2rem;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:1.1rem;font-size:1.05rem}
+.result strong{font-size:1.3rem}
+.mini-btn{margin-top:.7rem;padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;min-height:40px}
+.hist{margin-top:1rem;color:var(--muted);font-size:.95rem}
+.hist ul{padding-left:1.2rem}
+@media (max-width:640px){.tool-card{padding:1rem;border-radius:16px}.tool-card h1{font-size:1.45rem}.tool-card .row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="BillDue home">
+      <span class="fx-logo-tile" aria-hidden="true">🧾</span>
+      <span class="fx-brand">BillDue</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-bill-stack" aria-label="BillDue tool">
+
+<div class="tool-card">
+<h1>Monthly Bills Calculator</h1>
+<p class="lead">Add up your monthly bills and see your next due date at a glance.</p>
+<div class="presets">
+<button type="button" data-preset='{"b1":"1200","d1":"5","b2":"350","d2":"15","b3":"80","d3":"28","today":"10"}'>Sample household</button>
+<button type="button" data-preset='{"b1":"900","d1":"1","b2":"120","d2":"20","b3":"15","d3":"25","today":"18"}'>Small flat</button>
+</div>
+<div class="row">
+<div><label for="b1">Bill 1 amount ($)</label><input id="b1" type="number" value="1200" min="0"></div>
+<div><label for="d1">Bill 1 due day (1-30)</label><input id="d1" type="number" value="5" min="1" max="30"></div>
+</div>
+<div class="row">
+<div><label for="b2">Bill 2 amount ($)</label><input id="b2" type="number" value="350" min="0"></div>
+<div><label for="d2">Bill 2 due day (1-30)</label><input id="d2" type="number" value="15" min="1" max="30"></div>
+</div>
+<div class="row">
+<div><label for="b3">Bill 3 amount ($)</label><input id="b3" type="number" value="80" min="0"></div>
+<div><label for="d3">Bill 3 due day (1-30)</label><input id="d3" type="number" value="28" min="1" max="30"></div>
+</div>
+<label for="today">Today's day of month (1-30)</label>
+<input id="today" type="number" value="10" min="1" max="30">
+<button class="calc" id="calcBtn" type="button">Calculate bills</button>
+<div class="result" id="result" aria-live="polite"></div>
+<button class="mini-btn" id="copyBtn" type="button">Copy result</button>
+<div class="hist" id="hist"></div>
+</div>
+
+  </section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+
+<h2>What a monthly bills calculator actually tells you</h2>
+<p>A monthly bills calculator does one simple but powerful job: it adds up everything you owe each month and shows you which bill is due next, and how many days you have until it hits. That sounds trivial until you realise how many households juggle six, ten, or fifteen recurring payments — rent or mortgage, electricity, water, internet, phone, streaming, insurance, loan instalments, subscriptions, and childcare — each with its own amount and its own due day. When those dates are scattered across the month, it is easy to lose track, miss a due date, and pay a late fee or damage a credit record for no good reason. This tool turns that scattered list into two clear numbers: your total monthly outgo and your next deadline. Use it once a month, ideally on payday or on the first of the month, and you will always know exactly where you stand before the money starts leaving your account.</p>
+<p>The real value is not the addition itself — any spreadsheet can add numbers — but the timing view. Two households can have identical monthly totals and completely different cash-flow experiences. One pays everything on the 5th and then lives on what is left; the other spreads payments evenly and never faces a cliff. Seeing your next due date and the gap until it arrives lets you sequence payments deliberately: pay the essentials first, hold discretionary subscriptions until after the next paycheque, and keep a small buffer for the week when three bills land together. Over a year, that awareness is worth far more than the few minutes the calculation takes.</p>
+<h2>How the calculation works</h2>
+<p>Enter each bill's amount and the day of the month it is due. The calculator sums all amounts into your monthly total, then finds the next due date relative to today's day of the month. If a due day later in the current month exists, that is your next deadline, and the days remaining are simply the difference. If every due day has already passed this month, the next deadline rolls to the earliest due day of next month, and the days remaining are counted across the month boundary on a standard 30-day month. This 30-day convention keeps the maths transparent and consistent; in February or in 31-day months the true gap may differ by a day, so treat the result as a planning figure and confirm the exact date on the bill itself.</p>
+<p>Notice what the tool deliberately does not do: it does not track variable bills, annual bills, or one-off charges. An electricity bill that swings with the seasons should be entered at its typical or worst-case amount, and annual costs such as car insurance or a yearly subscription are best converted to their monthly equivalent — divide the annual figure by twelve — so they are not invisible in your monthly picture. The goal is a realistic monthly total, not a perfect one, and a slightly pessimistic estimate is safer than an optimistic one when you are planning cash flow.</p>
+<h2>Reading your results</h2>
+<table><tr><th>What you see</th><th>What it means</th><th>What to do</th></tr>
+<tr><td>Monthly total</td><td>The sum of every bill you entered</td><td>Compare it with your monthly income; housing plus utilities above half your income is a warning sign</td></tr>
+<tr><td>Next due day</td><td>The nearest upcoming due date</td><td>Make sure that amount is covered before that day</td></tr>
+<tr><td>Days until next due</td><td>How long you have to prepare</td><td>If it is under seven days, pay it now rather than risking a late fee</td></tr></table>
+<p>Worked example: suppose your bills are 1,200 due on the 5th, 350 due on the 15th, and 80 due on the 28th, and today is the 10th. Your monthly total is 1,630, your next due date is the 15th, and you have five days to cover the 350. If today were the 20th instead, the next deadline would be the 28th with eight days to go; and if today were the 29th, the next deadline would roll over to the 5th of next month, six days away on the 30-day convention. The same three bills, three different planning situations — which is exactly why the date matters as much as the total.</p>
+<h2>Common mistakes that inflate your bills</h2>
+<p>The most common mistake is forgetting subscriptions. People remember rent and electricity but forget the 9.99 streaming service, the 4.99 cloud storage, the gym membership they stopped using, and the app subscription that renewed silently. Individually these look harmless; together they often add 50 to 150 a month. The second mistake is entering the minimum payment on a credit card or loan instead of the actual payment you make — the tool should reflect reality, not the floor. The third is ignoring irregular bills: a quarterly water bill or a six-monthly insurance premium feels like it belongs to another month, but averaged across the year it is a real monthly cost. List everything, even the small amounts, and your total will finally match what your bank statement shows.</p>
+<h3>A simple monthly routine</h3>
+<ul>
+<li>On the first of the month, list every bill due that month with its amount and due day.</li>
+<li>Enter them here, note the total, and check it against your expected income.</li>
+<li>Pay anything due within seven days immediately, and schedule the rest.</li>
+<li>Set a reminder two days before each large bill — a single late fee can exceed a month of a small subscription.</li>
+<li>At month end, compare the planned total with what actually left your account and update any bill that changed.</li>
+</ul>
+<h2>Cutting the total without cutting essentials</h2>
+<p>Once you can see the full list, reductions suggest themselves. Start with duplicate subscriptions: two music services, three streaming platforms, overlapping cloud storage. Then renegotiate the big recurring items — internet, phone, and insurance providers routinely offer retention deals to customers who ask, and a ten-minute call can save more than a month of coupon-clipping. Next, look at usage-based bills: electricity and water respond to behaviour changes within a single billing cycle, and the savings compound every month. Finally, consider timing: some providers let you move a due date, and aligning due dates with payday removes the overdraft risk that quietly costs many households more than any subscription. None of this requires sacrifice; it requires visibility, which is what this calculator gives you.</p>
+<p>One last discipline matters more than any trick: keep a buffer. Financial advisers commonly suggest holding at least one month of bills in reserve, because a delayed salary, a broken appliance, or a medical expense should not force a missed payment. When your total is known and stable, building that buffer becomes a concrete target — your monthly total is the size of the buffer you need — rather than a vague aspiration. Calculate the total, protect the next due date, and let the buffer grow one month at a time.</p>
+
+<h2>Building a bill buffer, one month at a time</h2>
+<p>A bill buffer is a small cash reserve equal to one month of your total bills, held in a separate account and touched only when income arrives late or an unexpected charge lands. It is not an emergency fund for major crises; it is a shock absorber for ordinary timing problems — a salary that clears two days late, a utility bill that jumps after a cold snap, a subscription that renews a week earlier than you remembered. Without a buffer, each of those events risks a late fee, an overdraft charge, or a missed payment that marks your credit record. With a buffer, they are non-events. The fastest way to build one is to treat it as a bill itself: add a fixed transfer to your bill list, pay it first on payday, and let it accumulate until it equals your monthly total. If your total is 1,630, saving even 150 a month builds the buffer in under a year, and every month after that, the buffer simply sits there, quietly removing an entire category of financial stress from your life.</p>
+<p>Negotiation is the other overlooked lever on the bill list. Providers of internet, phone, and insurance services expect a share of customers to call and ask for better terms, and retention teams are authorised to offer discounts that never appear on public price lists. A single annual call per provider, armed with a competitor's price, routinely saves 10 to 20 percent on those bills — often hundreds per year for less than an hour of effort. The same principle applies to subscriptions: many services offer a discounted annual plan or a pause option that halves the cost for months you barely use them. Review the full list twice a year with a negotiator's eye, and the total you calculate here will not just be accurate — it will steadily shrink.</p>
+
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is a monthly bills calculator?</summary><p>It adds up all your recurring monthly bills into one total and shows your next due date and how many days remain until it, so you can plan payments and avoid late fees.</p></details>
+<details><summary>Which bills should I include?</summary><p>Include every recurring bill: rent or mortgage, utilities, phone, internet, insurance, loan payments, subscriptions, and childcare. Convert annual bills to monthly equivalents by dividing by twelve.</p></details>
+<details><summary>Why does it use a 30-day month?</summary><p>A standard 30-day month keeps the days-until calculation consistent and transparent. In February or 31-day months the true gap may differ by a day, so confirm exact dates on the bill itself.</p></details>
+<details><summary>How often should I run it?</summary><p>Once a month, ideally on payday or the first of the month, and again whenever a bill amount or due date changes.</p></details>
+<details><summary>What if a due date falls on a weekend?</summary><p>Many providers shift the due date to the next business day or process the payment early. Check your provider's policy and enter the effective date you must pay by.</p></details>
+<details><summary>Does it track variable bills?</summary><p>No. For bills that vary, like electricity, enter a typical or worst-case amount so your total reflects reality rather than a best-case month.</p></details>
+<details><summary>How do I lower my monthly total?</summary><p>Start with duplicate subscriptions, then renegotiate internet, phone, and insurance, and align due dates with payday to avoid overdraft fees.</p></details>
+<details><summary>Is my bill data stored anywhere?</summary><p>No. The calculation runs entirely in your browser and nothing you enter is sent to a server.</p></details>
+  </section>
+</main>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">BillDue</div>
+    <p>BillDue totals your monthly bills and shows your next due date so nothing slips past.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+function calcBillDue(amounts, dueDays, currentDay) {
+  var total = 0;
+  for (var i = 0; i < amounts.length; i++) { total += amounts[i]; }
+  var future = null, earliest = null;
+  for (var j = 0; j < dueDays.length; j++) {
+    var d = dueDays[j];
+    if (earliest === null || d < earliest) { earliest = d; }
+    if (d >= currentDay && (future === null || d < future)) { future = d; }
+  }
+  var nextDueDay, daysUntil;
+  if (future !== null) { nextDueDay = future; daysUntil = future - currentDay; }
+  else { nextDueDay = earliest; daysUntil = (30 - currentDay) + earliest; }
+  return { total: total, nextDueDay: nextDueDay, daysUntil: daysUntil };
+}
+if (typeof document !== 'undefined') {
+  function runCalc() {
+    var b1 = parseFloat(document.getElementById('b1').value) || 0;
+    var d1 = parseFloat(document.getElementById('d1').value) || 0;
+    var b2 = parseFloat(document.getElementById('b2').value) || 0;
+    var d2 = parseFloat(document.getElementById('d2').value) || 0;
+    var b3 = parseFloat(document.getElementById('b3').value) || 0;
+    var today = parseFloat(document.getElementById('today').value) || 0;
+    var r = calcBillDue([b1, b2, b3], [d1, d2, d3], today);
+    var out = '<strong>Monthly total: $' + r.total.toFixed(0) + '</strong><br>Next due day: ' + r.nextDueDay + ' &mdash; in ' + r.daysUntil + ' day(s).';
+    document.getElementById('result').innerHTML = out;
+    try {
+      var h = JSON.parse(localStorage.getItem('fx_hist') || '[]');
+      h.unshift(out.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140));
+      localStorage.setItem('fx_hist', JSON.stringify(h.slice(0, 5)));
+      document.getElementById('hist').innerHTML = '<strong>Recent:</strong><ul>' + h.map(function(x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    } catch (e) {}
+  }
+  document.getElementById('calcBtn').addEventListener('click', runCalc);
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    var t = document.getElementById('result').innerText || '';
+    try { navigator.clipboard.writeText(t); } catch (e) {}
+  });
+  var ps = document.querySelectorAll('[data-preset]');
+  ps.forEach(function(b) {
+    b.addEventListener('click', function() {
+      var p = JSON.parse(b.getAttribute('data-preset'));
+      Object.keys(p).forEach(function(k) { var el = document.getElementById(k); if (el) el.value = p[k]; });
+      runCalc();
+    });
+  });
+  runCalc();
+}
+</script>
+</body>
+</html>
