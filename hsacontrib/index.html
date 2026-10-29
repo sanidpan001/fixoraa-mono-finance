@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSA Contribution Limits Calculator — Individual & Family | HSAContrib</title>
+<meta name="description" content="HSA contribution limits with catch-up, prorating and employer offset.">
+<link rel="canonical" href="https://finance.fixoraa.tech/hsacontrib/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="HSA Contribution Limits Calculator — Individual & Family | HSAContrib">
+<meta property="og:description" content="HSA contribution limits with catch-up, prorating and employer offset.">
+<meta property="og:url" content="https://finance.fixoraa.tech/hsacontrib/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "HSAContrib",
+      "url": "https://finance.fixoraa.tech/hsacontrib/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "HSA contribution limits with catch-up, prorating and employer offset.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much can I contribute to my HSA in 2026?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The 2026 IRS limits are $4,400 for individual HDHP coverage and $8,750 for family coverage, plus a $1,000 catch-up if you are 55 or older. All contributions \u2014 yours, your employer's, anyone's \u2014 share one limit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do employer HSA contributions count toward my limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Employer contributions are not extra \u2014 they reduce what you may personally contribute dollar for dollar. With a $4,400 limit and $1,000 from your employer, your personal room is $3,400."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I overcontribute to my HSA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The excess is subject to a 6% excise tax each year it remains. Withdraw the excess plus earnings before your tax filing deadline (including extensions) to fix it. Mid-year job changes are the most common cause."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can both spouses do the $1,000 catch-up on one family HSA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No \u2014 each spouse's $1,000 catch-up must go into their own HSA. A single account cannot hold two catch-up contributions, and couples overfund one account this way every year."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I enrolled mid-year \u2014 is my limit prorated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Generally yes: each month you have HDHP coverage on the 1st counts as 1/12 of the annual limit. The last-month rule can allow the full amount if you stay eligible through the next December 31, but breaking the testing period triggers taxes and penalties."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I spend my HSA or save it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you can afford to, save and invest it: pay medical bills out of pocket, keep the receipts, and reimburse yourself tax-free years later \u2014 there is no deadline. After 65, the HSA doubles as a retirement account for any spending."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#EFE1F9; --surface:#FFFFFF; --tint:#E5D2F4;
+  --accent:#531584; --accent-deep:#6E1B2E; --btn-ink:#FFFFFF;
+  --ink:#332027; --muted:#6A525C; --line:#E7D0D6;
+  --display:'Inter',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:var(--surface)}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--btn-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:40px 0;max-width:780px}
+.article-sec h2{font-size:24px;letter-spacing:-.02em;margin:34px 0 12px;font-weight:800;color:var(--ink)}
+.article-sec p{margin-bottom:14px;color:var(--ink)}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px;color:var(--ink)}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--ink)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;padding:0;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px;color:var(--ink)}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;color:var(--ink);font-size:15px}
+.fx-footer{background:var(--footbg,#26211c);color:#f0e6da;margin-top:44px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#cbb9a8;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#ffd9a8;font-weight:700}
+.no-print{}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+
+.hc-hero{padding:46px 0 6px;text-align:center}
+.hc-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hc-hero h1{font-size:clamp(36px,5.4vw,56px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.hc-hero p{font-size:17px;color:var(--muted);max-width:620px;margin:0 auto}
+.hc-meter{margin:28px auto 10px;max-width:760px;background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:34px;box-shadow:0 14px 32px rgba(139,35,59,.08)}
+.hc-steps{display:flex;gap:0;margin-bottom:30px}
+.hc-step{flex:1;text-align:center;position:relative;padding-top:26px;font-size:13px;font-weight:700;color:var(--muted)}
+.hc-step::before{content:attr(data-n);position:absolute;top:0;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:var(--tint);color:var(--accent-deep);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid var(--line)}
+.hc-step.done::before{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hc-step:not(:last-child)::after{content:"";position:absolute;top:15px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:var(--line)}
+.hc-bigmeter{margin:8px 0 26px}
+.hc-bigmeter .cap{font-size:14px;font-weight:700;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:8px}
+.hc-track{height:34px;border-radius:999px;background:var(--tint);border:2px solid var(--line);overflow:hidden;display:flex}
+.hc-track i{display:block;height:100%;transition:width .3s}
+.hc-seg-e{background:repeating-linear-gradient(-45deg,var(--accent),var(--accent) 8px,var(--accent-deep) 8px,var(--accent-deep) 16px)}
+.hc-seg-p{background:var(--accent)}
+.hc-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:26px}
+.hc-legend b{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:6px;vertical-align:-2px}
+.hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hc-f{margin-bottom:16px}
+.hc-f label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.hc-f .hint{font-weight:400;color:var(--muted);font-size:13px}
+.hc-f input,.hc-f select{font:inherit;font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff}
+.hc-f input:focus,.hc-f select:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.hc-seg{display:flex;gap:8px}
+.hc-seg button{flex:1;font:inherit;font-weight:700;font-size:15px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:11px;cursor:pointer;color:var(--ink)}
+.hc-seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.hc-range{display:flex;align-items:center;gap:12px}
+.hc-range input[type=range]{flex:1;accent-color:var(--accent)}
+.hc-range output{font-weight:800;font-size:18px;min-width:86px;text-align:right;color:var(--accent-deep)}
+.hc-result{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;border-radius:18px;padding:26px;text-align:center;margin-top:10px}
+.hc-result .l{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.hc-result .n{font-size:56px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.hc-result .d{font-size:14px;opacity:.92;margin-top:6px}
+.hc-warn{margin-top:14px;font-size:14px;background:#FFF8E6;border:2px solid #E3C878;border-radius:12px;padding:12px 16px;color:#6B5316}
+@media(max-width:640px){.hc-grid{grid-template-columns:1fr}.hc-meter{padding:22px}.hc-steps{font-size:11px}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/hsacontrib/" aria-label="HSAContrib home">
+      <span class="fx-tile" aria-hidden="true">H</span>
+      <span class="fx-name">HSAContrib</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="hc-hero">
+    <span class="hc-eyebrow">Benefits desk · 2026 limits</span>
+    <h1>HSAContrib</h1>
+    <p>Max out your HSA without overcontributing. Pick your coverage, factor in the age-55 catch-up, prorate mid-year enrollment, and subtract what your employer puts in.</p>
+  </section>
+
+  <section class="hc-meter" aria-label="HSAContrib tool">
+
+  <div class="hc-steps" aria-hidden="true">
+    <div class="hc-step done" data-n="1">Coverage</div>
+    <div class="hc-step done" data-n="2">Catch-up</div>
+    <div class="hc-step done" data-n="3">Prorate</div>
+    <div class="hc-step done" data-n="4">Employer</div>
+  </div>
+  <div class="hc-bigmeter" aria-live="polite">
+    <div class="cap"><span>Your 2026 HSA limit</span><span id="hc-cap">$4,400</span></div>
+    <div class="hc-track">
+      <i class="hc-seg-e" id="hc-seg-e" style="width:0%"></i><i class="hc-seg-p" id="hc-seg-p" style="width:0%"></i>
+    </div>
+    <div class="hc-legend">
+      <span><b class="hc-seg-e" style="width:14px"></b>Employer contributions</span>
+      <span><b class="hc-seg-p" style="width:14px"></b>Your contributions</span>
+      <span><b style="background:var(--tint);border:1px solid var(--line)"></b>Remaining room</span>
+    </div>
+  </div>
+  <div class="hc-grid">
+    <div class="hc-f"><label>Coverage</label>
+      <div class="hc-seg" id="hc-cov" role="group" aria-label="Coverage">
+        <button type="button" data-c="individual" class="on">Individual</button>
+        <button type="button" data-c="family">Family</button>
+      </div></div>
+    <div class="hc-f"><label for="hc-age">Your age this year</label>
+      <input type="number" id="hc-age" value="40" min="18" max="100"></div>
+    <div class="hc-f"><label for="hc-months">Months with HDHP coverage</label>
+      <div class="hc-range"><input type="range" id="hc-months" min="1" max="12" step="1" value="12">
+      <output id="hc-months-out" for="hc-months">12 mo</output></div></div>
+    <div class="hc-f"><label for="hc-emp">Employer contributions <span class="hint">— $/year</span></label>
+      <input type="number" id="hc-emp" value="0" min="0" max="20000" step="50"></div>
+    <div class="hc-f"><label for="hc-done">You have contributed <span class="hint">— $ so far</span></label>
+      <input type="number" id="hc-done" value="0" min="0" max="30000" step="50"></div>
+    <div class="hc-f"><label>Result</label>
+      <div style="font-size:14px;color:var(--muted);padding-top:12px" id="hc-note">Employer money counts against the same IRS limit — it is not extra.</div></div>
+  </div>
+  <div class="hc-result" aria-live="polite">
+    <div class="l">You may still contribute</div>
+    <div class="n" id="hc-remain">$4,400</div>
+    <div class="d" id="hc-detail">of $4,400 personal limit</div>
+  </div>
+  <div class="hc-warn" id="hc-warn" hidden></div>
+
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+
+<h2>The Triple Tax Advantage</h2>
+<p>The HSA is the only account in the tax code with three layers of tax benefit: contributions are <strong>pre-tax</strong> (or deductible), growth is <strong>tax-free</strong>, and withdrawals for qualified medical expenses are <strong>tax-free</strong>. No other account — not the 401(k), not the Roth — does all three. That is why financial planners call a maxed HSA "the best retirement account nobody uses for retirement": after 65, it works like a traditional IRA for any spending, with decades of tax-free growth behind it.</p>
+<p>The catch is eligibility: you must be covered by a <strong>high-deductible health plan (HDHP)</strong> and have no disqualifying coverage (like a general-purpose FSA or Medicare). For 2026, the HDHP minimums are a $1,700 individual / $3,400 family deductible with out-of-pocket maximums of $8,500 / $17,000. If your plan qualifies, the HSA is available — and the limits below are what you can put in.</p>
+<h2>2026 Limits: The Exact Numbers</h2>
+<p>For 2026, the IRS allows <strong>$4,400</strong> for individual coverage and <strong>$8,750</strong> for family coverage. Turn <strong>55</strong> during the year and you may add a <strong>$1,000 catch-up</strong> — $5,400 or $9,750 all-in. These are <em>combined</em> limits: your contributions plus your employer's contributions plus any contributions anyone else makes on your behalf must fit under one ceiling. The calculator nets out employer money first, because that is the number-one cause of accidental over-contribution.</p>
+<p>The catch-up has a quirk worth knowing: on family coverage where <strong>both spouses are 55+</strong>, each spouse's $1,000 catch-up must go into <strong>their own HSA</strong> — one account cannot hold two catch-ups. Couples routinely miss this and overfund one account.</p>
+<h2>Mid-Year Enrollment: Prorating</h2>
+<p>Enroll in the HDHP mid-year and your limit is generally <strong>prorated by months of eligibility</strong>: each month you are covered on the 1st counts as 1/12 of the annual limit. Start July 1 and you get roughly half. The calculator's month slider does this math — 6 months on individual coverage means a $2,200 ceiling.</p>
+<p>There is an escape hatch called the <strong>last-month rule</strong>: if you are eligible on December 1 and stay eligible through the following December 31 (the "testing period"), you may contribute the <em>full</em> annual amount. Break the testing period — switch plans, enroll in Medicare — and the excess plus a 10% penalty comes back to haunt you. Unless you are certain you will stay eligible, prorate honestly.</p>
+<h2>Employer Contributions Are Not Extra</h2>
+<p>This bears repeating because it surprises everyone once: <strong>employer HSA contributions count against your limit</strong>. If your employer seeds $1,000 and your limit is $4,400, you may personally add $3,400 — not $4,400. Some employers also make contributions conditional on wellness activities or deposited per paycheck; either way, every employer dollar reduces your remaining room, and the meter above shows the split visually.</p>
+<p>Payroll-deduction HSA contributions have a bonus superpower: they skip <strong>FICA taxes</strong> (Social Security and Medicare), unlike contributions you make directly and deduct later. If your employer offers payroll HSA deductions, use them — it is an instant 7.65% return.</p>
+<h2>The Over-Contribution Trap</h2>
+<p>Exceed the limit and the excess is hit with a <strong>6% excise tax every year</strong> it stays in the account. The fix: withdraw the excess plus any earnings before your tax filing deadline (including extensions). Common triggers: changing jobs mid-year (two employers, two sets of contributions, one limit), the family-coverage catch-up quirk, and forgetting that employer seed money counts. The calculator flags over-contributions in red — if you see the warning, act before April.</p>
+<h2>Why "Save It, Don't Spend It"</h2>
+<p>Most people use the HSA as a medical checking account — contribute, immediately spend on this year's bills. The wealthy move is the opposite: <strong>pay medical bills out of pocket, invest the HSA, and keep the receipts</strong>. There is no deadline to reimburse yourself; a receipt from 2026 can justify a tax-free withdrawal in 2046. Decades of compounding on money that was never taxed going in and is never taxed coming out is the closest thing to a free lunch in personal finance.</p>
+<p>To do this you need two things: an HSA custodian that offers <strong>investments</strong> (many employer HSAs default to cash — move it into index funds once you clear any required cash threshold), and a <strong>receipt system</strong> (a folder, physical or digital, with every Explanation of Benefits). No receipt, no tax-free withdrawal later.</p>
+<h2>What Counts as a Qualified Expense?</h2>
+<p>The IRS list is generous: deductibles, copays, prescriptions, dental, vision, orthodontia, mental health care, and even <strong>Medicare premiums</strong> (but not Medigap) once you are 65. You can also reimburse a spouse's and dependents' expenses from your HSA even if they are on different insurance. What does <em>not</em> count: cosmetic surgery, general health club dues, and — the classic gotcha — expenses incurred <strong>before the HSA was established</strong>. Open the account first, even with $1, to start the clock.</p>
+<h2>HSA vs FSA: Don't Confuse Them</h2>
+<p>An <strong>FSA</strong> is use-it-or-lose-it (mostly), employer-owned, and not portable. An <strong>HSA</strong> is yours forever, rolls over indefinitely, is portable across jobs, and can be invested. You generally cannot have both a general-purpose FSA and an HSA — the FSA is disqualifying coverage. (Limited-purpose FSAs for dental/vision only are fine.) If you are choosing between employers' plans, the HSA-eligible HDHP plus max contributions often beats a richer PPO once you run total-cost math.</p>
+<h2>Investing the HSA: The Practical Setup</h2>
+<p>An HSA sitting in cash earns almost nothing — and inflation quietly taxes it every year. The fix takes twenty minutes: log into your HSA custodian, find the <strong>investment threshold</strong> (often $1,000–$2,000 that must stay in cash), and sweep everything above it into investments. Most custodians offer a basic menu of index funds; a total US stock market fund is the default right answer for money you will not touch for a decade or more.</p>
+<p>Match the investment to the job. Money you will spend on <strong>known near-term medical costs</strong> — next year's deductible, planned dental work — stays in cash or a money market. Money earmarked for <strong>decades-away reimbursement</strong> can ride the stock market's full volatility, because time smooths it. Revisit the split once a year alongside your health plan choice: a high expected medical year means a bigger cash buffer, not a different plan.</p>
+<p>One warning: some employer HSA custodians charge <strong>monthly fees or poor fund menus</strong>. You are allowed to roll HSA money to a better custodian (Fidelity, for example, offers HSAs with no fees and full brokerage access) while keeping payroll contributions flowing to the employer account for the FICA break. The once-a-year rollover takes a form and a few weeks — worth it if fees are eating your compounding.</p>
+<h2>Putting It All Together</h2>
+<p>Set your coverage, confirm the catch-up, prorate honestly if you enrolled mid-year, subtract every employer dollar, and contribute the remainder — ideally by payroll deduction. Then invest it, keep your receipts, and let the triple tax advantage compound. The calculator's remaining-room number is your target; hit it every year and the HSA quietly becomes one of your largest retirement assets.</p>
+
+  <h2>Investing Your HSA: Don't Leave It in Cash</h2><p>Here's the statistic that should change your behavior: the vast majority of HSA holders keep their entire balance in cash, earning minimal interest, while the account's real power comes from <strong>investing</strong> it. Once your HSA provider's cash threshold is met (often $1,000–$2,000 kept liquid for medical bills), most providers let you invest the rest in mutual funds or ETFs — the same low-cost index funds you'd hold in an IRA. A $4,400 annual contribution invested at a 7% average return for 20 years grows to roughly $180,000, versus about $88,000 sitting in cash.</p><p>The strategy: pay current medical bills out of pocket when you can afford to, <strong>save the receipts</strong>, and let the HSA compound untouched. There is no deadline for reimbursing yourself — you can withdraw against a 2026 receipt in 2046 if you like, as long as the HSA existed when the expense occurred. Keep digital copies of every receipt; the IRS can ask for substantiation decades later. Treat the invested HSA as a retirement account first and a medical fund second, and it becomes the most tax-efficient dollar in your entire portfolio.</p>
+</article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How much can I contribute to my HSA in 2026?</summary><p>The 2026 IRS limits are $4,400 for individual HDHP coverage and $8,750 for family coverage, plus a $1,000 catch-up if you are 55 or older. All contributions — yours, your employer's, anyone's — share one limit.</p></details>
+    <details><summary>Do employer HSA contributions count toward my limit?</summary><p>Yes. Employer contributions are not extra — they reduce what you may personally contribute dollar for dollar. With a $4,400 limit and $1,000 from your employer, your personal room is $3,400.</p></details>
+    <details><summary>What happens if I overcontribute to my HSA?</summary><p>The excess is subject to a 6% excise tax each year it remains. Withdraw the excess plus earnings before your tax filing deadline (including extensions) to fix it. Mid-year job changes are the most common cause.</p></details>
+    <details><summary>Can both spouses do the $1,000 catch-up on one family HSA?</summary><p>No — each spouse's $1,000 catch-up must go into their own HSA. A single account cannot hold two catch-up contributions, and couples overfund one account this way every year.</p></details>
+    <details><summary>I enrolled mid-year — is my limit prorated?</summary><p>Generally yes: each month you have HDHP coverage on the 1st counts as 1/12 of the annual limit. The last-month rule can allow the full amount if you stay eligible through the next December 31, but breaking the testing period triggers taxes and penalties.</p></details>
+    <details><summary>Should I spend my HSA or save it?</summary><p>If you can afford to, save and invest it: pay medical bills out of pocket, keep the receipts, and reimburse yourself tax-free years later — there is no deadline. After 65, the HSA doubles as a retirement account for any spending.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">HSAContrib</div>
+    <p>HSAContrib computes your exact HSA contribution limit — individual or family, with the 55+ catch-up, mid-year prorating, and employer contributions netted out.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+var HSA_LIMITS = {individual:4400, family:8750, catchup:1000};
+function hsaLimit(coverage, age, months, employer, contributed){
+  var base = HSA_LIMITS[coverage] + (age >= 55 ? HSA_LIMITS.catchup : 0);
+  var prorated = Math.round(base * months / 12 * 100) / 100;
+  var personal = Math.max(0, Math.round((prorated - employer) * 100) / 100);
+  var remaining = Math.max(0, Math.round((personal - contributed) * 100) / 100);
+  return {base:base, prorated:prorated, personal:personal, remaining:remaining};
+}
+
+
+(function(){
+var coverage='individual';
+var $=function(id){return document.getElementById(id);};
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+$('hc-cov').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  coverage=b.getAttribute('data-c');
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');calc();
+});
+function calc(){
+  var age=parseInt($('hc-age').value,10)||0;
+  var months=parseInt($('hc-months').value,10)||12;
+  var emp=parseFloat($('hc-emp').value)||0;
+  var done=parseFloat($('hc-done').value)||0;
+  $('hc-months-out').textContent=months+' mo';
+  var r=hsaLimit(coverage,age,months,emp,done);
+  $('hc-cap').textContent=money(r.prorated);
+  var ePct=r.prorated>0?Math.min(100,emp/r.prorated*100):0;
+  var pPct=r.prorated>0?Math.min(100-ePct,done/r.prorated*100):0;
+  $('hc-seg-e').style.width=ePct+'%';
+  $('hc-seg-p').style.width=pPct+'%';
+  $('hc-remain').textContent=money(r.remaining);
+  $('hc-detail').textContent='of '+money(r.personal)+' personal limit'
+    +(age>=55?' (includes $1,000 catch-up)':'')
+    +(months<12?' · prorated '+months+'/12':'');
+  var w=$('hc-warn');
+  if(done>r.personal){
+    w.hidden=false;
+    w.textContent='Over-contribution alert: you are '+money(done-r.personal)+' over your personal limit. Withdraw the excess (plus earnings) before the tax filing deadline to avoid a 6% excise tax.';
+  }else if(emp>r.prorated){
+    w.hidden=false;
+    w.textContent='Your employer contributions alone exceed the prorated limit — the excess will need to be withdrawn before the filing deadline.';
+  }else{w.hidden=true;}
+  var note=$('hc-note');
+  if(age>=55&&months===12&&coverage==='family'){
+    note.innerHTML='At 55+ on <b>family</b> coverage, note the catch-up quirk: if both spouses are 55+, each needs their <b>own HSA</b> to claim their own $1,000 — one account cannot hold two catch-ups.';
+  }else{
+    note.textContent='Employer money counts against the same IRS limit — it is not extra.';
+  }
+}
+['hc-age','hc-months','hc-emp','hc-done'].forEach(function(id){
+  $(id).addEventListener('input',calc);
+});
+calc();
+})();
+
+</script>
+</body>
+</html>
