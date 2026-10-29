@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bonus Tax Calculator — How Much of Your Bonus You Keep | BonusCalc</title>
+<meta name="description" content="Your bonus, minus the real withholding — the take-home number, explained.">
+<link rel="canonical" href="https://finance.fixoraa.tech/bonuscalc/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Bonus Tax Calculator — How Much of Your Bonus You Keep | BonusCalc">
+<meta property="og:description" content="Your bonus, minus the real withholding — the take-home number, explained.">
+<meta property="og:url" content="https://finance.fixoraa.tech/bonuscalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "BonusCalc",
+      "url": "https://finance.fixoraa.tech/bonuscalc/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Your bonus, minus the real withholding \u2014 the take-home number, explained.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"How much tax is taken out of a bonus?","acceptedAnswer":{"@type":"Answer","text":"Employers withhold a flat 22% for federal taxes on bonuses under $1 million, plus your state's withholding and 7.65% FICA. On a $10,000 bonus with 5% state withholding, that is $2,200 federal + $500 state + $765 FICA = $3,465 withheld, leaving $6,535. The 22% is withholding, not your final tax \u2014 it reconciles when you file."}},
+        {"@type":"Question","name":"Are bonuses taxed at a higher rate than salary?","acceptedAnswer":{"@type":"Answer","text":"No. Bonuses are taxed as ordinary income at your normal marginal rate. The confusion comes from withholding: bonuses use a flat 22% federal withholding instead of the graduated tables used for salary. If your marginal rate is lower than 22%, you get the difference back as a refund."}},
+        {"@type":"Question","name":"What is a gross-up on a bonus?","acceptedAnswer":{"@type":"Answer","text":"A gross-up increases the gross bonus so that after withholding you net an exact target amount. The formula is: gross = desired net \u00f7 (1 \u2212 federal rate \u2212 state rate \u2212 FICA rate). To net $8,000 at 22%/5%/7.65%, you need about $12,250 gross. The calculator above does this math live."}},
+        {"@type":"Question","name":"Do I pay Social Security and Medicare on my bonus?","acceptedAnswer":{"@type":"Answer","text":"Yes. FICA applies to bonuses exactly like salary: 6.2% Social Security up to the annual wage base plus 1.45% Medicare (and 0.9% additional Medicare over $200,000). Unlike income tax withholding, FICA is the actual tax \u2014 it is not reconciled on your return."}},
+        {"@type":"Question","name":"Can I reduce the tax on my bonus?","acceptedAnswer":{"@type":"Answer","text":"You cannot avoid the tax, but you can manage it: direct part of the bonus into your 401(k) to reduce taxable income, time a large bonus across tax years if your income will be lower next year, and adjust your W-4 if the 22% withholding consistently overshoots your bracket. A CPA is worth consulting for large bonuses."}},
+        {"@type":"Question","name":"Why was my bonus withholding so much higher than 22%?","acceptedAnswer":{"@type":"Answer","text":"Your employer may use the aggregate method \u2014 adding the bonus to a regular paycheck and withholding as if that inflated amount were your normal pay \u2014 which can withhold at a much higher effective rate. Ask payroll which method they use. The excess withholding still comes back to you as a refund at tax time."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#F2FAF5;--surface:#FFFFFF;--tint:#DDF4E4;--accent:#1E803F;--accentdeep:#1E6D38;--accent-ink:#FFFFFF;--ink:#1F3325;--muted:#547860;--line:#A4D1B2;--footmuted:#B3BEB7;--footlink:#F0FAF3;--bodyfont:'Mali',system-ui,sans-serif;--headfont:'Mali',system-ui,sans-serif}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--bodyfont);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accentdeep));color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em;font-family:var(--headfont)}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:transparent}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accentdeep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:44px 0;max-width:800px}
+.article-sec h2{font-size:24px;letter-spacing:-.01em;margin:34px 0 12px;font-weight:800;font-family:var(--headfont)}
+.article-sec p{margin-bottom:14px}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:800px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin-bottom:16px;font-family:var(--headfont)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;font-size:15px}
+.fx-footer{background:var(--ink);color:var(--bg);margin-top:48px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff;font-family:var(--headfont)}
+.fx-footer p{font-size:15px;color:var(--footmuted);max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:var(--footlink);font-weight:700}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+.bc-wrap{max-width:640px;margin:0 auto}
+.bc-hero{padding:56px 0 10px;text-align:center}
+.bc-eyebrow{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.bc-hero h1{font-size:clamp(32px,5vw,48px);line-height:1.12;font-weight:700;margin-bottom:12px}
+.bc-sub{font-size:17px;color:var(--muted)}
+.bc-card{background:var(--surface);border:2px solid var(--line);border-radius:26px;padding:32px;margin-top:26px;box-shadow:0 14px 34px rgba(30,128,63,.08)}
+.bc-field{margin-bottom:20px}
+.bc-field label{display:block;font-weight:700;font-size:15px;margin-bottom:8px}
+.bc-field .hint{font-weight:400;color:var(--muted);font-size:13px}
+.bc-field input,.bc-field select{font:inherit;font-size:19px;font-weight:600;padding:13px 15px;border:2px solid var(--line);border-radius:16px;width:100%;color:var(--ink);background:#fff}
+.bc-field input:focus,.bc-field select:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.bc-net{text-align:center;padding:26px 0 6px}
+.bc-net .n{font-size:clamp(54px,9vw,84px);font-weight:700;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.bc-net .l{font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.bc-bar{display:flex;height:26px;border-radius:999px;overflow:hidden;margin:20px 0 6px;border:2px solid var(--line)}
+.bc-bar div{height:100%}
+.bc-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);justify-content:center}
+.bc-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;font-style:normal}
+.bc-rows{margin-top:14px}
+.bc-row{display:flex;justify-content:space-between;padding:9px 2px;border-bottom:1px dashed var(--line);font-size:15px}
+.bc-row:last-child{border-bottom:0}
+.bc-row .k{color:var(--muted)}
+.bc-row .v{font-weight:700;font-variant-numeric:tabular-nums}
+.bc-grossup{margin-top:26px;background:var(--tint);border-radius:20px;padding:24px}
+.bc-grossup h2{font-size:19px;font-weight:700;margin-bottom:6px}
+.bc-grossup p{font-size:14px;color:var(--muted);margin-bottom:14px}
+.bc-grossup .ans{font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.bc-note{margin-top:18px;font-size:14px;color:var(--muted);text-align:center}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/bonuscalc/" aria-label="BonusCalc home">
+      <span class="fx-tile" aria-hidden="true">&#128176;</span>
+      <span class="fx-name">BonusCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+<div class="bc-wrap">
+  <section class="bc-hero">
+    <div class="bc-eyebrow">Supplemental wage math</div>
+    <h1>Bonus Tax Calculator</h1>
+    <p class="bc-sub">Your $10,000 bonus is not $10,000. See the real take-home — then the gross-up if you want to net an exact amount.</p>
+  </section>
+  <section class="bc-card" aria-label="BonusCalc tool">
+    <div class="bc-field">
+      <label for="bc-gross">Gross bonus ($) <span class="hint">— the number on the announcement</span></label>
+      <input type="number" id="bc-gross" value="10000" min="0" step="100">
+    </div>
+    <div class="bc-field">
+      <label for="bc-fed">Federal withholding <span class="hint">— 22% flat is the IRS default for bonuses under $1M</span></label>
+      <select id="bc-fed">
+        <option value="0.22" selected>22% — standard supplemental rate</option>
+        <option value="0.37">37% — bonuses over $1M (mandatory)</option>
+        <option value="0.10">10% — lower bracket estimate</option>
+        <option value="0.12">12% — lower bracket estimate</option>
+        <option value="0.24">24% — mid bracket estimate</option>
+        <option value="0.32">32% — upper bracket estimate</option>
+      </select>
+    </div>
+    <div class="bc-field">
+      <label for="bc-state">State withholding <span class="hint">— pick your state or enter a custom rate</span></label>
+      <select id="bc-state">
+        <option value="0">0% — no income tax (TX, FL, WA…)</option>
+        <option value="0.05" selected>5% — flat-ish estimate</option>
+        <option value="0.093">9.3% — California</option>
+        <option value="0.0685">6.85% — New York</option>
+        <option value="0.0495">4.95% — Illinois</option>
+        <option value="0.0575">5.75% — North Carolina</option>
+        <option value="0.10">10% — high-tax estimate</option>
+      </select>
+    </div>
+    <div class="bc-net" aria-live="polite">
+      <div class="n" id="bc-net">$0.00</div>
+      <div class="l">You keep</div>
+    </div>
+    <div class="bc-bar" aria-hidden="true">
+      <div id="bc-b-net" style="background:var(--accent)"></div>
+      <div id="bc-b-fed" style="background:var(--ink)"></div>
+      <div id="bc-b-state" style="background:var(--muted)"></div>
+      <div id="bc-b-fica" style="background:var(--line)"></div>
+    </div>
+    <div class="bc-legend">
+      <span><i style="background:var(--accent)"></i>Take-home</span>
+      <span><i style="background:var(--ink)"></i>Federal</span>
+      <span><i style="background:var(--muted)"></i>State</span>
+      <span><i style="background:var(--line)"></i>FICA</span>
+    </div>
+    <div class="bc-rows">
+      <div class="bc-row"><span class="k">Federal withholding</span><span class="v" id="bc-fedv">$0.00</span></div>
+      <div class="bc-row"><span class="k">State withholding</span><span class="v" id="bc-statev">$0.00</span></div>
+      <div class="bc-row"><span class="k">FICA (Social Security + Medicare)</span><span class="v" id="bc-ficav">$0.00</span></div>
+      <div class="bc-row"><span class="k">Total withheld</span><span class="v" id="bc-withheld">$0.00</span></div>
+    </div>
+    <div class="bc-grossup">
+      <h2>Gross-up calculator</h2>
+      <p>Want to take home exactly <strong>$<span id="bc-wantdisp">8,000</span></strong>? Move the slider — this is the gross bonus needed to net it.</p>
+      <div class="bc-field">
+        <label for="bc-want">Desired take-home ($)</label>
+        <input type="number" id="bc-want" value="8000" min="0" step="100">
+      </div>
+      <div class="ans" id="bc-grossup">Gross needed: $0.00</div>
+    </div>
+    <p class="bc-note">Withholding is not your final tax — it reconciles when you file. If your marginal rate is lower than 22%, you get the difference back as a refund.</p>
+  </section>
+</div>
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+<h2>Why Your Bonus Shrinks on Payday</h2>
+    <p>The announcement says $10,000. The deposit says $6,535. Nobody stole anything — your bonus was simply withheld like the supplemental wage it is. The IRS treats bonuses differently from regular salary: instead of the graduated withholding tables, employers withhold a flat 22 percent for federal taxes on bonuses up to $1 million (37 percent above that). Then your state takes its cut, and FICA — Social Security and Medicare at a combined 7.65 percent — applies just like normal pay. On a $10,000 bonus with 5 percent state withholding, that is $2,200 federal, $500 state, $765 FICA: $3,465 gone before you touch it, $6,535 in your pocket.</p>
+    <p>The shock is psychological as much as mathematical. Your salary withholding is tuned (roughly) to your actual tax bracket, so a paycheck feels like "your money." A bonus arrives with a visibly bigger haircut, and it stings — even though the math is working exactly as designed. Understanding the three buckets the money falls into turns the sting into a plan.</p>
+    <h2>The 22% Rule, Explained Properly</h2>
+    <p>The 22 percent flat rate is a withholding rule, not a tax rate. Your bonus is ultimately taxed at your marginal income tax rate like any other income — the 22 percent is just what your employer sends to the IRS upfront as a deposit. If your actual marginal rate is 12 percent, you will get the 10-point difference back as a tax refund. If your marginal rate is 32 percent, you will owe more at filing time. This is the single most misunderstood fact about bonus taxation, and it is why so many "bonus tax calculator" pages mislead: they present the withholding as the final tax, which it is not.</p>
+    <p>One more wrinkle: the flat 22 percent applies per payment under $1 million. Employers can alternatively use the "aggregate method" — adding the bonus to your last paycheck and withholding as if that inflated paycheck were your normal pay — which can withhold at a much higher effective rate. If your bonus withholding looks bizarrely high, ask payroll which method they use; the excess still comes back at tax time, but your cash flow takes the hit until then.</p>
+    <h2>State Taxes: The Second Bite</h2>
+    <p>States treat bonuses as ordinary income, with withholding rates that range from zero (in the nine states with no income tax) to over 10 percent in high-tax states like California. Some states use their own flat supplemental rates — California's is 10.34 percent, for example — while others just apply normal withholding tables. The calculator above includes common state rates; if yours is not listed, check your state's supplemental wage rate and use the closest option.</p>
+    <p>Remote workers, take note: the state that taxes your bonus is generally the state where you performed the work when you earned it, which can get complicated if you moved mid-year. Keep records if your bonus year spans two states.</p>
+    <h2>FICA: The Part Nobody Mentions</h2>
+    <p>Social Security (6.2 percent up to the annual wage base, about $176,000) and Medicare (1.45 percent, no cap, plus an extra 0.9 percent over $200,000) apply to bonuses exactly like salary. On a $10,000 bonus that is $765, and unlike income tax withholding, FICA is not reconciled at filing — it is the actual tax, period. High earners past the Social Security wage base only pay the Medicare portion, which is why the calculator's FICA line is exact for most people but slightly high for very high earners late in the year.</p>
+    <h2>The Gross-Up: Netting an Exact Amount</h2>
+    <p>Sometimes you need the bonus to land as a precise number — a $10,000 down payment, say. The gross-up formula works backwards from the withholding: gross needed equals desired net divided by (1 − federal rate − state rate − FICA rate). To net $8,000 at 22 percent federal, 5 percent state, and 7.65 percent FICA, you need a gross bonus of about $12,250. Some employers will gross-up bonuses for executives or as part of a sign-on; now you know the math to ask for the right number instead of guessing.</p>
+    <p>A practical use: negotiating a sign-on bonus to cover something specific, like a forfeited bonus at your old job. If you left $15,000 on the table, ask for a $23,000 sign-on, not $15,000 — the gross-up makes you whole instead of leaving you short after withholding.</p>
+    <h2>Smart Moves Before the Bonus Lands</h2>
+    <p>First, decide the bonus's job before it arrives — money without a plan evaporates. The highest-value moves: capture any employer 401(k) match you have not maxed (an instant 50–100 percent return), kill high-interest debt, and top up your emergency fund. Second, consider timing a 401(k) contribution: many plans let you direct a percentage of bonus pay into your 401(k), which reduces the taxable amount and the withholding in one move.</p>
+    <p>Third, if the bonus is large enough to change your tax picture — pushing you into a higher bracket or triggering underpayment concerns — talk to a CPA before year-end, not in April. And if you are expecting a refund because the 22 percent withholding exceeds your marginal rate, adjust your W-4 rather than giving the IRS an interest-free loan next year.</p>
+    <h2>Common Bonus Myths</h2>
+    <p><strong>"Bonuses are taxed at a higher rate."</strong> No — they are withheld at a flat rate, but taxed at your normal marginal rate when you file. <strong>"I should ask for my bonus in January to save taxes."</strong> Timing shifts which tax year the income lands in, which helps only if next year's income will be lower. <strong>"My employer can choose not to withhold."</strong> No — withholding on supplemental wages is mandatory; what varies is only the method. <strong>"The calculator's number is final."</strong> It is the withholding, not the tax. Your return settles the difference.</p>
+    <h2>Putting It Together</h2>
+    <p>The next time a bonus is announced, run it through the calculator before you start spending it mentally. Note the three buckets — federal, state, FICA — check whether the 22 percent withholding overshoots or undershoots your real bracket, and plan the net, not the gross. A $10,000 bonus that nets $6,535 is still a wonderful thing; it is just a $6,535 wonderful thing. Plan for the smaller number and you will never be disappointed on payday again.</p>
+    <h2>After Payday: Refund, Bill, or Break-Even</h2>
+    <p>When you file, three outcomes are possible. If the 22 percent withholding exceeded your marginal rate, a refund is coming — pleasant, but it means you gave the government an interest-free loan; consider adjusting your W-4 so future bonuses withhold closer to your real rate (payroll can usually set a custom supplemental rate). If withholding fell short — common for high earners whose marginal rate tops 32 percent — you will owe the difference, and you may owe an underpayment penalty if the shortfall is large; making an estimated tax payment in the bonus quarter avoids it. The ideal is break-even: withholding matched liability. Whatever the outcome, treat it as calibration data, not a windfall or a disaster. And one more planning note for big bonus years: bunching deductions (charitable gifts, for instance) into the high-income year, or deferring a bonus into January when next year's income will be lower, can move the needle more than any withholding tweak — worth a conversation with a CPA before December, not after.</p>
+  <h2>What to Do When the Bonus Lands</h2>
+<p>Once you know the take-home number, give it a job before it hits your checking account. A simple split that works for most people: top up the emergency fund first if it is below three months of expenses, then attack any debt charging more than seven percent, then move the remainder into long-term investing. Money with a pre-assigned purpose survives; money left to "see what happens" evaporates into takeout and impulse upgrades.</p>
+<p>Also use the bonus as a withholding checkup. If every bonus surprises you — pleasantly or painfully — your W-4 probably needs a tune. File a new W-4 with your employer to add extra withholding per paycheck or claim the right number of dependents, so next year's bonus lands closer to what you actually owe. Small steady adjustments beat one big April surprise, in either direction.</p>
+</article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How much tax is taken out of a bonus?</summary><p>Employers withhold a flat 22% for federal taxes on bonuses under $1 million, plus your state&#x27;s withholding and 7.65% FICA. On a $10,000 bonus with 5% state withholding, that is $2,200 federal + $500 state + $765 FICA = $3,465 withheld, leaving $6,535. The 22% is withholding, not your final tax — it reconciles when you file.</p></details>
+<details><summary>Are bonuses taxed at a higher rate than salary?</summary><p>No. Bonuses are taxed as ordinary income at your normal marginal rate. The confusion comes from withholding: bonuses use a flat 22% federal withholding instead of the graduated tables used for salary. If your marginal rate is lower than 22%, you get the difference back as a refund.</p></details>
+<details><summary>What is a gross-up on a bonus?</summary><p>A gross-up increases the gross bonus so that after withholding you net an exact target amount. The formula is: gross = desired net ÷ (1 − federal rate − state rate − FICA rate). To net $8,000 at 22%/5%/7.65%, you need about $12,250 gross. The calculator above does this math live.</p></details>
+<details><summary>Do I pay Social Security and Medicare on my bonus?</summary><p>Yes. FICA applies to bonuses exactly like salary: 6.2% Social Security up to the annual wage base plus 1.45% Medicare (and 0.9% additional Medicare over $200,000). Unlike income tax withholding, FICA is the actual tax — it is not reconciled on your return.</p></details>
+<details><summary>Can I reduce the tax on my bonus?</summary><p>You cannot avoid the tax, but you can manage it: direct part of the bonus into your 401(k) to reduce taxable income, time a large bonus across tax years if your income will be lower next year, and adjust your W-4 if the 22% withholding consistently overshoots your bracket. A CPA is worth consulting for large bonuses.</p></details>
+<details><summary>Why was my bonus withholding so much higher than 22%?</summary><p>Your employer may use the aggregate method — adding the bonus to a regular paycheck and withholding as if that inflated amount were your normal pay — which can withhold at a much higher effective rate. Ask payroll which method they use. The excess withholding still comes back to you as a refund at tax time.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">BonusCalc</div>
+    <p>BonusCalc shows exactly how much of your bonus you keep after federal supplemental withholding, state tax and FICA — plus the gross-up math.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+/* BonusCalc — pure logic. US supplemental-wage withholding:
+   flat federal rate (22% default), state rate, and FICA 7.65%. */
+function bonusCalc(grossBonus, fedRate, stateRate) {
+  var gross = Math.max(0, Number(grossBonus) || 0);
+  var fed = fedRate == null ? 0.22 : Math.max(0, Number(fedRate) || 0);
+  var state = stateRate == null ? 0.05 : Math.max(0, Number(stateRate) || 0);
+  var ficaRate = 0.0765;
+  var federal = gross * fed;
+  var stateW = gross * state;
+  var fica = gross * ficaRate;
+  var totalWithheld = federal + stateW + fica;
+  return {
+    gross: gross,
+    federal: federal,
+    state: stateW,
+    fica: fica,
+    totalWithheld: totalWithheld,
+    net: gross - totalWithheld
+  };
+}
+
+/* Gross-up: what gross bonus nets exactly `netTarget` after withholding. */
+function bonusGrossUp(netTarget, fedRate, stateRate) {
+  var net = Math.max(0, Number(netTarget) || 0);
+  var fed = fedRate == null ? 0.22 : Math.max(0, Number(fedRate) || 0);
+  var state = stateRate == null ? 0.05 : Math.max(0, Number(stateRate) || 0);
+  var keep = 1 - fed - state - 0.0765;
+  return keep > 0 ? net / keep : 0;
+}
+
+if (typeof document !== 'undefined') {
+  // Page wiring (breakdown bars + gross-up) goes in the HTML inline script.
+}
+
+</script>
+<script>
+(function(){
+  function v(id){var el=document.getElementById(id);return el.tagName==='SELECT'?parseFloat(el.value):parseFloat(el.value)||0;}
+  function fmt(n,d){return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function calc(){
+    var r=bonusCalc(v('bc-gross'),v('bc-fed'),v('bc-state'));
+    document.getElementById('bc-net').textContent='$'+fmt(r.net,2);
+    document.getElementById('bc-fedv').textContent='$'+fmt(r.federal,2);
+    document.getElementById('bc-statev').textContent='$'+fmt(r.state,2);
+    document.getElementById('bc-ficav').textContent='$'+fmt(r.fica,2);
+    document.getElementById('bc-withheld').textContent='$'+fmt(r.totalWithheld,2);
+    var g=r.gross>0?r.gross:1;
+    document.getElementById('bc-b-net').style.width=(r.net/g*100)+'%';
+    document.getElementById('bc-b-fed').style.width=(r.federal/g*100)+'%';
+    document.getElementById('bc-b-state').style.width=(r.state/g*100)+'%';
+    document.getElementById('bc-b-fica').style.width=(r.fica/g*100)+'%';
+    var want=parseFloat(document.getElementById('bc-want').value)||0;
+    document.getElementById('bc-wantdisp').textContent=fmt(want,0);
+    document.getElementById('bc-grossup').textContent='Gross needed: $'+fmt(bonusGrossUp(want,v('bc-fed'),v('bc-state')),2);
+  }
+  ['bc-gross','bc-fed','bc-state','bc-want'].forEach(function(id){
+    var el=document.getElementById(id);
+    el.addEventListener('input',calc);el.addEventListener('change',calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
