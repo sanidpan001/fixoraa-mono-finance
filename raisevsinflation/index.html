@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is My Raise Beating Inflation? Calculator | RaiseVsInflation</title>
+<meta name="description" content="Is your raise beating inflation? Calculate your real raise with the formula shown step by step, plus a 5-year projection. Educational tool, free.">
+<link rel="canonical" href="https://finance.fixoraa.tech/raisevsinflation/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Is My Raise Beating Inflation? Calculator | RaiseVsInflation">
+<meta property="og:description" content="Is your raise beating inflation? Calculate your real raise with the formula shown step by step, plus a 5-year projection. Educational tool, free.">
+<meta property="og:url" content="https://finance.fixoraa.tech/raisevsinflation/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "RaiseVsInflation",
+      "url": "https://finance.fixoraa.tech/raisevsinflation/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Is your raise beating inflation? Calculate your real raise with the formula shown step by step, plus a 5-year projection. Educational tool, free.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between a nominal raise and a real raise?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The nominal raise is the percentage increase in your paycheck dollars. The real raise adjusts for inflation \u2014 it measures the change in what those dollars can buy. If you get an 8% raise while prices rise 5%, your real raise is about 2.86%, computed as ((1.08/1.05)-1)*100."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why can't I just subtract inflation from my raise?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because percentages compound on different bases \u2014 the raise applies to your salary, inflation to prices \u2014 so the correct relationship is a ratio, not a difference. Subtraction (8-5=3) overstates the true answer (2.857%). The gap is small for low numbers but grows as inflation rises."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a negative real raise mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It means your purchasing power shrank: prices rose faster than your pay. A 3% raise during 6% inflation is a -2.83% real raise \u2014 you earn more dollars but can afford less than before. This is a mathematical description, not financial advice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a 0% real raise bad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mathematically it means your buying power is unchanged \u2014 your pay exactly kept pace with prices. Whether that is satisfactory depends on your role, performance, market, and total compensation, which no formula can assess."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the ask-amount planner work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It inverts the formula: given your target real raise and an inflation rate, it computes the nominal raise required as ((1+target/100)*(1+inflation/100)-1)*100. For example, targeting 3% real with 5% inflation requires about an 8.15% nominal raise. It is arithmetic, not a recommendation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool give financial advice?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It is an educational calculator that demonstrates the inflation-adjustment formula with full step-by-step working. It makes no personalized claims or recommendations. For compensation or financial decisions, consider your full situation and, where appropriate, a qualified professional."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F5F2F7; --surface:#FFFFFF; --accent:#5A2A82; --accent-ink:#FFFFFF;
+  --ink:#2A2530; --muted:#57606E; --line:#E1D8E8;
+  --display:'Roboto Condensed',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.rvi-wrap{font-family:'Roboto Condensed',Inter,system-ui,sans-serif;background:#F5F2F7;color:#2A2530;padding:56px 20px 72px;}.rvi-hero{max-width:880px;margin:0 auto 34px;text-align:center;}.rvi-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px;background:linear-gradient(135deg,#5A2A82,#9a7bc0);font-size:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(90,42,130,.25);}.rvi-hero h1{font-size:clamp(30px,5vw,48px);margin:0 0 12px;letter-spacing:-.01em;font-weight:700;line-height:1.1;}.rvi-tag{font-size:18px;color:#57606E;margin:0;font-family:Inter,system-ui,sans-serif;}.rvi-card{max-width:880px;margin:0 auto 22px;background:#FFFFFF;border:1px solid #E1D8E8;border-radius:20px;padding:36px;box-shadow:0 20px 50px rgba(90,42,130,.10);position:relative;overflow:hidden;}.rvi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:repeating-linear-gradient(90deg,#5A2A82 0 24px,#E1D8E8 24px 32px);}.rvi-card h2{font-size:22px;margin:0 0 6px;font-weight:700;}.rvi-csub{color:#57606E;font-size:14.5px;margin:0 0 18px;font-family:Inter,system-ui,sans-serif;}.rvi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;}.rvi-field label{display:block;font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:#57606E;margin-bottom:8px;font-family:Inter,system-ui,sans-serif;}.rvi-field input{width:100%;padding:13px 14px;font-size:17px;border:2px solid #E1D8E8;border-radius:12px;font-family:inherit;color:#2A2530;background:#F5F2F7;box-sizing:border-box;min-height:52px;}.rvi-field input:focus{outline:none;border-color:#5A2A82;}.rvi-btn{display:inline-block;padding:14px 30px;font-size:16px;font-weight:700;border-radius:12px;border:none;cursor:pointer;font-family:'Roboto Condensed',Inter,sans-serif;background:#5A2A82;color:#fff;min-height:54px;letter-spacing:.02em;}.rvi-result{display:none;background:#F5F2F7;border:2px solid #E1D8E8;border-radius:16px;padding:26px;margin:18px 0;}.rvi-result.show{display:block;}.rvi-bignum{font-size:60px;font-weight:700;color:#5A2A82;letter-spacing:-.02em;line-height:1;}.rvi-bignum small{font-size:22px;color:#57606E;}.rvi-verdict{font-size:17px;font-weight:700;margin:10px 0 4px;}.rvi-verdict.good{color:#166534;}.rvi-verdict.flat{color:#854D0E;}.rvi-verdict.bad{color:#B91C1C;}.rvi-steps{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px;font-size:15.5px;font-family:Inter,system-ui,sans-serif;}.rvi-steps li{background:#fff;border:1px solid #E1D8E8;border-radius:10px;padding:10px 14px;}.rvi-steps code{background:#F5F2F7;padding:2px 8px;border-radius:6px;font-weight:700;color:#5A2A82;}.rvi-cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}.rvi-cmp div{background:#fff;border:1px solid #E1D8E8;border-radius:12px;padding:16px;}.rvi-cmp .k{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:#57606E;font-weight:700;font-family:Inter,system-ui,sans-serif;}.rvi-cmp .v{font-size:26px;font-weight:700;margin-top:4px;}.rvi-table{width:100%;border-collapse:collapse;font-size:15px;margin-top:10px;font-family:Inter,system-ui,sans-serif;}.rvi-table th,.rvi-table td{padding:10px 8px;border-bottom:1px solid #E1D8E8;text-align:right;}.rvi-table th:first-child,.rvi-table td:first-child{text-align:left;}.rvi-table th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:#57606E;}.rvi-list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px;font-family:Inter,system-ui,sans-serif;}.rvi-list li{background:#F5F2F7;border:1px solid #E1D8E8;border-radius:12px;padding:12px 16px;font-size:14.5px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;}.rvi-inline{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;}.rvi-disc{font-size:13.5px;color:#57606E;background:#F5F2F7;border:1px dashed #E1D8E8;border-radius:12px;padding:14px 18px;margin-top:18px;line-height:1.6;font-family:Inter,system-ui,sans-serif;}@media (max-width:680px){.rvi-card{padding:26px 18px;}.rvi-grid{grid-template-columns:1fr;}.rvi-cmp{grid-template-columns:1fr;}.rvi-inline{grid-template-columns:1fr 1fr;}.rvi-bignum{font-size:46px;}.rvi-wrap{padding:40px 14px 56px;}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="RaiseVsInflation home">
+      <span class="fx-logo-tile" aria-hidden="true">📈</span>
+      <span class="fx-brand">RaiseVsInflation</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-blueprint" aria-label="RaiseVsInflation tool">
+<section class='rvi-wrap'><div class='rvi-hero'><div class='rvi-logo' aria-hidden='true'>📈</div><h1>Is My Raise Beating Inflation?</h1><p class='rvi-tag'>Nominal raise minus inflation equals real raise. See every step of the math.</p></div><div class='rvi-card'><h2>Real-raise calculator</h2><p class='rvi-csub'>Enter your numbers. The formula is applied exactly as written — no rounding in the math.</p><div class='rvi-grid'><div class='rvi-field'><label for='rvi-salary'>Current salary (annual)</label><input id='rvi-salary' type='number' min='0' step='1000' value='80000'></div><div class='rvi-field'><label for='rvi-nominal'>Nominal raise (%)</label><input id='rvi-nominal' type='number' step='0.1' value='8'></div><div class='rvi-field'><label for='rvi-inflation'>Inflation (%)</label><input id='rvi-inflation' type='number' step='0.1' value='5'></div></div><button class='rvi-btn' id='rvi-calc' type='button'>Calculate real raise</button><div class='rvi-result' id='rvi-result' role='status'><div class='rvi-bignum'><span id='rvi-real'>—</span><small>% real raise</small></div><div class='rvi-verdict' id='rvi-verdict'></div><ol class='rvi-steps' id='rvi-steps'></ol><div class='rvi-cmp'><div><div class='k'>New salary</div><div class='v' id='rvi-newsal'>—</div></div><div><div class='k'>Old salary adjusted for inflation</div><div class='v' id='rvi-adjsal'>—</div></div></div></div><p class='rvi-disc'>Educational illustration only. This tool demonstrates the arithmetic of inflation adjustment; it does not provide financial advice or recommend any salary decision.</p></div><div class='rvi-card'><h2>5-year projection</h2><p class='rvi-csub'>If your raise rate and inflation stayed constant, what happens to purchasing power over five years?</p><button class='rvi-btn' id='rvi-proj' type='button'>Build projection</button><div style='overflow-x:auto'><table class='rvi-table'><thead><tr><th>Year</th><th>Salary at raise rate</th><th>Value in today's money</th></tr></thead><tbody id='rvi-projbody'><tr><td colspan='3' style='text-align:center;color:#57606E'>Press the button to generate the table.</td></tr></tbody></table></div></div><div class='rvi-card'><h2>Ask-amount planner</h2><p class='rvi-csub'>What nominal raise would you need to hit a target <em>real</em> raise, given inflation?</p><div class='rvi-inline' style='grid-template-columns:1fr 1fr auto'><div class='rvi-field'><label for='rvi-target'>Target real raise (%)</label><input id='rvi-target' type='number' step='0.5' value='3'></div><div class='rvi-field'><label for='rvi-target-infl'>Inflation (%)</label><input id='rvi-target-infl' type='number' step='0.1' value='5'></div><button class='rvi-btn' id='rvi-askgo' type='button'>Compute</button></div><div class='rvi-result' id='rvi-askres'><div class='rvi-bignum'><span id='rvi-reqnom'>—</span><small>% nominal needed</small></div><p class='rvi-csub' id='rvi-asknote' style='margin:8px 0 0'></p></div></div><div class='rvi-card'><h2>COLA tracker</h2><p class='rvi-csub'>Log past cost-of-living adjustments against inflation to see the long-run pattern.</p><div class='rvi-inline'><div class='rvi-field'><label for='rvi-cola-year'>Year</label><input id='rvi-cola-year' type='number' value='2025'></div><div class='rvi-field'><label for='rvi-cola-raise'>Raise (%)</label><input id='rvi-cola-raise' type='number' step='0.1' placeholder='4.0'></div><div class='rvi-field'><label for='rvi-cola-infl'>Inflation (%)</label><input id='rvi-cola-infl' type='number' step='0.1' placeholder='3.2'></div><button class='rvi-btn' id='rvi-cola-add' type='button'>Log</button></div><ul class='rvi-list' id='rvi-cola-list'></ul><p class='rvi-csub' id='rvi-cola-avg' style='margin-top:10px'></p></div></section>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>Nominal vs Real: The Raise You Got vs the Raise You Kept</h2><p>When your salary goes from $80,000 to $86,400, the payslip says you got an 8% raise. But if the general price level rose 5% over the same period, your money buys less than it used to — so the <em>real</em> raise, the change in your purchasing power, is smaller than 8%. Economists call the payslip number the <strong>nominal</strong> raise and the purchasing-power number the <strong>real</strong> raise. Confusing the two is one of the most common money misunderstandings there is, and this calculator exists to make the distinction visible with the arithmetic shown in full.</p><p>The intuition is straightforward. A raise increases the number of dollars you earn; inflation increases the number of dollars things cost. Your standard of living depends on the ratio between the two. If both rise at the same rate, you can buy exactly what you could before — your real raise is zero, even though the nominal number moved. If prices rise faster than your pay, your real raise is negative: you earn more dollars and can afford less.</p><h2>The Formula, Step by Step</h2><p>The real raise is computed with this exact expression, where <em>n</em> is the nominal raise percent and <em>i</em> is the inflation percent:</p><p><strong>real raise = ((1 + n/100) / (1 + i/100) − 1) × 100</strong></p><p>Walk through it with n = 8 and i = 5, the defaults in the calculator above:</p><ol><li><strong>Convert the raise to a growth factor:</strong> 1 + 8/100 = 1.08. Your salary is multiplied by 1.08.</li><li><strong>Convert inflation to a growth factor:</strong> 1 + 5/100 = 1.05. Prices are multiplied by 1.05.</li><li><strong>Divide the two factors:</strong> 1.08 / 1.05 = 1.0285714... This ratio is how much more your salary buys than before.</li><li><strong>Subtract one and convert back to percent:</strong> (1.0285714 − 1) × 100 = 2.857142857142857%. That is the real raise.</li></ol><p>The calculator above performs these steps with full floating-point precision and displays each intermediate value, so you can verify the arithmetic yourself. Nothing is rounded inside the formula — rounding happens only in the display.</p><h2>Worked Examples</h2><table><thead><tr><th>Nominal raise</th><th>Inflation</th><th>Real raise</th><th>What it means</th></tr></thead><tbody><tr><td>8%</td><td>5%</td><td>+2.86%</td><td>Purchasing power grew modestly</td></tr><tr><td>5%</td><td>5%</td><td>0%</td><td>Exactly kept pace — no real change</td></tr><tr><td>3%</td><td>6%</td><td>−2.83%</td><td>Purchasing power shrank</td></tr><tr><td>10%</td><td>2%</td><td>+7.84%</td><td>Strong real gain</td></tr><tr><td>0%</td><td>4%</td><td>−3.85%</td><td>A pay freeze is a real-terms cut</td></tr><tr><td>4%</td><td>4%</td><td>0%</td><td>Matched inflation precisely</td></tr></tbody></table><p>Notice the last row of the pattern: any raise below inflation is a real-terms pay cut, no matter how good the nominal number feels. A 3% raise during 6% inflation leaves you 2.83% worse off in purchasing power — the math does not care that the number went up.</p><h2>Why You Cannot Just Subtract</h2><p>A tempting shortcut is to subtract: 8% raise minus 5% inflation equals a 3% real raise. The correct answer is 2.857%. The shortcut overstates the result, and the error grows as the numbers get larger. The reason is that percentages compound on different bases — the raise applies to your salary, inflation applies to prices — so the relationship is a ratio, not a difference.</p><p>For small numbers the shortcut is close enough for conversation (2.86 vs 3.00), which is why the myth survives. But precision matters when the figures are large or when you are comparing offers across years: at 12% inflation and a 15% raise, subtraction says +3.00% while the formula says +2.68% — a gap of nearly a third of a percentage point. The calculator uses the ratio form always, so its answers are exact for any inputs.</p><h2>The Five-Year View: Compounding Cuts Both Ways</h2><p>One year of lagging inflation is a footnote; five years of it is a lifestyle change. Small annual gaps compound: a salary growing at 3% while prices grow at 5% loses about 1.9% of purchasing power each year, and after five years the cumulative loss exceeds 9%. Conversely, beating inflation by two points a year compounds into a double-digit real gain over the same span.</p><p>The projection table above shows this mechanically: each year's salary grows by the nominal rate, and each year's "value in today's money" divides by cumulative inflation. It assumes constant rates, which never happens in reality — its purpose is to illustrate the <em>shape</em> of compounding, not to predict your finances. Run it with your own numbers and watch how a one-point change in either rate bends the five-year curve.</p><h2>Reading Your Result</h2><p>The calculator labels the outcome in plain descriptive terms:</p><ul><li><strong>Beating inflation (above +0.5%):</strong> purchasing power grew. The raise more than covered rising prices.</li><li><strong>Roughly in line (−0.5% to +0.5%):</strong> the raise essentially matched inflation. Dollars changed; buying power did not.</li><li><strong>Losing to inflation (below −0.5%):</strong> purchasing power shrank. More dollars, less buying power.</li></ul><p>These are mathematical descriptions of the numbers you entered, not recommendations. Whether a given real raise is "good" depends on your industry, role, performance, local labor market, and total compensation — factors no formula can see. The tool's job is to make the number accurate; interpreting it in context is yours.</p><h2>Common Misunderstandings</h2><ul><li><strong>"A 5% raise is always good."</strong> Against 2% inflation it is excellent (+2.94% real). Against 7% inflation it is a pay cut (−1.87% real). The raise cannot be judged without the inflation number beside it.</li><li><strong>"No raise means I stayed the same."</strong> With 4% inflation, a frozen salary is a −3.85% real change. Standing still nominally means moving backward in real terms.</li><li><strong>"Bonuses fix it."</strong> A one-time bonus raises one year's income but does not compound into the salary base. A smaller permanent raise usually overtakes a larger one-time bonus within a couple of years — compare them with the projection table.</li><li><strong>"Inflation affects everyone equally."</strong> Headline inflation is an average over a basket of goods. If your spending skews toward fast-rising categories (rent, childcare, healthcare), your personal inflation rate can differ substantially from the published figure.</li></ul><h2>Where the Inflation Number Comes From</h2><p>The inflation inputs people typically use come from consumer price indices — the Consumer Price Index (CPI) in the US, the CPIH in the UK, or equivalents elsewhere. These track the price of a representative basket of household goods and services. When commentators say "inflation was 5%," they usually mean the index rose 5% over twelve months.</p><p>Two caveats keep the math honest. First, the basket is an average household's, not yours — the misunderstandings section above explains why your personal rate may differ. Second, timing matters: compare your raise against inflation over the <em>same period</em> the raise covers. An annual raise pairs with twelve-month inflation; a mid-year adjustment pairs with the inflation since your last change. The COLA tracker above lets you log year-by-year pairs so the comparison stays apples-to-apples.</p><h2>Limits of the Math — Read This Part</h2><p>This tool is a precise arithmetic instrument with a deliberately narrow scope. It computes one thing — the inflation-adjusted change in a salary figure — and it does that exactly. It does not account for taxes, which change the take-home picture; it does not account for benefits, equity, bonuses, or hours worked; and it cannot tell you what raise to ask for, whether to accept an offer, or how to plan your finances.</p><p>Nothing on this page is financial advice, and nothing here is personalized to your situation. It is an educational illustration of a formula: enter numbers, see the steps, understand the concept. For decisions about compensation, negotiation, or financial planning, the numbers here are a starting point for your own analysis — alongside the many factors the formula cannot see.</p><h2>Try It Yourself: Three Scenarios</h2><p>The fastest way to internalize the formula is to run three numbers through the calculator and compare the stories they tell. <strong>Scenario one:</strong> a 6% raise with 2% inflation. The real raise is about 3.92% — comfortably ahead, the kind of year where the extra money is genuinely noticeable. <strong>Scenario two:</strong> a 4% raise with 4.5% inflation. The real raise is about -0.48% — the payslip grew, but buying power slipped slightly backward. <strong>Scenario three:</strong> no raise at all with 3% inflation, a -2.91% real change that many people never notice because the nominal number never moved.</p><p>Now change one input at a time and watch the real raise respond. Raise inflation by a single point and see how much nominal raise you would need to stay even — the ask-amount planner does this inversion for you. The lesson that emerges is not about any particular number; it is that the two inputs always travel together. A raise is a two-variable story, and anyone quoting only one of the variables is telling half of it.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is the difference between a nominal raise and a real raise?</summary><p>The nominal raise is the percentage increase in your paycheck dollars. The real raise adjusts for inflation — it measures the change in what those dollars can buy. If you get an 8% raise while prices rise 5%, your real raise is about 2.86%, computed as ((1.08/1.05)-1)*100.</p></details>
+<details><summary>Why can&#x27;t I just subtract inflation from my raise?</summary><p>Because percentages compound on different bases — the raise applies to your salary, inflation to prices — so the correct relationship is a ratio, not a difference. Subtraction (8-5=3) overstates the true answer (2.857%). The gap is small for low numbers but grows as inflation rises.</p></details>
+<details><summary>What does a negative real raise mean?</summary><p>It means your purchasing power shrank: prices rose faster than your pay. A 3% raise during 6% inflation is a -2.83% real raise — you earn more dollars but can afford less than before. This is a mathematical description, not financial advice.</p></details>
+<details><summary>Is a 0% real raise bad?</summary><p>Mathematically it means your buying power is unchanged — your pay exactly kept pace with prices. Whether that is satisfactory depends on your role, performance, market, and total compensation, which no formula can assess.</p></details>
+<details><summary>How does the ask-amount planner work?</summary><p>It inverts the formula: given your target real raise and an inflation rate, it computes the nominal raise required as ((1+target/100)*(1+inflation/100)-1)*100. For example, targeting 3% real with 5% inflation requires about an 8.15% nominal raise. It is arithmetic, not a recommendation.</p></details>
+<details><summary>Does this tool give financial advice?</summary><p>No. It is an educational calculator that demonstrates the inflation-adjustment formula with full step-by-step working. It makes no personalized claims or recommendations. For compensation or financial decisions, consider your full situation and, where appropriate, a qualified professional.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">RaiseVsInflation</div>
+    <p>RaiseVsInflation computes your inflation-adjusted (real) raise, shows every step of the formula, and projects five years ahead.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function realRaise(n,i){return ((1+n/100)/(1+i/100)-1)*100;}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){var wrap=document.querySelector('.rvi-wrap');if(!wrap)return;function $(id){return document.getElementById(id);}function num(id){var el=$(id);if(!el)return 0;var v=parseFloat(el.value);return isNaN(v)?0:v;}function money(v){return '$'+Math.round(v).toLocaleString('en-US');}var calc=$('rvi-calc');if(calc)calc.addEventListener('click',function(){var sal=num('rvi-salary'),n=num('rvi-nominal'),i=num('rvi-inflation');var r=realRaise(n,i);var res=$('rvi-result');if(res)res.classList.add('show');var big=$('rvi-real');if(big)big.textContent=(r>=0?'+':'')+r.toFixed(2);var v=$('rvi-verdict');if(v){v.className='rvi-verdict '+(r>0.5?'good':(r<-0.5?'bad':'flat'));v.textContent=r>0.5?'Beating inflation — purchasing power grew.':(r<-0.5?'Losing to inflation — purchasing power shrank.':'Roughly in line with inflation.');}var steps=$('rvi-steps');if(steps){var a=(1+n/100),b=(1+i/100);steps.innerHTML='';[['Step 1 — grow the salary factor', '<code>1 + '+n+'/100 = '+a+'</code>'],['Step 2 — grow the price factor', '<code>1 + '+i+'/100 = '+b+'</code>'],['Step 3 — divide and subtract one', '<code>'+a+' / '+b+' − 1 = '+(a/b-1)+'</code>'],['Step 4 — convert to percent', '<code>'+(a/b-1)+' × 100 = '+r+'%</code>']].forEach(function(s){var li=document.createElement('li');li.innerHTML='<strong>'+s[0]+':</strong> '+s[1];steps.appendChild(li);});}var ns=$('rvi-newsal'),ad=$('rvi-adjsal');if(ns)ns.textContent=money(sal*(1+n/100));if(ad)ad.textContent=money(sal*(1+i/100));});var proj=$('rvi-proj');if(proj)proj.addEventListener('click',function(){var sal=num('rvi-salary'),n=num('rvi-nominal'),i=num('rvi-inflation');var tb=$('rvi-projbody');if(!tb)return;tb.innerHTML='';for(var y=1;y<=5;y++){var s=sal*Math.pow(1+n/100,y);var real=s/Math.pow(1+i/100,y);var tr=document.createElement('tr');tr.innerHTML='<td>Year '+y+'</td><td>'+money(s)+'</td><td>'+money(real)+'</td>';tb.appendChild(tr);}});var askgo=$('rvi-askgo');if(askgo)askgo.addEventListener('click',function(){var t=num('rvi-target'),i=num('rvi-target-infl');var req=((1+t/100)*(1+i/100)-1)*100;var res=$('rvi-askres');if(res)res.classList.add('show');var rn=$('rvi-reqnom');if(rn)rn.textContent=req.toFixed(2);var note=$('rvi-asknote');if(note)note.textContent='To gain '+t+'% in purchasing power with '+i+'% inflation, the nominal raise must be '+req.toFixed(2)+'%. This is arithmetic, not advice.';});var colaAdd=$('rvi-cola-add');function renderColaAvg(){var items=wrap.querySelectorAll('#rvi-cola-list li');var avg=$('rvi-cola-avg');if(!avg)return;if(!items.length){avg.textContent='';return;}var sum=0;for(var k=0;k<items.length;k++){sum+=parseFloat(items[k].getAttribute('data-real'))||0;}avg.textContent='Average real raise across logged years: '+(sum/items.length).toFixed(2)+'% (illustrative only).';}if(colaAdd)colaAdd.addEventListener('click',function(){var y=$('rvi-cola-year'),rr=$('rvi-cola-raise'),ii=$('rvi-cola-infl');var yv=y?y.value.trim():'';if(!yv){if(y)y.focus();return;}var r=realRaise(num('rvi-cola-raise'),num('rvi-cola-infl'));var ul=$('rvi-cola-list');if(!ul)return;var li=document.createElement('li');li.setAttribute('data-real',r);var sp=document.createElement('span');sp.innerHTML='<strong>'+yv+'</strong> — raise '+num('rvi-cola-raise')+'%, inflation '+num('rvi-cola-infl')+'% → real '+(r>=0?'+':'')+r.toFixed(2)+'%';var b=document.createElement('button');b.className='rvi-del';b.type='button';b.textContent='Remove';b.style.cssText='padding:8px 14px;border-radius:10px;border:2px solid #E1D8E8;background:#fff;font-family:inherit;font-weight:700;cursor:pointer;min-height:42px;';b.addEventListener('click',function(){ul.removeChild(li);renderColaAvg();});li.appendChild(sp);li.appendChild(b);ul.appendChild(li);renderColaAvg();});});}
+</script>
+</body>
+</html>
