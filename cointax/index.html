@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypto Tax Calculator India: 30% Tax + 1% TDS – CoinTax</title>
+<meta name="description" content="Calculate crypto tax in India: 31.2% tax on gains plus 1% TDS on every sale. Free multi-trade ledger with total tax, TDS estimate and loss rules.">
+<link rel="canonical" href="https://finance.fixoraa.tech/cointax/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Crypto Tax Calculator India: 30% Tax + 1% TDS – CoinTax">
+<meta property="og:description" content="Calculate crypto tax in India: 31.2% tax on gains plus 1% TDS on every sale. Free multi-trade ledger with total tax, TDS estimate and loss rules.">
+<meta property="og:url" content="https://finance.fixoraa.tech/cointax/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "CoinTax",
+      "url": "https://finance.fixoraa.tech/cointax/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Calculate crypto tax in India: 31.2% tax on gains plus 1% TDS on every sale. Free multi-trade ledger with total tax, TDS estimate and loss rules.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the crypto tax rate in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Gains from crypto (Virtual Digital Assets) are taxed at a flat 30% plus 4% cess, which works out to 31.2% of the gain. The rate is the same regardless of your income slab or how long you held the asset."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there really 1% TDS on crypto sales in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Under Section 194S, 1% TDS is deducted on transfers of crypto assets above the annual threshold. Exchanges deduct it automatically; on P2P deals the buyer must deduct it. It is an advance credit against your final tax, not an extra tax."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I set off crypto losses against crypto gains?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The law specifically disallows set-off of VDA losses against VDA gains, against any other income, or carry-forward to future years. Each profitable trade is taxed at 31.2% on its own."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is swapping one crypto for another taxable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Crypto-to-crypto swaps are taxable transfers. The fair market value of the crypto you receive is treated as the sale consideration for the crypto you gave up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I deduct gas fees or exchange charges from my crypto gains?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Only the cost of acquisition is deductible. Brokerage, gas fees and transfer charges cannot be subtracted from your taxable gain."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I pay TDS even if I sell at a loss?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The 1% TDS applies on the sale value, not on the profit, so it is deducted even on loss-making sales. You claim it as a credit when filing your return."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FFF8E7; --surface:#FFFFFF; --accent:#0E7C5B; --accent-ink:#FFFFFF;
+  --ink:#1A2E22; --muted:#5A6B60; --line:#E7DCC0;
+  --display:'Fraunces',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.cx-wrap{max-width:880px;margin:0 auto;padding:8px 4px;font-family:Inter,system-ui,sans-serif;color:#1A2E22}.cx-hero{text-align:center;padding:44px 16px 30px}.cx-logo{font-size:52px;line-height:1}.cx-h1{font-family:Fraunces,serif;font-size:clamp(2rem,5vw,3.2rem);margin:14px 0 10px;letter-spacing:-.01em;color:#1A2E22}.cx-tag{font-size:1.08rem;color:#5A6B60;max-width:560px;margin:0 auto}.cx-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.cx-chips span{background:#E9F4EE;border:1px solid #CBE4D6;color:#0E7C5B;font-weight:600;font-size:.82rem;padding:7px 14px;border-radius:999px}.cx-card{background:#FFFFFF;border:1px solid #E7DCC0;border-radius:24px;padding:28px;box-shadow:0 18px 50px -30px rgba(14,124,91,.35)}.cx-cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.cx-cardtitle{font-family:Fraunces,serif;font-size:1.35rem;margin:0}.cx-add{background:#0E7C5B;color:#fff;border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer;min-height:44px;font-size:.95rem}.cx-add:hover{background:#0a6449}.cx-rows{display:grid;gap:12px}.cx-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;background:#FFFDF4;border:1px solid #EFE5CC;border-radius:14px;padding:14px}.cx-row label{display:grid;gap:6px;font-size:.78rem;font-weight:600;color:#5A6B60}.cx-row input{border:1.5px solid #E0D4B4;border-radius:10px;padding:11px 12px;font-size:1rem;min-height:44px;width:100%;box-sizing:border-box;color:#1A2E22;background:#fff}.cx-row input:focus{outline:2px solid #0E7C5B;border-color:#0E7C5B}.cx-rm{background:#FDECEA;color:#B3261E;border:1px solid #F5C6C2;border-radius:10px;min-width:44px;min-height:44px;cursor:pointer;font-size:1.1rem}.cx-note{background:#FFF8E7;border:1px dashed #D9C88F;border-radius:12px;padding:12px 16px;color:#5A6B60;font-size:.92rem;margin:16px 0}.cx-totals{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:8px}.cx-stat{background:#F3FAF6;border:1px solid #D7EBDD;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}.cx-grand{background:#0E7C5B;border-color:#0E7C5B}.cx-grand .cx-label{color:#D8EFE4}.cx-grand .cx-val{color:#fff}.cx-label{font-size:.8rem;font-weight:600;color:#5A6B60}.cx-val{font-family:Fraunces,serif;font-size:1.5rem;font-weight:700;color:#1A2E22}.cx-timing{margin-top:16px;background:#FFF3D6;border-left:4px solid #B7791F;padding:12px 16px;border-radius:0 12px 12px 0;color:#1A2E22;font-size:.93rem}.cx-disc{font-size:.8rem;color:#5A6B60;margin-top:14px;line-height:1.6}@media(max-width:640px){.cx-row{grid-template-columns:1fr 1fr}.cx-rm{grid-column:span 2;min-height:44px}.cx-totals{grid-template-columns:1fr}.cx-card{padding:20px 16px}.cx-h1{font-size:2rem}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="CoinTax home">
+      <span class="fx-logo-tile" aria-hidden="true">🪙</span>
+      <span class="fx-brand">CoinTax</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-hero-card" aria-label="CoinTax tool">
+<div class="cx-wrap">
+  <div class="cx-hero">
+    <div class="cx-logo">🪙</div>
+    <h1 class="cx-h1">Crypto Tax Calculator for India</h1>
+    <p class="cx-tag">India's 30% crypto tax + 1% TDS, computed trade by trade.</p>
+    <div class="cx-chips"><span>31.2% effective tax</span><span>1% TDS per sale</span><span>No loss set-off</span></div>
+  </div>
+  <div class="cx-card">
+    <div class="cx-cardhead">
+      <h2 class="cx-cardtitle">Your trade ledger</h2>
+      <button class="cx-add" id="cx-add" type="button">+ Add trade</button>
+    </div>
+    <div class="cx-rows" id="cx-rows"></div>
+    <div class="cx-note" id="cx-note">Add a trade to see the tax breakdown.</div>
+    <div class="cx-totals">
+      <div class="cx-stat"><span class="cx-label">Total gain / loss</span><span class="cx-val" id="cx-gain">₹0</span></div>
+      <div class="cx-stat"><span class="cx-label">Tax @ 31.2%</span><span class="cx-val" id="cx-tax">₹0</span></div>
+      <div class="cx-stat"><span class="cx-label">1% TDS deducted</span><span class="cx-val" id="cx-tds">₹0</span></div>
+      <div class="cx-stat cx-grand"><span class="cx-label">Net in hand (after tax + TDS)</span><span class="cx-val" id="cx-net">₹0</span></div>
+    </div>
+    <p class="cx-timing" id="cx-timing"></p>
+    <p class="cx-disc">Estimate only. Crypto losses cannot be set off against gains under Indian tax law — each profitable trade is taxed at 31.2% (30% + 4% cess) even if your portfolio is down overall.</p>
+  </div>
+</div>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>How Crypto Tax Works in India</h2>
+<p>Since 1 April 2022, India taxes income from crypto assets — called Virtual Digital Assets (VDAs) — under a special regime that is far harsher than the tax on shares or mutual funds. The headline rule is simple: a flat 30% tax on gains, plus a 4% health and education cess on that tax, taking the effective rate to 31.2%. There is no slab benefit, no indexation, and no distinction between short-term and long-term holdings. Whether you held Bitcoin for a day or five years, the rate is identical.</p>
+<p>The second pillar of the regime is a 1% TDS (tax deducted at source) on every transfer of a crypto asset, deducted by the buyer or the exchange before the seller receives the money. This applies even when you sell at a loss. The TDS is not your final tax — it is an advance credit you claim against your total tax liability when you file your return. But it does reduce the cash you receive on every sale, which catches many first-time traders by surprise.</p>
+<h2>The 31.2% Rate: What It Really Means</h2>
+<p>The Income Tax Act levies 30% on VDA gains, and the 4% cess is calculated on the tax amount, not on the gain. So on a gain of ₹50,000 the tax is ₹15,000 and the cess is ₹600, for a total of ₹15,600 — exactly 31.2% of the gain. This is not optional or negotiable: exchanges report your transactions, and the flat rate applies regardless of your income slab. A student with no other income pays the same 31.2% on crypto gains as a salaried professional in the 30% bracket.</p>
+<p>Crucially, only net gains per transaction are taxed, but losses get no relief at all. If you make ₹2,00,000 on one trade and lose ₹1,50,000 on another, you still pay 31.2% on the full ₹2,00,000 — the loss cannot be set off against the gain, carried forward to next year, or set off against any other income like salary or business profit. This asymmetry is the single most expensive feature of the regime, and it is why the ledger view in the calculator above matters: you must track each trade's profit individually.</p>
+<h3>What counts as a taxable event</h3>
+<p>Tax is triggered when you convert crypto into rupees, swap one crypto for another (for example BTC to ETH), or use crypto to buy goods and services. Simply holding crypto, or moving it between your own wallets, is not taxable. Gifting crypto is taxable in the hands of the recipient. Mining rewards are taxed as income at the fair market value on receipt, and then again as capital gains when sold — a double layer many miners overlook.</p>
+<h2>1% TDS: The Cash-Flow Trap</h2>
+<p>Under Section 194S, 1% TDS applies on the transfer of VDAs above a threshold (₹50,000 per year for most individuals, ₹10,000 for specified persons). In practice, Indian exchanges deduct it automatically on every sale and deposit it against your PAN. If you sell ₹1,50,000 of crypto, you receive ₹1,48,500 and the ₹1,500 TDS sits as a credit in your Form 26AS.</p>
+<p>The trap is that TDS is deducted on the sale value, not the gain. Sell at a 20% loss and you still lose 1% of the proceeds to TDS. For active traders this locks up meaningful working capital through the year — money you only recover when you file your return and claim the credit. Peer-to-peer sellers must deduct the TDS themselves, which is why most retail users prefer exchanges that handle it.</p>
+<h3>A worked example</h3>
+<p>Priya buys 1 ETH for ₹1,00,000 and sells it for ₹1,50,000. Her gain is ₹50,000. Tax at 31.2% is ₹15,600. TDS at 1% of ₹1,50,000 is ₹1,500, deducted by the exchange, so she receives ₹1,48,500. When she files her return she reports the ₹50,000 gain, a tax liability of ₹15,600, and claims the ₹1,500 TDS credit — paying the remaining ₹14,100. If instead she had sold at ₹90,000 (a ₹10,000 loss), she would owe zero tax but still face ₹900 TDS on the sale.</p>
+<h2>Costs You Cannot Deduct</h2>
+<p>Unlike business income, the VDA regime allows deduction only of the cost of acquisition — what you paid to buy the asset. Brokerage fees, gas fees, exchange charges, and transfer costs are not deductible. If you bought for ₹1,00,000, paid ₹2,000 in gas fees, and sold for ₹1,50,000, your taxable gain is still ₹50,000, not ₹48,000. Meticulous traders factor these invisible costs into their profit targets before placing orders.</p>
+<h2>Record-Keeping That Saves You at Filing Time</h2>
+<p>Because each trade is taxed individually and losses get no relief, your records must capture every transaction: date, asset, quantity, buy price, sell price, exchange, and TDS deducted. The calculator above is designed around this reality — a ledger, not a single number. Export your exchange statements quarterly, reconcile them against your bank credits, and verify that the TDS in your Form 26AS matches what the exchange claims to have deducted. Mismatches are common and painful to fix after filing.</p>
+<h3>Common mistakes to avoid</h3>
+<ul>
+<li>Assuming losses reduce taxable gains — they do not, ever, under the VDA regime.</li>
+<li>Forgetting that crypto-to-crypto swaps are taxable events, not just cash-outs.</li>
+<li>Ignoring the 1% TDS credit in Form 26AS and paying full tax again.</li>
+<li>Deducting gas fees and brokerage from gains — not allowed.</li>
+<li>Treating mined or airdropped tokens as tax-free until sale — receipt itself is taxable.</li>
+</ul>
+<h2>Planning Around the Rules</h2>
+<p>You cannot change the 31.2% rate, but you can avoid compounding the damage. First, trade less frequently if the tax drag wipes out your edge — a 31.2% haircut on every winning trade demands a genuinely high win rate. Second, never sell at a loss merely for tax reasons; unlike equities, there is no tax-loss harvesting benefit in crypto. Third, keep TDS-heavy strategies in mind: splitting one large sale into smaller ones does not reduce TDS, but knowing the credit exists stops you from double-paying at filing time. Finally, set aside the tax as you go — parking 31.2% of each profitable trade's gain in a separate account means filing season brings no surprises.</p>
+<h2>How This Calculator Helps</h2>
+<p>CoinTax mirrors how the law actually works: a ledger of individual trades, each contributing its gain to the 31.2% tax and its sale value to the 1% TDS. Add every buy-sell pair, and the totals show your real liability and your real cash in hand. The timing note reminds you that holding longer changes nothing — only the spread between buy and sell prices matters. Use it before you sell, not after, so the tax never surprises you.</p>
+<h2>How to Report Crypto in Your ITR</h2>
+<p>Crypto gains go in Schedule VDA of your income tax return — a dedicated schedule, not the regular capital-gains one. Report aggregate gains per asset class; you do not list every trade, but your ledger (like the one above) is the proof behind the totals. Match the TDS credits in your Form 26AS against what exchanges deducted — mismatches are the most common reason crypto filers get notices. If your total tax liability for the year exceeds ₹10,000, advance-tax instalments apply to crypto income too; many traders discover this only at filing time, along with interest under Sections 234B and 234C. Set calendar reminders for the June, September, December and March instalments once your trading turns profitable.</p>
+<h2>Advance Tax on Crypto Profits</h2>
+<p>Many traders learn too late that crypto gains attract advance tax. If your total tax liability for the year crosses the statutory threshold, you must pay it in quarterly instalments instead of one lump sum at filing time. Miss the instalments and interest quietly inflates your bill. The practical fix is simple: after every profitable quarter, set aside roughly a third of the gains in a separate account and pay the instalment due. Treat the tax as spent the moment the profit is booked, not when the return is filed.</p>
+<table><thead><tr><th>Instalment</th><th>Due date</th><th>Cumulative tax payable</th></tr></thead><tbody><tr><td>First</td><td>June</td><td>Fifteen percent</td></tr><tr><td>Second</td><td>September</td><td>Forty five percent</td></tr><tr><td>Third</td><td>December</td><td>Seventy five percent</td></tr><tr><td>Fourth</td><td>March</td><td>One hundred percent</td></tr></tbody></table>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is the crypto tax rate in India?</summary><p>Gains from crypto (Virtual Digital Assets) are taxed at a flat 30% plus 4% cess, which works out to 31.2% of the gain. The rate is the same regardless of your income slab or how long you held the asset.</p></details>
+<details><summary>Is there really 1% TDS on crypto sales in India?</summary><p>Yes. Under Section 194S, 1% TDS is deducted on transfers of crypto assets above the annual threshold. Exchanges deduct it automatically; on P2P deals the buyer must deduct it. It is an advance credit against your final tax, not an extra tax.</p></details>
+<details><summary>Can I set off crypto losses against crypto gains?</summary><p>No. The law specifically disallows set-off of VDA losses against VDA gains, against any other income, or carry-forward to future years. Each profitable trade is taxed at 31.2% on its own.</p></details>
+<details><summary>Is swapping one crypto for another taxable?</summary><p>Yes. Crypto-to-crypto swaps are taxable transfers. The fair market value of the crypto you receive is treated as the sale consideration for the crypto you gave up.</p></details>
+<details><summary>Can I deduct gas fees or exchange charges from my crypto gains?</summary><p>No. Only the cost of acquisition is deductible. Brokerage, gas fees and transfer charges cannot be subtracted from your taxable gain.</p></details>
+<details><summary>Do I pay TDS even if I sell at a loss?</summary><p>Yes. The 1% TDS applies on the sale value, not on the profit, so it is deducted even on loss-making sales. You claim it as a credit when filing your return.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">CoinTax</div>
+    <p>CoinTax computes Indian crypto tax and TDS across your full trade ledger.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function coinTax(trades){var gain=0,tds=0,saleTotal=0;for(var i=0;i<trades.length;i++){var t=trades[i];var g=(t.sell-t.buy)*t.qty;gain+=g;saleTotal+=t.sell*t.qty;tds+=t.sell*t.qty*0.01;}gain=Math.round(gain*100)/100;tds=Math.round(tds*100)/100;saleTotal=Math.round(saleTotal*100)/100;var tax=gain>0?Math.round(gain*0.312*100)/100:0;return{gain:gain,tax:tax,tds:tds,saleTotal:saleTotal};}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){var rowsEl=document.getElementById('cx-rows');function fmt(n){return'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});}function addRow(buy,sell,qty){var d=document.createElement('div');d.className='cx-row';d.innerHTML='<label>Buy price (₹)<input type="number" min="0" step="any" value="'+(buy||'')+'" class="cx-buy"></label><label>Sell price (₹)<input type="number" min="0" step="any" value="'+(sell||'')+'" class="cx-sell"></label><label>Qty<input type="number" min="0" step="any" value="'+(qty||'1')+'" class="cx-qty"></label><button type="button" class="cx-rm" title="Remove trade">×</button>';d.querySelector('.cx-rm').addEventListener('click',function(){d.remove();recalc();});var ins=d.querySelectorAll('input');for(var i=0;i<ins.length;i++){ins[i].addEventListener('input',recalc);}rowsEl.appendChild(d);}function readTrades(){var out=[];var rs=rowsEl.querySelectorAll('.cx-row');for(var i=0;i<rs.length;i++){var b=parseFloat(rs[i].querySelector('.cx-buy').value)||0;var s=parseFloat(rs[i].querySelector('.cx-sell').value)||0;var q=parseFloat(rs[i].querySelector('.cx-qty').value)||0;if(b>0&&s>0&&q>0)out.push({buy:b,sell:s,qty:q});}return out;}function recalc(){var trades=readTrades();var note=document.getElementById('cx-note');var timing=document.getElementById('cx-timing');if(!trades.length){document.getElementById('cx-gain').textContent='₹0';document.getElementById('cx-tax').textContent='₹0';document.getElementById('cx-tds').textContent='₹0';document.getElementById('cx-net').textContent='₹0';note.textContent='Add a trade to see the tax breakdown.';timing.textContent='';return;}var r=coinTax(trades);document.getElementById('cx-gain').textContent=fmt(r.gain);document.getElementById('cx-tax').textContent=fmt(r.tax);document.getElementById('cx-tds').textContent=fmt(r.tds);document.getElementById('cx-net').textContent=fmt(r.saleTotal-r.tax-r.tds);var wins=0,losses=0;for(var i=0;i<trades.length;i++){if(trades[i].sell>trades[i].buy)wins++;else losses++;}note.innerHTML='<strong>'+wins+'</strong> profitable trade(s), <strong>'+losses+'</strong> loss-making trade(s). Losses cannot be set off — only gains are taxed.';timing.textContent='⏱ Timing note: holding period does not change crypto tax in India. A gain booked in one day and a gain booked after five years are both taxed at 31.2%. What matters is only buy price vs sell price.';}document.getElementById('cx-add').addEventListener('click',function(){addRow();});addRow(100000,150000,1);recalc();});}
+</script>
+</body>
+</html>
