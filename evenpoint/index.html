@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvenPoint — Break-Even Point Calculator: Units & Revenue to Cover Costs</title>
+<meta name="description" content="Free break-even calculator for businesses and sellers. Find the units and revenue needed to cover fixed and variable costs, plus margin of safety and target-profit units.">
+<link rel="canonical" href="https://finance.fixoraa.tech/evenpoint/">
+<meta property="og:title" content="EvenPoint — Break-Even Point Calculator: Units & Revenue to Cover Costs">
+<meta property="og:description" content="Free break-even calculator for businesses and sellers. Find the units and revenue needed to cover fixed and variable costs, plus margin of safety and target-profit units.">
+<meta property="og:url" content="https://finance.fixoraa.tech/evenpoint/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--pri:#B45309;--acc:#0EA5E9;--bgc:#FFFBEB}
+body{background:var(--bgc);font-family:'Segoe UI',system-ui,sans-serif}
+.pri{background:var(--pri)} .prit{color:var(--pri)} .acct{color:var(--acc)}
+.btn{background:var(--pri);color:#fff;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+.btn:hover{opacity:.9} .btn2{background:var(--acc);color:#111;padding:.6rem 1.2rem;border-radius:.6rem;font-weight:600;cursor:pointer;border:none}
+input,select,textarea{border:1.5px solid #cbd5e1;border-radius:.55rem;padding:.55rem .7rem;width:100%;background:#fff;color:#0f172a}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);border-color:transparent}
+label{font-size:.83rem;font-weight:600;display:block;margin-bottom:.3rem}
+.card{background:#fff;border-radius:1rem;box-shadow:0 8px 30px rgba(15,23,42,.08);padding:1.4rem}
+article p{margin:.7rem 0;line-height:1.75;color:#334155}
+article h2{font-size:1.45rem;font-weight:800;margin:1.6rem 0 .4rem;color:#0f172a}
+.faq{background:#fff;border-radius:.7rem;padding:.9rem 1.1rem;margin:.55rem 0;box-shadow:0 2px 10px rgba(15,23,42,.05)}
+.faq summary{font-weight:700;cursor:pointer}
+table.dt{width:100%;border-collapse:collapse} table.dt th,table.dt td{border:1px solid #e2e8f0;padding:.45rem .6rem;text-align:left;font-size:.9rem}
+table.dt th{background:#f1f5f9}
+
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "EvenPoint", "url": "https://finance.fixoraa.tech/evenpoint/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Free break-even calculator for businesses and sellers. Find the units and revenue needed to cover fixed and variable costs, plus margin of safety and target-profit units."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How is the break-even point calculated?", "acceptedAnswer": {"@type": "Answer", "text": "Break-even units = fixed costs \u00f7 (price \u2212 variable cost per unit). The denominator is the contribution margin \u2014 what each sale leaves to cover fixed costs. Break-even revenue is break-even units multiplied by price."}}, {"@type": "Question", "name": "What counts as a fixed cost?", "acceptedAnswer": {"@type": "Answer", "text": "Costs that do not change with sales volume in the period: rent, salaries, insurance, subscriptions and loan interest. If a cost would stay the same whether you sold half or double, it is fixed for this calculation."}}, {"@type": "Question", "name": "What if I sell several products at different prices?", "acceptedAnswer": {"@type": "Answer", "text": "Use a blended contribution: average your products' contributions weighted by their share of units sold, then run the calculator with your average price and average variable cost. Recalculate when your sales mix shifts."}}, {"@type": "Question", "name": "What does margin of safety mean?", "acceptedAnswer": {"@type": "Answer", "text": "It is how far sales can fall before you start losing money: (actual units \u2212 break-even units) \u00f7 actual units. Above 25% is generally comfortable; under 10% means a single bad month puts you in the red."}}, {"@type": "Question", "name": "Can break-even analysis help me set prices?", "acceptedAnswer": {"@type": "Answer", "text": "Yes \u2014 it is one of the best pricing tools. Enter a candidate price and see how break-even moves. A small price rise enlarges contribution on every unit, often cutting break-even far more than an equivalent cost saving."}}, {"@type": "Question", "name": "Why is my price below variable cost a problem?", "acceptedAnswer": {"@type": "Answer", "text": "If price is lower than variable cost, contribution is negative: every sale loses money and selling more only loses it faster. Raise the price, cut the per-unit cost, or drop the product \u2014 no sales volume fixes a negative contribution."}}]}</script>
+</head>
+<body id="top">
+<header class="sticky top-0 z-40 shadow-md" style="background:#78350F">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-3 flex items-center justify-between">
+    <a href="#top" class="text-xl font-extrabold tracking-tight" style="color:#FFFBEB">⚖ EvenPoint</a>
+    <nav class="flex gap-5 text-sm font-semibold" style="color:#FFFBEB">
+      <a href="#top" class="hover:underline">Home</a>
+      <a href="https://fixoraa.tech" class="hover:underline">More Tools</a>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+  <div class="text-center mb-6">
+    <h1 class="text-3xl sm:text-4xl font-extrabold" style="color:#0f172a">Break-Even Point Calculator</h1>
+    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">How many units must you sell before your business stops losing money? Enter your fixed costs, price and variable cost — EvenPoint finds your break-even units, break-even revenue, margin of safety and the sales needed for a target profit.</p>
+    <span class="inline-block mt-3 px-3 py-1 rounded-full text-xs font-bold text-white pri">✓ Unlimited Free Usage — No Signup, No Watermark</span>
+  </div>
+  <div class="grid md:grid-cols-5 gap-6">
+  <div class="card md:col-span-2 space-y-3">
+    <div><label>Total fixed costs (per month: rent, salaries, software…)</label><input id="fixed" type="number" value="200000"></div>
+    <div><label>Selling price per unit</label><input id="price" type="number" value="999"></div>
+    <div><label>Variable cost per unit (materials, packaging, fees…)</label><input id="varc" type="number" value="550"></div>
+    <div><label>Units you currently sell per month</label><input id="actual" type="number" value="600"></div>
+    <div><label>Target monthly profit (optional)</label><input id="profit" type="number" value="100000"></div>
+    <button class="btn w-full" onclick="calc()">Find My Break-Even Point</button>
+  </div>
+  <div class="card md:col-span-3">
+    <div class="grid grid-cols-2 gap-3 text-center">
+      <div class="p-3 rounded-lg bg-amber-50"><div class="text-xs font-bold">BREAK-EVEN UNITS / MONTH</div><div id="oUnits" class="text-2xl font-extrabold">–</div></div>
+      <div class="p-3 rounded-lg bg-sky-50"><div class="text-xs font-bold">BREAK-EVEN REVENUE</div><div id="oRev" class="text-2xl font-extrabold">–</div></div>
+      <div class="p-3 rounded-lg bg-amber-50"><div class="text-xs font-bold">CONTRIBUTION PER UNIT</div><div id="oCm" class="text-2xl font-extrabold">–</div></div>
+      <div class="p-3 rounded-lg bg-sky-50"><div class="text-xs font-bold">MARGIN OF SAFETY</div><div id="oMos" class="text-2xl font-extrabold">–</div></div>
+    </div>
+    <div id="verdict" class="mt-3 font-semibold"></div>
+    <div id="chart" class="mt-4 space-y-2"></div>
+  </div></div>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+<section class="mx-auto max-w-4xl px-4 sm:px-6 pb-6">
+  <article>
+  <h2>The one number every business must know</h2>
+<p>Ask a struggling business owner what their break-even point is and you will often get a shrug — yet it is the most important number in the business. Break-even is the sales level at which total revenue exactly covers total costs: below it you lose money on every day you open; above it, every additional sale starts contributing profit. EvenPoint computes it from three inputs you already know — fixed costs, price, and variable cost per unit — and expresses it both in units and in revenue, because teams think in units while banks and landlords think in money.</p>
+<p>The concept's power is its honesty. Dreams and effort do not appear in the formula; only arithmetic does. A café, a coaching class, a D2C brand and a freelance practice all obey the same equation. Once you know your break-even, pricing discussions stop being vibes and become engineering: every lever — a price rise, a cheaper supplier, a renegotiated rent — moves the number in a way you can predict before committing.</p>
+<h2>Fixed costs, variable costs and contribution</h2>
+<p>Fixed costs are the bills that arrive whether you sell one unit or one thousand: rent, salaries, insurance, subscriptions, loan payments. Variable costs scale with each sale: raw materials, packaging, delivery, marketplace commissions, payment-gateway fees. Separating them correctly is the whole game — misclassify a cost and your break-even lies to you. A delivery rider paid per order is variable; the manager supervising ten riders is fixed. When in doubt, ask: if sales doubled next month, would this cost double? If yes, it is variable.</p>
+<p>What remains after variable cost is subtracted from price is the contribution margin — the amount each sale contributes toward covering fixed costs and, after them, toward profit. Divide fixed costs by contribution and you have break-even units. This is why a modest price rise is so potent: it enlarges contribution on every single unit, dragging break-even down far faster than an equivalent cost cut spread across overheads. EvenPoint shows your contribution per unit and as a percentage of price, so you can see the lever you actually control.</p>
+<h2>Margin of safety: how much room you have</h2>
+<p>Knowing break-even tells you where the cliff edge is; margin of safety tells you how far from it you are standing. It is the percentage by which sales can fall before losses begin. A business selling 600 units against a break-even of 446 has a margin of safety near 26 percent — a bad month hurts, but does not kill. A business at 5 percent is one cancelled order from the red, however profitable it looks today. Lenders and investors ask about this number precisely because it measures fragility.</p>
+<p>Use it as an early-warning gauge. Recalculate monthly: if margin of safety shrinks three months in a row, the trend matters more than the level. Then decide which lever to pull while you still have room — raise prices before desperation forces discounts, cut fixed costs before the lease renewal locks them in, or push sales with a clear-eyed view of exactly how many units safety requires.</p>
+<h2>From break-even to target profit</h2>
+<p>Break-even is survival, not success. The target-profit calculation extends the same formula: add your desired profit to fixed costs, then divide by contribution. The result is the sales level that pays the bills and your target. This turns vague ambitions — 'we should make a lakh a month' — into an operational number the whole team can see: units per month, and therefore units per day, per salesperson, per channel. Goals become manageable the moment they become divisible.</p>
+<p>Work it backwards through your funnel. If target profit needs 900 units and your store converts one visitor in fifty, you need 45,000 visitors — a marketing number, a budget, a plan. Every layer of the business connects to the same small equation. When the target looks unreachable, the formula shows your real options with unusual clarity: raise contribution (price up or variable cost down), shrink fixed costs, or choose a longer runway to the same profit.</p>
+<h2>Worked example: a small bakery</h2>
+<p>Consider a bakery with monthly fixed costs of ₹2,00,000 — rent, staff, utilities, licences. It sells a signature box at ₹999; ingredients, packaging and delivery commissions come to ₹550 per box, leaving a contribution of ₹449. Break-even is ₹2,00,000 ÷ ₹449 ≈ 446 boxes a month, or about 15 a day — suddenly a vivid, countable target for the counter team. Break-even revenue is roughly ₹4.46 lakh. If the bakery actually sells 600 boxes, profit is (600 − 446) × ₹449 ≈ ₹69,000, and the margin of safety is a comfortable 26 percent.</p>
+<p>Now watch the levers. Raising the price to ₹1,099 lifts contribution to ₹549 and drops break-even to 365 boxes — a 18 percent safety gain without selling a single extra unit. Alternatively, negotiating ingredients down to ₹500 raises contribution to ₹499 and break-even falls to 401. Doing both reaches 334. Small, unglamorous improvements in price and purchasing routinely outperform heroic marketing, because they compound through every unit sold.</p>
+<h2>Break-even traps and honest limits</h2>
+<p>The formula assumes one product, steady prices and costs that behave linearly — real businesses are messier. Multiple products need a weighted-average contribution based on your sales mix. Seasonal businesses should compute break-even per season, not per year. Step costs — the second oven, the bigger premises — jump fixed costs in slabs, so re-run the numbers before every expansion; growth that raises break-even faster than sales is how profitable small businesses die expanding.</p>
+<p>Finally, break-even is an accounting line, not a cash line. Loan principal repayments and tax payments are cash outflows that may not sit inside your cost figures, and customers paying at 45 days strain cash long after the P&L turns pretty. Use EvenPoint for the economics, then overlay a simple cash calendar for survival. Know both numbers, and you know your business.</p>
+<h2>Break-even for services and freelancers</h2>
+<p>Product businesses count units; service businesses count hours and seats. The same formula adapts cleanly: your 'unit' becomes a billable hour, a seat, a project or a client-month, your price becomes its rate, and your variable cost becomes whatever each delivered unit truly consumes — subcontractor time, per-seat software, transaction fees. A consultant with ₹60,000 of monthly fixed costs, a ₹2,000 hourly rate and ₹500 of per-hour delivery cost has a contribution of ₹1,500 and a break-even of 40 billable hours a month — a number that instantly disciplines pricing, utilisation targets and the decision to hire.</p>
+<p>For multi-offering firms, compute break-even per offering before averaging: a star product subsidising a structurally losing service is a common autopsy finding. The calculator's role is to make you ask the question per line of business, with the same three inputs, until every offering can state the volume at which it starts paying rent. What cannot state it should be repriced, redesigned or respectfully retired — break-even analysis is as much a pruning tool as a planning one.</p>
+<h2>Revisit the number quarterly</h2>
+<p>Costs drift, prices creep and mixes shift, so a break-even point has a shelf life of about one quarter. Recompute it whenever rent renews, a supplier changes terms, or a price moves — and keep the old figures in a simple log. Watching your break-even fall across quarters is one of the purest satisfactions in running a business: proof, in a single number, that the operation is getting structurally stronger rather than merely busier. Watching it rise is an early alarm that arrives while fixes are still cheap. Either way, the discipline of recalculation — three inputs, thirty seconds on this page — turns break-even from a business-plan artefact into a living instrument on the dashboard of the firm.</p>
+  <h2>Frequently Asked Questions</h2>
+  <details class="faq"><summary>How is the break-even point calculated?</summary><p>Break-even units = fixed costs ÷ (price − variable cost per unit). The denominator is the contribution margin — what each sale leaves to cover fixed costs. Break-even revenue is break-even units multiplied by price.</p></details>
+<details class="faq"><summary>What counts as a fixed cost?</summary><p>Costs that do not change with sales volume in the period: rent, salaries, insurance, subscriptions and loan interest. If a cost would stay the same whether you sold half or double, it is fixed for this calculation.</p></details>
+<details class="faq"><summary>What if I sell several products at different prices?</summary><p>Use a blended contribution: average your products' contributions weighted by their share of units sold, then run the calculator with your average price and average variable cost. Recalculate when your sales mix shifts.</p></details>
+<details class="faq"><summary>What does margin of safety mean?</summary><p>It is how far sales can fall before you start losing money: (actual units − break-even units) ÷ actual units. Above 25% is generally comfortable; under 10% means a single bad month puts you in the red.</p></details>
+<details class="faq"><summary>Can break-even analysis help me set prices?</summary><p>Yes — it is one of the best pricing tools. Enter a candidate price and see how break-even moves. A small price rise enlarges contribution on every unit, often cutting break-even far more than an equivalent cost saving.</p></details>
+<details class="faq"><summary>Why is my price below variable cost a problem?</summary><p>If price is lower than variable cost, contribution is negative: every sale loses money and selling more only loses it faster. Raise the price, cut the per-unit cost, or drop the product — no sales volume fixes a negative contribution.</p></details>
+  </article>
+</section>
+<footer class="mt-6 py-8" style="background:#78350F;color:#FFFBEB">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 text-center text-sm">
+    <p class="font-bold text-base">EvenPoint</p>
+    <p class="opacity-80 mt-1">Free break-even calculator for businesses and sellers. Find the units and revenue needed to cover fixed and variable costs, plus margin of safety and target-profit units.</p>
+    <p class="mt-2"><a href="#top" class="underline">Home</a> · <a href="https://fixoraa.tech" class="underline">More Tools</a></p>
+    <p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+  </div>
+</footer>
+<script id="lib-evenpoint">
+
+function breakEven(fixedCosts, price, variableCost){
+  var cm = price - variableCost;
+  if (cm <= 0) return {units:-1, revenue:0, contribution:Math.round(cm), marginPct:0};
+  var units = Math.ceil(fixedCosts/cm);
+  return {units:units, revenue:Math.round(units*price), contribution:Math.round(cm), marginPct:Math.round(cm/price*1000)/10};
+}
+function marginOfSafety(actualUnits, beUnits){ if(actualUnits<=0) return 0; return Math.round((actualUnits-beUnits)/actualUnits*1000)/10; }
+function targetProfitUnits(fixedCosts, price, variableCost, profit){
+  var cm = price-variableCost; if(cm<=0) return -1; return Math.ceil((fixedCosts+profit)/cm);
+}
+if (typeof module!=="undefined") module.exports={breakEven:breakEven, marginOfSafety:marginOfSafety, targetProfitUnits:targetProfitUnits};
+
+</script>
+<script>
+
+function fmt(n){return '₹'+n.toLocaleString('en-IN');}
+function calc(){
+  var f=+document.getElementById('fixed').value,p=+document.getElementById('price').value,v=+document.getElementById('varc').value,a=+document.getElementById('actual').value,pr=+document.getElementById('profit').value;
+  var r=breakEven(f,p,v);
+  if(r.units<0){document.getElementById('verdict').textContent='⚠ Your price does not cover the variable cost per unit — every sale loses money. Raise the price or cut variable costs first.';return;}
+  document.getElementById('oUnits').textContent=r.units.toLocaleString('en-IN');
+  document.getElementById('oRev').textContent=fmt(r.revenue);
+  document.getElementById('oCm').textContent=fmt(r.contribution)+' ('+r.marginPct+'%)';
+  var mos=marginOfSafety(a,r.units);
+  document.getElementById('oMos').textContent= a>0 ? mos+'%' : '—';
+  var tp=targetProfitUnits(f,p,v,pr);
+  document.getElementById('verdict').textContent= a>=r.units ? '✅ You are above break-even by '+(a-r.units)+' units a month. To earn '+fmt(pr)+' profit you need '+tp+' units a month.' : 'You are '+(r.units-a)+' units short of break-even. To also earn '+fmt(pr)+' profit you need '+tp+' units a month.';
+  var max=Math.max(a,tp,r.units);
+  function bar(label,val,color){return '<div class="text-sm">'+label+' <div class="h-4 rounded" style="background:'+color+';width:'+Math.max(3,val/max*100)+'%"></div> '+val.toLocaleString('en-IN')+' units</div>';}
+  document.getElementById('chart').innerHTML=bar('Break-even',r.units,'#B45309')+bar('You sell now',a,'#0EA5E9')+bar('For target profit',tp,'#16A34A');
+}
+calc();
+
+</script>
+</body>
+</html>
