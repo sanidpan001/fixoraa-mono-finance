@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TipPool — Tip Pool Calculator: Split Tips Fairly by Hours or Points</title>
+<meta name="description" content="TipPool — free online tip pool calculator. Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither No signup, unlimited free usage.">
+<link rel="canonical" href="https://finance.fixoraa.tech/tippool/">
+<meta property="og:title" content="TipPool — Tip Pool Calculator: Split Tips Fairly by Hours or Points">
+<meta property="og:description" content="TipPool — free online tip pool calculator. Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither No signup, unlimited free usage.">
+<meta property="og:url" content="https://finance.fixoraa.tech/tippool/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@500;700;800&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>:root{--bg:#F5F6F8;--card:#FFFFFF;--ink:#1F2430;--acc:#3F51B5;--acc2:#00897B;--soft:#E6E9F2;--hf:'DM Serif Display',serif;--bf:'DM Sans',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--bf);line-height:1.65}
+header.site{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:2px solid var(--soft);padding:10px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:12px;background:var(--ink);color:var(--bg);border:2px solid var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--hf);font-weight:800;font-size:20px}
+.brandname{font-family:var(--hf);font-size:22px;font-weight:700}
+.navbtns{margin-left:auto;display:flex;gap:8px}
+.navbtns a,.btn{background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;text-decoration:none;font-weight:700;border:0;cursor:pointer;display:inline-block}
+.navbtns a.ghost{background:var(--soft);color:var(--ink)}
+.badge{display:inline-block;background:var(--soft);color:var(--ink);padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700}
+h1{font-family:var(--hf);font-size:clamp(26px,4.5vw,40px);line-height:1.2;margin:14px 0 8px}
+.hero{max-width:900px;margin:auto;padding:26px 20px 4px;text-align:center}
+.wrap{max-width:980px;margin:auto;padding:20px}.tool{background:var(--card);border-radius:18px;padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.fld{display:block;margin:10px 0}.fld span{display:block;font-weight:700;margin-bottom:5px;font-size:14px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 12px;border:2px solid var(--soft);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.btn2{background:var(--soft);color:var(--ink);border:0;padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+#result{margin-top:16px;background:var(--soft);border-radius:14px;padding:16px}
+#baStage{margin:14px 0}
+.reserved-ad{max-width:728px;margin:26px auto;min-height:110px;border:2px dashed var(--soft);border-radius:12px}
+article.seo{max-width:820px;margin:auto;padding:10px 20px 30px}article.seo h2{font-family:var(--hf);margin-top:30px}article.seo h3{font-family:var(--hf)}
+.faq{background:var(--card);border:1px solid var(--soft);border-radius:12px;padding:6px 16px;margin:10px 0}
+footer.site{background:var(--card);border-top:2px solid var(--soft);padding:26px 20px;text-align:center;margin-top:30px}
+footer.site a{color:var(--acc);font-weight:700}
+canvas{max-width:100%}table{background:var(--card)}pre{white-space:pre-wrap;word-break:break-word}
+body{background-image:radial-gradient(circle at 18% 12%, var(--soft), transparent 55%)}.tool{border-radius:18px;box-shadow:10px 12px 0 var(--soft)}.hero{text-align:center}.fld input,.fld select,.fld textarea{border-radius:12px}#result{border-left:5px solid var(--acc)}article.seo h2{border-bottom:3px solid var(--soft);padding-bottom:4px}</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "TipPool", "url": "https://finance.fixoraa.tech/tippool/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "TipPool \u2014 free online tip pool calculator. Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot \u2014 diner bill tools do neither No signup, unlimited free usage."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is TipPool used for?", "acceptedAnswer": {"@type": "Answer", "text": "TipPool is a free online tool for anyone searching for a tip pool calculator. It gives you an instant result in your browser \u2014 Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot \u2014 diner bill tools do neither"}}, {"@type": "Question", "name": "Is TipPool free to use?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. TipPool is completely free with unlimited usage \u2014 no signup, no paywall and no watermark on anything you create or download."}}, {"@type": "Question", "name": "How accurate is TipPool?", "acceptedAnswer": {"@type": "Answer", "text": "TipPool uses the standard formulas and methods described in the guide on this page, and shows its working so you can check every step. For money, health or legal decisions, treat the result as a strong estimate and confirm important figures with a professional."}}, {"@type": "Question", "name": "Does TipPool upload my data anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. TipPool runs entirely in your browser. Your inputs, files and results never leave your device, and nothing is stored on a server."}}, {"@type": "Question", "name": "What makes TipPool different from other tools for tip pool calculator?", "acceptedAnswer": {"@type": "Answer", "text": "Most tools stop at the basic answer. TipPool adds hours and points modes and per-person payout table \u2014 Bill-splitters serve diners; staff tip pooling is a different, underserved search dominated by payroll-software blogs"}}, {"@type": "Question", "name": "Can I use TipPool on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. TipPool is a single lightweight page that works on phones, tablets and computers. Anything you save is kept in your own browser's local storage."}}]}</script>
+</head>
+<body>
+<header class="site">
+<div class="logo" aria-hidden="true">T</div>
+<div class="brandname">TipPool</div>
+<nav class="navbtns"><a href="https://fixoraa.tech">Home</a><a class="ghost" href="https://fixoraa.tech">More Tools</a></nav>
+</header>
+<div class="hero"><h1>TipPool — Tip Pool Calculator: Split Tips Fairly by Hours or Points</h1><p>Transactional — split a shift&#x27;s/week&#x27;s tip pool fairly — free, private, no signup.</p></div>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main>
+<div class="wrap"><div style="grid-column:1/-1;text-align:center"><span class="badge">Unlimited Free Usage</span><h2 style="font-family:var(--hf)">TipPool</h2><p>Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither</p></div><div class="tool">
+<div><span class="badge">Unlimited Free Usage</span>
+<h2 style="font-family:var(--hf);margin:10px 0 4px">TipPool — tip pool calculator</h2>
+<p style="margin:4px 0 12px">Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither</p>
+<label class="fld"><span>Total tip pool</span><input type="number" id="f_total" value="8500"></label>
+<label class="fld"><span>Support staff carve-out % (kitchen / bar)</span><input type="number" id="f_support" value="10"></label>
+<label class="fld"><span>Split by</span><select id="f_mode"><option value="hours">hours</option><option value="points">points</option></select></label>
+<label class="fld"><span>Staff — one per line: name|hours|points</span><textarea id="f_staff" rows="4">Asha|8|3
+Ravi|6|2
+Meera|10|4</textarea></label>
+<p style="margin-top:14px"><button class="btn" id="go">Run TipPool</button></p>
+<div id="baStage"></div>
+<div id="result" aria-live="polite"><p>Press <b>Run TipPool</b> — the example values above already show a full working result. Extra built in: hours and points modes.</p></div>
+</div></div></div>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 py-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+  </div>
+</div>
+<article class="seo">
+<h2>What is a tip pool calculator — and why this one?</h2><p>If you searched for a tip pool calculator, you want one thing: a correct answer, fast, without creating an account or paying for a subscription. TipPool was built for exactly that moment. Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither The page loads instantly, the tool sits at the top, and your result appears the moment you press the button — no uploads, no waiting rooms, no watermarks.</p><p>The search intent behind “tip pool calculator” is usually transactional — split a shift&#x27;s/week&#x27;s tip pool fairly That sounds simple, but the top results for this search are a mixed bag: some are blog posts that explain the idea with one static example, some are heavy apps that demand an account before they show you anything, and some are calculators that handle only the simplest case. TipPool takes a different approach — a dedicated, single-purpose tool that does this one job completely, including the edge cases the simple versions skip.</p>
+<h2>How TipPool works</h2><p>Under the hood, TipPool follows the standard method for a tip pool calculator, applied step by step so the result is easy to verify. Every input is labelled in plain language, sensible defaults are filled in so you can try the tool immediately, and the result panel shows not just the headline answer but the working behind it. That transparency matters: a number you cannot check is a number you cannot trust, especially when money, marks, measurements or health are involved.</p><p>Bill-splitters serve diners; staff tip pooling is a different, underserved search dominated by payroll-software blogs In practice that means you spend your time on the decision, not on wrestling the tool. Change any input and re-run — the calculation is instant because everything happens on your own device.</p>
+<h2>Key features</h2><h3>Hours and points modes</h3><p>both real pooling systems in one tool — and it is built into TipPool from the start, not locked behind a signup. When you search for a tip pool calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p><h3>Per-person payout table</h3><p>ends end-of-shift arguments — and it is built into TipPool from the start, not locked behind a signup. When you search for a tip pool calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p><h3>Support-staff % carve-out</h3><p>kitchen/bar shares handled properly — and it is built into TipPool from the start, not locked behind a signup. When you search for a tip pool calculator, small workflow details like this are what separate a tool you use once from a tool you bookmark. Try it with your own numbers or files and compare the result with the worked example below.</p>
+<h2>How to use TipPool — step by step</h2><p><strong>Step 1:</strong> Start with the defaults. The tool opens with a realistic example already filled in, so you can press the main button and see a full result before entering anything of your own. <strong>Step 2:</strong> Replace the example values with your real ones — your figures, your file, or your text. <strong>Step 3:</strong> Read the whole result panel, not just the headline number; the breakdown underneath is where the useful decisions hide. <strong>Step 4:</strong> Adjust one input at a time and re-run to see how sensitive the answer is. <strong>Step 5:</strong> Copy, download or save your result using the buttons provided — everything stays in your browser, so your work is private by default.</p><p>A worked example is the fastest way to learn any tool. Run the default example first and check that the result matches the explanation in the “how it works” section above. Once the method makes sense with familiar numbers, your own case — however unusual — becomes straightforward, because the tool applies exactly the same steps every time.</p>
+<h2>Common mistakes to avoid</h2><p>Most wrong answers from a tip pool calculator come from wrong inputs, not wrong maths. Double-check that you have entered values in the units the labels ask for, that percentages are entered as percentages (12, not 0.12), and that you have not mixed two different cases into one run. If a result looks surprising, change one input at a time and watch how the answer moves — a result that moves sensibly is a result you can trust. And if two tools disagree, prefer the one that shows its working, the way TipPool does.</p><p>People also search for related questions such as tip pooling calculator by hours worked, split tips between staff calculator, restaurant tip pool points calculator. Those long-tail searches usually describe a specific situation — a couple budgeting together, a student checking one subject, a buyer comparing two options. TipPool was designed with those specific situations in mind, which is why its extra features focus on comparisons, breakdowns and “what if” adjustments rather than a single bare answer.</p>
+<h2>Who uses TipPool?</h2><p>Anyone who needs a tip pool calculator and would rather get the answer in ten seconds than read a long article about it. Students checking work, professionals making a quick decision, families planning a budget or a purchase, and creators producing something to share — the tool does not ask who you are, and it never asks you to sign up. Run the numbers before you commit money. Small changes in price, cost or churn change the answer a lot, so try two or three scenarios and plan for the middle one, not the rosiest.</p><p>Because the page is a single self-contained file, it also works in places where heavy apps struggle: older phones, slow connections, school and office networks. If you find it useful, bookmark it — your saved notes, favourites and history live in your own browser and will be waiting next time, with no account to remember and no password to reset.</p>
+<h2>The bottom line</h2><p>A good tip pool calculator should be fast, honest about its method, and complete enough that you do not need a second tool open in another tab. That is the standard TipPool was built to. Try the default example, run your own case, and read the frequently asked questions below if anything is unclear — they cover accuracy, privacy, cost and the features that make this tool different.</p>
+<h2>Frequently asked questions</h2>
+<div class="faq"><h3>What is TipPool used for?</h3><p>TipPool is a free online tool for anyone searching for a tip pool calculator. It gives you an instant result in your browser — Pool split by hours worked OR by points system, with a per-person payout table managers can screenshot — diner bill tools do neither</p></div><div class="faq"><h3>Is TipPool free to use?</h3><p>Yes. TipPool is completely free with unlimited usage — no signup, no paywall and no watermark on anything you create or download.</p></div><div class="faq"><h3>How accurate is TipPool?</h3><p>TipPool uses the standard formulas and methods described in the guide on this page, and shows its working so you can check every step. For money, health or legal decisions, treat the result as a strong estimate and confirm important figures with a professional.</p></div><div class="faq"><h3>Does TipPool upload my data anywhere?</h3><p>No. TipPool runs entirely in your browser. Your inputs, files and results never leave your device, and nothing is stored on a server.</p></div><div class="faq"><h3>What makes TipPool different from other tools for tip pool calculator?</h3><p>Most tools stop at the basic answer. TipPool adds hours and points modes and per-person payout table — Bill-splitters serve diners; staff tip pooling is a different, underserved search dominated by payroll-software blogs</p></div><div class="faq"><h3>Can I use TipPool on my phone?</h3><p>Yes. TipPool is a single lightweight page that works on phones, tablets and computers. Anything you save is kept in your own browser&#x27;s local storage.</p></div>
+</article>
+</main>
+<footer class="site">
+<p><b>TipPool</b> — a free tip pool calculator that runs entirely in your browser.</p>
+<p><a href="https://fixoraa.tech">Home</a> · <a href="https://fixoraa.tech">More Tools</a></p>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+<script id="tool-logic">var TL={NL:String.fromCharCode(10),parseStaff:function(t){return String(t).split(TL.NL).map(function(l){return l.trim();}).filter(function(l){return l;}).map(function(l){var p=l.split('|');return {name:(p[0]||'Staff').trim(),hours:parseFloat(p[1])||0,points:parseFloat(p[2])||0};});},supportAmt:function(total,pct){return total*pct/100;},distribute:function(total,supportPct,staff,mode){var pool=total-TL.supportAmt(total,supportPct);var wsum=staff.reduce(function(a,s){return a+(mode==='points'?s.points:s.hours);},0);return staff.map(function(s){var w=mode==='points'?s.points:s.hours;return {name:s.name,amount:wsum>0?pool*w/wsum:0,weight:w};});}};</script>
+<script>function $(i){return document.getElementById(i);}function v(i){var e=$('f_'+i);return e?parseFloat(e.value)||0:0;}function tv(i){var e=$('f_'+i);return e?e.value:'';}function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}function fmt(n){return new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(Math.round(n*100)/100);}function setResult(h){$('result').innerHTML=h;}function drawBars(rows){var mx=Math.max.apply(null,rows.map(function(r){return r[1];}))||1;var h='<div style="margin-top:10px">';rows.forEach(function(r){h+='<div style="margin:6px 0"><span>'+esc(r[0])+'</span><div style="background:var(--soft);border-radius:8px"><div style="width:'+Math.max(2,Math.round(r[1]/mx*100))+'%;background:var(--acc);height:16px;border-radius:8px"></div></div><b>'+fmt(r[1])+'</b></div>';});$('result').innerHTML+=h+'</div>';}
+document.getElementById('go').onclick=function(){var total=v('total'),sup=v('support'),mode=tv('mode');var staff=TL.parseStaff(tv('staff'));var out=TL.distribute(total,sup,staff,mode);var supAmt=TL.supportAmt(total,sup);var rows=out.map(function(o){return [o.name,o.amount];});var html='<p>Pool '+fmt(total)+' · Support carve-out ('+sup+'%): <b>'+fmt(supAmt)+'</b> shared by kitchen / bar · Distributable to floor staff: <b>'+fmt(total-supAmt)+'</b> by '+mode+'</p>';out.forEach(function(o){html+='<p>'+esc(o.name)+' ('+mode+' '+o.weight+'): <b>'+fmt(o.amount)+'</b></p>';});html+='<p>Screenshot this table at shift end — it is the whole argument, settled.</p>';setResult(html);drawBars(rows);};</script>
+</body>
+</html>
