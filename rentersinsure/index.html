@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renters Insurance Estimator — Estimate Monthly Premium</title>
+<meta name="description" content="Estimate renters insurance cost from your belongings value, liability limit, location risk and deductible.">
+<link rel="canonical" href="https://finance.fixoraa.tech/rentersinsure/">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Renters Insurance Estimator — Estimate Monthly Premium">
+<meta property="og:description" content="Estimate renters insurance cost from your belongings value, liability limit, location risk and deductible.">
+<meta property="og:url" content="https://finance.fixoraa.tech/rentersinsure/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "RentersInsure",
+      "url": "https://finance.fixoraa.tech/rentersinsure/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Estimate renters insurance cost from your belongings value, liability limit, location risk and deductible.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does my landlord's insurance cover my belongings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Landlord insurance covers the building, not a tenant's belongings. You need your own renters policy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much renters insurance do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Insure the full replacement value of everything you own, plus a liability limit of at least 100,000 in your currency as a starting point."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a deductible in renters insurance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The amount you pay yourself on each claim before the insurer pays. A higher deductible usually lowers the premium."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does renters insurance cover me if I must move out after a fire?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, additional living expenses cover hotel and food costs while your home is repaired, up to the policy limit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are roommates covered by my renters policy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not. Each adult in a shared home generally needs their own policy or to be named on a joint policy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this estimator an insurance quote?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It is a transparent estimate for budgeting. Insurers price on more factors, so request formal quotes before buying."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#fff7ed; --surface:#ffffff; --accent:#9a3412; --accent-ink:#ffffff;
+  --ink:#431407; --muted:#7c2d12; --line:#fed7aa;
+  --display:'Bitter',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.rn-sub{color:var(--muted);margin:.4rem 0 1.2rem}.rn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}.rn-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.1rem}.rn-card label{display:block;font-weight:600;margin-bottom:.7rem}.rn-card input,.rn-card select{width:100%;padding:.6rem;border:1px solid var(--line);border-radius:10px;margin-top:.25rem}.rn-card button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:.55rem 1rem;font-weight:700;cursor:pointer;margin-top:.5rem}.rn-res div{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px dashed var(--line)}.rn-note{color:var(--muted);font-size:.9rem}@media(max-width:640px){.rn-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="RentersInsure home">
+      <span class="fx-logo-tile" aria-hidden="true">🛡️</span>
+      <span class="fx-brand">RentersInsure</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-renter-shield" aria-label="RentersInsure tool">
+<h1>Renters Insurance Estimator</h1><p class="rn-sub">Estimate a monthly premium from what you own, the liability you need, and where you live.</p><div class="rn-grid"><div class="rn-card"><label>Belongings value (£) <input id="rn-bel" type="number" min="0" value="20000"></label><label>Liability limit (£) <input id="rn-liab" type="number" min="0" value="100000"></label><label>Location risk <select id="rn-risk"><option value="0">Low</option><option value="30" selected>Medium</option><option value="70">High</option></select></label><label>Deductible (£) <input id="rn-ded" type="number" min="0" value="500"></label><button id="rn-compare">Compare £250 vs £1000 deductible</button></div><div class="rn-card rn-res"><div><span>Estimated annual premium</span><strong id="rn-ann">—</strong></div><div><span>Estimated monthly premium</span><strong id="rn-mon">—</strong></div><p id="rn-break"></p><p id="rn-cmp"></p><p class="rn-note">Estimate only, not an insurance quote. Actual premiums vary by insurer, building and claims history.</p></div></div>
+  </section>
+  <div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+<h2>What renters insurance covers</h2>
+<p>Renters insurance protects tenants rather than landlords, and it covers three things that most renters underestimate until they need them: personal belongings, liability, and additional living expenses if a home becomes uninhabitable. Personal property cover pays to repair or replace your furniture, electronics, clothing, and other possessions after a covered event such as fire, theft, burst pipes, or storm damage, up to the limit you choose. Liability cover pays if someone is injured in your home or if you accidentally damage someone else's property, including legal costs in many policies, and it is the part of the policy that protects your future income as well as your present possessions. Additional living expenses cover hotel and food costs if you must live elsewhere while your rental is repaired, which can run into thousands of pounds or dollars even for a short displacement, and it is often the most immediately useful part of a claim.</p>
+<p>Landlord insurance, by contrast, covers the building itself and the landlord's fixtures, not your belongings, which is why a landlord's policy gives tenants no protection at all even though it may look comprehensive from the outside. Many leases now require tenants to hold renters insurance, and even where it is not required, the cost is usually modest compared with the value of a typical household's contents, which most people estimate far below its true replacement value when they first add it up. This estimator helps you translate a belongings value, a liability limit, a location risk level, and a deductible into an approximate monthly premium, so you can compare options and budget realistically before requesting formal quotes. It is an estimate based on a transparent formula, not a quote from an insurer, and actual premiums vary with claims history, building type, and local risk factors.</p>
+<h2>How to use this estimator</h2>
+<p>Enter the total replacement value of your belongings, which means what it would cost to buy everything new today, not what you originally paid or what it would fetch second-hand. Choose a liability limit, commonly one hundred thousand in the currency of your country, and select a location risk level that reflects burglary, flood, and fire risk in your area, then choose a deductible, which is the amount you pay yourself on each claim before the insurer contributes. The estimator shows an annual premium and a monthly equivalent, together with a breakdown of how each input contributes, so you can see whether raising your deductible or lowering your belongings limit actually saves meaningful money. The compare helper lets you test two deductible levels side by side, which is useful because a higher deductible usually lowers the premium but increases the amount you must find yourself after a loss.</p>
+<p>Work through the inputs honestly rather than choosing the lowest numbers to get a pleasing premium, because an underestimated belongings limit leads to underinsurance, where a claim is paid only in proportion to the cover you bought. If your belongings are truly worth forty thousand but you insure only twenty thousand, a twenty-thousand claim may be settled at only ten thousand under an average clause, which is a nasty surprise at exactly the moment you need help most. Photographing or listing high-value items, keeping receipts for electronics and jewellery, and reviewing the total annually or after major purchases all help keep the limit accurate. The estimator's belongings input is the single most influential figure, so spending ten minutes adding up rooms properly is time well spent.</p>
+<h2>Belongings, liability and deductibles in detail</h2>
+<p>Belongings value should include everything you would need to replace after a total loss, including furniture, appliances you own, electronics, clothing, kitchenware, books, sports equipment, and children's items, and most households are surprised by how quickly these add up across rooms. High-value categories such as jewellery, watches, cameras, and musical instruments often have single-item limits within a standard policy, so a collection worth more than the limit may need a separate scheduled item or endorsement, and the estimator assumes standard contents rather than specialist collections. Liability limits matter because a single serious injury claim can exceed a low limit quickly, and the difference in premium between a modest liability limit and a generous one is usually small compared with the protection gained. For most renters, a liability limit of at least one hundred thousand is a sensible starting point, with higher limits worth considering if you regularly host guests or own a dog.</p>
+<p>The deductible is the lever that most directly trades premium against claim cost: a low deductible means the insurer pays from a small loss upwards, which is convenient but costs more each month, while a high deductible lowers the premium but means small claims are not worth making at all. A useful rule is to set the deductible at an amount you could pay without borrowing, so that a genuine emergency does not become a financial crisis on top of a household crisis. Location risk reflects factors such as local burglary rates, flood zones, building age, and fire protection, and it is the input you control least, although security measures such as deadlocks, alarms, and smoke detectors can earn discounts with many insurers. The estimator adds a fixed risk amount for low, medium, and high risk areas, which is a simplification of how insurers actually price risk, but it captures the direction and approximate scale correctly.</p>
+<h2>What is usually excluded and what to check</h2>
+<p>Renters policies typically exclude damage you cause deliberately, wear and tear, damage from pests, and losses from war or nuclear events, and many standard policies exclude or limit flood damage, earthquake damage, and high-value items unless additional cover is bought. Accidental damage cover, which protects against spills, breakages, and other everyday mishaps, is often an optional extra rather than a standard inclusion, and it is worth considering if you have children, pets, or expensive flooring and electronics. Roommates are another common gap: a policy in one person's name usually covers only that person's belongings and liability, so each adult in a shared home generally needs their own policy or a named addition to a joint policy. Pets can also affect cover, since some insurers exclude certain breeds from liability cover or charge more for them, and it is better to disclose a pet honestly than to discover an exclusion after a claim.</p>
+<p>Before buying, check the excess and the claim process as well as the premium, because a cheap policy with a large excess and a difficult claims process can cost more in practice than a slightly dearer policy that pays promptly. Check whether cover is on a new-for-old basis, which replaces items at current prices, or an indemnity basis, which deducts for wear and age, since the difference can be thousands on a large claim. Check whether belongings are covered away from home, for example a laptop stolen from a car or a phone lost on holiday, since this extension is valuable for many renters and is not universal. Finally, check the renewal terms and whether the premium is fixed or reviewed annually, and diarise the renewal date so you can compare quotes rather than auto-renewing at a higher price.</p>
+<h2>Worked examples and common mistakes</h2>
+<p>Consider a worked example: belongings worth twenty thousand, a liability limit of one hundred thousand, medium location risk, and a deductible of five hundred. The belongings component is twenty thousand multiplied by zero point zero zero four, which is eighty, the liability component is one hundred thousand multiplied by zero point zero zero zero two, which is twenty, the medium risk addition is thirty, and the deductible discount is five hundred multiplied by zero point zero two, which is ten, giving an annual premium of one hundred and twenty, or ten per month. A second example with belongings of thirty thousand, liability of two hundred thousand, high risk, and a deductible of one thousand gives one hundred and twenty plus forty plus seventy minus twenty, which is two hundred and ten per year, or seventeen pounds or dollars fifty per month. An edge case with no belongings, no liability, low risk, and no deductible gives a premium of zero, which correctly reflects that there is nothing to insure.</p>
+<p>The most common renters insurance mistakes are underestimating belongings value, assuming the landlord's policy covers tenants, forgetting to insure liability, and choosing a deductible that cannot actually be paid after a loss. Another frequent error is failing to update cover after moving, since a new address changes the risk profile and the old policy may not cover the new home at all. Finally, many renters never read the exclusions until they claim, which is the worst time to discover that flood damage or a roommate's belongings are not covered. The estimator helps avoid the first mistake by making the belongings figure explicit, but the remaining checks require reading the policy wording, and a short call to the insurer before purchase is often the most valuable step in the whole process.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>Does my landlord&#x27;s insurance cover my belongings?</summary><p>No. Landlord insurance covers the building, not a tenant's belongings. You need your own renters policy.</p></details>
+<details><summary>How much renters insurance do I need?</summary><p>Insure the full replacement value of everything you own, plus a liability limit of at least 100,000 in your currency as a starting point.</p></details>
+<details><summary>What is a deductible in renters insurance?</summary><p>The amount you pay yourself on each claim before the insurer pays. A higher deductible usually lowers the premium.</p></details>
+<details><summary>Does renters insurance cover me if I must move out after a fire?</summary><p>Yes, additional living expenses cover hotel and food costs while your home is repaired, up to the policy limit.</p></details>
+<details><summary>Are roommates covered by my renters policy?</summary><p>Usually not. Each adult in a shared home generally needs their own policy or to be named on a joint policy.</p></details>
+<details><summary>Is this estimator an insurance quote?</summary><p>No. It is a transparent estimate for budgeting. Insurers price on more factors, so request formal quotes before buying.</p></details>
+  </section>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">RentersInsure</div>
+    <p>RentersInsure estimates a monthly renters insurance premium from belongings, liability, risk and deductible.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function calcRenters(belongings,liability,riskAdd,deductible){belongings=+belongings||0;liability=+liability||0;riskAdd=+riskAdd||0;deductible=+deductible||0;var annual=belongings*0.004+liability*0.0002+riskAdd-deductible*0.02;if(annual<0)annual=0;var monthly=Math.round(annual/12*100)/100;return{annual:Math.round(annual*100)/100,monthly:monthly};}
+function rnRender(){var bel=+document.getElementById('rn-bel').value||0,liab=+document.getElementById('rn-liab').value||0,risk=+document.getElementById('rn-risk').value||0,ded=+document.getElementById('rn-ded').value||0;var r=calcRenters(bel,liab,risk,ded);document.getElementById('rn-ann').textContent='£'+r.annual.toFixed(2);document.getElementById('rn-mon').textContent='£'+r.monthly.toFixed(2);document.getElementById('rn-break').textContent='Belongings £'+(bel*0.004).toFixed(2)+' + liability £'+(liab*0.0002).toFixed(2)+' + risk £'+risk.toFixed(2)+' − deductible discount £'+(ded*0.02).toFixed(2)+' per year.';}
+['rn-bel','rn-liab','rn-risk','rn-ded'].forEach(function(id){document.getElementById(id).addEventListener('input',rnRender);document.getElementById(id).addEventListener('change',rnRender);});
+document.getElementById('rn-compare').onclick=function(){var bel=+document.getElementById('rn-bel').value||0,liab=+document.getElementById('rn-liab').value||0,risk=+document.getElementById('rn-risk').value||0;var a=calcRenters(bel,liab,risk,250),b=calcRenters(bel,liab,risk,1000);document.getElementById('rn-cmp').textContent='Deductible £250: £'+a.monthly.toFixed(2)+'/month. Deductible £1000: £'+b.monthly.toFixed(2)+'/month.';};
+rnRender();
+</script>
+</body>
+</html>
