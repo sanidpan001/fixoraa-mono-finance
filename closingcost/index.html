@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Closing Cost Calculator — Fees &amp; Cash to Close | ClosingCost</title>
+<meta name="description" content="Closing costs itemized by state with cash-to-close total.">
+<link rel="canonical" href="https://finance.fixoraa.tech/closingcost/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Closing Cost Calculator — Fees &amp; Cash to Close | ClosingCost">
+<meta property="og:description" content="Closing costs itemized by state with cash-to-close total.">
+<meta property="og:url" content="https://finance.fixoraa.tech/closingcost/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "ClosingCost",
+      "url": "https://finance.fixoraa.tech/closingcost/",
+      "applicationCategory": "Finance Tools",
+      "operatingSystem": "Web",
+      "description": "Closing costs itemized by state with cash-to-close total.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How much are closing costs on a house?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Typically 2 to 5 percent of the purchase price for buyers. On a $350,000 home that is roughly $7,000 to $17,500, covering lender fees, title and settlement charges, prepaid taxes and insurance, and government recording and transfer taxes — which vary widely by state." } },
+        { "@type": "Question", "name": "What is the difference between down payment and closing costs?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The down payment is your equity stake in the home and reduces your loan amount. Closing costs are the fees paid to lenders, title companies, insurers and the government to complete the purchase. Your cash to close is the down payment plus closing costs, minus any seller credits or deposits already paid." } },
+        { "@type": "Question", "name": "Who pays closing costs, the buyer or the seller?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Both pay. Buyers usually cover lender fees, prepaid escrows and their share of title costs; sellers typically pay agent commissions and transfer taxes in many states. Sellers can also contribute a credit toward the buyer's closing costs, within limits set by the loan program." } },
+        { "@type": "Question", "name": "Can closing costs be rolled into the mortgage?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Some lender fees can be offset with a slightly higher interest rate (lender credits), and certain programs allow financed closing costs, but most prepaid items like insurance and tax escrows must be paid in cash at closing. Rolling costs in means borrowing more and paying interest on the fees." } },
+        { "@type": "Question", "name": "How can I reduce my closing costs?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Shop at least three lenders and compare Loan Estimates line by line, negotiate the origination fee, ask the seller for a closing-cost credit, choose your own title company, and avoid junk fees like excessive processing or courier charges. Even small concessions add up to thousands." } },
+        { "@type": "Question", "name": "When do I find out my exact closing costs?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You get a Loan Estimate within three business days of applying, and a Closing Disclosure at least three business days before closing. By law, most lender fees cannot increase more than 10 percent between the estimate and the final disclosure." } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#F9E1F5; --surface:#FFFFFF; --tint:#F4D2EE;
+  --accent:#841572; --accent-deep:#182F63; --accent-ink:#FFFFFF;
+  --ink:#1D2433; --muted:#4C5870; --line:#CBD6EA;
+  --display:'Zilla Slab',Georgia,serif; --body:'Zilla Slab',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+/* header */
+.fx-header{background:var(--surface);border-bottom:4px double var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:46px;height:46px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:24px;box-shadow:3px 3px 0 var(--tint);border:2px solid var(--accent-deep)}
+.fx-name{font-weight:700;font-size:21px;letter-spacing:-.01em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:6px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);background:var(--surface)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:6px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px}
+/* hero */
+.cc-hero{padding:42px 0 4px}
+.cc-eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.cc-eyebrow::after{content:"";display:block;height:3px;background:var(--accent);margin-top:6px;width:64px}
+.cc-hero h1{font-size:clamp(30px,4.6vw,46px);line-height:1.1;letter-spacing:-.02em;font-weight:700;margin-bottom:10px}
+.cc-hero p{font-size:17.5px;color:var(--muted);max-width:660px}
+/* state ribbon */
+.cc-ribbon{margin:24px 0 0;background:var(--accent);color:#fff;border-radius:12px 12px 0 0;padding:16px 22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.cc-ribbon label{font-weight:700;font-size:15px}
+.cc-ribbon select{font:inherit;padding:10px 14px;border-radius:8px;border:0;font-weight:600;color:var(--ink);background:#fff;max-width:100%}
+.cc-ribbon .stnote{font-size:13.5px;opacity:.92}
+/* statement */
+.cc-doc{background:var(--surface);border:1.5px solid var(--line);border-top:0;border-radius:0 0 4px 4px;box-shadow:0 12px 30px rgba(35,68,139,.10)}
+.cc-topline{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:22px;border-bottom:2px solid var(--accent)}
+.cc-topline .cell label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.cc-topline input{font:inherit;font-size:19px;font-weight:700;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;width:100%;color:var(--ink)}
+.cc-topline input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.cc-bucket{padding:6px 22px 10px;border-bottom:1px solid var(--line)}
+.cc-bucket h2{font-size:16px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-deep);margin:18px 0 8px;display:flex;justify-content:space-between;align-items:baseline}
+.cc-bucket h2 .sub{font-size:13px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500}
+.cc-fees{width:100%;border-collapse:collapse;font-size:15.5px}
+.cc-fees td{padding:8px 4px;border-bottom:1px dotted var(--line);vertical-align:middle}
+.cc-fees tr:last-child td{border-bottom:0}
+.cc-fees .lbl small{display:block;color:var(--muted);font-size:12.5px}
+.cc-fees input{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;width:128px;text-align:right;background:#fff;color:var(--ink)}
+.cc-fees input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.cc-fees tr.subtotal td{font-weight:700;color:var(--accent-deep);border-top:2px solid var(--accent);border-bottom:0}
+/* tear-off */
+.cc-tear{margin:26px 0 8px;position:relative}
+.cc-tear::before{content:"";display:block;border-top:3px dashed var(--accent);margin-bottom:0}
+.cc-tear-card{background:var(--accent-deep);color:#fff;border-radius:0 0 14px 14px;padding:30px 28px;display:grid;grid-template-columns:1fr 1fr;gap:22px;box-shadow:0 16px 34px rgba(24,47,99,.30)}
+.cc-tear-card .big{font-size:clamp(40px,5.5vw,58px);font-weight:700;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.cc-tear-card .lbl2{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.9;margin-bottom:8px}
+.cc-tear-card .rows{font-size:15.5px;align-self:center}
+.cc-tear-card .rows div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.35);font-variant-numeric:tabular-nums}
+.cc-tear-card .rows div:last-child{border-bottom:0}
+.cc-tear-card .scissors{position:absolute;top:-17px;left:24px;background:var(--bg);border:2px dashed var(--accent);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:17px}
+/* article */
+.article-sec{margin:42px 0;max-width:780px}
+.article-sec h2{font-size:25px;letter-spacing:-.02em;margin:36px 0 12px;font-weight:700;color:var(--accent-deep)}
+.article-sec p{margin-bottom:15px;color:#2b3345}
+.article-sec ul,.article-sec ol{margin:0 0 15px 22px;color:#2b3345}
+.article-sec li{margin-bottom:7px}
+/* faq */
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:25px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px;color:var(--accent-deep)}
+.faq-sec details{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.faq-sec summary{padding:15px 18px 15px 52px;font-weight:700;cursor:pointer;list-style:none;font-size:16px;position:relative}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::before{content:"§";position:absolute;left:18px;top:14px;color:var(--accent);font-weight:700;font-size:18px}
+.faq-sec details[open] summary{color:var(--accent-deep)}
+.faq-sec details p{padding:0 18px 15px 52px;color:#2b3345;font-size:15px}
+/* footer */
+.fx-footer{background:#16233d;color:#dbe4f5;margin-top:46px;padding:42px 0 36px}
+.fx-footer .fx-brand{font-size:22px;font-weight:700;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#a3b4d4;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#9db9ec;font-weight:700}
+@media(max-width:760px){
+  .cc-topline{grid-template-columns:1fr}
+  .cc-tear-card{grid-template-columns:1fr}
+  .fx-nav{margin-left:0}
+  .cc-fees input{width:104px}
+}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/closingcost/" aria-label="ClosingCost home">
+      <span class="fx-tile" aria-hidden="true">&#9000;</span>
+      <span class="fx-name">ClosingCost</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="cc-hero">
+    <span class="cc-eyebrow">Deal desk &middot; Settlement sheet</span>
+    <h1>Closing Cost Calculator</h1>
+    <p>The down payment is only half the cash you need. Itemize every fee by bucket, apply your state's taxes, and see the real cash to close.</p>
+  </section>
+
+  <section aria-label="ClosingCost tool">
+    <div class="cc-ribbon">
+      <label for="lc-state">Property state</label>
+      <select id="lc-state" aria-label="Property state"></select>
+      <span class="stnote" id="lc-stnote"></span>
+    </div>
+    <div class="cc-doc">
+      <div class="cc-topline">
+        <div class="cell"><label for="lc-price">Purchase price</label><input type="number" id="lc-price" value="350000" min="1" step="1000"></div>
+        <div class="cell"><label for="lc-downpct">Down payment</label><input type="number" id="lc-downpct" value="10" min="0" max="100" step="0.5"></div>
+        <div class="cell"><label for="lc-credit">Seller credit</label><input type="number" id="lc-credit" value="3000" min="0" step="100"></div>
+      </div>
+      <div class="cc-bucket">
+        <h2>A. Lender charges <span class="sub">origination, appraisal, credit</span></h2>
+        <table class="cc-fees">
+          <tr><td class="lbl">Loan origination fee<small>often 0–1% of loan amount</small></td><td style="text-align:right">$<input type="number" id="lc-orig" value="2800" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Appraisal fee<small>home value assessment</small></td><td style="text-align:right">$<input type="number" id="lc-appr" value="550" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Credit report fee</td><td style="text-align:right">$<input type="number" id="lc-cred" value="75" min="0" step="5"></td></tr>
+          <tr class="subtotal"><td>Bucket A subtotal</td><td style="text-align:right" id="lc-subA">$3,425</td></tr>
+        </table>
+      </div>
+      <div class="cc-bucket">
+        <h2>B. Third-party services <span class="sub">title, settlement, survey</span></h2>
+        <table class="cc-fees">
+          <tr><td class="lbl">Title insurance (lender + owner)<small>protects against ownership claims</small></td><td style="text-align:right">$<input type="number" id="lc-title" value="1900" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Settlement / escrow fee<small>closing agent's charge</small></td><td style="text-align:right">$<input type="number" id="lc-settle" value="900" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Survey fee<small>boundary confirmation</small></td><td style="text-align:right">$<input type="number" id="lc-survey" value="450" min="0" step="25"></td></tr>
+          <tr class="subtotal"><td>Bucket B subtotal</td><td style="text-align:right" id="lc-subB">$3,250</td></tr>
+        </table>
+      </div>
+      <div class="cc-bucket">
+        <h2>C. Prepaids &amp; escrow <span class="sub">insurance, taxes, interest</span></h2>
+        <table class="cc-fees">
+          <tr><td class="lbl">Homeowner's insurance (1 yr)<small>first year paid upfront</small></td><td style="text-align:right">$<input type="number" id="lc-ins" value="1800" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Property tax escrow<small>months held by lender</small></td><td style="text-align:right">$<input type="number" id="lc-taxesc" value="2100" min="0" step="25"></td></tr>
+          <tr><td class="lbl">Prepaid interest<small>closing day to month-end</small></td><td style="text-align:right">$<input type="number" id="lc-pint" value="600" min="0" step="25"></td></tr>
+          <tr class="subtotal"><td>Bucket C subtotal</td><td style="text-align:right" id="lc-subC">$4,500</td></tr>
+        </table>
+      </div>
+      <div class="cc-bucket">
+        <h2>D. Government charges <span class="sub">from state preset — verify locally</span></h2>
+        <table class="cc-fees">
+          <tr><td class="lbl">Transfer / stamp tax<small id="lc-taxlbl">0.70% of price</small></td><td style="text-align:right" id="lc-taxamt">$2,450</td></tr>
+          <tr><td class="lbl">Recording fees<small>deed + mortgage with the county</small></td><td style="text-align:right" id="lc-recamt">$150</td></tr>
+          <tr class="subtotal"><td>Bucket D subtotal</td><td style="text-align:right" id="lc-subD">$2,600</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="cc-tear" aria-live="polite">
+      <div class="cc-tear-card">
+        <span class="scissors" aria-hidden="true">&#9986;</span>
+        <div>
+          <div class="lbl2">Total cash to close</div>
+          <div class="big" id="lc-total">$45,775</div>
+          <div style="font-size:14.5px;opacity:.92;margin-top:8px" id="lc-pctline">13.1% of the $350,000 price</div>
+        </div>
+        <div class="rows">
+          <div><span>Down payment</span><b id="lc-rdown">$35,000</b></div>
+          <div><span>Total closing costs</span><b id="lc-rfees">$13,775</b></div>
+          <div><span>Seller credit</span><b id="lc-rcred">−$3,000</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+    <h2>Why Closing Costs Surprise Every First-Time Buyer</h2>
+    <p>Ask a first-time buyer how much cash they need and they will name the down payment. Then the Loan Estimate arrives and the number is 30 to 50 percent higher. <strong>Closing costs</strong> — the fees paid to lenders, title companies, insurers, and the government to transfer a property — typically run <strong>2 to 5 percent of the purchase price</strong>. On a $350,000 home, that is $7,000 to $17,500 of very real money due at the closing table, on top of the down payment. This guide breaks down where every dollar goes, why the total swings so much by state, and how to keep it down.</p>
+    <p>The single most important distinction: <strong>down payment is not a cost</strong> — it becomes your equity. Closing costs <em>are</em> costs; that money is gone. Your <strong>cash to close</strong> is the down payment plus closing costs, minus seller credits and any earnest-money deposit already paid. Lenders, agents, and listing sites all quote these pieces differently, which is why buyers get confused. The calculator above keeps them in separate buckets so you always know which dollars build equity and which ones evaporate.</p>
+    <h2>Bucket A: Lender Charges</h2>
+    <p>Your lender's fees compensate them for underwriting the loan. The <strong>origination fee</strong> (0 to 1 percent of the loan amount) is the big one — on a $315,000 loan, 1 percent is $3,150. Some lenders charge no origination fee but bake the profit into a higher rate; neither is automatically better, which is why you compare the APR, not just the rate. The <strong>appraisal fee</strong> ($300 to $700) pays an independent appraiser to confirm the home is worth the loan amount — required by virtually every lender, and non-refundable even if the deal falls through. The <strong>credit report fee</strong> ($30 to $75) is minor but universal.</p>
+    <p>Watch for padding here: application fees, processing fees, underwriting fees, and "document preparation" charges are often negotiable or duplicative. A lender quoting $1,800 in assorted flat fees against a competitor quoting $400 for the same loan is not offering a worse rate — they are charging you more for the same money. This bucket is the most shoppable part of your closing costs.</p>
+    <h2>Bucket B: Third-Party Services</h2>
+    <p>Nobody buys a house alone; a small industry gets paid to make the transfer safe. <strong>Title insurance</strong> (roughly $1,000 to $3,500 depending on price and state) protects against ownership surprises — old liens, boundary disputes, forged deeds. The lender's policy is mandatory; the owner's policy is technically optional and practically essential. <strong>Settlement or escrow fees</strong> ($500 to $1,500) pay the closing agent who handles documents, funds, and recording. A <strong>survey</strong> ($300 to $600) confirms the property lines — sometimes required, always wise on larger lots.</p>
+    <p>You can choose your own title company in most states, and prices vary meaningfully — this is a second shoppable bucket many buyers never think to shop. Ask for the owner's and lender's policies to be issued together ("simultaneous issue"), which usually earns a discounted rate on the second policy.</p>
+    <h2>Bucket C: Prepaids and Escrow — the Hidden Half</h2>
+    <p>This bucket surprises buyers most because it is not really a "fee" at all — it is <strong>your own money, paid early</strong>. Lenders require a cushion: the first full year of <strong>homeowner's insurance</strong> paid upfront, several months of <strong>property taxes</strong> deposited into escrow, and <strong>prepaid interest</strong> covering closing day through month-end. On a $350,000 purchase these easily total $3,000 to $6,000, and they are the reason two buyers with identical lender fees can have wildly different cash-to-close figures.</p>
+    <p>Two levers exist. <strong>Closing date timing</strong> changes prepaid interest: close on the 3rd of the month and you prepay ~27 days of interest; close on the 28th and you prepay ~2 days. And <strong>shopping insurance early</strong> matters — the premium is set before closing, and a $400 cheaper policy is $400 less cash to close plus lower escrow forever.</p>
+    <h2>Bucket D: Government Charges and Why Your State Matters</h2>
+    <p>Transfer taxes are the wild card. <strong>Pennsylvania</strong> charges 2 percent (on a $350,000 home, $7,000). <strong>Florida</strong> charges $0.70 per $100 (0.7%, or $2,450). <strong>California</strong> charges $1.10 per $1,000 (0.11%, $385). <strong>Texas and several other states charge nothing at all.</strong> New York adds a 1 percent "mansion tax" at $1 million. These are set by statute — non-negotiable, and the reason identical homes in different states have very different closing costs. Recording fees ($50 to $250) pay the county to record your deed and mortgage.</p>
+    <p>One nuance: in many states the <em>seller</em> customarily pays the transfer tax, but customs vary by county and are negotiable in the contract. The calculator assigns the typical buyer-paid amount per state with a reminder to verify locally — your purchase agreement has the final word.</p>
+    <h2>Seller Credits: Free Money With Limits</h2>
+    <p>A <strong>seller credit</strong> (or seller concession) is money the seller contributes toward your closing costs, negotiated into the contract. It directly reduces cash to close — a $3,000 credit on the example above drops the total from $48,775 to $45,775. But loan programs cap credits: typically 3 percent of price for small down payments, up to 6 or 9 percent with larger down payments, varying by loan type. Credits also cannot exceed your actual closing costs — the seller cannot hand you cash beyond the fees.</p>
+    <p>Credits are most common in buyer's markets or when the inspection reveals issues ("$5,000 credit for the roof" beats a repair fight). Strategically, a credit can beat a price reduction: a $5,000 price cut saves you ~$25/month on the mortgage, while a $5,000 credit saves you $5,000 in cash <em>today</em> — often far more valuable to a cash-constrained buyer.</p>
+    <h2>How to Shrink the Total</h2>
+    <p>The playbook, in order of impact: <strong>shop three lenders</strong> and compare Loan Estimates line by line — the CFPB found most borrowers who shop save meaningfully. <strong>Negotiate the origination fee</strong>; it is the most flexible line on the page. <strong>Ask for a seller credit</strong>, especially with inspection findings as leverage. <strong>Choose your own title company</strong> and get competing quotes. <strong>Question junk fees</strong> — courier, email, and "processing" charges in the hundreds are negotiable. <strong>Time your closing</strong> near month-end to minimize prepaid interest. And <strong>compare lender credits</strong>: accepting a slightly higher rate in exchange for a credit toward costs can make sense if you will sell or refinance within a few years.</p>
+    <p>What <em>not</em> to do: do not waive the owner's title policy to save $1,000 on a $350,000 asset, and do not pick the lender with the lowest rate without checking that their fees do not erase the savings. The APR exists precisely to combine rate and fees — use it.</p>
+    <h2>Loan Estimate vs Closing Disclosure</h2>
+    <p>You meet your costs twice. The <strong>Loan Estimate</strong> arrives within three business days of application and standardizes every lender's quote into the same three-page format — this is your shopping document. The <strong>Closing Disclosure</strong> arrives at least three business days before closing with the final numbers. Federal tolerance rules protect you: lender fees generally cannot rise more than 10 percent from estimate to close, and some fees cannot change at all. If your Closing Disclosure shows a surprise jump, you have the legal right to delay closing and demand an explanation.</p>
+    <p>Run the calculator when the Loan Estimate arrives, then again with the Closing Disclosure. If the buckets moved, you will know exactly which one — and whether the change is legal. Walking into closing knowing your number to the dollar is the difference between signing with confidence and signing with a knot in your stomach.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How much are closing costs on a house?</summary><p>Typically 2–5% of the purchase price. On a $350,000 home that is roughly $7,000–$17,500, covering lender fees, title and settlement charges, prepaid taxes and insurance, and state transfer and recording taxes.</p></details>
+    <details><summary>What is the difference between down payment and closing costs?</summary><p>The down payment becomes your equity; closing costs are fees that are gone for good. Cash to close equals down payment plus closing costs, minus seller credits and deposits already paid.</p></details>
+    <details><summary>Who pays closing costs, the buyer or the seller?</summary><p>Both. Buyers usually cover lender fees, prepaid escrows and their share of title costs; sellers typically pay agent commissions and, in many states, transfer taxes. Sellers can also contribute a credit toward buyer costs within loan-program limits.</p></details>
+    <details><summary>Can closing costs be rolled into the mortgage?</summary><p>Some fees can be offset with lender credits at a slightly higher rate, but most prepaids must be paid in cash. Financing costs means borrowing more and paying interest on the fees themselves.</p></details>
+    <details><summary>How can I reduce my closing costs?</summary><p>Shop at least three lenders and compare Loan Estimates, negotiate origination, ask the seller for a credit, choose your own title company, challenge junk fees, and close near month-end to cut prepaid interest.</p></details>
+    <details><summary>When do I find out my exact closing costs?</summary><p>The Loan Estimate arrives within three business days of applying; the Closing Disclosure at least three business days before closing. Most lender fees cannot legally rise more than 10% between the two.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">ClosingCost</div>
+    <p>ClosingCost itemizes your closing fees by bucket with state tax presets, so the cash you need at the table never surprises you.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+/* ===== pure ===== */
+var STATE_FEES = {
+  FL:{label:'Florida', transferPct:0.70, rec:150, note:'Transfer tax $0.70 per $100 of price.'},
+  TX:{label:'Texas', transferPct:0, rec:100, note:'No state transfer tax.'},
+  CA:{label:'California', transferPct:0.11, rec:200, note:'Transfer tax $1.10 per $1,000 of price.'},
+  NY:{label:'New York', transferPct:0.40, rec:250, mansion:true, note:'0.40% transfer tax, plus 1% mansion tax at $1M+.'},
+  PA:{label:'Pennsylvania', transferPct:2.00, rec:175, note:'2% total transfer tax (state + local typical).'},
+  IL:{label:'Illinois', transferPct:0.15, rec:150, note:'State transfer $0.75 per $500; Chicago area higher.'},
+  CO:{label:'Colorado', transferPct:0.01, rec:125, note:'Minimal transfer tax.'},
+  GA:{label:'Georgia', transferPct:0.10, rec:100, note:'Transfer tax $1 per $1,000 of price.'},
+  WA:{label:'Washington', transferPct:1.28, rec:200, note:'1.28% state transfer tax; local add-ons vary.'},
+  NC:{label:'North Carolina', transferPct:0.20, rec:150, note:'Excise tax $2 per $1,000 of price.'}
+};
+function calcClosing(d){
+  var st = STATE_FEES[d.state] || STATE_FEES.FL;
+  var transfer = d.price*st.transferPct/100;
+  if(st.mansion && d.price>=1000000) transfer += d.price*0.01;
+  var subA = d.orig+d.appr+d.cred;
+  var subB = d.title+d.settle+d.survey;
+  var subC = d.ins+d.taxesc+d.pint;
+  var subD = transfer+st.rec;
+  var fees = subA+subB+subC+subD;
+  var down = d.price*d.downPct/100;
+  var total = down+fees-d.credit;
+  return {subA:subA, subB:subB, subC:subC, subD:subD, transfer:transfer, rec:st.rec,
+          fees:fees, down:down, total:total, taxLbl:st.transferPct.toFixed(2)+'% of price'+(st.mansion&&d.price>=1000000?' + 1% mansion tax':''), note:st.note};
+}
+/* ===== dom ===== */
+(function(){
+var sel = document.getElementById('lc-state');
+Object.keys(STATE_FEES).forEach(function(k){
+  var o = document.createElement('option'); o.value=k; o.textContent=STATE_FEES[k].label; sel.appendChild(o);
+});
+sel.value='FL';
+function num(id){ return parseFloat(document.getElementById(id).value)||0; }
+function money(n){ var neg=n<0; n=Math.abs(n); return (neg?'\u2212$':'$')+n.toLocaleString('en-US',{maximumFractionDigits:0}); }
+function calc(){
+  var d = {state:sel.value, price:num('lc-price'), downPct:num('lc-downpct'), credit:num('lc-credit'),
+           orig:num('lc-orig'), appr:num('lc-appr'), cred:num('lc-cred'), title:num('lc-title'),
+           settle:num('lc-settle'), survey:num('lc-survey'), ins:num('lc-ins'),
+           taxesc:num('lc-taxesc'), pint:num('lc-pint')};
+  var r = calcClosing(d);
+  document.getElementById('lc-stnote').textContent = r.note;
+  document.getElementById('lc-taxlbl').textContent = r.taxLbl;
+  document.getElementById('lc-taxamt').textContent = money(r.transfer);
+  document.getElementById('lc-recamt').textContent = money(r.rec);
+  document.getElementById('lc-subA').textContent = money(r.subA);
+  document.getElementById('lc-subB').textContent = money(r.subB);
+  document.getElementById('lc-subC').textContent = money(r.subC);
+  document.getElementById('lc-subD').textContent = money(r.subD);
+  document.getElementById('lc-total').textContent = money(r.total);
+  document.getElementById('lc-pctline').textContent = (d.price>0?(r.total/d.price*100).toFixed(1):'0.0')+'% of the '+money(d.price)+' price';
+  document.getElementById('lc-rdown').textContent = money(r.down);
+  document.getElementById('lc-rfees').textContent = money(r.fees);
+  document.getElementById('lc-rcred').textContent = '\u2212'+money(d.credit).replace('\u2212','');
+}
+['lc-price','lc-downpct','lc-credit','lc-orig','lc-appr','lc-cred','lc-title','lc-settle',
+ 'lc-survey','lc-ins','lc-taxesc','lc-pint'].forEach(function(id){
+  var el = document.getElementById(id);
+  el.addEventListener('input', calc); el.addEventListener('change', calc);
+});
+sel.addEventListener('change', calc);
+calc();
+})();
+</script>
+</body>
+</html>
