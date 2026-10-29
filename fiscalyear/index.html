@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiscal Year Start by Country — Quarters &amp; FY Converter | FiscalYear</title>
+<meta name="description" content="Fiscal year by country: start/end dates, quarter boundaries, FY label converter, and year-end countdown for 40+ countries. Free tool.">
+<link rel="canonical" href="https://finance.fixoraa.tech/fiscalyear/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Fiscal Year Start by Country — Quarters &amp; FY Converter | FiscalYear">
+<meta property="og:description" content="Fiscal year by country: start/end dates, quarter boundaries, FY label converter, and year-end countdown for 40+ countries. Free tool.">
+<meta property="og:url" content="https://finance.fixoraa.tech/fiscalyear/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "FiscalYear",
+      "url": "https://finance.fixoraa.tech/fiscalyear/",
+      "applicationCategory": "Date & Time",
+      "operatingSystem": "Web",
+      "description": "Fiscal year by country: start/end dates, quarter boundaries, FY label converter, and year-end countdown for 40+ countries. Free tool.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a fiscal year?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A fiscal year is the 12-month period used for accounting, budgeting, and tax \u2014 and it often does not match the calendar year. The US federal FY runs October\u2013September, India and Japan April\u2013March, Australia July\u2013June."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When does India's fiscal year start and end?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "India's fiscal year runs 1 April to 31 March, inherited from British administration. FY2025-26 means 1 April 2025 to 31 March 2026. The Union Budget is presented on 1 February each year."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When does the US federal fiscal year start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The US federal fiscal year runs 1 October to 30 September (set by the 1974 Budget Act). So US FY2026 is 1 Oct 2025 \u2013 30 Sep 2026. Note: individual US tax returns still follow the calendar year."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the UK tax year start on 6 April?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because of the 1752 switch from the Julian to the Gregorian calendar: England skipped 11 days, and the Treasury moved the traditional 25 March tax year-end to 5 April (later 6 April) rather than lose 11 days of revenue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Q1 always January to March?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Quarters follow the fiscal year start, not January. India's Q1 is Apr\u2013Jun; the US federal Q1 is Oct\u2013Dec. Always check whose fiscal year a label refers to \u2014 the same 'Q1 FY26' covers different months in different countries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I convert between FY26 and FY2025-26 formats?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the label converter: pick the country and enter a date or label. It shows FY26-style, FY2025-26-style, and full date-range formats side by side, so you can see exactly which twelve months each label means."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F9F5F0; --surface:#FFFFFF; --accent:#A16207; --accent-ink:#FFFFFF;
+  --ink:#2A2530; --muted:#57606E; --line:#EEE2D2;
+  --display:'IBM Plex Sans',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.fy-wrap{font-family:'IBM Plex Sans',Inter,system-ui,sans-serif;background:#F9F5F0;color:#2A2530;padding:56px 20px 72px;}.fy-inner{max-width:760px;margin:0 auto;}.fy-head{text-align:center;margin-bottom:26px;}.fy-logo{font-size:46px;}.fy-head h1{font-size:clamp(30px,4.8vw,46px);margin:10px 0 8px;font-weight:700;letter-spacing:-.01em;}.fy-tag{color:#57606E;font-size:17px;margin:0;}.fy-steps{display:flex;gap:0;margin-bottom:20px;}.fy-step{flex:1;text-align:center;font-size:13px;font-weight:700;color:#57606E;padding:10px 4px;border-bottom:3px solid #EEE2D2;text-transform:uppercase;letter-spacing:.05em;}.fy-step.on{color:#A16207;border-color:#A16207;}.fy-card{background:#FFFFFF;border:1px solid #EEE2D2;border-radius:22px;padding:32px 30px;box-shadow:0 18px 44px rgba(161,98,7,.08);}.fy-card h2{font-size:21px;margin:0 0 4px;}.fy-sub{color:#57606E;font-size:14.5px;margin:0 0 18px;}.fy-field{margin-bottom:16px;}.fy-field label{display:block;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#57606E;margin-bottom:8px;}.fy-field select,.fy-field input{width:100%;padding:13px 14px;font-size:16px;border:2px solid #EEE2D2;border-radius:12px;font-family:inherit;box-sizing:border-box;background:#fff;}.fy-field select:focus,.fy-field input:focus{outline:none;border-color:#A16207;}.fy-btn{width:100%;background:#A16207;color:#fff;border:none;border-radius:14px;padding:15px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;}.fy-btn:hover{filter:brightness(1.08);}.fy-result{display:none;margin-top:20px;}.fy-result.show{display:block;}.fy-fyline{background:#F9F5F0;border:1px solid #EEE2D2;border-radius:14px;padding:18px;text-align:center;}.fy-fyline .fy-big{font-size:30px;font-weight:700;color:#A16207;}.fy-fyline .fy-dates{color:#57606E;font-size:14.5px;margin-top:6px;}.fy-quarters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}.fy-q{background:#fff;border:1px solid #EEE2D2;border-radius:12px;padding:12px 14px;font-size:14px;}.fy-q b{color:#A16207;}.fy-count{margin-top:14px;text-align:center;font-size:16px;}.fy-count b{font-size:26px;color:#A16207;}.fy-labels{margin-top:14px;font-size:14.5px;line-height:2;background:#F9F5F0;border-radius:12px;padding:14px 18px;}.fy-labels code{background:#fff;border:1px solid #EEE2D2;border-radius:6px;padding:2px 8px;font-family:inherit;}.fy-deadline{margin-top:14px;font-size:14px;color:#57606E;line-height:1.65;background:#fff;border-left:4px solid #A16207;border-radius:0 12px 12px 0;padding:12px 16px;}.fy-nav{display:flex;justify-content:space-between;margin-top:18px;}.fy-nav button{border:2px solid #EEE2D2;background:#fff;border-radius:12px;padding:11px 22px;font-size:14.5px;font-weight:700;cursor:pointer;color:#2A2530;font-family:inherit;}.fy-nav button.primary{background:#A16207;border-color:#A16207;color:#fff;}@media (max-width:560px){.fy-card{padding:24px 20px;}.fy-quarters{grid-template-columns:1fr;}.fy-wrap{padding:40px 14px 56px;}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="FiscalYear home">
+      <span class="fx-logo-tile" aria-hidden="true">📅</span>
+      <span class="fx-brand">FiscalYear</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-wizard-steps" aria-label="FiscalYear tool">
+<section class='fy-wrap'><div class='fy-inner'><div class='fy-head'><div class='fy-logo' aria-hidden='true'>📅</div><h1>Fiscal Year by Country</h1><p class='fy-tag'>Whose year is it anyway? Every country's fiscal calendar, decoded.</p></div><div class='fy-steps'><div class='fy-step on' id='fy-s1'>1 · Country</div><div class='fy-step' id='fy-s2'>2 · Date</div><div class='fy-step' id='fy-s3'>3 · Labels</div></div><div class='fy-card' id='fy-pane1'><h2>Pick a country</h2><p class='fy-sub'>40+ fiscal calendars, from April–March to October–September.</p><div class='fy-field'><label for='fy-country'>Country</label><select id='fy-country'></select></div><div class='fy-nav'><span></span><button class='primary' id='fy-next1' type='button'>Next →</button></div></div><div class='fy-card' id='fy-pane2' style='display:none'><h2>Pick a date</h2><p class='fy-sub'>See which fiscal year it falls in, with quarter boundaries.</p><div class='fy-field'><label for='fy-date'>Date</label><input type='date' id='fy-date' value='2026-10-21'></div><div class='fy-result' id='fy-result'><div class='fy-fyline'><div class='fy-big' id='fy-fylabel'></div><div class='fy-dates' id='fy-fydates'></div></div><div class='fy-quarters' id='fy-quarters'></div><div class='fy-count'><b id='fy-countdays'>–</b><br><span style='color:#57606E;font-size:14px'>days until this fiscal year ends</span></div><div class='fy-deadline' id='fy-deadline'></div></div><div class='fy-nav'><button id='fy-back2' type='button'>← Back</button><button class='primary' id='fy-next2' type='button'>Convert labels →</button></div></div><div class='fy-card' id='fy-pane3' style='display:none'><h2>FY label converter</h2><p class='fy-sub'>Every common format for the same fiscal year, side by side.</p><div class='fy-labels' id='fy-labels'></div><div class='fy-nav'><button id='fy-back3' type='button'>← Back</button><button class='primary' id='fy-done' type='button'>Start over</button></div></div></div></section>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>What Is a Fiscal Year?</h2><p>A <strong>fiscal year</strong> (FY) is the 12-month period a government or business uses for accounting, budgeting, and tax reporting. It does not have to match the calendar year — and in many of the world's largest economies, it deliberately does not. The United States federal government runs October to September, India and Japan run April to March, and Australia runs July to June. When someone says 'FY26' or 'FY2025-26,' they are naming one of these offset years, and which twelve months that means depends entirely on the country.</p><p>Why offset at all? Mostly history and practicality. Britain's tax year starts on <strong>6 April</strong> because of the 1752 calendar reform: when England skipped 11 days switching from the Julian to the Gregorian calendar, the Treasury refused to lose 11 days of tax revenue and moved the traditional 25 March year-end to 5 April, then to 6 April for leap years. India inherited the April–March year from British administration. The US federal October start dates to 1974, when Congress wanted more time to pass the budget after the fiscal year began. Australia's July start aligns with the southern-hemisphere agricultural cycle. Every odd date has a story.</p><h2>Fiscal Years Around the World</h2><table><thead><tr><th>Country</th><th>Fiscal year</th><th>Why / notes</th></tr></thead><tbody><tr><td>India</td><td>1 Apr – 31 Mar</td><td>Inherited from British rule; Union Budget presented 1 Feb</td></tr><tr><td>United States (federal)</td><td>1 Oct – 30 Sep</td><td>Set by the 1974 Budget Act; FY2026 = Oct 2025–Sep 2026</td></tr><tr><td>United Kingdom</td><td>6 Apr – 5 Apr (tax year)</td><td>The 1752 calendar-skip legacy; companies may choose Dec/Apr/Mar ends</td></tr><tr><td>Japan</td><td>1 Apr – 31 Mar</td><td>Meiji-era adoption; school and corporate years align</td></tr><tr><td>Australia / New Zealand</td><td>1 Jul – 30 Jun</td><td>Southern-hemisphere agricultural cycle</td></tr><tr><td>Canada</td><td>1 Apr – 31 Mar</td><td>Federal government; provinces mostly follow</td></tr><tr><td>Singapore / Hong Kong</td><td>1 Apr – 31 Mar</td><td>British administrative legacy</td></tr><tr><td>Thailand</td><td>1 Oct – 30 Sep</td><td>Aligned with the US-style October start</td></tr><tr><td>Pakistan / Bangladesh / Egypt</td><td>1 Jul – 30 Jun</td><td>Post-harvest budgeting tradition</td></tr><tr><td>Most of EU, China</td><td>1 Jan – 31 Dec</td><td>Calendar year — the global default</td></tr></tbody></table><p>This tool covers 40+ countries with their fiscal year starts, so you can stop guessing whether 'Q3 FY26' means July or January — it depends on whose FY you mean.</p><h2>Quarters: Why Q1 Is Not Always January</h2><p>A fiscal year's four quarters follow its start date, not the calendar. India's Q1 is April–June; the US federal Q1 is October–December; Australia's Q1 is July–September. This is the source of endless confusion in earnings season: when an American company reports 'Q1 FY26,' it means Oct–Dec 2025, while an Indian company reporting 'Q1 FY26' means Apr–Jun 2025 — the <em>same label, different half of the year</em>. The quarter-boundary calculator in this tool lays out all four quarters for any country and date, so you always know exactly which months a label covers.</p><p>Businesses add another wrinkle: companies can choose their own fiscal year-end regardless of their country's government year. Retailers often end in January or February (after the holiday season, when inventory is lowest — hence Walmart's January year-end), while most listed companies simply use December. Always check <em>whose</em> fiscal year a label refers to: the government's, or the company's.</p><h2>FY Labels Decoded: FY26 vs FY2025-26 vs FY25/26</h2><p>The same year gets written half a dozen ways, and the conventions differ by country:</p><ul><li><strong>FY26 / FY'26</strong> — common in the US and UK; usually names the year in which the fiscal year <em>ends</em> (US FY26 ends Sep 2026). But Indian usage often names the <em>starting</em> year (FY26 = Apr 2025–Mar 2026 in casual speech, FY2025-26 formally).</li><li><strong>FY2025-26 / FY25-26</strong> — the unambiguous Indian format: start year–end year.</li><li><strong>FY2025/26</strong> — UK corporate style.</li><li><strong>FY2026</strong> — Australian government style (names the ending year).</li></ul><p>The label converter in this tool translates between these formats for a chosen country, removing the ambiguity that causes real mistakes in contracts, financial models, and journalism. When precision matters — and with money it always does — write the full range: 'FY2025-26 (Apr 2025–Mar 2026).'</p><h2>Tax Deadlines Worth Knowing</h2><p>Fiscal year-ends drive tax calendars. A few landmarks (always confirm current-year dates with the local authority — deadlines move):</p><ul><li><strong>India:</strong> FY ends 31 Mar; individual income-tax returns typically due 31 Jul; advance tax paid in quarterly instalments (Jun, Sep, Dec, Mar).</li><li><strong>US (federal):</strong> FY ends 30 Sep (government); <em>individual</em> tax year is calendar — returns due mid-April. Do not confuse the two.</li><li><strong>UK:</strong> tax year ends 5 Apr; Self Assessment online deadline 31 Jan following.</li><li><strong>Australia:</strong> FY ends 30 Jun; individual returns due 31 Oct (later via tax agents).</li><li><strong>Japan:</strong> FY ends 31 Mar; corporate filings due within 2 months of year-end.</li></ul><p>The pattern: deadlines cluster 1–4 months after year-end. The countdown in this tool shows days remaining to the fiscal year-end for your country — useful for planning filings, budgets, and the annual scramble.</p><h2>Why Governments Do Not All Use January</h2><p>The calendar year is the global default (most of the EU, China, and Latin America use it), but offsets persist for real reasons. <strong>Agricultural cycles</strong> explain July starts in Australia and parts of South Asia — budgets are set after the harvest, when revenue is known. <strong>Legislative calendars</strong> explain the US October start — Congress needed the summer to finish budget negotiations. <strong>Colonial inheritance</strong> explains April starts across the former British empire. And <strong>seasonal business logic</strong> explains company choices: retailers avoid December year-ends because counting inventory during the holiday rush is madness. The diversity looks chaotic, but each date optimizes for something.</p><h2>Working Across Fiscal Years: Practical Tips</h2><h3>Financial modelling</h3><p>When a model mixes companies with different year-ends (say, a US retailer on a January year-end and a supplier on December), align everything to calendar quarters before comparing growth rates — otherwise you are comparing different months. State the mapping explicitly in the model notes.</p><h3>Contracts and SLAs</h3><p>'Delivery in Q2 FY26' is ambiguous until the fiscal calendar is defined in the contract. Define it once in the definitions section ('Fiscal Year means 1 April–31 March') and the ambiguity disappears.</p><h3>Data analysis</h3><p>Time-series joins across countries need a fiscal-calendar dimension table mapping each date to its FY and quarter per country. Build it once, reuse it forever — this tool's quarter output is exactly that mapping for a single date.</p><h3>Job hunting and earnings</h3><p>Companies hire and report on fiscal calendars. Knowing that a company's Q4 is your Q1 explains why their 'year-end push' lands in your February — and why their recruiters go quiet in what looks like mid-year to you.</p><h2>Fun Facts From the Fiscal Calendar</h2><ul><li>The UK's 6 April tax-year start is a fossil of the <strong>1752 calendar reform</strong> — the oddest date in global finance has a purely astronomical origin.</li><li>Nepal's fiscal year follows the <strong>Bikram Sambat</strong> calendar, starting mid-July — one of the few fiscal years not anchored to the Gregorian calendar.</li><li>The US federal government has started its fiscal year in <strong>January, July, and October</strong> at different points in history.</li><li>Ethiopia's fiscal year starts on <strong>8 July</strong> (roughly), following the Ethiopian calendar — and the country is about seven years 'behind' in year numbering.</li><li>Some companies use <strong>52/53-week fiscal years</strong> (ending on the nearest Saturday) so every quarter has the same number of weekends — common in US retail.</li></ul><h2>How This Tool Computes It</h2><p>The core is a lookup: each country maps to its fiscal-year start as month-day (<code>fiscalStart('IN')</code> → <code>'04-01'</code>, <code>'US'</code> → <code>'10-01'</code>, <code>'UK'</code> → <code>'04-06'</code>). Given a date, the tool finds the fiscal year it falls in: if the date is on or after the start day in its calendar year, the FY starts that year; otherwise it started the previous year. Quarters are the start date plus 0, 3, 6, and 9 months. The label converter formats the resulting year range in each national convention, and the countdown is simple date arithmetic to the next year-end. Deterministic, transparent, and easy to verify against official sources.</p><h2>Fiscal Year vs Calendar Year in Data and Reporting</h2><p>Analysts live at the intersection of fiscal calendars: revenue is reported in fiscal quarters, web analytics in calendar months, and payroll in whatever the HR system uses. Joining these datasets without a fiscal-calendar mapping produces the classic off-by-quarter error — growth that looks negative only because January's data landed in different quarters on each side of the join. The fix is a calendar dimension table with one row per date and columns for each fiscal convention you touch (FY start, FY label, fiscal quarter). Build it once from authoritative definitions — this tool's per-country lookup is the seed — and every report, dashboard, and model inherits consistent period logic. It is unglamorous work that prevents expensive mistakes.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is a fiscal year?</summary><p>A fiscal year is the 12-month period used for accounting, budgeting, and tax — and it often does not match the calendar year. The US federal FY runs October–September, India and Japan April–March, Australia July–June.</p></details>
+<details><summary>When does India&#x27;s fiscal year start and end?</summary><p>India's fiscal year runs 1 April to 31 March, inherited from British administration. FY2025-26 means 1 April 2025 to 31 March 2026. The Union Budget is presented on 1 February each year.</p></details>
+<details><summary>When does the US federal fiscal year start?</summary><p>The US federal fiscal year runs 1 October to 30 September (set by the 1974 Budget Act). So US FY2026 is 1 Oct 2025 – 30 Sep 2026. Note: individual US tax returns still follow the calendar year.</p></details>
+<details><summary>Why does the UK tax year start on 6 April?</summary><p>Because of the 1752 switch from the Julian to the Gregorian calendar: England skipped 11 days, and the Treasury moved the traditional 25 March tax year-end to 5 April (later 6 April) rather than lose 11 days of revenue.</p></details>
+<details><summary>Is Q1 always January to March?</summary><p>Quarters follow the fiscal year start, not January. India's Q1 is Apr–Jun; the US federal Q1 is Oct–Dec. Always check whose fiscal year a label refers to — the same 'Q1 FY26' covers different months in different countries.</p></details>
+<details><summary>How do I convert between FY26 and FY2025-26 formats?</summary><p>Use the label converter: pick the country and enter a date or label. It shows FY26-style, FY2025-26-style, and full date-range formats side by side, so you can see exactly which twelve months each label means.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">FiscalYear</div>
+    <p>FiscalYear gives fiscal year start/end dates, quarter boundaries, and tax-deadline notes for 40+ countries — plus an FY label converter and year-end countdown.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function fiscalStart(code){var t={IN:'04-01',US:'10-01',UK:'04-06',AU:'07-01',NZ:'07-01',JP:'04-01',CA:'04-01',SG:'04-01',HK:'04-01',ZA:'04-01',PK:'07-01',BD:'07-01',EG:'07-01',KE:'07-01',TH:'10-01',DE:'01-01',FR:'01-01',IT:'01-01',ES:'01-01',NL:'01-01',BE:'01-01',SE:'01-01',NO:'01-01',DK:'01-01',FI:'01-01',CH:'01-01',AT:'01-01',IE:'01-01',PT:'01-01',PL:'01-01',CN:'01-01',KR:'01-01',MX:'01-01',BR:'01-01',AE:'01-01',SA:'01-01',IL:'01-01',TR:'01-01',RU:'01-01',MY:'01-01',ID:'01-01',PH:'01-01',VN:'01-01',TW:'01-01',AR:'01-01',NG:'01-01'};var c=String(code==null?'':code).toUpperCase();return t[c]||null;}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){var COUNTRIES=[['IN','India'],['US','United States'],['UK','United Kingdom'],['AU','Australia'],['NZ','New Zealand'],['JP','Japan'],['CA','Canada'],['SG','Singapore'],['HK','Hong Kong'],['ZA','South Africa'],['PK','Pakistan'],['BD','Bangladesh'],['EG','Egypt'],['KE','Kenya'],['TH','Thailand'],['DE','Germany'],['FR','France'],['IT','Italy'],['ES','Spain'],['NL','Netherlands'],['BE','Belgium'],['SE','Sweden'],['NO','Norway'],['DK','Denmark'],['FI','Finland'],['CH','Switzerland'],['AT','Austria'],['IE','Ireland'],['PT','Portugal'],['PL','Poland'],['CN','China'],['KR','South Korea'],['MX','Mexico'],['BR','Brazil'],['AE','UAE'],['SA','Saudi Arabia'],['IL','Israel'],['TR','Turkey'],['RU','Russia'],['MY','Malaysia'],['ID','Indonesia'],['PH','Philippines'],['VN','Vietnam'],['TW','Taiwan'],['AR','Argentina'],['NG','Nigeria']];var DEADLINES={IN:'India: FY ends 31 Mar — individual returns typically due 31 Jul; advance tax in quarterly instalments.',US:'US: federal FY ends 30 Sep — but individual tax follows the calendar year (returns due mid-April).',UK:'UK: tax year ends 5 Apr — Self Assessment online deadline 31 Jan after.',AU:'Australia: FY ends 30 Jun — individual returns due 31 Oct (later via agents).',JP:'Japan: FY ends 31 Mar — corporate filings due within 2 months of year-end.'};var csel=document.getElementById('fy-country');if(!csel)return;COUNTRIES.forEach(function(c){var o=document.createElement('option');o.value=c[0];o.textContent=c[1]+' — FY starts '+fiscalStart(c[0]);csel.appendChild(o);});csel.value='IN';var panes=[document.getElementById('fy-pane1'),document.getElementById('fy-pane2'),document.getElementById('fy-pane3')];var steps=[document.getElementById('fy-s1'),document.getElementById('fy-s2'),document.getElementById('fy-s3')];function show(n){panes.forEach(function(p,i){if(p)p.style.display=i===n?'block':'none';});steps.forEach(function(s,i){if(s)s.classList.toggle('on',i<=n);});}function monthName(m){return['January','February','March','April','May','June','July','August','September','October','November','December'][m-1];}function compute(){var code=csel.value;var start=fiscalStart(code);if(!start)return null;var sm=parseInt(start.slice(0,2),10),sd=parseInt(start.slice(3,5),10);var dateEl=document.getElementById('fy-date');var dv=dateEl&&dateEl.value?dateEl.value:'2026-10-21';var parts=dv.split('-');var y=parseInt(parts[0],10),m=parseInt(parts[1],10),d=parseInt(parts[2],10);var fyStartY=(m>sm||(m===sm&&d>=sd))?y:y-1;var fyEndY=fyStartY+1;var startDate=new Date(fyStartY,sm-1,sd);var endDate=new Date(fyEndY,sm-1,sd);endDate.setDate(endDate.getDate()-1);var quarters=[];for(var q=0;q<4;q++){var qs=new Date(startDate);qs.setMonth(qs.getMonth()+q*3);var qe=new Date(startDate);qe.setMonth(qe.getMonth()+(q+1)*3);qe.setDate(qe.getDate()-1);quarters.push([qs,qe]);}var today=new Date();today.setHours(0,0,0,0);var daysLeft=Math.max(0,Math.round((endDate-today)/86400000));return{code:code,startDate:startDate,endDate:endDate,quarters:quarters,daysLeft:daysLeft,fyStartY:fyStartY,fyEndY:fyEndY};}function fmt(dt){return dt.getDate()+' '+monthName(dt.getMonth()+1)+' '+dt.getFullYear();}function renderFY(){var r=compute();if(!r)return;var cname='';COUNTRIES.forEach(function(c){if(c[0]===r.code)cname=c[1];});var fyLabel='FY'+String(r.fyEndY).slice(2);var fl=document.getElementById('fy-fylabel'),fd=document.getElementById('fy-fydates');if(fl)fl.textContent=cname+' · '+fyLabel;if(fd)fd.textContent=fmt(r.startDate)+' → '+fmt(r.endDate);var qbox=document.getElementById('fy-quarters');if(qbox){var html='';r.quarters.forEach(function(q,i){html+='<div class="fy-q"><b>Q'+(i+1)+'</b><br>'+fmt(q[0])+' → '+fmt(q[1])+'</div>';});qbox.innerHTML=html;}var cd=document.getElementById('fy-countdays');if(cd)cd.textContent=r.daysLeft;var dl=document.getElementById('fy-deadline');if(dl)dl.textContent=DEADLINES[r.code]||'Deadlines vary — confirm with the local tax authority for the current year.';var lb=document.getElementById('fy-labels');if(lb){var sy=String(r.fyStartY),ey=String(r.fyEndY),ss=String(r.fyStartY).slice(2),se=String(r.fyEndY).slice(2);lb.innerHTML='<div><code>FY'+se+'</code> — short form (names ending year)</div><div><code>FY'+ss+'-'+se+'</code> — compact range</div><div><code>FY'+sy+'-'+se+'</code> — Indian formal style</div><div><code>FY'+sy+'/'+se+'</code> — UK corporate style</div><div><code>FY'+ey+'</code> — Australian style (ending year)</div><div style="margin-top:8px;color:#57606E">Covers '+fmt(r.startDate)+' → '+fmt(r.endDate)+'.</div>';}var res=document.getElementById('fy-result');if(res)res.classList.add('show');}function go(n){if(n>=1)renderFY();show(n);}var n1=document.getElementById('fy-next1'),b2=document.getElementById('fy-back2'),n2=document.getElementById('fy-next2'),b3=document.getElementById('fy-back3'),done=document.getElementById('fy-done'),dateEl=document.getElementById('fy-date');if(n1)n1.addEventListener('click',function(){go(1);});if(b2)b2.addEventListener('click',function(){show(0);});if(n2)n2.addEventListener('click',function(){go(2);});if(b3)b3.addEventListener('click',function(){go(1);});if(done)done.addEventListener('click',function(){show(0);});if(dateEl)dateEl.addEventListener('change',renderFY);csel.addEventListener('change',function(){var res=document.getElementById('fy-result');if(res)res.classList.remove('show');});});}
+</script>
+</body>
+</html>
