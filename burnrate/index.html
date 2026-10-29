@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/burnrate/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BurnRate — Free Startup Runway Calculator: Burn Rate, Zero-Cash Date & Fundraising Alerts</title>
+<meta name="description" content="BurnRate is a free startup runway calculator. Enter cash, burn and revenue to find your exact zero-cash date, burn rate, burn multiple and when to start fundraising. No signup.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --amber:#FFB800; --cyan:#38D6FF; --ink:#0F1419; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Space Grotesk',system-ui,sans-serif; background:#0F1419; }
+  .mono{ font-family:'JetBrains Mono',ui-monospace,monospace; }
+  .panel{ background:#141B23; border:1px solid rgba(56,214,255,.14); border-radius:1rem; }
+  .field{ background:#0B1117; border:1px solid rgba(148,163,184,.22); border-radius:.65rem; color:#E2E8F0; padding:.65rem .8rem; width:100%; }
+  .field:focus{ outline:none; border-color:var(--amber); box-shadow:0 0 0 3px rgba(255,184,0,.15); }
+  label.lbl{ display:block; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#94A3B8; margin-bottom:.35rem; }
+  .btn-amber{ background:var(--amber); color:#0F1419; font-weight:700; border-radius:.65rem; padding:.65rem 1.1rem; transition:transform .12s, box-shadow .12s; }
+  .btn-amber:hover{ transform:translateY(-1px); box-shadow:0 6px 20px rgba(255,184,0,.35); }
+  .btn-ghost{ border:1px solid rgba(148,163,184,.3); color:#CBD5E1; border-radius:.65rem; padding:.65rem 1rem; transition:all .12s; }
+  .btn-ghost:hover{ border-color:var(--cyan); color:var(--cyan); }
+  /* ---- split-flap departure board ---- */
+  .board{ background:linear-gradient(180deg,#0A0E13,#111822); border:1px solid rgba(56,214,255,.18); border-radius:1.25rem;
+          box-shadow:inset 0 2px 0 rgba(255,255,255,.04), 0 20px 60px rgba(0,0,0,.5); }
+  .board-rivets{ background-image:radial-gradient(circle at 8px 8px, rgba(148,163,184,.35) 2px, transparent 2.5px),
+                 radial-gradient(circle at calc(100% - 8px) 8px, rgba(148,163,184,.35) 2px, transparent 2.5px); }
+  .flap{ perspective:700px; }
+  .flap-frame{ background:#05080C; border:1px solid rgba(255,184,0,.25); border-radius:.7rem; padding:.35rem .9rem;
+               box-shadow:inset 0 3px 10px rgba(0,0,0,.8), inset 0 -1px 0 rgba(255,255,255,.05); }
+  .flap-face{ display:block; transform-origin:center 20%; transition:transform .32s cubic-bezier(.45,0,.25,1); backface-visibility:hidden; }
+  .flap.flipping .flap-face{ transform:rotateX(-84deg); }
+  .flap-mid{ height:2px; background:rgba(255,184,0,.35); margin:.15rem 0; box-shadow:0 1px 0 rgba(0,0,0,.9); }
+  .led{ width:9px; height:9px; border-radius:9999px; background:var(--cyan); box-shadow:0 0 8px var(--cyan); animation:blink 1.6s infinite; }
+  @keyframes blink{ 0%,100%{opacity:1} 50%{opacity:.25} }
+  .marquee{ overflow:hidden; white-space:nowrap; }
+  .marquee span{ display:inline-block; animation:tick 22s linear infinite; color:#5B6B7C; }
+  @keyframes tick{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  /* ---- event grid ---- */
+  .ev-cell{ background:#0B1117; border:1px solid rgba(148,163,184,.15); border-radius:.55rem; min-height:74px; padding:.4rem .45rem;
+            cursor:pointer; transition:border-color .12s, background .12s; position:relative; }
+  .ev-cell:hover{ border-color:rgba(56,214,255,.6); }
+  .ev-cell.drag-over{ border-color:var(--amber); background:rgba(255,184,0,.08); }
+  .ev-chip{ background:rgba(56,214,255,.14); border:1px solid rgba(56,214,255,.55); color:#BAE9FF; font-size:.66rem;
+            border-radius:.4rem; padding:.1rem .35rem; margin-top:.25rem; cursor:grab; display:inline-flex; align-items:center; gap:.25rem; }
+  .ev-chip:active{ cursor:grabbing; }
+  .ev-chip.funding{ background:rgba(52,211,153,.14); border-color:rgba(52,211,153,.55); color:#A7F3D0; }
+  .ev-chip.one-off{ background:rgba(255,90,95,.12); border-color:rgba(255,90,95,.5); color:#FECACA; }
+  /* ---- gauge ---- */
+  #gauge-needle{ transition:transform 1s cubic-bezier(.34,1.4,.44,1); transform-origin:100px 100px; }
+  /* ---- faq ---- */
+  details.faq{ background:#141B23; border:1px solid rgba(56,214,255,.14); border-radius:.8rem; padding:1rem 1.25rem; }
+  details.faq summary{ cursor:pointer; font-weight:600; color:#F1F5F9; list-style:none; }
+  details.faq summary::-webkit-details-marker{ display:none; }
+  details.faq summary::after{ content:'+'; float:right; color:var(--amber); font-size:1.3rem; line-height:1; }
+  details.faq[open] summary::after{ content:'–'; }
+  details.faq p{ color:#94A3B8; margin-top:.6rem; line-height:1.7; }
+  .article h2{ color:#F8FAFC; font-size:1.5rem; font-weight:700; margin:2.2rem 0 .8rem; }
+  .article p{ color:#9AA9BC; line-height:1.85; margin-bottom:1rem; }
+  .article strong{ color:#E2E8F0; }
+  .article ul{ color:#9AA9BC; line-height:1.85; margin:0 0 1rem 1.2rem; list-style:disc; }
+  input[type=range]{ accent-color:#FFB800; }
+  .sc-card{ cursor:pointer; transition:border-color .15s, transform .15s; }
+  .sc-card:hover{ transform:translateY(-2px); }
+  .sc-card.active{ border-color:var(--amber); box-shadow:0 0 0 2px rgba(255,184,0,.25), 0 12px 30px rgba(0,0,0,.4); }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:#0B1117; }
+  ::-webkit-scrollbar-thumb{ background:#26313D; border-radius:6px; }
+</style>
+</head>
+<body id="top" class="text-slate-200 antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-50 border-b border-slate-800/80" style="background:rgba(15,20,25,.92);backdrop-filter:blur(10px)">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M2.5 12.5 21 4l-6.5 18-3.2-6.9-8.8-2.6Z" fill="#FFB800"/>
+        <path d="M11.3 15.1 21 4" stroke="#0F1419" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="text-xl font-bold tracking-tight text-white">BURN<span style="color:#FFB800">RATE</span></span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm font-medium">
+      <a href="#top" class="text-slate-300 hover:text-white transition">Home</a>
+      <a href="https://fixoraa.tech" class="text-slate-300 hover:text-white transition">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TOP AD ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<main class="mx-auto max-w-6xl px-4 sm:px-6">
+  <section class="text-center pt-10 pb-8">
+    <div class="marquee text-[11px] tracking-[0.25em] uppercase mb-4" aria-hidden="true">
+      <span>Cash departures board &nbsp;·&nbsp; now boarding all burn rates &nbsp;·&nbsp; final call for runway extensions &nbsp;·&nbsp; cash departures board &nbsp;·&nbsp; now boarding all burn rates &nbsp;·&nbsp; final call for runway extensions &nbsp;·&nbsp;&nbsp;</span>
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-white">Startup Runway <span style="color:#FFB800">Calculator</span></h1>
+    <p class="mt-4 max-w-2xl mx-auto text-slate-400 text-lg">Enter your cash, burn and revenue. BurnRate projects your exact zero-cash date, flags when to start fundraising, scores your burn multiple, and compares base, stretch and cut scenarios — month by month, like a departures board.</p>
+    <div class="mt-5 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold" style="border-color:rgba(255,184,0,.5);color:#FFB800;background:rgba(255,184,0,.07)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6 9 17l-5-5" stroke="#FFB800" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Unlimited Free Usage
+    </div>
+    <p class="mt-2 text-xs text-slate-500">No signup · No paywall · No watermark · Everything runs in your browser</p>
+  </section>
+
+  <!-- ============ TOOL ============ -->
+  <section id="tool" aria-label="Startup runway calculator tool">
+
+    <!-- Inputs -->
+    <div class="panel p-5 sm:p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold text-white">Flight inputs</h2>
+        <span class="text-xs text-slate-500 mono" id="today-label"></span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div>
+          <label class="lbl" for="in-cash">Starting cash ($)</label>
+          <input id="in-cash" class="field mono" type="text" inputmode="decimal" placeholder="1,500,000" value="1500000">
+        </div>
+        <div>
+          <label class="lbl" for="in-burn">Monthly burn ($)</label>
+          <input id="in-burn" class="field mono" type="text" inputmode="decimal" placeholder="120,000" value="120000">
+        </div>
+        <div>
+          <label class="lbl" for="in-revenue">Monthly revenue ($)</label>
+          <input id="in-revenue" class="field mono" type="text" inputmode="decimal" placeholder="25,000" value="25000">
+        </div>
+        <div>
+          <label class="lbl" for="in-arr">Net new ARR / year ($)</label>
+          <input id="in-arr" class="field mono" type="text" inputmode="decimal" placeholder="400,000" value="400000">
+        </div>
+      </div>
+      <div id="input-errors" class="mt-3 hidden rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300"></div>
+      <p class="mt-3 text-xs text-slate-500">Net burn = monthly burn − monthly revenue. Your numbers auto-save in this browser.</p>
+    </div>
+
+    <!-- Split-flap departure board -->
+    <div class="board board-rivets mt-6 p-5 sm:p-7">
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-2.5">
+          <span class="led" aria-hidden="true"></span>
+          <span class="text-xs tracking-[0.28em] uppercase text-slate-400">BurnRate Intl · Cash departures</span>
+        </div>
+        <span class="text-xs mono px-2.5 py-1 rounded border border-cyan-400/30 text-cyan-300" id="board-scenario-name">BASE CASE</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="flap" id="flap-month-wrap">
+          <div class="text-[10px] tracking-[0.25em] uppercase text-slate-500 mb-1.5 text-center">Month</div>
+          <div class="flap-frame text-center"><span class="flap-face mono text-2xl sm:text-3xl font-bold" id="flap-month" style="color:#38D6FF">M01</span><div class="flap-mid"></div><div class="text-center text-[11px] mono text-slate-500" id="flap-month-sub">—</div></div>
+        </div>
+        <div class="flap" id="flap-cash-wrap">
+          <div class="text-[10px] tracking-[0.25em] uppercase text-slate-500 mb-1.5 text-center">Cash balance</div>
+          <div class="flap-frame text-center"><span class="flap-face mono text-2xl sm:text-3xl font-bold" id="flap-cash" style="color:#FFB800">$—</span><div class="flap-mid"></div><div class="text-center text-[11px] mono text-slate-500" id="flap-net">—</div></div>
+        </div>
+        <div class="flap" id="flap-runway-wrap">
+          <div class="text-[10px] tracking-[0.25em] uppercase text-slate-500 mb-1.5 text-center">Runway left</div>
+          <div class="flap-frame text-center"><span class="flap-face mono text-2xl sm:text-3xl font-bold text-emerald-300" id="flap-runway">—</span><div class="flap-mid"></div><div class="text-center text-[11px] mono text-slate-500" id="flap-verdict">—</div></div>
+        </div>
+      </div>
+      <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <button id="btn-prev" class="btn-ghost mono text-sm">◀ PREV</button>
+        <button id="btn-play" class="btn-amber mono text-sm">▶ PLAY</button>
+        <button id="btn-next" class="btn-ghost mono text-sm">NEXT ▶</button>
+      </div>
+      <p class="mt-3 text-center text-xs text-slate-500">Step month by month — watch each flap turn over as your cash departs.</p>
+    </div>
+
+    <!-- Zero-cash + fundraising alerts -->
+    <div class="panel mt-6 p-5 sm:p-6">
+      <h2 class="text-lg font-bold text-white mb-4">Zero-cash date &amp; fundraising alerts</h2>
+      <div id="alert-banner" class="rounded-xl border-l-4 p-4 mb-4" role="alert"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="rounded-xl bg-[#0B1117] border border-slate-700/50 p-4">
+          <div class="lbl">Cash hits zero</div>
+          <div class="mono text-xl font-bold text-red-400" id="zero-date">—</div>
+          <div class="text-xs text-slate-500 mt-1" id="zero-sub">—</div>
+        </div>
+        <div class="rounded-xl bg-[#0B1117] border border-slate-700/50 p-4">
+          <div class="lbl">Start fundraising by</div>
+          <div class="mono text-xl font-bold" style="color:#FFB800" id="fundby-date">—</div>
+          <div class="text-xs text-slate-500 mt-1">A round takes ~6 months to close</div>
+        </div>
+        <div class="rounded-xl bg-[#0B1117] border border-slate-700/50 p-4">
+          <div class="lbl">Countdown</div>
+          <div class="mono text-xl font-bold text-cyan-300" id="fundby-countdown">—</div>
+          <div class="text-xs text-slate-500 mt-1" id="fundby-sub">—</div>
+        </div>
+      </div>
+      <p class="mt-3 text-xs text-slate-500" id="alert-message"></p>
+    </div>
+  </section>
+
+  <!-- ============ CASH CURVE ============ -->
+  <section class="panel mt-6 p-5 sm:p-6" aria-label="Cash curve chart">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-bold text-white">Cash curve — next 24 months</h2>
+      <span class="text-xs text-slate-500 mono hidden sm:block">◆ events &nbsp; — cash &nbsp; ┄ zero</span>
+    </div>
+    <div class="relative w-full" style="height:260px">
+      <canvas id="cash-chart" class="w-full h-full"></canvas>
+    </div>
+    <p class="mt-2 text-xs text-slate-500">Events you add on the timeline bend this curve in real time — hires steepen it, funding rounds lift it.</p>
+  </section>
+
+  <!-- ============ EVENT TIMELINE ============ -->
+  <section class="panel mt-6 p-5 sm:p-6" aria-label="Event timeline">
+    <h2 class="text-lg font-bold text-white">Event timeline — bend the curve</h2>
+    <p class="text-sm text-slate-400 mt-1 mb-4">Add hires, raises, cost changes and one-off expenses. <strong class="text-slate-200">Drag</strong> an event chip onto another month, or edit it from the list below.</p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div class="rounded-xl bg-[#0B1117] border border-slate-700/50 p-4">
+        <h3 class="text-sm font-bold text-white mb-3" id="ev-form-title">Add event</h3>
+        <label class="lbl" for="ev-type">Event type</label>
+        <select id="ev-type" class="field mb-3"></select>
+        <p class="text-xs text-slate-500 -mt-2 mb-3" id="ev-type-hint"></p>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="lbl" for="ev-month">Month (1–60)</label>
+            <input id="ev-month" class="field mono" type="text" inputmode="numeric" value="3">
+          </div>
+          <div>
+            <label class="lbl" for="ev-amount">Amount ($)</label>
+            <input id="ev-amount" class="field mono" type="text" inputmode="decimal" placeholder="50000">
+          </div>
+        </div>
+        <label class="lbl" for="ev-note">Note (optional)</label>
+        <input id="ev-note" class="field mb-3" type="text" placeholder="e.g. 2 engineers">
+        <div id="ev-errors" class="hidden mb-3 rounded-lg border border-red-500/40 bg-red-500/10 p-2.5 text-xs text-red-300"></div>
+        <div class="flex gap-2">
+          <button id="ev-add-btn" class="btn-amber text-sm flex-1">Add event</button>
+          <button id="ev-cancel-btn" class="btn-ghost text-sm hidden">Cancel</button>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <div class="text-xs text-slate-500 mb-2">24-month grid — cash balance per month · <span class="text-cyan-300">click a cell to place the form there</span> · drag chips between months</div>
+        <div id="event-grid" class="grid grid-cols-4 sm:grid-cols-6 gap-1.5"></div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h3 class="text-sm font-bold text-white mb-2">All events <span class="text-slate-500 font-normal" id="ev-count"></span></h3>
+      <div id="event-list" class="space-y-2"></div>
+      <p id="ev-empty" class="text-sm text-slate-500">No events yet — your projection is a straight line. Add a hire or a funding round to see the curve bend.</p>
+    </div>
+  </section>
+
+  <!-- ============ BURN MULTIPLE GAUGE ============ -->
+  <section class="panel mt-6 p-5 sm:p-6" aria-label="Burn multiple gauge">
+    <h2 class="text-lg font-bold text-white">Burn multiple gauge</h2>
+    <p class="text-sm text-slate-400 mt-1 mb-4">Burn multiple = annual net burn ÷ net new ARR. It tells investors how efficiently you turn dollars into growth.</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+      <div>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="lbl" for="gm-burn">Monthly net burn ($)</label>
+            <input id="gm-burn" class="field mono" type="text" inputmode="decimal">
+          </div>
+          <div>
+            <label class="lbl" for="gm-arr">Net new ARR / year ($)</label>
+            <input id="gm-arr" class="field mono" type="text" inputmode="decimal">
+          </div>
+        </div>
+        <div class="rounded-xl bg-[#0B1117] border border-slate-700/50 p-4">
+          <div class="lbl">Verdict</div>
+          <div class="text-2xl font-bold" id="gauge-verdict" style="color:#FFB800">—</div>
+          <p class="text-sm text-slate-400 mt-2 leading-relaxed" id="gauge-plain">—</p>
+          <div class="mono text-xs text-slate-500 mt-2" id="gauge-nums">—</div>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <svg viewBox="0 0 200 115" class="w-full max-w-sm" role="img" aria-label="Burn multiple gauge">
+          <path d="M 20 100 A 80 80 0 0 1 60 32.9" fill="none" stroke="#34D399" stroke-width="14"/>
+          <path d="M 60 32.9 A 80 80 0 0 1 140 32.9" fill="none" stroke="#FFB800" stroke-width="14"/>
+          <path d="M 140 32.9 A 80 80 0 0 1 167.3 60" fill="none" stroke="#FB923C" stroke-width="14"/>
+          <path d="M 167.3 60 A 80 80 0 0 1 180 100" fill="none" stroke="#FF5A5F" stroke-width="14"/>
+          <text x="32" y="112" fill="#34D399" font-size="9" font-family="JetBrains Mono">0</text>
+          <text x="96" y="14" fill="#FFB800" font-size="9" font-family="JetBrains Mono">2</text>
+          <text x="168" y="112" fill="#FF5A5F" font-size="9" font-family="JetBrains Mono">4+</text>
+          <g id="gauge-needle">
+            <line x1="100" y1="100" x2="100" y2="34" stroke="#F8FAFC" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="7" fill="#F8FAFC"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCENARIOS ============ -->
+  <section class="panel mt-6 p-5 sm:p-6" aria-label="Scenario comparison">
+    <h2 class="text-lg font-bold text-white">3-scenario toggle — base / stretch / cut</h2>
+    <p class="text-sm text-slate-400 mt-1 mb-4">Tune each scenario with the sliders, then <strong class="text-slate-200">click a card</strong> to load it onto the departures board above.</p>
+    <div id="scenario-cards" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    <div class="mt-5">
+      <h3 class="text-sm font-bold text-white mb-2">Side-by-side runway</h3>
+      <div id="scenario-compare" class="space-y-2.5"></div>
+    </div>
+  </section>
+
+<!-- ============ BOTTOM AD ============ -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4 mt-6" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEO ARTICLE ============ -->
+<article id="seo-article" class="article mt-10 max-w-3xl">
+  <h2>What Is Startup Runway?</h2>
+  <p>Startup runway is the number of months your company can keep operating before its cash balance hits zero, assuming nothing changes. It is the single most important number for an early-stage founder: it sets the deadline for becoming profitable, closing a funding round, or cutting costs. If you have $1.5 million in the bank and you spend a net $100,000 every month, your runway is 15 months. Simple — until reality intervenes with hires, raises, server bills, and the occasional surprise tax payment. That is why a static division problem is not enough, and why founders reach for a <strong>startup runway calculator</strong> that models the future month by month.</p>
+  <p>Runway thinking changes how you run the company. A founder with 20 months of runway can hire deliberately, negotiate from strength, and walk away from a bad term sheet. A founder with 4 months of runway is negotiating with a gun to their head — and investors can smell it. Knowing your exact zero-cash date, rather than a vague "sometime next year," is what separates a plan from a hope.</p>
+
+  <h2>How to Calculate Burn Rate</h2>
+  <p>Burn rate is the amount of cash your company spends each month, and a <strong>burn rate calculator</strong> starts by separating two concepts. <strong>Gross burn</strong> is everything going out the door: salaries, rent, software, ads, contractors — the full monthly spend. <strong>Net burn</strong> is gross burn minus monthly revenue: the amount by which your bank balance actually shrinks each month. If you spend $120,000 and bring in $25,000, your gross burn is $120,000 and your net burn is $95,000.</p>
+  <p>The classic runway formula is: <strong>runway (months) = cash in bank ÷ net monthly burn</strong>. So $1,500,000 ÷ $95,000 ≈ 15.8 months. This works as a first approximation, but it assumes burn and revenue stay perfectly flat — they never do. Revenue (hopefully) grows, salaries step up with each hire, and one-off expenses punch holes in the line. A proper startup cash runway model recomputes the balance every month, applying each future event to the month it lands in.</p>
+
+  <h2>Gross Burn vs Net Burn: Which One Matters?</h2>
+  <p>Both, for different reasons. Net burn drives the zero-cash date, so it is the number behind your runway. But gross burn tells you how exposed you are if revenue stumbles. A company with $200,000 gross burn and $180,000 revenue has a comfortable 2-month… no — it has a tiny $20,000 net burn and years of runway on paper. Yet if a single enterprise customer churns, the runway collapses overnight. Founders with high gross burn and high revenue are flying with a thinner margin of error than the net number suggests. Track both, and be honest about which revenue is truly recurring.</p>
+
+  <h2>What Is a Good Burn Multiple?</h2>
+  <p>The <strong>burn multiple</strong> — coined by David Sacks — measures how much cash you burn to generate each dollar of net new ARR: annual net burn ÷ net new ARR. Burn $1.2 million a year while adding $2 million of new ARR and your multiple is 0.6: elite. Spend $3 million to add $1 million and your multiple is 3: a warning light.</p>
+  <p>As a rough guide: under 1 is elite, 1–2 is healthy and exactly what Series A and B investors want to see, 2–3 means watch it (acceptable only while growth is genuinely fast), and over 3 is the danger zone where you must either cut burn or prove growth is about to inflect. The multiple is meaningless if net new ARR is zero or negative — with flat revenue, runway is the only number that matters. Note the subtlety founders miss: a great burn multiple with 4 months of runway still kills you. Efficiency buys you investor love; runway buys you time. You need both.</p>
+
+  <h2>How Many Months of Runway Should a Startup Have?</h2>
+  <p>The conventional wisdom is 18–24 months after a fundraise: roughly 12 months to execute and hit milestones, plus 6 months to run a fundraising process. In practice, the right number depends on your stage. Pre-seed companies often operate on 12–18 months and raise on momentum. Seed-stage companies should target 18–24 months because enterprise sales cycles and hiring plans need the buffer. Anything under 12 months means fundraising should already be on the calendar; under 6 months is a five-alarm fire that demands immediate cost cuts alongside the raise.</p>
+  <p>There is also a psychological dimension. Teams that know the cash position make calmer decisions. Founders who hide the runway number get rumor-driven anxiety instead. Share the number, share the plan to extend it, and update it monthly — it takes ten minutes with a calculator like this one.</p>
+
+  <h2>When Should You Start Fundraising?</h2>
+  <p>A venture round takes roughly <strong>6 months from first pitch to money in the bank</strong>: 4–8 weeks of meetings, 3–4 weeks of diligence and term-sheet negotiation, and 4–8 weeks for legal close and wire. Count backward from your zero-cash date. If cash runs out in month 14, you should be pitching by month 8 — while you still have 8 months of cash and maximum negotiating leverage.</p>
+  <p>The most common fundraising mistake is starting at month 11 of a 12-month runway. You arrive desperate, investors sense it, and the process drags past your zero-cash date into a bridge round on punishing terms. Set the alert early: when your model says "start fundraising by" a date six months before zero cash, put it on the calendar and treat it as immovable.</p>
+
+  <h2>How to Extend Your Runway Without Raising</h2>
+  <p>Before you cut, model it. The fastest levers: pause non-critical hires (each hire is a permanent step up in the burn line), renegotiate vendor contracts and annualize software spend, shift contractors to milestone-based pay, and pull forward revenue with annual prepay discounts. A 25% burn cut on a $100,000 net burn extends a 10-month runway to over 13 months — often the difference between a rushed bridge and a proper Series A.</p>
+  <p>The slower, more powerful lever is revenue. Adding $20,000 of monthly recurring revenue has the same runway effect as cutting $20,000 of burn, but it also improves your burn multiple and your valuation. That is why the "cut" scenario in a good model trims burn slightly <em>and</em> assumes a small revenue dip — honesty about trade-offs beats fantasy math.</p>
+
+  <h2>Scenario Planning: Base, Stretch, Cut</h2>
+  <p>Never run a company on a single forecast. The <strong>base case</strong> is your current plan: today's burn, today's revenue, the hires you have actually approved. The <strong>stretch case</strong> assumes you hire faster and grow faster — burn up 20%, revenue up 30% — and shows whether the extra speed is worth the shorter runway. The <strong>cut case</strong> is lean mode: burn down 25%, revenue slightly down, maximum survival time.</p>
+  <p>The discipline is in the comparison. If stretch shortens runway from 15 months to 9 but triples the chance of hitting the milestone that unlocks your Series A, it may be the right call — made with open eyes. If cut extends you from 8 months to 13, it buys a real fundraise instead of a fire sale. Run all three every month; the future arrives faster than your spreadsheet.</p>
+
+  <h2>Common Runway Mistakes Founders Make</h2>
+  <p>First, forgetting one-off expenses: security audits, annual insurance, that $40,000 conference sponsorship. They do not show up in "monthly burn" but they absolutely show up in the bank balance. Second, modeling revenue as a smooth line — enterprise deals slip quarters, and consumer growth stalls. Third, ignoring hiring lag: the engineer you "plan to hire in March" usually starts in May, but their salary hits the burn line the day they sign. Fourth, confusing cash with runway after a fundraise — a $3 million round at $250,000 net burn is 12 months, not "we're set for two years." And fifth, the deadliest: not recomputing. A runway number from January is fiction by April. Recompute monthly, or better, keep a live model you actually open.</p>
+  <p>BurnRate exists to make that recompute instant: punch in the new numbers, drag next quarter's hires onto the timeline, and read your zero-cash date off the departures board. The math is simple. Facing it early is the hard part — and the valuable one.</p>
+</article>
+
+<!-- ============ FAQS ============ -->
+<section class="mt-10 max-w-3xl" aria-label="Frequently asked questions">
+  <h2 class="text-2xl font-bold text-white mb-4">Frequently asked questions</h2>
+  <div class="space-y-3">
+    <details class="faq">
+      <summary>How do you calculate startup runway?</summary>
+      <p>Divide your current cash balance by your net monthly burn (total monthly spending minus monthly revenue). For example, $1,500,000 in the bank with a net burn of $95,000 per month gives about 15.8 months of runway. For an accurate answer, model each future month separately so hires, raises, one-off expenses and revenue changes bend the projection — which is exactly what BurnRate's month-by-month calculator does.</p>
+    </details>
+    <details class="faq">
+      <summary>What is a good burn multiple for a startup?</summary>
+      <p>Burn multiple is annual net burn divided by net new ARR. Under 1 is elite, 1–2 is healthy and what most Series A/B investors expect, 2–3 is a watch zone that is only acceptable while growth is very fast, and over 3 is dangerous. If your net new ARR is zero or negative, the multiple is meaningless and runway becomes the only metric that matters.</p>
+    </details>
+    <details class="faq">
+      <summary>How many months of runway should a startup have?</summary>
+      <p>After a fundraise, aim for 18–24 months: about 12 months to execute and hit milestones, plus roughly 6 months to run your next fundraising process. Below 12 months, fundraising should already be scheduled. Below 6 months, cut costs immediately and start fundraising this week — you have no buffer left.</p>
+    </details>
+    <details class="faq">
+      <summary>When should I start fundraising before cash runs out?</summary>
+      <p>Start about 6 months before your projected zero-cash date, because a venture round typically takes 6 months from first pitch to money in the bank. If your model says cash hits zero in month 14, begin pitching by month 8. Starting later destroys your negotiating leverage and risks the process dragging past your zero-cash date.</p>
+    </details>
+    <details class="faq">
+      <summary>What is the difference between gross burn and net burn?</summary>
+      <p>Gross burn is everything you spend each month — salaries, rent, tools, ads. Net burn is gross burn minus monthly revenue: the amount your bank balance actually shrinks by. Net burn determines your zero-cash date, but gross burn shows your exposure if revenue drops, so track both.</p>
+    </details>
+    <details class="faq">
+      <summary>How can I extend my runway without raising money?</summary>
+      <p>Cut net burn or grow revenue. The fastest levers are pausing non-critical hires, renegotiating vendor contracts, and annualizing software spend. A 25% burn cut can turn 10 months of runway into 13+. Growing monthly recurring revenue works even better: each new dollar of MRR extends runway exactly like a dollar of cost cuts, while also improving your burn multiple and valuation.</p>
+    </details>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "How do you calculate startup runway?", "acceptedAnswer": {"@type": "Answer", "text": "Divide your current cash balance by your net monthly burn (total monthly spending minus monthly revenue). For example, $1,500,000 in the bank with a net burn of $95,000 per month gives about 15.8 months of runway. For an accurate answer, model each future month separately so hires, raises, one-off expenses and revenue changes bend the projection."}},
+    {"@type": "Question", "name": "What is a good burn multiple for a startup?", "acceptedAnswer": {"@type": "Answer", "text": "Burn multiple is annual net burn divided by net new ARR. Under 1 is elite, 1–2 is healthy and what most Series A/B investors expect, 2–3 is a watch zone acceptable only while growth is very fast, and over 3 is dangerous. If net new ARR is zero or negative, the multiple is meaningless and runway is the only metric that matters."}},
+    {"@type": "Question", "name": "How many months of runway should a startup have?", "acceptedAnswer": {"@type": "Answer", "text": "After a fundraise, aim for 18–24 months: about 12 months to execute and hit milestones, plus roughly 6 months to run your next fundraising process. Below 12 months, fundraising should already be scheduled. Below 6 months, cut costs immediately and start fundraising this week."}},
+    {"@type": "Question", "name": "When should I start fundraising before cash runs out?", "acceptedAnswer": {"@type": "Answer", "text": "Start about 6 months before your projected zero-cash date, because a venture round typically takes 6 months from first pitch to money in the bank. If cash hits zero in month 14, begin pitching by month 8."}},
+    {"@type": "Question", "name": "What is the difference between gross burn and net burn?", "acceptedAnswer": {"@type": "Answer", "text": "Gross burn is everything you spend each month — salaries, rent, tools, ads. Net burn is gross burn minus monthly revenue: the amount your bank balance actually shrinks by. Net burn determines your zero-cash date; gross burn shows exposure if revenue drops."}},
+    {"@type": "Question", "name": "How can I extend my runway without raising money?", "acceptedAnswer": {"@type": "Answer", "text": "Cut net burn or grow revenue. Pause non-critical hires, renegotiate vendor contracts, and annualize software spend. A 25% burn cut can turn 10 months of runway into 13+. Growing monthly recurring revenue extends runway like cost cuts while improving burn multiple and valuation."}}
+  ]
+}
+</script>
+
+<footer class="border-t border-slate-800/80 mt-12">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <p class="text-sm text-slate-500">© 2026 BurnRate — free startup finance tools.</p>
+    <nav class="flex items-center gap-5 text-sm">
+      <a href="#top" class="text-slate-500 hover:text-slate-300 transition">Home</a>
+    </nav>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+</main>
+
+<script id="burnrate-startup-runway-calculator-lib">
+/* BurnRate — Startup Runway Calculator logic.
+ * Pure functions only: no DOM, window, document, localStorage, navigator.
+ * Shipped inside <script id="burnrate-startup-runway-calculator-lib">.
+ * Tests eval this exact block from the finished HTML.
+ */
+'use strict';
+
+function trimStr(s){ return (s === undefined || s === null) ? '' : String(s).trim(); }
+
+/* ---------- number parsing / formatting ---------- */
+function parseNum(v, fallback){
+  if (fallback === undefined) fallback = 0;
+  if (typeof v === 'number' && isFinite(v)) return v;
+  var s = trimStr(v).replace(/[$,\s]/g, '');
+  if (s === '' || s === '-' || s === '.' || s === '-.') return fallback;
+  var n = parseFloat(s);
+  return isFinite(n) ? n : fallback;
+}
+
+function clampNum(v, min, max){
+  if (!isFinite(v)) v = min;
+  if (v < min) v = min;
+  if (v > max) v = max;
+  return v;
+}
+
+function formatMoney(n){
+  if (!isFinite(n)) return '—';
+  var neg = n < 0;
+  var a = Math.abs(n);
+  var out;
+  if (a >= 1e9) out = '$' + (a / 1e9).toFixed(2) + 'B';
+  else if (a >= 1e6) out = '$' + (a / 1e6).toFixed(2) + 'M';
+  else if (a >= 1e3) out = '$' + (a / 1e3).toFixed(2) + 'K';
+  else out = '$' + String(Math.round(a));
+  return neg ? '-' + out : out;
+}
+
+var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+/* m = 1-based future month offset; month = 1..12 */
+function monthLabel(year, month, m){
+  var total = (month - 1) + m;
+  var y = year + Math.floor(total / 12);
+  var mo = total % 12;
+  return MONTH_NAMES[mo] + ' ' + y;
+}
+
+/* ---------- events ---------- */
+function eventTypes(){
+  return [
+    {id:'hire',           name:'Hire / team cost', hint:'Adds to monthly burn from that month onward'},
+    {id:'cost-change',    name:'Cost change',      hint:'Raises or lowers monthly burn (negative amount = savings)'},
+    {id:'revenue-change', name:'Revenue change',   hint:'Raises or lowers monthly revenue (negative amount = churn)'},
+    {id:'one-off',        name:'One-off expense',  hint:'Single cash outflow in that month only'},
+    {id:'funding',        name:'Funding round',    hint:'Single cash inflow in that month only'}
+  ];
+}
+
+function eventTypeById(id){
+  var ts = eventTypes();
+  for (var i = 0; i < ts.length; i++){ if (ts[i].id === id) return ts[i]; }
+  return null;
+}
+
+/* Per-event effect: {burn: monthly burn delta, rev: monthly revenue delta, cash: one-time cash delta} */
+function eventDelta(e){
+  var d = {burn:0, rev:0, cash:0};
+  if (!e) return d;
+  var amt = parseNum(e.amount, 0);
+  if (e.type === 'hire') d.burn = amt;
+  else if (e.type === 'cost-change') d.burn = amt;
+  else if (e.type === 'revenue-change') d.rev = amt;
+  else if (e.type === 'one-off') d.cash = -Math.abs(amt);
+  else if (e.type === 'funding') d.cash = Math.abs(amt);
+  return d;
+}
+
+function sanitizeEvents(events){
+  var out = [];
+  if (!events || !events.length) return out;
+  for (var i = 0; i < events.length; i++){
+    var e = events[i];
+    if (!e || !eventTypeById(e.type)) continue;
+    var m = Math.round(clampNum(parseNum(e.month, 0), 1, 120));
+    out.push({
+      id: trimStr(e.id) || ('ev-' + (i + 1)),
+      type: e.type,
+      month: m,
+      amount: parseNum(e.amount, 0),
+      note: trimStr(e.note)
+    });
+  }
+  out.sort(function(a, b){ return a.month - b.month; });
+  return out;
+}
+
+/* ---------- runway projection ---------- */
+function projectRunway(startCash, monthlyBurn, monthlyRevenue, events, maxMonths){
+  startCash = Math.max(0, parseNum(startCash, 0));
+  monthlyBurn = Math.max(0, parseNum(monthlyBurn, 0));
+  monthlyRevenue = Math.max(0, parseNum(monthlyRevenue, 0));
+  maxMonths = Math.round(clampNum(parseNum(maxMonths, 60), 1, 120));
+
+  var evts = sanitizeEvents(events);
+  var burn = monthlyBurn, rev = monthlyRevenue, cash = startCash;
+  var series = [];
+  var zeroCashMonth = null;
+
+  for (var m = 1; m <= maxMonths; m++){
+    var monthEvents = [];
+    for (var i = 0; i < evts.length; i++){
+      if (evts[i].month === m){
+        monthEvents.push(evts[i]);
+        var d = eventDelta(evts[i]);
+        burn = Math.max(0, burn + d.burn);
+        rev = Math.max(0, rev + d.rev);
+      }
+    }
+    var cashOnce = 0;
+    for (var j = 0; j < monthEvents.length; j++){ cashOnce += eventDelta(monthEvents[j]).cash; }
+
+    var cashStart = cash;
+    var netBurn = burn - rev;
+    var cashEnd = cashStart - netBurn + cashOnce;
+    var runwayLeft = netBurn > 0 ? Math.max(0, cashEnd) / netBurn : Infinity;
+
+    series.push({
+      m: m,
+      burn: burn,
+      revenue: rev,
+      netBurn: netBurn,
+      cashStart: cashStart,
+      cashEnd: cashEnd,
+      cashOnce: cashOnce,
+      events: monthEvents,
+      runwayLeft: runwayLeft
+    });
+    if (zeroCashMonth === null && cashEnd <= 0) zeroCashMonth = m;
+    cash = cashEnd;
+  }
+
+  return {
+    series: series,
+    zeroCashMonth: zeroCashMonth,
+    monthsRunway: exactRunwayFromSeries(series),
+    startCash: startCash,
+    monthlyBurn: monthlyBurn,
+    monthlyRevenue: monthlyRevenue,
+    maxMonths: maxMonths
+  };
+}
+
+/* Exact (fractional) runway: whole months + partial final month. Infinity = default alive. */
+function exactRunwayFromSeries(series){
+  for (var i = 0; i < series.length; i++){
+    var s = series[i];
+    if (s.cashEnd <= 0){
+      if (s.netBurn > 0) return (s.m - 1) + Math.max(0, s.cashStart) / s.netBurn;
+      return s.m;
+    }
+  }
+  return Infinity;
+}
+
+function scenarioShort(months){
+  if (!isFinite(months)) return '∞';
+  return (Math.round(months * 10) / 10) + ' mo';
+}
+
+/* ---------- fundraising alerts ---------- */
+function fundraisingAlert(zeroCashMonth, leadMonths, warnMonths){
+  leadMonths = leadMonths === undefined ? 6 : Math.max(1, Math.round(parseNum(leadMonths, 6)));
+  warnMonths = warnMonths === undefined ? 2 : Math.max(0, Math.round(parseNum(warnMonths, 2)));
+
+  if (zeroCashMonth === null || zeroCashMonth === undefined){
+    return {
+      status: 'none', fundByMonth: null, monthsUntilFundBy: null,
+      message: 'With these numbers cash never runs out — you are default alive. Revisit the model if burn rises or growth stalls.'
+    };
+  }
+  var fundBy = zeroCashMonth - leadMonths;
+  var status = fundBy <= 0 ? 'urgent' : (fundBy <= warnMonths ? 'warning' : 'ok');
+  var msg;
+  if (status === 'urgent'){
+    msg = 'Cash hits zero in month ' + zeroCashMonth + '. Fundraising takes ~' + leadMonths +
+      ' months from first pitch to money in the bank — you should be fundraising NOW.';
+  } else if (status === 'warning'){
+    msg = 'Cash hits zero in month ' + zeroCashMonth + '. Start fundraising within ' + fundBy +
+      ' month' + (fundBy === 1 ? '' : 's') + ' — a round takes ~' + leadMonths + ' months to close.';
+  } else {
+    msg = 'Cash hits zero in month ' + zeroCashMonth + '. Plan to start fundraising around month ' +
+      fundBy + ' (' + fundBy + ' months from now) so the round closes before cash runs out.';
+  }
+  return {status: status, fundByMonth: fundBy, monthsUntilFundBy: fundBy, message: msg};
+}
+
+/* ---------- burn multiple ---------- */
+/* annualNetBurn: dollars burned per year; netNewARR: new ARR added per year */
+function burnMultiple(annualNetBurn, netNewARR){
+  annualNetBurn = parseNum(annualNetBurn, 0);
+  netNewARR = parseNum(netNewARR, 0);
+
+  if (annualNetBurn <= 0){
+    return {
+      multiple: 0, band: 'profitable', verdict: 'Cash-flow positive',
+      plain: 'You are not burning cash — you are default alive. Burn multiple only applies to companies spending more than they make.',
+      spendPerDollar: '$0.00'
+    };
+  }
+  if (netNewARR <= 0){
+    return {
+      multiple: null, band: 'na', verdict: 'Not meaningful',
+      plain: 'Burn multiple is meaningless without net new ARR. With flat or shrinking revenue, runway is the only number that matters.',
+      spendPerDollar: '—'
+    };
+  }
+  var m = annualNetBurn / netNewARR;
+  var band = m < 1 ? 'elite' : (m < 2 ? 'good' : (m < 3 ? 'watch' : 'danger'));
+  var verdicts = {elite:'Elite efficiency', good:'Healthy', watch:'Watch it', danger:'Danger zone'};
+  var plains = {
+    elite: 'Spending less than a dollar to add a dollar of ARR — raise on your own terms.',
+    good: 'Textbook Series A/B efficiency. Investors love a multiple under 2 with accelerating growth.',
+    watch: 'Spending $2–$3 per new ARR dollar. Acceptable while growth is fast, but show the multiple improving each quarter.',
+    danger: 'Spending $3+ per new ARR dollar. Either cut burn or prove growth is about to inflect — fast.'
+  };
+  return {
+    multiple: m, band: band, verdict: verdicts[band],
+    plain: 'You burn $' + m.toFixed(2) + ' for every $1 of net new ARR. ' + plains[band],
+    spendPerDollar: '$' + m.toFixed(2)
+  };
+}
+
+/* ---------- plain-English runway verdict ---------- */
+function runwayVerdict(months){
+  if (!isFinite(months)){
+    return {level:'excellent', headline:'Default alive',
+      text:'At this burn and revenue you never run out of cash. Keep it that way.'};
+  }
+  var r = Math.round(months * 10) / 10;
+  if (months >= 24) return {level:'excellent', headline:'Well funded',
+    text:r + ' months of runway. You can plan 18-month roadmaps without fundraising pressure.'};
+  if (months >= 12) return {level:'good', headline:'Healthy',
+    text:r + ' months of runway — the classic post-raise target. Start fundraising prep around month ' + Math.max(1, Math.round(months) - 6) + '.'};
+  if (months >= 6) return {level:'tight', headline:'Tight but workable',
+    text:'Only ' + r + ' months of runway. Every hire and expense needs to earn its place, and fundraising should already be on the calendar.'};
+  return {level:'danger', headline:'Danger',
+    text:'Just ' + r + ' months of runway. Cut burn immediately or start fundraising this week — there is no buffer left.'};
+}
+
+/* ---------- scenarios ---------- */
+function defaultScenarioAdjustments(){
+  return [
+    {id:'base',    name:'Base case', desc:'Your current plan, no changes',        burnPct:0,   revPct:0,   cashDelta:0},
+    {id:'stretch', name:'Stretch',   desc:'Hire faster, grow faster',             burnPct:20,  revPct:30,  cashDelta:0},
+    {id:'cut',     name:'Cut',       desc:'Lean mode — extend the clock',         burnPct:-25, revPct:-10, cashDelta:0}
+  ];
+}
+
+/* base = {startCash, monthlyBurn, monthlyRevenue}; adj = {burnPct, revPct, cashDelta} */
+function applyAdjustment(base, adj){
+  var b = {
+    startCash: parseNum(base.startCash, 0),
+    monthlyBurn: parseNum(base.monthlyBurn, 0),
+    monthlyRevenue: parseNum(base.monthlyRevenue, 0)
+  };
+  var a = adj || {burnPct:0, revPct:0, cashDelta:0};
+  return {
+    startCash: Math.max(0, b.startCash + parseNum(a.cashDelta, 0)),
+    monthlyBurn: Math.max(0, b.monthlyBurn * (1 + parseNum(a.burnPct, 0) / 100)),
+    monthlyRevenue: Math.max(0, b.monthlyRevenue * (1 + parseNum(a.revPct, 0) / 100))
+  };
+}
+
+/* scenarios = [{name, startCash, monthlyBurn, monthlyRevenue, events}] -> sorted desc by runway */
+function scenarioCompare(scenarios, maxMonths){
+  var out = [];
+  var list = scenarios || [];
+  for (var i = 0; i < list.length; i++){
+    var s = list[i];
+    var p = projectRunway(s.startCash, s.monthlyBurn, s.monthlyRevenue, s.events, maxMonths);
+    out.push({
+      name: trimStr(s.name) || ('Scenario ' + (i + 1)),
+      startCash: p.startCash,
+      monthlyBurn: s.monthlyBurn,
+      monthlyRevenue: s.monthlyRevenue,
+      monthsRunway: p.monthsRunway,
+      zeroCashMonth: p.zeroCashMonth,
+      netBurn: Math.max(0, parseNum(s.monthlyBurn, 0)) - Math.max(0, parseNum(s.monthlyRevenue, 0))
+    });
+  }
+  out.sort(function(a, b){
+    var am = isFinite(a.monthsRunway) ? a.monthsRunway : 1e9;
+    var bm = isFinite(b.monthsRunway) ? b.monthsRunway : 1e9;
+    return bm - am;
+  });
+  return out;
+}
+
+/* ---------- input validation (friendly messages) ---------- */
+function validateInputs(startCash, burn, revenue){
+  var errs = [];
+  var sc = parseNum(startCash, NaN), b = parseNum(burn, NaN), r = parseNum(revenue, NaN);
+  if (!isFinite(sc)) errs.push({field:'cash', message:'Starting cash must be a number (e.g. 1500000).'});
+  else if (sc < 0) errs.push({field:'cash', message:'Starting cash cannot be negative.'});
+  if (!isFinite(b)) errs.push({field:'burn', message:'Monthly burn must be a number (e.g. 120000).'});
+  else if (b < 0) errs.push({field:'burn', message:'Monthly burn cannot be negative.'});
+  if (!isFinite(r)) errs.push({field:'revenue', message:'Monthly revenue must be a number (0 is fine).'});
+  else if (r < 0) errs.push({field:'revenue', message:'Monthly revenue cannot be negative.'});
+  return errs;
+}
+
+/* ---------- event form validation ---------- */
+function validateEvent(type, month, amount){
+  var errs = [];
+  if (!eventTypeById(type)) errs.push('Pick an event type.');
+  var m = Math.round(parseNum(month, NaN));
+  if (!isFinite(m)) errs.push('Month must be a number between 1 and 60.');
+  else if (m < 1 || m > 60) errs.push('Month must be between 1 and 60.');
+  if (!isFinite(parseNum(amount, NaN))) errs.push('Amount must be a number.');
+  else if (parseNum(amount, 0) === 0 && (type === 'one-off' || type === 'funding')) errs.push('Amount cannot be zero for this event type.');
+  return errs;
+}
+
+</script>
+<script>
+(function(){
+  'use strict';
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+
+  var now = new Date();
+  var CUR_Y = now.getFullYear(), CUR_M = now.getMonth() + 1;
+  var GRID_MONTHS = 24, PROJ_MONTHS = 60;
+
+  var SCEN_DEFS = defaultScenarioAdjustments();
+  var state = {
+    events: [],
+    adjustments: {},
+    active: 'base',
+    viewMonth: 1,
+    editingId: null,
+    playing: false,
+    playTimer: null
+  };
+  SCEN_DEFS.forEach(function(d){ state.adjustments[d.id] = {burnPct: d.burnPct, revPct: d.revPct, cashDelta: 0}; });
+
+  /* ---------- persistence ---------- */
+  function save(){
+    try{
+      localStorage.setItem('burnrate-v1', JSON.stringify({
+        cash: $('in-cash').value, burn: $('in-burn').value, revenue: $('in-revenue').value,
+        gmBurn: $('gm-burn').value, gmArr: $('gm-arr').value,
+        events: state.events, adjustments: state.adjustments, active: state.active
+      }));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      var raw = localStorage.getItem('burnrate-v1');
+      if(!raw) return false;
+      var d = JSON.parse(raw);
+      if(d.cash !== undefined) $('in-cash').value = d.cash;
+      if(d.burn !== undefined) $('in-burn').value = d.burn;
+      if(d.revenue !== undefined) $('in-revenue').value = d.revenue;
+      if(d.gmBurn !== undefined) $('gm-burn').value = d.gmBurn;
+      if(d.gmArr !== undefined) $('gm-arr').value = d.gmArr;
+      if(d.events) state.events = sanitizeEvents(d.events);
+      if(d.adjustments) SCEN_DEFS.forEach(function(s){
+        if(d.adjustments[s.id]) state.adjustments[s.id] = {
+          burnPct: parseNum(d.adjustments[s.id].burnPct, s.burnPct),
+          revPct: parseNum(d.adjustments[s.id].revPct, s.revPct),
+          cashDelta: parseNum(d.adjustments[s.id].cashDelta, 0)
+        };
+      });
+      if(d.active) state.active = d.active;
+      return true;
+    }catch(e){ return false; }
+  }
+
+  /* ---------- model ---------- */
+  function readBase(){
+    return {
+      startCash: parseNum($('in-cash').value, 0),
+      monthlyBurn: parseNum($('in-burn').value, 0),
+      monthlyRevenue: parseNum($('in-revenue').value, 0)
+    };
+  }
+  function scenDef(id){
+    for(var i=0;i<SCEN_DEFS.length;i++) if(SCEN_DEFS[i].id===id) return SCEN_DEFS[i];
+    return SCEN_DEFS[0];
+  }
+  function scenarioConfig(id){
+    var def = scenDef(id);
+    var adj = state.adjustments[id] || {burnPct:0, revPct:0, cashDelta:0};
+    var a = applyAdjustment(readBase(), adj);
+    return {name: def.name, startCash: a.startCash, monthlyBurn: a.monthlyBurn, monthlyRevenue: a.monthlyRevenue, events: state.events};
+  }
+  function project(id){ var c = scenarioConfig(id); return projectRunway(c.startCash, c.monthlyBurn, c.monthlyRevenue, c.events, PROJ_MONTHS); }
+
+  /* ---------- split-flap board ---------- */
+  function setFlap(wrapId, text, subId, subText){
+    var wrap = $(wrapId);
+    var face = wrap.querySelector('.flap-face');
+    if(wrap.dataset.v === text){ if(subId) $(subId).textContent = subText; return; }
+    wrap.classList.add('flipping');
+    setTimeout(function(){
+      face.textContent = text; wrap.dataset.v = text;
+      if(subId) $(subId).textContent = subText;
+      wrap.classList.remove('flipping');
+    }, 170);
+  }
+  function renderBoard(proj){
+    var n = proj.series.length;
+    if(state.viewMonth > n) state.viewMonth = n;
+    if(state.viewMonth < 1) state.viewMonth = 1;
+    var s = proj.series[state.viewMonth - 1];
+    setFlap('flap-month-wrap', 'M' + pad2(s.m), 'flap-month-sub', monthLabel(CUR_Y, CUR_M, s.m).toUpperCase());
+    setFlap('flap-cash-wrap', formatMoney(s.cashEnd), 'flap-net', 'NET BURN ' + formatMoney(s.netBurn) + '/MO');
+    $('flap-cash').style.color = s.cashEnd < 0 ? '#FF5A5F' : '#FFB800';
+    var v = runwayVerdict(proj.monthsRunway);
+    var rl = s.runwayLeft;
+    setFlap('flap-runway-wrap', scenarioShort(rl), 'flap-verdict', v.headline.toUpperCase());
+    $('flap-runway').style.color = !isFinite(rl) ? '#6EE7B7' : (rl >= 12 ? '#6EE7B7' : (rl >= 6 ? '#FFB800' : '#FF5A5F'));
+    $('board-scenario-name').textContent = scenDef(state.active).name.toUpperCase();
+  }
+
+  /* ---------- alerts ---------- */
+  function renderAlerts(proj){
+    var a = fundraisingAlert(proj.zeroCashMonth, 6, 2);
+    var banner = $('alert-banner');
+    var styles = {
+      ok:      {bd:'#38D6FF', bg:'rgba(56,214,255,.07)',  t:'#38D6FF', title:'On track — fundraising window is open later'},
+      warning: {bd:'#FFB800', bg:'rgba(255,184,0,.07)',   t:'#FFB800', title:'Fundraising window opening soon'},
+      urgent:  {bd:'#FF5A5F', bg:'rgba(255,90,95,.08)',   t:'#FF5A5F', title:'Fundraise now — the clock is almost out'},
+      none:    {bd:'#34D399', bg:'rgba(52,211,153,.07)',  t:'#34D399', title:'Default alive — no fundraise needed'}
+    };
+    var st = styles[a.status];
+    banner.style.borderColor = st.bd; banner.style.background = st.bg;
+    banner.innerHTML = '<div class="font-bold" style="color:' + st.t + '">' + esc(st.title) + '</div>' +
+                       '<div class="text-sm text-slate-300 mt-1">' + esc(a.message) + '</div>';
+    if(proj.zeroCashMonth){
+      $('zero-date').textContent = monthLabel(CUR_Y, CUR_M, proj.zeroCashMonth);
+      $('zero-sub').textContent = 'Month ' + proj.zeroCashMonth + ' · ' + scenarioShort(proj.monthsRunway) + ' total runway';
+    } else {
+      $('zero-date').textContent = 'Never';
+      $('zero-sub').textContent = 'Cash never runs out at this burn';
+    }
+    if(a.fundByMonth === null || a.fundByMonth === undefined){
+      $('fundby-date').textContent = '—'; $('fundby-countdown').textContent = '—'; $('fundby-sub').textContent = 'No deadline pressure';
+    } else if(a.fundByMonth <= 0){
+      $('fundby-date').textContent = 'NOW';
+      $('fundby-countdown').textContent = 'OVERDUE';
+      $('fundby-countdown').style.color = '#FF5A5F';
+      $('fundby-sub').textContent = 'Round should have started already';
+    } else {
+      $('fundby-date').textContent = monthLabel(CUR_Y, CUR_M, Math.max(1, a.fundByMonth));
+      $('fundby-countdown').textContent = a.fundByMonth + ' mo left';
+      $('fundby-countdown').style.color = a.status === 'warning' ? '#FFB800' : '#38D6FF';
+      $('fundby-sub').textContent = 'Until fundraising must start';
+    }
+    $('alert-message').textContent = a.message;
+  }
+
+  /* ---------- cash chart ---------- */
+  function renderChart(proj){
+    var cv = $('cash-chart');
+    var dpr = window.devicePixelRatio || 1;
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if(!w || !h) return;
+    cv.width = w * dpr; cv.height = h * dpr;
+    var ctx = cv.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+    var data = proj.series.slice(0, GRID_MONTHS);
+    var vals = data.map(function(s){ return s.cashEnd; });
+    var min = Math.min(0, Math.min.apply(null, vals));
+    var max = Math.max.apply(null, vals);
+    if(max - min < 1) max = min + 1;
+    var L = 46, R = 10, T = 12, B = 26;
+    function X(i){ return L + i * (w - L - R) / (data.length - 1); }
+    function Y(v){ return T + (1 - (v - min) / (max - min)) * (h - T - B); }
+    ctx.strokeStyle = 'rgba(148,163,184,.15)'; ctx.fillStyle = '#64748B';
+    ctx.font = '10px JetBrains Mono, monospace'; ctx.lineWidth = 1;
+    for(var g = 0; g <= 4; g++){
+      var gv = min + (max - min) * g / 4, gy = Y(gv);
+      ctx.beginPath(); ctx.moveTo(L, gy); ctx.lineTo(w - R, gy); ctx.stroke();
+      ctx.fillText(formatMoney(gv), 4, gy + 3);
+    }
+    if(min < 0){
+      ctx.setLineDash([5, 4]); ctx.strokeStyle = 'rgba(255,90,95,.6)';
+      ctx.beginPath(); ctx.moveTo(L, Y(0)); ctx.lineTo(w - R, Y(0)); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    var grad = ctx.createLinearGradient(0, T, 0, h - B);
+    grad.addColorStop(0, 'rgba(255,184,0,.30)'); grad.addColorStop(1, 'rgba(255,184,0,0)');
+    ctx.beginPath();
+    data.forEach(function(s, i){ var x = X(i), y = Y(s.cashEnd); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.strokeStyle = '#FFB800'; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.lineTo(X(data.length - 1), Y(min)); ctx.lineTo(X(0), Y(min)); ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+    ctx.fillStyle = '#64748B';
+    for(var m = 1; m <= GRID_MONTHS; m += 3){ ctx.fillText('M' + m, X(m - 1) - 8, h - 8); }
+    state.events.forEach(function(e){
+      if(e.month < 1 || e.month > GRID_MONTHS) return;
+      var s = data[e.month - 1];
+      var x = X(e.month - 1), y = Y(s.cashEnd);
+      var col = e.type === 'funding' ? '#34D399' : (e.type === 'one-off' ? '#FF5A5F' : '#38D6FF');
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 6); ctx.lineTo(x + 5, y); ctx.lineTo(x, y + 6); ctx.lineTo(x - 5, y);
+      ctx.closePath(); ctx.fill();
+    });
+  }
+
+  /* ---------- events ---------- */
+  function evIcon(t){
+    return {hire:'H', 'cost-change':'$', 'revenue-change':'R', 'one-off':'!', funding:'+'}[t] || '·';
+  }
+  function renderEventTypes(){
+    var sel = $('ev-type');
+    sel.innerHTML = eventTypes().map(function(t){
+      return '<option value="' + t.id + '">' + esc(t.name) + '</option>';
+    }).join('');
+    var upd = function(){
+      var t = eventTypeById(sel.value);
+      $('ev-type-hint').textContent = t ? t.hint : '';
+    };
+    sel.onchange = upd; upd();
+  }
+  function chipClass(t){ return t === 'funding' ? 'ev-chip funding' : (t === 'one-off' ? 'ev-chip one-off' : 'ev-chip'); }
+  function renderGrid(proj){
+    var grid = $('event-grid');
+    var data = proj.series.slice(0, GRID_MONTHS);
+    var html = '';
+    for(var m = 1; m <= GRID_MONTHS; m++){
+      var s = data[m - 1];
+      var chips = '';
+      state.events.forEach(function(e){
+        if(e.month !== m) return;
+        chips += '<span class="' + chipClass(e.type) + '" draggable="true" data-ev-id="' + esc(e.id) + '" title="' +
+                 esc(eventTypeById(e.type).name + ' · ' + formatMoney(e.amount) + (e.note ? ' · ' + e.note : '')) + '">' +
+                 evIcon(e.type) + ' ' + esc(formatMoney(e.amount)) + '</span>';
+      });
+      html += '<div class="ev-cell" data-month="' + m + '">' +
+              '<div class="text-[10px] mono text-slate-500">' + esc(monthLabel(CUR_Y, CUR_M, m)) + '</div>' +
+              '<div class="text-[11px] mono font-bold ' + (s.cashEnd < 0 ? 'text-red-400' : 'text-slate-200') + '">' + esc(formatMoney(s.cashEnd)) + '</div>' +
+              '<div>' + chips + '</div></div>';
+    }
+    grid.innerHTML = html;
+    Array.prototype.forEach.call(grid.querySelectorAll('.ev-cell'), function(cell){
+      cell.addEventListener('click', function(ev){
+        if(ev.target.closest('.ev-chip')) return;
+        $('ev-month').value = cell.dataset.month;
+        $('ev-amount').focus();
+      });
+      cell.addEventListener('dragover', function(ev){ ev.preventDefault(); cell.classList.add('drag-over'); });
+      cell.addEventListener('dragleave', function(){ cell.classList.remove('drag-over'); });
+      cell.addEventListener('drop', function(ev){
+        ev.preventDefault(); cell.classList.remove('drag-over');
+        var id = ev.dataTransfer.getData('text/plain');
+        moveEvent(id, parseInt(cell.dataset.month, 10));
+      });
+    });
+    Array.prototype.forEach.call(grid.querySelectorAll('.ev-chip'), function(chip){
+      chip.addEventListener('dragstart', function(ev){ ev.dataTransfer.setData('text/plain', chip.dataset.evId); });
+    });
+  }
+  function moveEvent(id, month){
+    for(var i = 0; i < state.events.length; i++){
+      if(state.events[i].id === id){
+        state.events[i].month = Math.max(1, Math.min(60, month));
+        state.events.sort(function(a, b){ return a.month - b.month; });
+        recalc(); return;
+      }
+    }
+  }
+  function renderList(){
+    var list = $('event-list');
+    $('ev-count').textContent = state.events.length ? '(' + state.events.length + ')' : '';
+    $('ev-empty').style.display = state.events.length ? 'none' : 'block';
+    list.innerHTML = state.events.map(function(e){
+      var t = eventTypeById(e.type);
+      return '<div class="flex items-center gap-3 rounded-lg bg-[#0B1117] border border-slate-700/50 px-3 py-2.5">' +
+        '<span class="mono text-[11px] font-bold px-2 py-1 rounded" style="background:rgba(56,214,255,.1);color:#38D6FF">M' + e.month + '</span>' +
+        '<div class="flex-1 min-w-0"><div class="text-sm font-semibold text-slate-200">' + esc(t ? t.name : e.type) + ' · ' + esc(formatMoney(e.amount)) + '</div>' +
+        (e.note ? '<div class="text-xs text-slate-500 truncate">' + esc(e.note) + '</div>' : '') + '</div>' +
+        '<button class="btn-ghost text-xs px-2.5 py-1.5" data-edit="' + esc(e.id) + '">Edit</button>' +
+        '<button class="btn-ghost text-xs px-2.5 py-1.5" data-del="' + esc(e.id) + '" aria-label="Delete event">✕</button></div>';
+    }).join('');
+    Array.prototype.forEach.call(list.querySelectorAll('[data-edit]'), function(b){
+      b.addEventListener('click', function(){ startEdit(b.dataset.edit); });
+    });
+    Array.prototype.forEach.call(list.querySelectorAll('[data-del]'), function(b){
+      b.addEventListener('click', function(){
+        state.events = state.events.filter(function(e){ return e.id !== b.dataset.del; });
+        if(state.editingId === b.dataset.del) cancelEdit();
+        recalc();
+      });
+    });
+  }
+  function showEvErrors(errs){
+    var box = $('ev-errors');
+    if(!errs.length){ box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    box.innerHTML = errs.map(esc).join('<br>');
+  }
+  function startEdit(id){
+    for(var i = 0; i < state.events.length; i++){
+      if(state.events[i].id === id){
+        var e = state.events[i];
+        state.editingId = id;
+        $('ev-type').value = e.type; $('ev-type').dispatchEvent(new Event('change'));
+        $('ev-month').value = e.month; $('ev-amount').value = e.amount; $('ev-note').value = e.note || '';
+        $('ev-form-title').textContent = 'Edit event';
+        $('ev-add-btn').textContent = 'Update event';
+        $('ev-cancel-btn').classList.remove('hidden');
+        return;
+      }
+    }
+  }
+  function cancelEdit(){
+    state.editingId = null;
+    $('ev-form-title').textContent = 'Add event';
+    $('ev-add-btn').textContent = 'Add event';
+    $('ev-cancel-btn').classList.add('hidden');
+    $('ev-month').value = '3'; $('ev-amount').value = ''; $('ev-note').value = '';
+    showEvErrors([]);
+  }
+  function submitEvent(){
+    var type = $('ev-type').value, month = $('ev-month').value, amount = $('ev-amount').value, note = $('ev-note').value;
+    var errs = validateEvent(type, month, amount);
+    showEvErrors(errs);
+    if(errs.length) return;
+    var clean = sanitizeEvents([{id: state.editingId || ('ev-' + Date.now().toString(36)), type: type, month: month, amount: amount, note: note}])[0];
+    if(state.editingId){
+      for(var i = 0; i < state.events.length; i++){
+        if(state.events[i].id === state.editingId){ state.events[i] = clean; break; }
+      }
+    } else {
+      state.events.push(clean);
+      state.events.sort(function(a, b){ return a.month - b.month; });
+    }
+    cancelEdit();
+    recalc();
+  }
+
+  /* ---------- burn multiple gauge ---------- */
+  var GAUGE_COLORS = {elite:'#34D399', good:'#FFB800', watch:'#FB923C', danger:'#FF5A5F', profitable:'#34D399', na:'#64748B'};
+  function renderGauge(){
+    var burn = parseNum($('gm-burn').value, NaN);
+    var arr = parseNum($('gm-arr').value, NaN);
+    var needle = $('gauge-needle');
+    if(!isFinite(burn) || !isFinite(arr) || burn < 0 || arr < 0){
+      $('gauge-verdict').textContent = '—';
+      $('gauge-verdict').style.color = '#64748B';
+      $('gauge-plain').textContent = 'Enter valid numbers to score your burn multiple.';
+      $('gauge-nums').textContent = '—';
+      needle.setAttribute('transform', 'rotate(-90 100 100)');
+      return;
+    }
+    var r = burnMultiple(burn * 12, arr);
+    var angle;
+    if(r.multiple === null) angle = 90;
+    else angle = -90 + Math.max(0, Math.min(4, r.multiple)) / 4 * 180;
+    needle.setAttribute('transform', 'rotate(' + angle + ' 100 100)');
+    $('gauge-verdict').textContent = r.verdict + (r.multiple !== null ? ' · ' + r.spendPerDollar : '');
+    $('gauge-verdict').style.color = GAUGE_COLORS[r.band];
+    $('gauge-plain').textContent = r.plain;
+    $('gauge-nums').textContent = 'ANNUAL NET BURN ' + formatMoney(burn * 12) + ' · NET NEW ARR ' + formatMoney(arr);
+  }
+
+  /* ---------- scenarios ---------- */
+  function renderScenarios(){
+    var cfgs = SCEN_DEFS.map(function(d){ return scenarioConfig(d.id); });
+    var cmp = scenarioCompare(cfgs, PROJ_MONTHS);
+    var best = cmp.length ? cmp[0].name : null;
+    var byName = {};
+    cmp.forEach(function(c){ byName[c.name] = c; });
+
+    $('scenario-cards').innerHTML = SCEN_DEFS.map(function(d){
+      var c = byName[d.name];
+      var adj = state.adjustments[d.id];
+      var zeroTxt = c.zeroCashMonth ? monthLabel(CUR_Y, CUR_M, c.zeroCashMonth) : 'Never';
+      return '<div class="sc-card panel p-4 ' + (state.active === d.id ? 'active' : '') + '" data-sc="' + d.id + '">' +
+        '<div class="flex items-center justify-between mb-1">' +
+          '<div class="font-bold text-white">' + esc(d.name) + '</div>' +
+          (c.name === best ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:rgba(52,211,153,.15);color:#34D399">LONGEST RUNWAY</span>' : '') +
+        '</div>' +
+        '<div class="text-xs text-slate-500 mb-3">' + esc(d.desc) + (state.active === d.id ? ' · <span style="color:#FFB800">ON BOARD</span>' : '') + '</div>' +
+        '<div class="mono text-3xl font-bold mb-1" style="color:' + (!isFinite(c.monthsRunway) || c.monthsRunway >= 12 ? '#6EE7B7' : (c.monthsRunway >= 6 ? '#FFB800' : '#FF5A5F')) + '">' + scenarioShort(c.monthsRunway) + '</div>' +
+        '<div class="text-xs text-slate-500 mb-3">Zero cash: ' + esc(zeroTxt) + ' · Net burn ' + esc(formatMoney(c.netBurn)) + '/mo</div>' +
+        '<label class="lbl">Burn adjust: <span class="mono" id="sc-burn-v-' + d.id + '">' + adj.burnPct + '%</span></label>' +
+        '<input type="range" min="-50" max="50" value="' + adj.burnPct + '" data-adj="burnPct" data-sc="' + d.id + '" class="w-full mb-2">' +
+        '<label class="lbl">Revenue adjust: <span class="mono" id="sc-rev-v-' + d.id + '">' + adj.revPct + '%</span></label>' +
+        '<input type="range" min="-50" max="50" value="' + adj.revPct + '" data-adj="revPct" data-sc="' + d.id + '" class="w-full mb-2">' +
+        '<label class="lbl">Cash injection ($)</label>' +
+        '<input type="text" inputmode="decimal" value="' + adj.cashDelta + '" data-adj="cashDelta" data-sc="' + d.id + '" class="field mono text-sm" placeholder="0">' +
+      '</div>';
+    }).join('');
+
+    var maxM = 0;
+    cmp.forEach(function(c){ var m = isFinite(c.monthsRunway) ? c.monthsRunway : 0; if(m > maxM) maxM = m; });
+    if(maxM <= 0) maxM = 1;
+    $('scenario-compare').innerHTML = cmp.map(function(c){
+      var m = isFinite(c.monthsRunway) ? c.monthsRunway : maxM;
+      var pct = Math.max(2, Math.round(m / maxM * 100));
+      return '<div class="flex items-center gap-3">' +
+        '<div class="w-24 text-sm font-semibold text-slate-200 shrink-0">' + esc(c.name) + '</div>' +
+        '<div class="flex-1 h-7 rounded-md bg-[#0B1117] border border-slate-700/50 overflow-hidden">' +
+          '<div class="h-full rounded-md flex items-center justify-end pr-2 mono text-[11px] font-bold text-[#0F1419]" style="width:' + pct + '%;background:linear-gradient(90deg,#FFB800,#38D6FF)">' + esc(scenarioShort(c.monthsRunway)) + '</div>' +
+        '</div></div>';
+    }).join('');
+
+    Array.prototype.forEach.call($('scenario-cards').querySelectorAll('.sc-card'), function(card){
+      card.addEventListener('click', function(ev){
+        if(ev.target.closest('input')) return;
+        state.active = card.dataset.sc;
+        recalc();
+      });
+    });
+    Array.prototype.forEach.call($('scenario-cards').querySelectorAll('input[data-adj]'), function(inp){
+      inp.addEventListener('input', function(){
+        var id = inp.dataset.sc, k = inp.dataset.adj;
+        var v = k === 'cashDelta' ? parseNum(inp.value, 0) : parseNum(inp.value, 0);
+        state.adjustments[id][k] = v;
+        if(k === 'burnPct'){ var b = $('sc-burn-v-' + id); if(b) b.textContent = v + '%'; }
+        if(k === 'revPct'){ var r = $('sc-rev-v-' + id); if(r) r.textContent = v + '%'; }
+        recalc();
+      });
+    });
+  }
+
+  /* ---------- master recalc ---------- */
+  function recalc(){
+    var b = readBase();
+    var errs = validateInputs($('in-cash').value, $('in-burn').value, $('in-revenue').value);
+    var box = $('input-errors');
+    if(errs.length){
+      box.classList.remove('hidden');
+      box.innerHTML = errs.map(function(e){ return esc(e.message); }).join('<br>');
+    } else box.classList.add('hidden');
+    var proj = project(state.active);
+    renderBoard(proj);
+    renderAlerts(proj);
+    renderChart(proj);
+    renderGrid(proj);
+    renderList();
+    renderScenarios();
+    save();
+  }
+
+  /* ---------- wiring ---------- */
+  function stopPlay(){
+    state.playing = false;
+    if(state.playTimer){ clearInterval(state.playTimer); state.playTimer = null; }
+    $('btn-play').textContent = '▶ PLAY';
+  }
+  function init(){
+    $('today-label').textContent = 'TODAY · ' + monthLabel(CUR_Y, CUR_M, 0).toUpperCase();
+    var had = load();
+    renderEventTypes();
+    if(!had){
+      var b = readBase();
+      $('gm-burn').value = Math.max(0, b.monthlyBurn - b.monthlyRevenue);
+    }
+    ['in-cash','in-burn','in-revenue'].forEach(function(id){
+      $(id).addEventListener('input', function(){ stopPlay(); recalc(); });
+    });
+    ['gm-burn','gm-arr'].forEach(function(id){
+      $(id).addEventListener('input', function(){ renderGauge(); save(); });
+    });
+    $('btn-prev').addEventListener('click', function(){ stopPlay(); state.viewMonth--; recalc(); });
+    $('btn-next').addEventListener('click', function(){ stopPlay(); state.viewMonth++; recalc(); });
+    $('btn-play').addEventListener('click', function(){
+      if(state.playing){ stopPlay(); return; }
+      state.playing = true;
+      $('btn-play').textContent = '⏸ STOP';
+      state.playTimer = setInterval(function(){
+        var proj = project(state.active);
+        if(state.viewMonth >= proj.series.length){ stopPlay(); return; }
+        state.viewMonth++;
+        renderBoard(proj);
+      }, 1300);
+    });
+    $('ev-add-btn').addEventListener('click', submitEvent);
+    $('ev-cancel-btn').addEventListener('click', cancelEdit);
+    var rsz = null;
+    window.addEventListener('resize', function(){
+      if(rsz) clearTimeout(rsz);
+      rsz = setTimeout(function(){ renderChart(project(state.active)); }, 150);
+    });
+    recalc();
+    renderGauge();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>
