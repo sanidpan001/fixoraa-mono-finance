@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Affordability Calculator — What House Can You Afford?</title>
+<meta name="description" content="Estimate the home price you can afford from income, debts, down payment and mortgage rate with the free HomeAfford calculator.">
+<link rel="canonical" href="https://finance.fixoraa.tech/homeafford/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Home Affordability Calculator — What House Can You Afford?">
+<meta property="og:description" content="Estimate the home price you can afford from income, debts, down payment and mortgage rate with the free HomeAfford calculator.">
+<meta property="og:url" content="https://finance.fixoraa.tech/homeafford/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "HomeAfford",
+      "url": "https://finance.fixoraa.tech/homeafford/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Estimate the home price you can afford from income, debts, down payment and mortgage rate with the free HomeAfford calculator.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the 28 percent rule?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It says housing costs should not exceed 28 percent of gross monthly income. It is a long-standing underwriting guideline that leaves room for other expenses and emergencies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the bank's approved amount the same as affordable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Banks often approve more than is comfortable. This calculator's figure is a conservative affordability estimate, not a lending decision."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do debts really affect affordability that much?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every dollar of monthly debt reduces the mortgage payment you can carry, which reduces the loan amount and therefore the affordable price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use a 15-year or 30-year term?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 30-year term gives a higher affordable price but far more total interest. A 15-year term builds equity faster. Compare both and only choose the shorter term if its payment still fits the 28 percent rule."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about taxes and insurance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Property tax and homeowner's insurance are real monthly housing costs. If they are large in your area, treat the calculator's price as an upper bound and shop below it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the interest rate change the result?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Higher rates shrink the loan a given payment supports, so the affordable price falls even when income is unchanged. Test a rate one or two points higher as a stress check."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a bigger down payment help?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, dollar for dollar: price equals loan plus down payment. A down payment of 20 percent or more can also eliminate private mortgage insurance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I afford a home on one income?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the same calculation with one income. If the payment fits the 28 percent rule on one income, the purchase is resilient to a job change or career break."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#EAF2FF; --surface:#FFFFFF; --accent:#1D4ED8; --accent-ink:#FFFFFF;
+  --ink:#17233B; --muted:#3E4F6E; --line:#C9D9F2;
+  --display:'Playfair Display',serif; --body:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+
+.tool-card{max-width:46rem;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:0 10px 30px rgba(0,0,0,.07)}
+.tool-card h1{font-family:var(--display);font-size:1.9rem;line-height:1.2;margin-bottom:.4rem;letter-spacing:-.01em}
+.tool-card .lead{color:var(--muted);margin-bottom:1.2rem}
+.tool-card label{display:block;font-weight:600;margin:.9rem 0 .3rem}
+.tool-card input,.tool-card select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);color:var(--ink);min-height:44px}
+.tool-card .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tool-card button.calc{margin-top:1.2rem;width:100%;padding:.85rem;border:none;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px}
+.tool-card button.calc:hover{filter:brightness(.94)}
+.presets{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.presets button{padding:.5rem 1rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px}
+.presets button:hover{background:var(--accent);color:var(--accent-ink)}
+.result{margin-top:1.2rem;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:1.1rem;font-size:1.05rem}
+.result strong{font-size:1.3rem}
+.mini-btn{margin-top:.7rem;padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;min-height:40px}
+.hist{margin-top:1rem;color:var(--muted);font-size:.95rem}
+.hist ul{padding-left:1.2rem}
+@media (max-width:640px){.tool-card{padding:1rem;border-radius:16px}.tool-card h1{font-size:1.45rem}.tool-card .row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="HomeAfford home">
+      <span class="fx-logo-tile" aria-hidden="true">🏠</span>
+      <span class="fx-brand">HomeAfford</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-home-key" aria-label="HomeAfford tool">
+
+<div class="tool-card">
+<h1>Home Affordability Calculator</h1>
+<p class="lead">Find the home price you can carry comfortably — not just the one a bank approves.</p>
+<div class="presets">
+<button type="button" data-preset='{"income":"120000","debts":"500","down":"40000","rate":"6.5","years":"30"}'>Typical buyer</button>
+<button type="button" data-preset='{"income":"60000","debts":"0","down":"20000","rate":"5","years":"30"}'>First home</button>
+</div>
+<div class="row">
+<div><label for="income">Gross annual income ($)</label><input id="income" type="number" value="120000" min="0"></div>
+<div><label for="debts">Monthly debt payments ($)</label><input id="debts" type="number" value="500" min="0"></div>
+</div>
+<div class="row">
+<div><label for="down">Down payment ($)</label><input id="down" type="number" value="40000" min="0"></div>
+<div><label for="rate">Mortgage rate (% per year)</label><input id="rate" type="number" value="6.5" min="0" step="0.1"></div>
+</div>
+<label for="years">Loan term (years)</label>
+<input id="years" type="number" value="30" min="1" max="40">
+<button class="calc" id="calcBtn" type="button">Calculate affordability</button>
+<div class="result" id="result" aria-live="polite"></div>
+<button class="mini-btn" id="copyBtn" type="button">Copy result</button>
+<div class="hist" id="hist"></div>
+</div>
+
+  </section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+
+<h2>What home affordability really means</h2>
+<p>Home affordability is not the same as the mortgage a bank will approve. Lenders often approve loans up to the maximum your income can technically service, but that maximum leaves little room for life: repairs, a broken car, a job change, or simply enjoying your weekends. A sensible affordability calculation starts from a conservative rule — housing costs should take no more than 28 percent of your gross monthly income — then subtracts your existing monthly debts, and converts what remains into the largest home price you can carry comfortably. That number, not the bank's ceiling, is the price you should shop at. The difference between the two figures is your safety margin, and it is what keeps a home a source of security rather than a source of stress.</p>
+<p>This distinction matters because a mortgage lasts decades while incomes fluctuate. A payment that feels easy in a dual-income year can become crushing after a career break, a child, or a move to part-time work. Shopping below your maximum also preserves your ability to save, invest, and handle emergencies without raiding retirement funds. Many buyers who stretched to the approved limit discover within two years that they are house-rich and cash-poor, unable to furnish rooms, maintain the property, or take a holiday. Affordability done properly protects the life you want to live inside the house, not just the purchase itself.</p>
+<h2>How the calculation works</h2>
+<p>First, your gross monthly income is computed by dividing annual income by twelve, and 28 percent of that figure becomes your maximum housing payment. This is the classic front-end ratio used by mortgage underwriters for generations, and it has survived because it works: at or below 28 percent, most households can absorb the other costs of ownership without strain. Next, your existing monthly debt payments — car loans, student loans, credit card minimums — are subtracted, because those obligations compete for the same income. What remains is the monthly amount available for a mortgage payment. That payment is then converted into a loan amount using the standard amortisation formula: the loan equals the payment multiplied by the present-value factor of an annuity at your interest rate over your loan term. Finally, your down payment is added, because the home price equals the loan plus the cash you bring to closing.</p>
+<p>Two inputs deserve special care. The interest rate should be the rate you realistically expect, not a teaser rate, and testing a rate one or two points higher shows how exposed you are if rates rise before you lock in. The loan term matters just as much: a 30-year term produces a higher affordable price than a 15-year term, but it also means paying far more interest overall and building equity much more slowly. A higher affordable price is not automatically better — it is simply the arithmetic of stretching payments over more years. Compare the 15-year and 30-year results side by side before deciding which trade-off suits your plans.</p>
+<h2>Reading your results</h2>
+<table><tr><th>Figure</th><th>What it means</th><th>How to use it</th></tr>
+<tr><td>Maximum monthly housing payment</td><td>28 percent of gross monthly income</td><td>Your ceiling for mortgage, tax, and insurance combined</td></tr>
+<tr><td>Affordable home price</td><td>Loan you can carry plus your down payment</td><td>Shop at or below this price, not at the bank's approval</td></tr>
+<tr><td>Effect of debts</td><td>Every dollar of monthly debt reduces the loan</td><td>Paying off a car loan before buying can raise your price more than saving longer</td></tr></table>
+<p>Worked example: with 120,000 annual income, 500 in monthly debts, a 40,000 down payment, a 6.5 percent rate, and a 30-year term, the maximum housing payment is 2,800, leaving 2,300 available for the mortgage after debts. That supports a loan of roughly 364,000, giving an affordable price near 404,000. Drop the debts to zero and the same income supports a noticeably higher price; raise the rate to 8 percent and the affordable price falls sharply even though nothing else changed. These sensitivities are the point: affordability is a moving target driven by rates and debts, not a fixed property of your salary.</p>
+<h2>Costs the calculator does not include</h2>
+<p>Be honest about what sits outside this calculation. Property taxes and homeowner's insurance are part of the true monthly housing cost, and in high-tax areas they can add hundreds to the payment — if your 28 percent figure is consumed by mortgage principal and interest alone, you are already over budget. Private mortgage insurance applies when the down payment is below 20 percent. Homeowner association dues, maintenance (budget roughly 1 percent of the home's value per year), utilities for a larger space, and closing costs all sit on top. A prudent buyer therefore treats the calculator's price as an upper bound and shops slightly below it, reserving the difference for the costs of actually living in the home.</p>
+<h3>Five moves that raise what you can afford</h3>
+<ul>
+<li>Pay down monthly debts before applying — each 100 of debt retired can add roughly 20,000 to 25,000 of loan capacity at typical rates.</li>
+<li>Grow the down payment — it raises the price dollar for dollar and can eliminate mortgage insurance.</li>
+<li>Improve your credit score — even a half-point rate improvement meaningfully lifts the affordable price.</li>
+<li>Choose a shorter commute or a lower-tax area — the same house can cost far less per month across a county line.</li>
+<li>Consider a 15-year term only if the payment still fits the 28 percent rule; otherwise the longer term is the safer choice.</li>
+</ul>
+<h2>A final word of caution</h2>
+<p>Affordability calculators assume stable income and a fixed rate, but life is neither. Before committing, stress-test the result: could you still make the payment on one income for six months? Could you handle a two-point rate rise if you buy with an adjustable loan? Would a 10,000 emergency repair force you into debt? If any answer is no, the affordable price is lower than the calculator says, and that is useful knowledge — it tells you to save longer, buy smaller, or wait for better terms. A home should expand your options, not consume them, and the discipline of buying within a conservative number is what makes that true for decades rather than for the first year alone.</p>
+
+<h2>Down payment strategies that actually work</h2>
+<p>The down payment is the most flexible part of the affordability equation, because unlike your income or the interest rate, it responds directly to saving behaviour. The classic target is 20 percent, which avoids private mortgage insurance and signals financial strength to lenders, but it is not a law — many buyers succeed with 10 percent, 5 percent, or even less through first-time buyer programmes, and waiting years to reach 20 percent while prices rise can cost more than the insurance it avoids. The right target balances three things: the insurance cost of a smaller deposit, the time cost of saving longer, and the risk of draining every spare dollar to close, leaving nothing for moving costs, furniture, and the inevitable first-year repairs. A buyer who puts down 20 percent but holds zero reserves is more fragile than a buyer who puts down 10 percent and keeps six months of payments in reserve.</p>
+<p>Practical saving tactics beat vague intentions. Automate a fixed transfer on payday into a separate high-yield account, so the deposit grows before discretionary spending can claim it. Direct windfalls — bonuses, tax refunds, side income — straight to the deposit fund rather than letting them dissolve into lifestyle spending. Review the fund quarterly against current prices in your target area, because a deposit that was adequate last year may lag a rising market, and adjusting the monthly saving early is far easier than discovering the gap at offer time. Remember also that the deposit is not the only cash needed at closing: budget a further 2 to 5 percent of the price for closing costs, inspections, and moving, and treat the calculator's affordable price as achievable only when both pots are funded.</p>
+
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is the 28 percent rule?</summary><p>It says housing costs should not exceed 28 percent of gross monthly income. It is a long-standing underwriting guideline that leaves room for other expenses and emergencies.</p></details>
+<details><summary>Is the bank&#x27;s approved amount the same as affordable?</summary><p>No. Banks often approve more than is comfortable. This calculator's figure is a conservative affordability estimate, not a lending decision.</p></details>
+<details><summary>Do debts really affect affordability that much?</summary><p>Yes. Every dollar of monthly debt reduces the mortgage payment you can carry, which reduces the loan amount and therefore the affordable price.</p></details>
+<details><summary>Should I use a 15-year or 30-year term?</summary><p>A 30-year term gives a higher affordable price but far more total interest. A 15-year term builds equity faster. Compare both and only choose the shorter term if its payment still fits the 28 percent rule.</p></details>
+<details><summary>What about taxes and insurance?</summary><p>Property tax and homeowner's insurance are real monthly housing costs. If they are large in your area, treat the calculator's price as an upper bound and shop below it.</p></details>
+<details><summary>How does the interest rate change the result?</summary><p>Higher rates shrink the loan a given payment supports, so the affordable price falls even when income is unchanged. Test a rate one or two points higher as a stress check.</p></details>
+<details><summary>Does a bigger down payment help?</summary><p>Yes, dollar for dollar: price equals loan plus down payment. A down payment of 20 percent or more can also eliminate private mortgage insurance.</p></details>
+<details><summary>Can I afford a home on one income?</summary><p>Use the same calculation with one income. If the payment fits the 28 percent rule on one income, the purchase is resilient to a job change or career break.</p></details>
+  </section>
+</main>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">HomeAfford</div>
+    <p>HomeAfford turns your income, debts and down payment into a realistic home price.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+function calcHomeAfford(annualIncome, monthlyDebts, downPayment, ratePct, years) {
+  var maxPay = annualIncome / 12 * 0.28;
+  var avail = maxPay - monthlyDebts;
+  if (avail <= 0) { return { maxMonthlyPayment: Math.round(maxPay * 100) / 100, affordablePrice: downPayment }; }
+  var r = ratePct / 100 / 12;
+  var n = years * 12;
+  var factor = (1 - Math.pow(1 + r, -n)) / r;
+  return { maxMonthlyPayment: Math.round(maxPay * 100) / 100, affordablePrice: Math.round(avail * factor + downPayment) };
+}
+if (typeof document !== 'undefined') {
+  function runCalc() {
+    var income = parseFloat(document.getElementById('income').value) || 0;
+    var debts = parseFloat(document.getElementById('debts').value) || 0;
+    var down = parseFloat(document.getElementById('down').value) || 0;
+    var rate = parseFloat(document.getElementById('rate').value) || 0;
+    var years = parseFloat(document.getElementById('years').value) || 0;
+    var r = calcHomeAfford(income, debts, down, rate, years);
+    var out = '<strong>Affordable home price: $' + r.affordablePrice.toLocaleString() + '</strong><br>Max monthly housing payment (28% rule): $' + r.maxMonthlyPayment.toLocaleString() + '.';
+    document.getElementById('result').innerHTML = out;
+    try {
+      var h = JSON.parse(localStorage.getItem('fx_hist') || '[]');
+      h.unshift(out.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140));
+      localStorage.setItem('fx_hist', JSON.stringify(h.slice(0, 5)));
+      document.getElementById('hist').innerHTML = '<strong>Recent:</strong><ul>' + h.map(function(x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    } catch (e) {}
+  }
+  document.getElementById('calcBtn').addEventListener('click', runCalc);
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    var t = document.getElementById('result').innerText || '';
+    try { navigator.clipboard.writeText(t); } catch (e) {}
+  });
+  var ps = document.querySelectorAll('[data-preset]');
+  ps.forEach(function(b) {
+    b.addEventListener('click', function() {
+      var p = JSON.parse(b.getAttribute('data-preset'));
+      Object.keys(p).forEach(function(k) { var el = document.getElementById(k); if (el) el.value = p[k]; });
+      runCalc();
+    });
+  });
+  runCalc();
+}
+</script>
+</body>
+</html>
