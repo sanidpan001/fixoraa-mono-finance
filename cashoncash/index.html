@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cash-on-Cash Return Calculator — Real Estate ROI | CashOnCash</title>
+<meta name="description" content="Cash-on-cash return with true cash invested and year-1 cash flow.">
+<link rel="canonical" href="https://finance.fixoraa.tech/cashoncash/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Cash-on-Cash Return Calculator — Real Estate ROI | CashOnCash">
+<meta property="og:description" content="Cash-on-cash return with true cash invested and year-1 cash flow.">
+<meta property="og:url" content="https://finance.fixoraa.tech/cashoncash/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "CashOnCash",
+      "url": "https://finance.fixoraa.tech/cashoncash/",
+      "applicationCategory": "Finance Tools",
+      "operatingSystem": "Web",
+      "description": "Cash-on-cash return with true cash invested and year-1 cash flow.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is cash-on-cash return?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Cash-on-cash return is your annual pre-tax cash flow divided by the total cash you invested, expressed as a percentage. Cash flow is rental income minus all operating expenses and mortgage payments; cash invested is your down payment plus closing costs, rehab and reserves." } },
+        { "@type": "Question", "name": "What is a good cash-on-cash return?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Many investors target 8 to 12 percent, but the right hurdle depends on your market, leverage and alternatives. In expensive coastal markets 4 to 6 percent can be acceptable if appreciation is strong; in cash-flow markets investors often demand 10 percent or more." } },
+        { "@type": "Question", "name": "How is cash-on-cash different from cap rate?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Cap rate ignores financing — it is NOI divided by price, as if you paid cash. Cash-on-cash includes your mortgage payment in the numerator and only your out-of-pocket cash in the denominator, so it reflects your actual deal structure. When loan rates are below the cap rate, leverage pushes cash-on-cash above the cap rate." } },
+        { "@type": "Question", "name": "Do I include closing costs in cash invested?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — every dollar that left your pocket to acquire and ready the property counts: down payment, lender and title fees, prepaid escrows, renovation costs and any cash reserves you set aside. Skipping these is the most common way investors overstate their return." } },
+        { "@type": "Question", "name": "Can cash-on-cash return be negative?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, and it is common when interest rates exceed the property's cap rate. Negative cash flow means you are feeding the property each month. Some investors accept this temporarily for appreciation, but you should know the exact monthly shortfall before you sign." } },
+        { "@type": "Question", "name": "Does cash-on-cash include appreciation or tax benefits?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. It measures only the cash yield in year one. Appreciation, mortgage principal paydown and depreciation tax shields are real returns, but they belong in a multi-year IRR analysis, not in cash-on-cash." } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#F9E1F8; --surface:#FFFFFF; --tint:#F4D2F2;
+  --accent:#84157F; --accent-deep:#12584F; --accent-ink:#FFFFFF;
+  --ink:#1C2725; --muted:#4C5C59; --line:#CBE3E0;
+  --display:'Bitter',Georgia,serif; --body:'Bitter',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.7;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+/* header — ticket stub masthead */
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:46px;height:40px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;position:relative}
+.fx-tile::before,.fx-tile::after{content:"";position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:var(--surface);transform:translateY(-50%)}
+.fx-tile::before{left:-6px}.fx-tile::after{right:-6px}
+.fx-name{font-weight:800;font-size:21px;letter-spacing:-.01em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;background:var(--surface);border:2px solid var(--accent);color:var(--accent)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:2px dotted var(--accent)}
+/* hero */
+.co-hero{padding:44px 0 4px;text-align:center}
+.co-eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--surface);border:1.5px solid var(--accent);padding:7px 16px;border-radius:999px;margin-bottom:14px}
+.co-hero h1{font-size:clamp(30px,4.6vw,46px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin-bottom:10px}
+.co-hero p{font-size:17.5px;color:var(--muted);max-width:660px;margin:0 auto}
+/* sources & uses */
+.co-books{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:28px 0 0}
+.co-book{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(29,124,114,.08)}
+.co-book-head{padding:15px 22px;background:var(--accent);color:#fff;display:flex;justify-content:space-between;align-items:center}
+.co-book-head h2{font-size:17px;font-weight:800}
+.co-book-head span{font-size:13px;opacity:.9}
+.co-book table{width:100%;border-collapse:collapse;font-size:15px}
+.co-book td{padding:8px 22px;border-bottom:1px dashed var(--line);vertical-align:middle}
+.co-book tr:last-child td{border-bottom:0}
+.co-book tr.total td{background:var(--tint);font-weight:800;font-size:16.5px;color:var(--accent-deep)}
+.co-book input{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;width:120px;text-align:right;background:#fff;color:var(--ink)}
+.co-book input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.co-book .lbl{color:var(--muted)}
+.co-book select{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+/* result band */
+.co-band{margin:22px 0 8px;background:linear-gradient(135deg,var(--accent-deep),var(--accent));border-radius:18px;color:#fff;padding:30px 28px;box-shadow:0 16px 36px rgba(18,88,79,.28)}
+.co-band-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:26px;align-items:center}
+.co-dial{text-align:center}
+.co-dial .pct{font-size:clamp(44px,6vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.co-dial .cap{font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.92;margin-top:8px}
+.co-dial .sub{font-size:14px;opacity:.85;margin-top:6px}
+.co-vs{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.16);border:2px dashed rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;font-style:italic}
+.co-note{margin-top:18px;background:rgba(255,255,255,.12);border-radius:12px;padding:14px 18px;font-size:14.5px}
+/* article */
+.article-sec{margin:42px 0;max-width:780px}
+.article-sec h2{font-size:25px;letter-spacing:-.02em;margin:36px 0 12px;font-weight:800;color:var(--accent-deep)}
+.article-sec p{margin-bottom:15px;color:#2a3533}
+.article-sec ul,.article-sec ol{margin:0 0 15px 22px;color:#2a3533}
+.article-sec li{margin-bottom:7px}
+/* faq */
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--accent-deep)}
+.faq-sec details{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.faq-sec summary{padding:15px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::before{content:"$";display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--tint);color:var(--accent-deep);text-align:center;font-weight:800;margin-right:10px;font-size:14px;line-height:26px}
+.faq-sec details[open] summary{color:var(--accent-deep)}
+.faq-sec details p{padding:0 18px 15px;color:#2a3533;font-size:15px}
+/* footer */
+.fx-footer{background:#0f2724;color:#d9efec;margin-top:46px;padding:42px 0 36px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#a4c6c1;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#8fd6cc;font-weight:700}
+@media(max-width:820px){
+  .co-books{grid-template-columns:1fr}
+  .co-band-grid{grid-template-columns:1fr}
+  .co-vs{margin:0 auto}
+  .fx-nav{margin-left:0}
+  .co-book input{width:104px}
+  .co-book td{padding:8px 14px}
+}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/cashoncash/" aria-label="CashOnCash home">
+      <span class="fx-tile" aria-hidden="true">$</span>
+      <span class="fx-name">CashOnCash</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="co-hero">
+    <span class="co-eyebrow">Deal desk &middot; Cash returns</span>
+    <h1>Cash-on-Cash Return Calculator</h1>
+    <p>Count every dollar that leaves your pocket, count every dollar that comes back, and get the one percentage that tells you what your cash actually earns.</p>
+  </section>
+
+  <section aria-label="CashOnCash tool">
+    <div class="co-books">
+      <div class="co-book">
+        <div class="co-book-head"><h2>Cash invested</h2><span>every dollar out of pocket</span></div>
+        <table>
+          <tr><td class="lbl">Purchase price</td><td style="text-align:right">$<input type="number" id="co-price" value="220000" min="1" step="1000" aria-label="Purchase price"></td></tr>
+          <tr><td class="lbl">Down payment</td><td style="text-align:right"><input type="number" id="co-downpct" value="25" min="0" max="100" step="1" aria-label="Down payment percent"> % <span style="color:var(--muted);font-size:13px" id="co-downamt">($55,000)</span></td></tr>
+          <tr><td class="lbl">Closing costs</td><td style="text-align:right">$<input type="number" id="co-close" value="6000" min="0" step="100" aria-label="Closing costs"></td></tr>
+          <tr><td class="lbl">Renovation / rehab</td><td style="text-align:right">$<input type="number" id="co-rehab" value="8000" min="0" step="100" aria-label="Rehab costs"></td></tr>
+          <tr><td class="lbl">Cash reserves set aside</td><td style="text-align:right">$<input type="number" id="co-resv" value="4000" min="0" step="100" aria-label="Reserves"></td></tr>
+          <tr class="total"><td>Total cash invested</td><td style="text-align:right" id="co-invested">$73,000</td></tr>
+        </table>
+      </div>
+      <div class="co-book">
+        <div class="co-book-head"><h2>Year-1 cash flow</h2><span>every dollar back</span></div>
+        <table>
+          <tr><td class="lbl">Monthly rent</td><td style="text-align:right">$<input type="number" id="co-rent" value="2000" min="0" step="25" aria-label="Monthly rent"></td></tr>
+          <tr><td class="lbl">Vacancy</td><td style="text-align:right"><input type="number" id="co-vac" value="5" min="0" max="50" step="0.5" aria-label="Vacancy percent"> %</td></tr>
+          <tr><td class="lbl">Annual expenses (tax, ins, maint&hellip;)</td><td style="text-align:right">$<input type="number" id="co-exp" value="7320" min="0" step="50" aria-label="Annual expenses"></td></tr>
+          <tr><td class="lbl">Loan rate</td><td style="text-align:right"><input type="number" id="co-rate" value="6.5" min="0" max="20" step="0.125" aria-label="Loan rate"> % · <input type="number" id="co-yrs" value="30" min="1" max="40" step="1" style="width:58px" aria-label="Loan years"> yr</td></tr>
+          <tr><td class="lbl">Monthly mortgage (P&amp;I)</td><td style="text-align:right" id="co-pmt">$1,043</td></tr>
+          <tr class="total"><td>Annual cash flow</td><td style="text-align:right" id="co-cf">$2,965</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="co-band" aria-live="polite">
+      <div class="co-band-grid">
+        <div class="co-dial">
+          <div class="pct" id="co-coc">4.06%</div>
+          <div class="cap">Cash-on-cash return</div>
+          <div class="sub" id="co-cocsub">$2,965 a year on $73,000 invested</div>
+        </div>
+        <div class="co-vs" aria-hidden="true">vs</div>
+        <div class="co-dial">
+          <div class="pct" id="co-cap">7.04%</div>
+          <div class="cap">Cap rate (unleveraged)</div>
+          <div class="sub" id="co-capsub">$15,480 NOI on a $220,000 price</div>
+        </div>
+      </div>
+      <div class="co-note" id="co-note"><strong>Positive leverage:</strong> your loan rate (6.50%) sits below the cap rate (7.04%), so borrowing lifts your cash-on-cash return above the property's unleveraged yield.</div>
+    </div>
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+    <h2>Cash-on-Cash: The Number Your Bank Account Feels</h2>
+    <p>Cap rate judges the property. <strong>Cash-on-cash return judges your deal.</strong> It answers the question every investor actually cares about at the kitchen table: <em>I am wiring $73,000 out of my savings — how much cash lands back in my account each year?</em> Divide year-one cash flow by total cash invested and you have it. In the example above, $2,965 of annual cash flow on $73,000 invested is a 4.06% cash-on-cash return. Simple, personal, and impossible to fudge once both halves are counted honestly.</p>
+    <p>The metric's honesty comes from its denominator. Cap rate divides by the full purchase price, as if you paid cash. Cash-on-cash divides by the cash you actually deployed — down payment, closing costs, renovation, reserves. That makes it the right tool for comparing leveraged deals against each other and against non-real-estate alternatives like bonds or dividend stocks, where the "cash invested" concept is identical.</p>
+    <h2>Counting True Cash Invested</h2>
+    <p>The most common cash-on-cash error is a light denominator. Investors divide by the down payment and stop, which flatters every deal. The calculator above forces the full accounting: <strong>down payment</strong> (your equity on day one), <strong>closing costs</strong> (lender fees, title, escrow — typically 2 to 5 percent of price), <strong>renovation</strong> (the rehab budget you will actually spend before or just after closing), and <strong>reserves</strong> (the vacancy-and-repair cushion smart investors set aside). Skip any of these and your return is a fantasy — the money left your account whether or not it appears in the formula.</p>
+    <p>Two judgment calls deserve attention. First, <strong>reserves</strong>: counting three to six months of expenses as "invested" lowers your stated return, but that cash is genuinely committed to the deal and unavailable for other investments. Second, <strong>sweat equity</strong>: if you do the rehab yourself, the honest denominator includes the market value of that labor or at least the materials — otherwise you are paying yourself an invisible wage and calling it return.</p>
+    <h2>Building Year-One Cash Flow</h2>
+    <p>The numerator is net operating income minus debt service. Start with gross rent, subtract vacancy (5 to 10 percent, or trailing actuals), subtract the full operating expense stack — taxes, insurance, maintenance, management, HOA, utilities you cover — and then subtract the <strong>annual mortgage payment</strong> (principal and interest). What remains is the cash the property throws off after everyone else is paid. In the worked example: $24,000 rent, minus $1,200 vacancy, minus $7,320 expenses gives $15,480 NOI; minus $12,515 of annual debt service leaves $2,965.</p>
+    <p>Notice what is <em>not</em> subtracted: income taxes and depreciation. Cash-on-cash is a <strong>pre-tax</strong> metric by convention — your tax bracket changes the after-tax number, and depreciation shields vary by owner. Also not subtracted: the principal portion of your mortgage is not an "expense" in the economic sense (it builds your equity), but it <em>is</em> cash out the door, so it stays in the payment for cash-flow purposes. This is a cash metric, not an accounting metric.</p>
+    <h2>Leverage: The Amplifier in Both Directions</h2>
+    <p>Here is the relationship that governs every financed deal: <strong>when your interest rate is below the cap rate, leverage amplifies your cash-on-cash return above the cap rate (positive leverage); when rates exceed the cap rate, leverage drags it below (negative leverage).</strong> The example shows the happy case: a 7.04% cap rate financed at 6.5% produces a 4.06% cash-on-cash — wait, that is <em>below</em> the cap rate. Why?</p>
+    <p>Because positive leverage needs the rate below the cap rate <em>and</em> enough spread to overcome the math of the down payment. At 6.5% versus 7.04%, the spread is thin, and the debt service still consumes most of the NOI — the return lands below the unleveraged yield. Widen the spread (cheaper debt, higher cap) and cash-on-cash climbs past the cap rate; narrow it and leverage becomes a headwind. In high-rate environments, many 5%-cap deals show <em>negative</em> cash flow — the property is sound, the financing is expensive. The calculator's side-by-side dials make this visible instantly: if the teal number trails the white one by a lot, your loan is eating your lunch.</p>
+    <h2>What Is a Good Cash-on-Cash Return?</h2>
+    <p>Targets vary by strategy. <strong>Cash-flow investors</strong> in Midwest and Southern markets often demand 10 to 12 percent or they walk. <strong>Balanced investors</strong> accept 7 to 9 percent with some appreciation expected. <strong>Appreciation-market buyers</strong> on the coasts may accept 4 to 6 percent — or even break-even — betting that rent growth and price gains carry the total return. There is no universal hurdle; there is only your hurdle, set against your alternatives. A useful gut check: if your cash-on-cash return is below the yield on a boring bond fund with similar risk, the property needs a convincing growth story to justify itself.</p>
+    <p>Compare consistently. Cash-on-cash is a <strong>year-one</strong> metric — do not compare your stabilized year-three projection against someone else's year-one actual. And when a seller quotes a dazzling cash-on-cash figure, ask which denominator they used. Nine times out of ten, the closing costs and rehab mysteriously vanished.</p>
+    <h2>The All-Cash Edge Case</h2>
+    <p>Buy with no mortgage and something elegant happens: cash flow equals NOI, cash invested equals price plus closing costs, and <strong>cash-on-cash converges to the cap rate</strong> (slightly below it, since closing costs inflate the denominator). The calculator handles this naturally — set the down payment to 100% and the loan math drops to zero. All-cash deals are the cleanest comparison point between markets because financing differences vanish entirely.</p>
+    <h2>Mistakes That Inflate the Number</h2>
+    <p>Watch for five classic distortions. <strong>Missing expenses</strong> — no management fee, no maintenance reserve, fantasy vacancy — inflate the numerator. <strong>Light denominators</strong> — forgetting closing costs and rehab — shrink the base. <strong>Pro forma rents</strong> the property never achieved inflate year one. <strong>Interest-only math</strong> quoted as if it were a full payment understates debt service. And <strong>ignoring the refinance or rate reset</strong> — that 5% ARM becomes 8% in year three, and your cash-on-cash goes with it. Run the calculator with trailing actuals and today's real rate first; optimism gets its own scenario second.</p>
+    <h2>Beyond Year One: What Cash-on-Cash Misses</h2>
+    <p>Cash-on-cash is a snapshot, and wealth is a movie. It ignores <strong>rent growth</strong> (your return should improve yearly as rents rise against fixed debt), <strong>principal paydown</strong> (every payment quietly buys you more of the building), <strong>appreciation</strong>, and <strong>depreciation tax shields</strong> (paper losses that shelter real income). A 5% cash-on-cash deal with 3% annual rent growth and normal amortization often delivers a mid-teens internal rate of return over a decade — the year-one number was just the trailer.</p>
+    <p>Use cash-on-cash for what it is brilliant at: <strong>screening deals and comparing financing structures side by side</strong>. Should you put 20% or 30% down? Run both and watch the dials. Fifteen-year or thirty-year loan? The payment difference shows up in the numerator immediately. Then, for the final decision, graduate to a multi-year IRR that captures growth, paydown, taxes, and sale. The year-one cash yield gets you in the door; the IRR tells you whether to stay.</p>
+    <h2>Refinancing Resets the Math</h2>
+    <p>Cash-on-cash is not frozen at purchase — <strong>refinancing rewrites it</strong>. Take the worked example: a $165,000 loan at 7% costs about $1,098 a month. Refinance to 5.5% and the payment drops to roughly $937 — about $161 a month, or $1,930 a year, straight into cash flow. The return jumps from 4.06% to roughly 6.7% on the same $73,000 invested, with the property itself unchanged. This is why experienced investors say they buy for the property and refinance for the return: the asset's yield was always there, the financing was just temporarily expensive.</p>
+    <p>The honest way to model a refinance: keep the original cash invested in the denominator (plus refinance closing costs, typically $2,000–$4,000), and use the new payment in the numerator. If you pull cash out in the refinance, the math gets interesting — your invested cash <em>drops</em> while cash flow stays similar, which can send cash-on-cash soaring into the teens. That "infinite return" feeling is real but not free: you traded equity for it, and the higher loan balance raises your risk if rents dip. Run both scenarios above before you sign.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>What is cash-on-cash return?</summary><p>Your annual pre-tax cash flow divided by the total cash you invested, as a percentage. Cash flow is rent minus operating expenses and mortgage payments; cash invested is down payment plus closing costs, rehab and reserves.</p></details>
+    <details><summary>What is a good cash-on-cash return?</summary><p>Many investors target 8–12%, but it depends on market and strategy. Cash-flow markets often demand 10%+, while coastal appreciation markets may accept 4–6%. Set your hurdle against your alternatives, like bond yields.</p></details>
+    <details><summary>How is cash-on-cash different from cap rate?</summary><p>Cap rate ignores financing (NOI ÷ price, as if all cash). Cash-on-cash includes your mortgage payment and divides by only your out-of-pocket cash. When loan rates sit below the cap rate, leverage pushes cash-on-cash above the cap rate.</p></details>
+    <details><summary>Do I include closing costs in cash invested?</summary><p>Yes — every dollar out of pocket counts: down payment, lender and title fees, escrow prepaids, renovation and reserves. Leaving them out is the most common way the return gets overstated.</p></details>
+    <details><summary>Can cash-on-cash return be negative?</summary><p>Yes. When interest rates exceed the cap rate, debt service can exceed NOI and you feed the property monthly. Know the exact monthly shortfall before you commit — some investors accept it for appreciation, but never by accident.</p></details>
+    <details><summary>Does cash-on-cash include appreciation or tax benefits?</summary><p>No. It is strictly the year-one cash yield. Appreciation, principal paydown and depreciation shields are real returns that belong in a multi-year IRR analysis.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">CashOnCash</div>
+    <p>CashOnCash totals every dollar you invest against your year-one cash flow, then sets the result side by side with the cap rate so leverage never hides.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+/* ===== pure ===== */
+function loanPmt2(principal, annualRatePct, years){
+  var r = annualRatePct/100/12, n = Math.round(years*12);
+  if(principal<=0) return 0;
+  if(r===0) return principal/n;
+  var f = Math.pow(1+r, n);
+  return principal*r*f/(f-1);
+}
+function calcCoC(d){
+  var downAmt = d.price*d.downPct/100;
+  var invested = downAmt + d.close + d.rehab + d.resv;
+  var gross = d.rent*12;
+  var vacancy = gross*d.vacPct/100;
+  var noi = gross - vacancy - d.exp;
+  var loan = d.price - downAmt;
+  var pmt = loanPmt2(loan, d.rate, d.yrs);
+  var annualDebt = pmt*12;
+  var cf = noi - annualDebt;
+  var coc = invested>0 ? cf/invested*100 : 0;
+  var cap = d.price>0 ? noi/d.price*100 : 0;
+  return {downAmt:downAmt, invested:invested, gross:gross, vacancy:vacancy, noi:noi,
+          pmt:pmt, annualDebt:annualDebt, cf:cf, coc:coc, cap:cap};
+}
+/* ===== dom ===== */
+(function(){
+function num(id){ return parseFloat(document.getElementById(id).value)||0; }
+function money(n){ var neg=n<0; n=Math.abs(n); return (neg?'\u2212$':'$')+n.toLocaleString('en-US',{maximumFractionDigits:0}); }
+function pct(n){ return (n<0?'\u2212':'')+Math.abs(n).toFixed(2)+'%'; }
+function calc(){
+  var d = {price:num('co-price'), downPct:num('co-downpct'), close:num('co-close'),
+           rehab:num('co-rehab'), resv:num('co-resv'), rent:num('co-rent'),
+           vacPct:num('co-vac'), exp:num('co-exp'), rate:num('co-rate'), yrs:num('co-yrs')};
+  var r = calcCoC(d);
+  document.getElementById('co-downamt').textContent = '('+money(r.downAmt)+')';
+  document.getElementById('co-invested').textContent = money(r.invested);
+  document.getElementById('co-pmt').textContent = money(r.pmt);
+  var cfEl = document.getElementById('co-cf');
+  cfEl.textContent = money(r.cf);
+  document.getElementById('co-coc').textContent = pct(r.coc);
+  document.getElementById('co-cocsub').textContent = money(r.cf)+' a year on '+money(r.invested)+' invested';
+  document.getElementById('co-cap').textContent = pct(r.cap);
+  document.getElementById('co-capsub').textContent = money(r.noi)+' NOI on a '+money(d.price)+' price';
+  var note = document.getElementById('co-note');
+  if(r.coc < 0){
+    note.innerHTML = '<strong>Negative cash flow:</strong> at a '+d.rate.toFixed(2)+'% loan rate against a '+r.cap.toFixed(2)+'% cap rate, the debt service exceeds the NOI — this deal costs '+money(-r.cf)+'/yr out of pocket (negative leverage).';
+  } else if(d.rate < r.cap){
+    note.innerHTML = '<strong>Positive leverage:</strong> your loan rate ('+d.rate.toFixed(2)+'%) sits below the cap rate ('+r.cap.toFixed(2)+'% ), so borrowing lifts your return on the cash you actually put in.';
+  } else {
+    note.innerHTML = '<strong>Thin spread:</strong> your loan rate ('+d.rate.toFixed(2)+'%) is near or above the cap rate ('+r.cap.toFixed(2)+'% ), so leverage adds little — most of the yield comes from the property itself.';
+  }
+}
+['co-price','co-downpct','co-close','co-rehab','co-resv','co-rent','co-vac','co-exp','co-rate','co-yrs'].forEach(function(id){
+  var el = document.getElementById(id);
+  el.addEventListener('input', calc); el.addEventListener('change', calc);
+});
+calc();
+})();
+</script>
+</body>
+</html>
