@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAT Calculator — Add or Remove VAT from Any Price</title>
+<meta name="description" content="Calculate VAT instantly: add VAT to a net price or extract VAT from a gross price, with UK, EU and custom rates.">
+<link rel="canonical" href="https://finance.fixoraa.tech/vatcalc/">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="VAT Calculator — Add or Remove VAT from Any Price">
+<meta property="og:description" content="Calculate VAT instantly: add VAT to a net price or extract VAT from a gross price, with UK, EU and custom rates.">
+<meta property="og:url" content="https://finance.fixoraa.tech/vatcalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "VatCalc",
+      "url": "https://finance.fixoraa.tech/vatcalc/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Calculate VAT instantly: add VAT to a net price or extract VAT from a gross price, with UK, EU and custom rates.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I add 20% VAT to a price?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply the net price by 1.20. A net price of 100 becomes a gross price of 120, with 20 of VAT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I remove VAT from a gross price?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide the gross price by 1 plus the rate. A gross price of 120 at 20% VAT gives a net price of 100."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is VAT included in shop prices in the UK?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Consumer prices in the UK normally include VAT, while business quotes often exclude it and say plus VAT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the standard VAT rate in Germany?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Germany's standard VAT rate is 19%, with a reduced rate of 7% for certain goods and services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does zero-rated mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Zero-rated goods are taxed at 0%, so no VAT is charged, but the seller can still reclaim input VAT, unlike exempt goods."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this calculator give tax advice?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It performs the arithmetic for any rate you choose. Confirm the correct rate and registration rules with your tax authority."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#eff6ff; --surface:#ffffff; --accent:#1d4ed8; --accent-ink:#ffffff;
+  --ink:#172554; --muted:#334155; --line:#bfdbfe;
+  --display:'Libre Franklin',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.vt-sub{color:var(--muted);margin:.4rem 0 1.2rem}.vt-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}.vt-step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.1rem}.vt-step span{display:inline-block;background:var(--accent);color:var(--accent-ink);width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;font-weight:800;margin-bottom:.6rem}.vt-step label{display:block;font-weight:600}.vt-step input,.vt-step select{width:100%;padding:.6rem;border:1px solid var(--line);border-radius:10px;margin-top:.3rem}.vt-presets{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}.vt-presets button{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:.35rem .7rem;cursor:pointer;font-weight:600}.vt-ledger{margin-top:1rem;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.1rem}.vt-ledger div{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px dashed var(--line)}#vt-copy{margin-top:1rem;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:.6rem 1.1rem;font-weight:700;cursor:pointer}@media(max-width:640px){.vt-steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="VatCalc home">
+      <span class="fx-logo-tile" aria-hidden="true">%</span>
+      <span class="fx-brand">VatCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-vat-ledger" aria-label="VatCalc tool">
+<h1>VAT Calculator</h1><p class="vt-sub">Add VAT to a net price, or extract VAT from a gross price, in one step.</p><div class="vt-steps"><div class="vt-step"><span>1</span><label>Amount <input id="vt-amt" type="number" min="0" value="100"></label></div><div class="vt-step"><span>2</span><label>VAT rate (%) <input id="vt-rate" type="number" min="0" value="20"></label><div class="vt-presets"><button data-r="20">UK 20%</button><button data-r="19">Germany 19%</button><button data-r="5">Reduced 5%</button><button data-r="0">Zero 0%</button></div></div><div class="vt-step"><span>3</span><label>Amount is <select id="vt-mode"><option value="add">Net (add VAT)</option><option value="remove">Gross (remove VAT)</option></select></label></div></div><div class="vt-ledger"><div><span>Net amount</span><strong id="vt-net">—</strong></div><div><span>VAT amount</span><strong id="vt-vat">—</strong></div><div><span>Gross amount</span><strong id="vt-gross">—</strong></div></div><p id="vt-explain"></p><button id="vt-copy">Copy breakdown</button>
+  </section>
+  <div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+<h2>What VAT is and how it differs from sales tax</h2>
+<p>Value Added Tax, or VAT, is a consumption tax charged at each stage of production and distribution, with businesses reclaiming the VAT they pay on their purchases so that the final consumer effectively bears the full tax. Unlike a retail sales tax, which is charged only at the final sale, VAT is collected in slices along the supply chain, but the net effect for the consumer is similar: the price on the shelf usually already includes VAT, and the tax is visible as a separate line on business invoices. Rates vary widely by country and by product category, with standard rates around twenty percent in the United Kingdom, nineteen percent in Germany, and twenty percent in France, while reduced rates apply to essentials such as food, books, and children's clothing in many jurisdictions. This calculator uses the rate you choose rather than assuming a single country's rate, so it works for invoices, quotes, and price checks across Europe and other VAT systems.</p>
+<p>The two calculations people need most are adding VAT to a net price and extracting VAT from a gross price, and they are not symmetrical in the way many people expect. Adding twenty percent VAT to a net price of one hundred gives a gross price of one hundred and twenty, but removing twenty percent from a gross price of one hundred and twenty does not give one hundred by subtracting twenty, because twenty percent of one hundred and twenty is twenty-four, not twenty. The correct extraction divides the gross price by one point two, giving a net price of one hundred and VAT of twenty, which is why this calculator offers both modes explicitly and labels every figure as net, VAT, or gross. Confusing these two directions is the single most common VAT error on small business invoices, and it can quietly overstate or understate tax by several percent.</p>
+<h2>How to use this calculator</h2>
+<p>Enter an amount, choose a VAT rate from the presets or type your own, and select whether your amount is a net price that needs VAT added or a gross price that already includes VAT. The calculator instantly shows the net amount, the VAT amount, and the gross amount, together with a short explanation of the arithmetic, so you can copy the figures onto an invoice with confidence. The preset rates cover the most commonly searched jurisdictions, including the United Kingdom at twenty percent, Germany at nineteen percent, France at twenty percent, and a reduced rate of five percent for the categories that qualify for it in several countries, but you should always confirm the rate that applies to your specific product and country, because reduced and zero rates are product-specific. The reverse mode is particularly useful when a supplier quotes a VAT-inclusive price and you need to know how much of it is tax for your own bookkeeping or for reclaiming input VAT.</p>
+<p>The calculator also supports a simple multi-line check: enter each line of an invoice separately, note the net, VAT, and gross for each line, and add the lines together, since VAT is calculated per line and rounded per line in most accounting systems. Rounding matters here, because a VAT amount of ten point zero zero five may round to ten point zero one on one line and ten point zero zero on another depending on the system, and small rounding differences across many lines can accumulate to a few pence or cents. This tool rounds each result to two decimal places using standard rounding, which matches most invoice software, but if your accounting system uses a different rounding rule, check its documentation before finalising a large invoice. For estimates and quotes, the differences are negligible, and the calculator's clarity is more valuable than penny-perfect rounding.</p>
+<h2>VAT rates, reduced rates and exemptions</h2>
+<p>Most countries operate a standard rate, one or more reduced rates, and a zero rate, and the distinctions are based on policy choices about essentials, culture, and public health. Food, water, medicines, books, and public transport often attract reduced or zero rates, while luxury goods, alcohol, and tobacco attract the standard rate or additional duties, and financial services and education are often exempt, which is different from zero-rated because exempt businesses cannot reclaim input VAT. A business that sells both standard-rated and reduced-rated goods must apply the correct rate to each line, and a single blended rate applied to the whole invoice will be wrong for at least one category. This calculator does not decide which rate applies to your product, because that determination depends on your country's tax code and the exact nature of the goods or services, but it makes the arithmetic for any rate you choose instant and transparent.</p>
+<p>Registration thresholds also matter: small businesses below a country's VAT registration threshold are generally not required to charge VAT, and they cannot reclaim input VAT either, which changes their pricing strategy compared with registered competitors. Once registered, a business charges VAT on its sales, reclaims VAT on its purchases, and pays the difference to the tax authority, usually quarterly, which is why accurate net, VAT, and gross figures are essential for cash flow as well as compliance. If you are unsure whether you should be registered, or which rate applies to a new product line, the safest step is to check your tax authority's guidance or ask an accountant, because the cost of getting registration or rating wrong exceeds the cost of advice. The calculator is a computation aid, not tax advice, and it should be used alongside official guidance rather than as a substitute for it.</p>
+<h2>VAT for freelancers, shops and online sellers</h2>
+<p>Freelancers and small shops use VAT calculations daily, often without realising it: a freelancer quoting a net day rate must add VAT to produce the invoice total a client will actually pay, while a shop that prices goods inclusive of VAT must work backwards to know its true margin after tax. Online sellers face an extra layer of complexity, because distance-selling rules and marketplace rules can determine which country's rate applies when goods cross borders, and digital services are often taxed where the customer is located rather than where the seller is based. In all three cases, the core arithmetic is the same, and the calculator's two modes cover both directions, but the rate choice and the place-of-supply rules require separate attention. Keeping a simple record of net, VAT, and gross for every sale makes quarterly returns far easier, because the return is essentially a summary of those three columns across the period.</p>
+<p>For consumers, the most useful VAT skill is recognising whether a displayed price includes VAT, since business-to-consumer prices in VAT countries almost always include it, while business-to-business quotes often exclude it and add the words plus VAT. A quote of one thousand plus VAT at twenty percent is a gross cost of one thousand two hundred, not one thousand, and failing to notice the plus VAT can blow a project budget by a fifth. When comparing quotes, always convert every quote to the same basis, either all net or all gross, before comparing, because a cheaper-looking net quote can be more expensive once VAT is added. The calculator makes that conversion in seconds, and using it before accepting a quote is one of the simplest financial habits a small business owner can adopt.</p>
+<h2>Worked examples and common mistakes</h2>
+<p>Consider three worked examples. Adding twenty percent VAT to a net price of one hundred gives VAT of twenty and a gross price of one hundred and twenty. Extracting twenty percent VAT from a gross price of one hundred and twenty gives a net price of one hundred and VAT of twenty, which is the same transaction viewed from the other direction, and it is computed by dividing by one point two, not by subtracting twenty percent. A third example, a net price of eighty at a reduced rate of five percent, gives VAT of four and a gross price of eighty-four, which shows how much difference the rate makes: the same net price costs thirty-six less at five percent than at twenty percent. These examples are the tests this calculator was built against, and they illustrate both modes and the importance of the rate.</p>
+<p>The most common VAT mistakes are subtracting the rate from a gross price instead of dividing, applying the wrong country's rate to an international sale, and forgetting that some goods are zero-rated or exempt rather than standard-rated. Another frequent error is quoting a price without stating whether it includes VAT, which creates disputes when the invoice arrives higher than the client expected. Finally, many small businesses forget to account for VAT in their cash flow, spending the VAT portion of their sales before the quarterly return falls due, which creates a painful shortfall. Keeping VAT in a separate mental account, or a separate bank account for larger businesses, avoids that trap entirely, and accurate calculation is the first step toward accurate cash management.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How do I add 20% VAT to a price?</summary><p>Multiply the net price by 1.20. A net price of 100 becomes a gross price of 120, with 20 of VAT.</p></details>
+<details><summary>How do I remove VAT from a gross price?</summary><p>Divide the gross price by 1 plus the rate. A gross price of 120 at 20% VAT gives a net price of 100.</p></details>
+<details><summary>Is VAT included in shop prices in the UK?</summary><p>Yes. Consumer prices in the UK normally include VAT, while business quotes often exclude it and say plus VAT.</p></details>
+<details><summary>What is the standard VAT rate in Germany?</summary><p>Germany's standard VAT rate is 19%, with a reduced rate of 7% for certain goods and services.</p></details>
+<details><summary>What does zero-rated mean?</summary><p>Zero-rated goods are taxed at 0%, so no VAT is charged, but the seller can still reclaim input VAT, unlike exempt goods.</p></details>
+<details><summary>Does this calculator give tax advice?</summary><p>No. It performs the arithmetic for any rate you choose. Confirm the correct rate and registration rules with your tax authority.</p></details>
+  </section>
+</main>
+
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">VatCalc</div>
+    <p>VatCalc adds VAT to net prices or extracts VAT from gross prices, with preset and custom rates.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function calcVAT(amount,rate,mode){amount=+amount||0;rate=+rate||0;if(mode==='remove'){var net=amount/(1+rate/100);var vat=amount-net;return{net:Math.round(net*100)/100,vat:Math.round(vat*100)/100,gross:Math.round(amount*100)/100};}var vat=amount*rate/100;return{net:Math.round(amount*100)/100,vat:Math.round(vat*100)/100,gross:Math.round((amount+vat)*100)/100};}
+function vtRender(){var amt=+document.getElementById('vt-amt').value||0,rate=+document.getElementById('vt-rate').value||0,mode=document.getElementById('vt-mode').value;var r=calcVAT(amt,rate,mode);document.getElementById('vt-net').textContent='£'+r.net.toFixed(2);document.getElementById('vt-vat').textContent='£'+r.vat.toFixed(2);document.getElementById('vt-gross').textContent='£'+r.gross.toFixed(2);document.getElementById('vt-explain').textContent=mode==='add'?'Adding '+rate+'% VAT to a net price of £'+amt.toFixed(2)+' gives £'+r.vat.toFixed(2)+' of VAT and a gross total of £'+r.gross.toFixed(2)+'.':'Removing '+rate+'% VAT from a gross price of £'+amt.toFixed(2)+' gives a net price of £'+r.net.toFixed(2)+' and £'+r.vat.toFixed(2)+' of VAT.';}
+['vt-amt','vt-rate','vt-mode'].forEach(function(id){document.getElementById(id).addEventListener('input',vtRender);document.getElementById(id).addEventListener('change',vtRender);});
+document.querySelectorAll('.vt-presets button').forEach(function(b){b.onclick=function(){document.getElementById('vt-rate').value=b.dataset.r;vtRender();};});
+document.getElementById('vt-copy').onclick=function(){var t='VAT: net '+document.getElementById('vt-net').textContent+', VAT '+document.getElementById('vt-vat').textContent+', gross '+document.getElementById('vt-gross').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t);};
+vtRender();
+</script>
+</body>
+</html>
