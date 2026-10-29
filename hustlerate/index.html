@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side Hustle Rate Calculator — Your True Hourly Rate After Costs &amp; Tax</title>
+<meta name="description" content="Calculate your true side hustle hourly rate after business costs, taxes and unpaid time with the free HustleRate calculator.">
+<link rel="canonical" href="https://finance.fixoraa.tech/hustlerate/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Side Hustle Rate Calculator — Your True Hourly Rate After Costs &amp; Tax">
+<meta property="og:description" content="Calculate your true side hustle hourly rate after business costs, taxes and unpaid time with the free HustleRate calculator.">
+<meta property="og:url" content="https://finance.fixoraa.tech/hustlerate/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "HustleRate",
+      "url": "https://finance.fixoraa.tech/hustlerate/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Calculate your true side hustle hourly rate after business costs, taxes and unpaid time with the free HustleRate calculator.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a true hourly rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your net side-hustle income after costs and tax, divided by all hours the work consumed, including unpaid pitching, admin, and revisions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my true rate lower than my headline rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Headline rates ignore costs, tax, and unpaid hours. All three reduce what each hour actually earned, sometimes by more than half."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What counts as unpaid hours?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Proposals that lose, discovery calls, revisions beyond scope, invoicing, chasing payments, travel to gigs, and waiting between jobs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which tax rate should I enter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your marginal rate \u2014 the tax on your next dollar of income. Side income usually stacks on top of salary, so the marginal rate is often higher than your average rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I raise my true rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Raise prices, productise repeat work, charge for extra revisions, batch admin, and drop your worst-paying client or platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I quit a hustle?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the true rate sits below minimum wage after costs, tax, and unpaid time, and it teaches nothing you need, quitting frees your scarcest resource: time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I recalculate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Monthly for the first six months of a hustle, then quarterly, because platform fees, client demands, and your speed all change the rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I compare my rate with others online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Most quoted rates are gross revenue per paid hour, omitting costs, tax, and unpaid time. Compare only with your own alternatives."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FFF1E6; --surface:#FFFFFF; --accent:#9A3412; --accent-ink:#FFFFFF;
+  --ink:#2A1A10; --muted:#5C4636; --line:#F0D3B8;
+  --display:'Archivo',serif; --body:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+
+.tool-card{max-width:46rem;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:0 10px 30px rgba(0,0,0,.07)}
+.tool-card h1{font-family:var(--display);font-size:1.9rem;line-height:1.2;margin-bottom:.4rem;letter-spacing:-.01em}
+.tool-card .lead{color:var(--muted);margin-bottom:1.2rem}
+.tool-card label{display:block;font-weight:600;margin:.9rem 0 .3rem}
+.tool-card input,.tool-card select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);color:var(--ink);min-height:44px}
+.tool-card .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tool-card button.calc{margin-top:1.2rem;width:100%;padding:.85rem;border:none;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px}
+.tool-card button.calc:hover{filter:brightness(.94)}
+.presets{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.presets button{padding:.5rem 1rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px}
+.presets button:hover{background:var(--accent);color:var(--accent-ink)}
+.result{margin-top:1.2rem;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:1.1rem;font-size:1.05rem}
+.result strong{font-size:1.3rem}
+.mini-btn{margin-top:.7rem;padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;min-height:40px}
+.hist{margin-top:1rem;color:var(--muted);font-size:.95rem}
+.hist ul{padding-left:1.2rem}
+@media (max-width:640px){.tool-card{padding:1rem;border-radius:16px}.tool-card h1{font-size:1.45rem}.tool-card .row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="HustleRate home">
+      <span class="fx-logo-tile" aria-hidden="true">💼</span>
+      <span class="fx-brand">HustleRate</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-hustle-desk" aria-label="HustleRate tool">
+
+<div class="tool-card">
+<h1>Side Hustle Rate Calculator</h1>
+<p class="lead">Find your true hourly rate after costs, tax, and the unpaid hours nobody counts.</p>
+<div class="presets">
+<button type="button" data-preset='{"gross":"1000","costs":"100","tax":"20","paid":"10","unpaid":"2"}'>Freelance project</button>
+<button type="button" data-preset='{"gross":"800","costs":"200","tax":"25","paid":"8","unpaid":"4"}'>Gig weekend</button>
+</div>
+<div class="row">
+<div><label for="gross">Gross pay ($)</label><input id="gross" type="number" value="1000" min="0"></div>
+<div><label for="costs">Business costs ($)</label><input id="costs" type="number" value="100" min="0"></div>
+</div>
+<div class="row">
+<div><label for="tax">Tax rate (%)</label><input id="tax" type="number" value="20" min="0" max="100"></div>
+<div><label for="paid">Paid hours</label><input id="paid" type="number" value="10" min="0"></div>
+</div>
+<label for="unpaid">Unpaid hours (pitching, admin, revisions)</label>
+<input id="unpaid" type="number" value="2" min="0">
+<button class="calc" id="calcBtn" type="button">Calculate true rate</button>
+<div class="result" id="result" aria-live="polite"></div>
+<button class="mini-btn" id="copyBtn" type="button">Copy result</button>
+<div class="hist" id="hist"></div>
+</div>
+
+  </section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+
+<h2>Your headline rate is not your real rate</h2>
+<p>Side hustles advertise themselves in headline rates: 50 an hour for freelance design, 30 an hour for tutoring, 25 per delivery shift. Those numbers feel good, and they are almost always misleading. The true hourly rate of a side hustle is what remains after business costs, after tax, and — most importantly — after counting every hour the work actually consumes, including the unpaid ones. A designer who bills 10 hours at 50 but spends 4 more hours on proposals, revisions, invoicing, and client messages did not earn 50 an hour; she earned her net income divided by 14 hours. Once costs and tax are deducted, that 50 headline can easily become 28 in reality. Knowing the true rate is not pessimism; it is the only honest basis for deciding whether the hustle is worth your evenings.</p>
+<p>This matters because time is the one resource a side hustle truly spends. Money can be replaced, but an hour given to a low-paying gig is an hour not spent resting, learning, or with family. Many people persist for months in hustles that pay less per hour than their day job, or less than minimum wage once unpaid time is counted, simply because the headline rate flattered them. A true-rate calculation forces the comparison that matters: is this hour better spent here than anywhere else? If the answer is no, the rational moves are to raise prices, cut unpaid work, or quit — all of which require the honest number first.</p>
+<h2>How the calculation works</h2>
+<p>Start with gross pay for the period you are measuring — a week, a project, or a month, as long as all figures cover the same period. Subtract direct business costs: platform fees, materials, travel, software subscriptions, and any contractor help. What remains is pre-tax profit. Apply your marginal tax rate — the rate on your next dollar of income, which for many side hustlers is higher than they expect because hustle income stacks on top of salary — to get after-tax income. Finally, divide by total hours: paid hours plus unpaid hours. Unpaid hours include pitching, quoting, admin, revisions beyond scope, travel to gigs, waiting between jobs, and customer support. Be ruthless in counting them; every hour you would not have spent without the hustle counts, even if it felt like "just a quick message."</p>
+<p>Tax deserves emphasis because it surprises more hustlers than any other factor. Side income is usually taxed at your marginal rate, not your average rate, and in many countries it also attracts self-employment or social charges. Setting aside 25 to 30 percent of hustle income for tax is a common rule of thumb, and the calculator lets you test your own rate. If you ignore tax, a hustle that looks profitable can leave you with a bill in April that wipes out months of earnings. The disciplined approach is to transfer the tax share to a separate account the moment you are paid, so the money you see in your balance is genuinely yours.</p>
+<h2>Reading your results</h2>
+<table><tr><th>Figure</th><th>What it means</th><th>What to do with it</th></tr>
+<tr><td>Net income</td><td>Gross minus costs, after tax</td><td>This is what the hustle actually added to your wealth</td></tr>
+<tr><td>Total hours</td><td>Paid plus unpaid time</td><td>If unpaid hours exceed 30 percent of paid hours, your process needs fixing</td></tr>
+<tr><td>True hourly rate</td><td>Net income divided by total hours</td><td>Compare with your day-job hourly rate and with your personal minimum</td></tr></table>
+<p>Worked example: gross pay of 1,000 with 100 of costs, a 20 percent tax rate, 10 paid hours, and 2 unpaid hours gives net income of 720 and a true rate of 60 per hour — still strong, but well below the 100 headline implied by dividing gross by paid hours alone. A second case: 500 gross, no costs, no tax, 5 paid hours gives exactly 100 per hour. And a sobering case: 800 gross, 200 costs, 25 percent tax, 8 paid hours, and 4 unpaid hours gives net income of 450 and a true rate of just 37.50 per hour — less than half the 100 headline. Same kind of work, three different realities, and only the true rate tells you which one you are living.</p>
+<h2>Where unpaid hours hide</h2>
+<p>Beginners underestimate unpaid time in predictable places. Client acquisition is the biggest: proposals that lose, discovery calls that go nowhere, and profiles maintained on platforms all consume hours that no single project pays for. Revisions are second: work sold as "two rounds included" routinely stretches to four, and each extra round is unpaid unless you charge for it. Admin is third: invoicing, bookkeeping, tax filing, chasing late payments, and learning new tools. Delivery work hides waiting time — between orders, at pickup points, returning home empty. Tutoring hides preparation and marking. Add a 20 percent buffer to your first estimate of unpaid hours; almost everyone discovers the real figure is higher than their first guess, and the calculator is only as honest as the hours you feed it.</p>
+<h3>Five ways to raise your true rate</h3>
+<ul>
+<li>Raise prices first — a 20 percent price rise usually costs few clients and lifts the true rate more than any efficiency trick.</li>
+<li>Productise repeat work: templates, standard packages, and fixed scopes convert unpaid customisation into paid delivery.</li>
+<li>Charge for revisions beyond the agreed rounds, in writing, before the project starts.</li>
+<li>Batch admin into one weekly session instead of letting it fragment every working day.</li>
+<li>Drop your worst-paying client or platform — the hours they consume are your most valuable inventory.</li>
+</ul>
+<h2>When to keep, fix, or quit a hustle</h2>
+<p>Use the true rate as a decision rule, not a judgement. If the true rate beats your day-job hourly rate and you enjoy the work, keep and grow it — it may deserve to become the main thing. If it sits below your day-job rate but teaches skills or builds a portfolio, treat it as an investment with a deadline: six months to raise the rate or move on. If it sits below minimum wage once unpaid hours and tax are counted, and it teaches nothing you need, quitting is not failure; it is the rational reallocation of your scarcest resource. Run this calculation monthly for the first six months of any hustle, and quarterly thereafter. Rates drift as platforms change fees, clients change demands, and your speed improves — the hustle you measured in January may be a different business by July, in either direction.</p>
+<p>One final caution: do not compare your true rate with someone else's headline rate. Social media is full of hustlers quoting gross revenue per hour while omitting costs, tax, and unpaid time. Their 100-hour claim and your honest 40-hour reality may describe the same business. Judge your hustle only against your own alternatives — rest, learning, family time, and your day job — and let the true rate, not the noise, decide where your hours go.</p>
+
+<h2>Raising prices without losing clients</h2>
+<p>Most freelancers and gig workers undercharge, and the reason is fear: fear that a higher price will lose clients, invite awkward conversations, or expose them as impostors. The evidence usually contradicts the fear. Clients who value the work accept moderate price rises with little resistance, especially when the rise is framed around outcomes rather than hours — "this package now includes faster delivery and a revision round" lands better than "my rate went up." The clients who leave over a fair rise are typically the lowest-paying, highest-maintenance ones, and losing them raises your true rate twice over: higher revenue per hour plus fewer unpaid hours spent on difficult work. Test a rise with new clients first, where no existing relationship is at stake, and let the results build the confidence to reprice existing ones.</p>
+<p>Packaging is the gentler path to higher rates. Instead of selling open-ended hours, sell defined outcomes with fixed prices: a logo package, a five-lesson tutoring block, a monthly content bundle. Fixed packages convert unpaid scoping and negotiation time into paid delivery, make comparison shopping harder for clients, and let you raise effective rates by improving efficiency rather than by announcing a rate increase. Track which packages produce the best true rate over a quarter, and steer your marketing toward those. Over time, your business shifts from selling hours at a headline rate to selling outcomes at a true rate you control — and that shift is the difference between a hustle that drains evenings and one that genuinely improves your finances.</p>
+
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is a true hourly rate?</summary><p>Your net side-hustle income after costs and tax, divided by all hours the work consumed, including unpaid pitching, admin, and revisions.</p></details>
+<details><summary>Why is my true rate lower than my headline rate?</summary><p>Headline rates ignore costs, tax, and unpaid hours. All three reduce what each hour actually earned, sometimes by more than half.</p></details>
+<details><summary>What counts as unpaid hours?</summary><p>Proposals that lose, discovery calls, revisions beyond scope, invoicing, chasing payments, travel to gigs, and waiting between jobs.</p></details>
+<details><summary>Which tax rate should I enter?</summary><p>Your marginal rate — the tax on your next dollar of income. Side income usually stacks on top of salary, so the marginal rate is often higher than your average rate.</p></details>
+<details><summary>How do I raise my true rate?</summary><p>Raise prices, productise repeat work, charge for extra revisions, batch admin, and drop your worst-paying client or platform.</p></details>
+<details><summary>When should I quit a hustle?</summary><p>If the true rate sits below minimum wage after costs, tax, and unpaid time, and it teaches nothing you need, quitting frees your scarcest resource: time.</p></details>
+<details><summary>How often should I recalculate?</summary><p>Monthly for the first six months of a hustle, then quarterly, because platform fees, client demands, and your speed all change the rate.</p></details>
+<details><summary>Should I compare my rate with others online?</summary><p>No. Most quoted rates are gross revenue per paid hour, omitting costs, tax, and unpaid time. Compare only with your own alternatives.</p></details>
+  </section>
+</main>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">HustleRate</div>
+    <p>HustleRate reveals what your side hustle really pays per hour, after everything.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+function calcHustleRate(grossPay, costs, taxPct, paidHours, unpaidHours) {
+  var net = (grossPay - costs) * (1 - taxPct / 100);
+  var totalHours = paidHours + unpaidHours;
+  var rate = totalHours > 0 ? net / totalHours : 0;
+  return { netIncome: Math.round(net * 100) / 100, totalHours: totalHours, trueHourlyRate: Math.round(rate * 100) / 100 };
+}
+if (typeof document !== 'undefined') {
+  function runCalc() {
+    var gross = parseFloat(document.getElementById('gross').value) || 0;
+    var costs = parseFloat(document.getElementById('costs').value) || 0;
+    var tax = parseFloat(document.getElementById('tax').value) || 0;
+    var paid = parseFloat(document.getElementById('paid').value) || 0;
+    var unpaid = parseFloat(document.getElementById('unpaid').value) || 0;
+    var r = calcHustleRate(gross, costs, tax, paid, unpaid);
+    var out = '<strong>True hourly rate: $' + r.trueHourlyRate.toFixed(2) + '</strong><br>Net income: $' + r.netIncome.toFixed(2) + ' across ' + r.totalHours + ' total hours.';
+    document.getElementById('result').innerHTML = out;
+    try {
+      var h = JSON.parse(localStorage.getItem('fx_hist') || '[]');
+      h.unshift(out.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140));
+      localStorage.setItem('fx_hist', JSON.stringify(h.slice(0, 5)));
+      document.getElementById('hist').innerHTML = '<strong>Recent:</strong><ul>' + h.map(function(x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    } catch (e) {}
+  }
+  document.getElementById('calcBtn').addEventListener('click', runCalc);
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    var t = document.getElementById('result').innerText || '';
+    try { navigator.clipboard.writeText(t); } catch (e) {}
+  });
+  var ps = document.querySelectorAll('[data-preset]');
+  ps.forEach(function(b) {
+    b.addEventListener('click', function() {
+      var p = JSON.parse(b.getAttribute('data-preset'));
+      Object.keys(p).forEach(function(k) { var el = document.getElementById(k); if (el) el.value = p[k]; });
+      runCalc();
+    });
+  });
+  runCalc();
+}
+</script>
+</body>
+</html>
