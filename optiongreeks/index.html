@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreekLab — Option Greeks Calculator: Delta, Gamma, Theta & Vega (Black-Scholes)</title>
+<meta name="description" content="Compute option delta, gamma, theta and vega with GreekLab, a Black-Scholes option greeks calculator for calls and puts.">
+<link rel="canonical" href="https://finance.fixoraa.tech/optiongreeks/">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"GreekLab","applicationCategory":"Finance","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "What is option delta?", "acceptedAnswer": {"@type": "Answer", "text": "Delta measures how much an option price changes for a one-unit move in the underlying, ranging from 0 to 1 for calls and -1 to 0 for puts."}},{"@type": "Question", "name": "What does gamma tell me?", "acceptedAnswer": {"@type": "Answer", "text": "Gamma measures how fast delta changes when the underlying moves, so high gamma means hedges need frequent adjustment."}},{"@type": "Question", "name": "Is theta always negative for buyers?", "acceptedAnswer": {"@type": "Answer", "text": "For long options theta is normally negative, meaning time decay reduces value each day, accelerating near expiry."}},{"@type": "Question", "name": "How is vega quoted?", "acceptedAnswer": {"@type": "Answer", "text": "Vega is often shown per 1% change in implied volatility; this tool also shows the per-unit figure and divides it by 100 for convenience."}},{"@type": "Question", "name": "Does this work for American options?", "acceptedAnswer": {"@type": "Answer", "text": "This calculator uses the European Black-Scholes model, so it does not account for early exercise, which can matter for American puts and dividend-paying stocks."}},{"@type": "Question", "name": "Why do greeks change over time?", "acceptedAnswer": {"@type": "Answer", "text": "Spot, volatility and time to expiry all move together, and each greek is a partial sensitivity that must be recomputed as inputs change."}}]}</script>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:'Space Grotesk',sans-serif;background:#EFF6FF;color:#172554;line-height:1.6}
+a{color:#2563EB} header{background:#1E3A8A;color:#FFFFFF;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:#FFFFFF;text-decoration:none}
+.mark{width:44px;height:44px;border-radius:14px;background:#2563EB;color:#fff;display:grid;place-items:center;font-size:24px}
+.btn{display:inline-block;padding:10px 16px;border-radius:999px;background:#2563EB;color:#fff;text-decoration:none;font-weight:700;border:0;cursor:pointer}
+.btn2{background:transparent;color:#FFFFFF;border:2px solid #FFFFFF}
+.wrap{max-width:960px;margin:0 auto;padding:16px} .badge{display:inline-block;background:#DBEAFE;color:#172554;border:1px solid #2563EB;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.card{background:#fff;border:1px solid #DBEAFE;border-radius:14px;padding:20px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.card{border-top:8px solid #2563EB}
+label{display:block;font-weight:700;margin:12px 0 4px} input,select,textarea{width:100%;padding:12px;border:1.5px solid #DBEAFE;border-radius:10px;font-size:16px;font-family:inherit}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px} @media(max-width:600px){.grid{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start}}
+.res{margin-top:16px;padding:16px;background:#DBEAFE;border-radius:14px;font-size:18px} .res b{font-size:26px}
+.err{color:#b91c1c;font-weight:700} article{background:#fff;border-radius:14px;padding:24px;margin-top:20px} article h2{margin-top:28px}
+.faq details{background:#fff;border:1px solid #DBEAFE;border-radius:12px;padding:14px;margin:10px 0} .faq summary{font-weight:700;cursor:pointer}
+footer{background:#1E3A8A;color:#FFFFFF;padding:28px 16px;margin-top:24px} footer a{color:#FFFFFF;font-weight:700}
+.hist{font-size:14px;background:#fff;border:1px dashed #2563EB;padding:10px;border-radius:10px;margin-top:12px;white-space:pre-wrap}
+</style></head>
+<body>
+<header><a class="logo" href="https://fixoraa.tech"><span class="mark">Δ</span>GreekLab</a>
+<nav><a class="btn btn2" href="https://fixoraa.tech">Home</a> <a class="btn btn2" href="https://fixoraa.tech">More Tools</a></nav></header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="wrap">
+<p><span class='badge'>Δ Unlimited Free Usage</span></p><h1>Option Greeks Calculator</h1><p>Four trading cards, one model: enter spot, strike, time, rate and volatility to reveal delta, gamma, theta and vega for calls and puts.</p>
+<section class="card" aria-label="Tool">
+<div class="grid"><div><label for="S">Spot price</label><input id="S" type="number" step="any" value="100" placeholder="Spot price"></div><div><label for="K">Strike price</label><input id="K" type="number" step="any" value="100" placeholder="Strike price"></div><div><label for="T">Time to expiry (years)</label><input id="T" type="number" step="any" value="1" placeholder="Time to expiry (years)"></div><div><label for="r">Risk-free rate (%)</label><input id="r" type="number" step="any" value="5" placeholder="Risk-free rate (%)"></div><div><label for="v">Volatility (%)</label><input id="v" type="number" step="any" value="20" placeholder="Volatility (%)"></div><div><label for="typ">Option type</label><select id="typ"><option value="call">Call</option><option value="put">Put</option></select></div></div><div style="margin-top:14px"><button class="btn" onclick="calc()">Calculate</button> <button class="btn" onclick="resetF()">Reset</button></div><div style="margin-top:10px">Presets: <button class="btn" type="button" onclick="applyPreset({"S": 100, "K": 100, "T": 1, "r": 5, "v": 20})">At-the-money</button> <button class="btn" type="button" onclick="applyPreset({"S": 150, "K": 100, "T": 1, "r": 5, "v": 20})">In-the-money call</button> <button class="btn" type="button" onclick="applyPreset({"S": 50, "K": 100, "T": 1, "r": 5, "v": 20})">Out-of-the-money</button> </div>
+<div id="err" class="err" role="alert"></div>
+<div id="res" class="res" style="display:none"></div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+<button class="btn" onclick="saveHist()">Save to history</button>
+<button class="btn" onclick="copyRes()">Copy result</button>
+<button class="btn" onclick="dlCSV()">Export CSV</button></div>
+<div id="hist" class="hist" style="display:none"></div>
+<div id='sens' style='margin-top:12px'></div>
+</section>
+<div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article><p>Option greeks translate the abstract Black-Scholes price into practical sensitivities: how much an option price moves when the underlying moves, how quickly that sensitivity itself changes, how much value decays each day, and how much volatility matters. Traders use delta to hedge, gamma to judge hedge stability, theta to understand time decay, and vega to measure volatility exposure, and this option greeks calculator computes all four from five inputs. It is designed for learning and position checking, not as a substitute for a broker pricing engine, and it assumes European exercise with constant volatility and interest rates.</p>
+<h2>How to use this calculator</h2>
+<p>Enter the current spot price and strike price, time to expiry in years, the risk-free rate as a percentage, and implied volatility as a percentage, then choose call or put. One year is entered as 1, six months as 0.5, and one month as approximately 0.083. The calculator returns delta, gamma, theta per year and per day, and vega per unit and per one percent of volatility, plus a small sensitivity table across nearby volatilities.</p>
+<ol><li>Enter the underlying spot price and the option strike price in the same currency.</li><li>Enter time to expiry in years, converting months by dividing by twelve.</li><li>Enter the risk-free interest rate and implied volatility as percentages, for example 5 and 20.</li><li>Choose call or put, because delta and theta signs differ between the two.</li><li>Press Calculate and read delta first, then gamma, theta and vega.</li><li>Use the sensitivity row to see how the greeks change if volatility rises or falls by five points.</li></ol>
+<h2>Understanding your results</h2>
+<p><strong>Delta.</strong> For a call, delta runs from zero to one and approximates the change in option value for a one-unit move in the underlying; for a put it runs from minus one to zero. A delta of 0.64 suggests the option behaves like holding 0.64 shares.</p>
+<p><strong>Gamma.</strong> The change in delta for a one-unit move in the underlying. High gamma means delta changes quickly, so hedges need frequent adjustment, especially near expiry for at-the-money options.</p>
+<p><strong>Theta.</strong> Time decay per year, with a per-day figure for convenience. Negative theta for long options means value leaks away as expiry approaches, faster in the final weeks.</p>
+<p><strong>Vega.</strong> Sensitivity to volatility. Vega shown per one hundred percent of volatility is divided by one hundred for the familiar per-one-percent figure, which tells you how much value changes if implied volatility moves one point.</p>
+<h2>Practical tips</h2><ul><li>Check delta before sizing a hedge, because it determines how many shares offset the option exposure.</li><li>Watch gamma near expiry, since at-the-money gamma spikes and hedges become unstable.</li><li>Compare theta across expiries to see why short-dated options decay much faster than long-dated ones.</li><li>Use vega when earnings or events may move implied volatility, even if the underlying price stays still.</li><li>Recompute after large underlying moves, because all greeks change together and stale values mislead.</li><li>Remember that real markets have changing volatility and early exercise for American options, so treat model greeks as estimates.</li></ul>
+<h2>Common mistakes to avoid</h2><ul><li>Reading delta as a probability, when it is a sensitivity that only roughly resembles one under simplified assumptions.</li><li>Ignoring the sign of put delta and theta, which flips the interpretation of hedges and decay.</li><li>Using annualised volatility incorrectly, for example entering 0.20 instead of 20 in a percentage field.</li><li>Forgetting that theta is per year in the formula, so dividing by 365 is needed for a daily figure.</li><li>Assuming greeks stay constant while the underlying, volatility and time all move at once.</li></ul>
+<h2>Who benefits most</h2>
+<p>Options learners, retail traders checking a position, students studying Black-Scholes, and risk managers doing quick sanity checks all benefit. The tool is particularly useful before placing a trade, when a trader wants to know whether a position is mainly a directional bet, a volatility bet, or a time-decay trade. It also helps educators demonstrate how each input shifts the greeks without spreadsheet setup.</p>
+<h2>Worked example</h2>
+<p>With spot and strike both at 100, one year to expiry, a five percent rate and twenty percent volatility, a call delta is about 0.637, gamma about 0.019, theta about minus 6.41 per year or minus 0.018 per day, and vega about 37.52 per unit of volatility. That means a one-unit rise in the underlying lifts the option by roughly 0.64, while each passing day costs roughly 0.018 in value if everything else stays still. Moving the spot to 150 pushes delta toward 0.99, showing a deep in-the-money call behaving almost like the share itself.</p>
+<h2>Checking and re-running your result</h2>
+<p>Re-run the calculator after any material move in spot or volatility, and compare the new greeks with your hedge rather than assuming the old hedge still fits. If gamma is high, plan more frequent rebalancing or a smaller position. Always confirm traded prices with your broker, because bid-ask spreads, dividends and American exercise features can move real prices away from this European model.</p><h2>Three real scenarios</h2>
+<p>A trader buying an at-the-money call before earnings holds a position dominated by vega: if implied volatility collapses after the announcement, the option can lose value even when the share moves favourably, because vega overwhelms delta. A trader selling a short-dated out-of-the-money call, by contrast, holds a theta position, collecting daily decay while accepting gamma risk if the share rallies toward the strike. A hedger protecting a share portfolio with puts cares most about delta, choosing a strike and quantity that offset a chosen fraction of portfolio movement, then watching gamma to know how quickly that hedge will drift. Each scenario uses the same four greeks but weights them differently, which is why a single greek in isolation rarely describes a trade, and why the sensitivity table across volatilities is worth reading before committing capital.</p>
+<h2>Edge cases and limits</h2>
+<p>Black-Scholes assumes constant volatility, constant interest rates, lognormal price movements and European exercise, and real markets violate all four. Volatility smiles mean that out-of-the-money options trade at different implied volatilities from at-the-money options, so a single volatility input misprices wings. Dividends, which this simple model ignores, reduce call values and increase put values, and American options can be exercised early, which matters most for deep in-the-money puts and dividend-paying calls. Near expiry, gamma explodes for at-the-money options, making delta hedges unstable and model values extremely sensitive to tiny price moves. Transaction costs and wide bid-ask spreads further separate model value from tradable value, especially for short-dated or illiquid options, so model greeks should guide decisions rather than dictate them.</p>
+<h2>Making greeks part of a routine</h2>
+<p>Before entering a trade, record the four greeks and the thesis: is this a directional trade, a volatility trade or a decay trade, and what would prove it wrong? After entry, re-check greeks at least daily for short-dated positions and after any large underlying move, because a position that began as a delta trade can morph into a gamma or vega trade without any new order. Keep a simple journal of predicted versus actual profit and loss, split by underlying move, volatility change and time passing, since that attribution reveals which greek actually drove results. Over months, this discipline builds intuition faster than any textbook, turning greeks from abstract symbols into practical tools for sizing, hedging and exiting positions with a plan rather than a hope.</p>
+</article>
+<section class="faq"><h2>Frequently asked questions</h2><details><summary>What is option delta?</summary><p>Delta measures how much an option price changes for a one-unit move in the underlying, ranging from 0 to 1 for calls and -1 to 0 for puts.</p></details><details><summary>What does gamma tell me?</summary><p>Gamma measures how fast delta changes when the underlying moves, so high gamma means hedges need frequent adjustment.</p></details><details><summary>Is theta always negative for buyers?</summary><p>For long options theta is normally negative, meaning time decay reduces value each day, accelerating near expiry.</p></details><details><summary>How is vega quoted?</summary><p>Vega is often shown per 1% change in implied volatility; this tool also shows the per-unit figure and divides it by 100 for convenience.</p></details><details><summary>Does this work for American options?</summary><p>This calculator uses the European Black-Scholes model, so it does not account for early exercise, which can matter for American puts and dividend-paying stocks.</p></details><details><summary>Why do greeks change over time?</summary><p>Spot, volatility and time to expiry all move together, and each greek is a partial sensitivity that must be recomputed as inputs change.</p></details></section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer><p><strong>GreekLab</strong> — Black-Scholes greeks, explained clearly.</p>
+<p>GreekLab calculates delta, gamma, theta and vega for European options using the Black-Scholes model.</p>
+<p><a href="https://fixoraa.tech">Home</a> &nbsp;|&nbsp; <a href="https://fixoraa.tech">More Tools</a></p>
+<p>Made by <a href="https://fixoraa.tech">Fixoraa</a></p></footer>
+<script id="pure">function normCDF(x){var t=1/(1+0.2316419*Math.abs(x));var d=0.3989423*Math.exp(-x*x/2);var p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p;}
+function normPDF(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);}
+function greeks(S,K,T,rPct,vPct,isPut){var r=rPct/100,v=vPct/100;if(S<=0||K<=0||T<=0||v<=0)return{delta:0,gamma:0,theta:0,vega:0};
+var d1=(Math.log(S/K)+(r+v*v/2)*T)/(v*Math.sqrt(T));var d2=d1-v*Math.sqrt(T);
+var delta=isPut?normCDF(d1)-1:normCDF(d1);
+var gamma=normPDF(d1)/(S*v*Math.sqrt(T));
+var thetaCall=-(S*normPDF(d1)*v)/(2*Math.sqrt(T))-r*K*Math.exp(-r*T)*normCDF(d2);
+var thetaPut=-(S*normPDF(d1)*v)/(2*Math.sqrt(T))+r*K*Math.exp(-r*T)*normCDF(-d2);
+var theta=isPut?thetaPut:thetaCall;var vega=S*normPDF(d1)*Math.sqrt(T);
+return{delta:delta,gamma:gamma,theta:theta,vega:vega};}</script>
+<script>function calc(){showErr('');var S=num('S'),K=num('K'),T=num('T'),r=num('r'),v=num('v'),put=document.getElementById('typ').value==='put';
+ if(S<=0||K<=0||T<=0||v<=0){showErr('Spot, strike, time and volatility must be positive.');return;}
+ var g=greeks(S,K,T,r,v,put);
+ showRes('<b>Delta '+g.delta.toFixed(4)+'</b> &nbsp; Gamma '+g.gamma.toFixed(4)+' &nbsp; Theta '+g.theta.toFixed(4)+'/yr ('+(g.theta/365).toFixed(4)+'/day) &nbsp; Vega '+g.vega.toFixed(2)+' per 100% vol ('+(g.vega/100).toFixed(4)+' per 1%)');
+ var s='';[15,20,25].forEach(function(vv){var gg=greeks(S,K,T,r,vv,put);s+='Vol '+vv+'%: delta '+gg.delta.toFixed(3)+' · gamma '+gg.gamma.toFixed(4)+' &nbsp; ';});
+ document.getElementById('sens').textContent='Sensitivity: '+s;}
+function applyPreset(o){for(var k in o){var e=document.getElementById(k);if(e)e.value=o[k];}calc();}
+function resetF(){var els=document.querySelectorAll('input,select');els.forEach(function(e){if(e.type!=='button')e.value='';});document.getElementById('res').style.display='none';document.getElementById('err').textContent='';}
+function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+
+function showRes(html){var r=document.getElementById('res');r.style.display='block';r.innerHTML=html;window._last=html.replace(/<[^>]+>/g,' ');}
+function showErr(m){document.getElementById('err').textContent=m;}
+function saveHist(){if(!window._last)return;var k='hist_optiongreeks';var a=JSON.parse(localStorage.getItem(k)||'[]');a.unshift(new Date().toLocaleString()+': '+window._last);localStorage.setItem(k,JSON.stringify(a.slice(0,10)));var d=document.getElementById('hist');d.style.display='block';d.textContent=a.join('\n');}
+function copyRes(){if(window._last&&navigator.clipboard)navigator.clipboard.writeText(window._last);}
+function dlCSV(){if(!window._last)return;var b=new Blob([window._last],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='optiongreeks-result.csv';a.click();}
+</script>
+</body></html>
