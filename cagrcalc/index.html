@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAGR Calculator: Rate, Compare &amp; Reverse Mode – CagrCalc</title>
+<meta name="description" content="Free CAGR calculator: compute compound annual growth rate, compare two investments side by side, reverse any target CAGR and view the year-by-year table.">
+<link rel="canonical" href="https://finance.fixoraa.tech/cagrcalc/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="CAGR Calculator: Rate, Compare &amp; Reverse Mode – CagrCalc">
+<meta property="og:description" content="Free CAGR calculator: compute compound annual growth rate, compare two investments side by side, reverse any target CAGR and view the year-by-year table.">
+<meta property="og:url" content="https://finance.fixoraa.tech/cagrcalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "CagrCalc",
+      "url": "https://finance.fixoraa.tech/cagrcalc/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Free CAGR calculator: compute compound annual growth rate, compare two investments side by side, reverse any target CAGR and view the year-by-year table.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is CAGR calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CAGR = (End Value \u00f7 Start Value)^(1 \u00f7 Years) \u2212 1, expressed as a percentage. For example, \u20b910,000 growing to \u20b920,000 in 5 years gives (2)^(0.2) \u2212 1 = 14.87%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between CAGR and absolute return?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CAGR smooths growth into one steady yearly rate, while absolute return just states total growth without time. A 100% absolute return over 5 years (14.87% CAGR) is very different from 100% over 2 years (41.42% CAGR)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use CAGR for SIP returns?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. CAGR assumes a single lump sum invested at the start. For SIPs or irregular deposits and withdrawals, use XIRR, which accounts for the timing of each cash flow."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a negative CAGR mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A negative CAGR means the investment lost value overall \u2014 the end value is below the start value. For instance, \u20b910,000 falling to \u20b98,000 over 3 years is a \u22127.17% CAGR."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a good CAGR?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the asset and period, but as a rough guide: 7\u20138% for safe fixed income, 11\u201313% for long-term Indian equity, and anything above 15% sustained over a decade is exceptional."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I find the CAGR needed to reach a goal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes \u2014 that is the reverse CAGR question. Required CAGR = (Goal \u00f7 Current)^(1 \u00f7 Years) \u2212 1. If the required rate looks unrealistically high, increase your investment amount or extend the timeline instead of chasing risk."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FFF3F0; --surface:#FFFFFF; --accent:#C2431F; --accent-ink:#FFFFFF;
+  --ink:#2E1A12; --muted:#7A5A4E; --line:#F0D5C8;
+  --display:'Sora',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.cg-wrap{max-width:760px;margin:0 auto;padding:8px 4px;font-family:Inter,system-ui,sans-serif;color:#2E1A12}.cg-head{text-align:center;padding:34px 12px 8px}.cg-logo{font-size:44px}.cg-h1{font-family:Sora,sans-serif;font-size:clamp(1.9rem,4.5vw,2.7rem);margin:12px 0 8px;letter-spacing:-.02em}.cg-tag{color:#7A5A4E;font-size:1.03rem;max-width:560px;margin:0 auto}.cg-steps{margin-top:26px;display:grid;gap:16px}.cg-step{background:#fff;border:1px solid #F0D5C8;border-radius:20px;padding:24px;box-shadow:0 14px 40px -28px rgba(194,67,31,.35)}.cg-stephead{display:flex;gap:14px;align-items:center;margin-bottom:16px}.cg-num{width:40px;height:40px;min-width:40px;border-radius:50%;background:#C2431F;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Sora,sans-serif;font-weight:700;font-size:1.1rem}.cg-steptitle{font-family:Sora,sans-serif;font-size:1.15rem;margin:0}.cg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cg-grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.cg-field{display:grid;gap:7px;font-size:.84rem;font-weight:600;color:#7A5A4E}.cg-field input{border:1.5px solid #EAD3C4;border-radius:12px;padding:12px 14px;font-size:1rem;min-height:48px;width:100%;box-sizing:border-box;color:#2E1A12;background:#FFFBF8}.cg-field input:focus{outline:2px solid #C2431F;border-color:#C2431F}.cg-action{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}.cg-btn{background:#C2431F;color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:700;cursor:pointer;min-height:48px;font-size:.95rem;font-family:Sora,sans-serif}.cg-btn:hover{background:#A53817}.cg-btn2{background:#fff;color:#C2431F;border:1.5px solid #C2431F;border-radius:12px;padding:13px 22px;font-weight:700;cursor:pointer;min-height:48px;font-size:.95rem}.cg-result{margin-top:16px;background:#FFF6F1;border:1px solid #F0D5C8;border-radius:16px;padding:18px 20px;display:none}.cg-result.show{display:block}.cg-big{font-family:Sora,sans-serif;font-size:2.4rem;font-weight:800;color:#C2431F}.cg-rl{font-size:.85rem;color:#7A5A4E;font-weight:600}.cg-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9rem}.cg-table th,.cg-table td{padding:9px 10px;text-align:right;border-bottom:1px solid #F0D5C8}.cg-table th{color:#7A5A4E;font-weight:600;text-align:right}.cg-table td:first-child,.cg-table th:first-child{text-align:left}.cg-verdict{font-weight:700;color:#2E1A12;margin-top:10px}.cg-disc{font-size:.78rem;color:#7A5A4E;line-height:1.6;margin-top:18px}@media(max-width:640px){.cg-grid,.cg-grid2{grid-template-columns:1fr}.cg-step{padding:20px 16px}.cg-big{font-size:2rem}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="CagrCalc home">
+      <span class="fx-logo-tile" aria-hidden="true">📈</span>
+      <span class="fx-brand">CagrCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-wizard-steps" aria-label="CagrCalc tool">
+<div class="cg-wrap">
+  <div class="cg-head"><div class="cg-logo">📈</div><h1 class="cg-h1">CAGR Calculator</h1><p class="cg-tag">One number that tells the truth about any investment's growth.</p></div>
+  <div class="cg-steps">
+    <div class="cg-step"><div class="cg-stephead"><span class="cg-num">1</span><h2 class="cg-steptitle">Compute your CAGR</h2></div>
+      <div class="cg-grid"><label class="cg-field">Start value (₹)<input id="cg-start" type="number" min="0" value="10000"></label><label class="cg-field">End value (₹)<input id="cg-end" type="number" min="0" value="20000"></label><label class="cg-field">Years<input id="cg-years" type="number" min="0" step="any" value="5"></label></div>
+      <div class="cg-action"><button class="cg-btn" id="cg-go1" type="button">Calculate CAGR</button></div>
+      <div class="cg-result" id="cg-r1"><span class="cg-rl">Your CAGR</span><div class="cg-big" id="cg-cagr1">–</div></div>
+    </div>
+    <div class="cg-step"><div class="cg-stephead"><span class="cg-num">2</span><h2 class="cg-steptitle">Compare a second investment</h2></div>
+      <div class="cg-grid"><label class="cg-field">Start value (₹)<input id="cg-start2" type="number" min="0" value="10000"></label><label class="cg-field">End value (₹)<input id="cg-end2" type="number" min="0" value="16000"></label><label class="cg-field">Years<input id="cg-years2" type="number" min="0" step="any" value="5"></label></div>
+      <div class="cg-action"><button class="cg-btn" id="cg-go2" type="button">Compare</button></div>
+      <div class="cg-result" id="cg-r2"><span class="cg-rl">Investment B CAGR</span><div class="cg-big" id="cg-cagr2">–</div><p class="cg-verdict" id="cg-verdict"></p></div>
+    </div>
+    <div class="cg-step"><div class="cg-stephead"><span class="cg-num">3</span><h2 class="cg-steptitle">Reverse: what CAGR does your goal need?</h2></div>
+      <div class="cg-grid"><label class="cg-field">Current amount (₹)<input id="cg-cur" type="number" min="0" value="500000"></label><label class="cg-field">Goal amount (₹)<input id="cg-goal" type="number" min="0" value="2000000"></label><label class="cg-field">Years<input id="cg-gyears" type="number" min="0" step="any" value="10"></label></div>
+      <div class="cg-action"><button class="cg-btn" id="cg-go3" type="button">Find required CAGR</button></div>
+      <div class="cg-result" id="cg-r3"><span class="cg-rl">Required CAGR</span><div class="cg-big" id="cg-cagr3">–</div><p class="cg-verdict" id="cg-advice"></p></div>
+    </div>
+    <div class="cg-step"><div class="cg-stephead"><span class="cg-num">4</span><h2 class="cg-steptitle">Year-by-year growth table</h2></div>
+      <div class="cg-action"><button class="cg-btn2" id="cg-go4" type="button">Build table from Step 1</button></div>
+      <div class="cg-result" id="cg-r4"><table class="cg-table" id="cg-table"><thead><tr><th>Year</th><th>Value</th><th>Gain that year</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+  <p class="cg-disc">CAGR assumes a single lump sum growing steadily. For SIPs or irregular cash flows, use XIRR instead. Past growth never guarantees future returns.</p>
+</div>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>What CAGR Actually Measures</h2>
+<p>CAGR — the Compound Annual Growth Rate — answers one question: at what steady yearly rate would an investment have had to grow to go from its start value to its end value? If ₹10,000 becomes ₹20,000 in 5 years, the CAGR is 14.87%. That does not mean the investment grew 14.87% every year; real returns bounce around. CAGR smooths the journey into a single comparable number, which is exactly why fund fact sheets, stock screeners and pitch decks all quote it.</p>
+<p>The formula is CAGR = (End Value ÷ Start Value)^(1 ÷ Years) − 1. The exponent is the whole trick: it annualises total growth, so a 100% gain over 5 years (14.87%) is correctly shown as weaker than a 100% gain over 3 years (25.99%). Simple average returns cannot do this — they ignore compounding and routinely overstate performance.</p>
+<h2>Why CAGR Beats "Average Return"</h2>
+<p>Imagine an investment that gains 50% in year one and loses 50% in year two. The simple average return is 0%, which sounds like you broke even. In reality ₹100 became ₹150, then ₹75 — you lost a quarter of your money, and the CAGR is −13.4%. This is volatility drag: losses hurt more than equal-sized gains help, and only the geometric compounding in CAGR captures it. Whenever someone quotes an arithmetic average return, mentally discount it — CAGR is the honest number.</p>
+<h3>CAGR vs absolute return vs XIRR</h3>
+<p>Absolute return ("my money doubled") ignores time; CAGR adds the time dimension. XIRR goes further and handles irregular cash flows — multiple deposits and withdrawals at different dates — which CAGR cannot, since CAGR assumes a single lump sum at the start and a single value at the end. Use CAGR for lump-sum comparisons, XIRR for SIPs and messy real-world portfolios.</p>
+<h2>Reading CAGR Like a Professional</h2>
+<p>A CAGR number is only meaningful with its time period attached. "15% CAGR" over 3 years during a bull run says far less than "15% CAGR" over 15 years through two crashes. Professionals always ask for the period, the benchmark's CAGR over the same period, and the volatility behind the number. A 14% CAGR with gut-wrenching 40% drawdowns is a worse lived experience than a 12% CAGR that never dropped more than 10%.</p>
+<p>Also watch the endpoints. CAGR is hypersensitive to start and end dates: measuring from a market bottom flatters the number, measuring from a peak punishes it. This is why cherry-picked "since inception" CAGRs in marketing material deserve scepticism — nudge either endpoint and the story changes.</p>
+<h2>The Reverse Question: What CAGR Do You Need?</h2>
+<p>More useful than measuring the past is planning the future: what CAGR do you need to turn today's corpus into tomorrow's goal? The reverse formula is Required End Value = Start × (1 + CAGR)^Years, or flipped, Required CAGR = (Goal ÷ Start)^(1 ÷ Years) − 1. If you have ₹5,00,000 and need ₹20,00,000 in 10 years for a house down payment, you need a 14.87% CAGR — a number that immediately tells you the goal demands aggressive equity exposure, not fixed deposits.</p>
+<p>This reverse mode is where financial plans live or die. A required CAGR above 15% over a decade is historically equity-like and uncertain; above 20% is speculative. If the maths demands 25%, the honest response is to raise the monthly investment or extend the timeline — not to chase riskier assets and hope.</p>
+<h3>Benchmark CAGRs for context</h3>
+<ul>
+<li>Indian large-cap equity indices have delivered roughly 11–13% CAGR over long 10–15 year stretches, with wide variation by period.</li>
+<li>Fixed deposits and PPF sit near 7–7.5% — barely above long-run inflation of 5–6%.</li>
+<li>Gold in rupee terms has compounded around 8–10% over multi-decade periods.</li>
+<li>A 10% CAGR doubles money in about 7.2 years; 15% doubles it in under 5.</li>
+</ul>
+<h2>Comparing Two Investments Fairly</h2>
+<p>Side-by-side CAGR comparison only works when the periods match. Comparing a fund's 5-year CAGR with another's 3-year CAGR is meaningless — different markets, different luck. Align the dates, compare against the benchmark for the same window, and then look at consistency: rolling 3-year CAGRs over a decade reveal whether outperformance was skill or one lucky year. The comparison step in the calculator enforces this discipline by placing both investments on the same timeline.</p>
+<h2>The Year-by-Year Table: Seeing Compounding</h2>
+<p>A growth table that applies the CAGR each year makes compounding visceral: the absolute rupee gains accelerate because each year's growth builds on a bigger base. On ₹10,000 at 14.87%, year one adds ₹1,487 but year five adds ₹2,582 — the same rate, nearly double the rupees. This accelerating curve is why starting early dominates every other variable in investing; time in the market does the heavy lifting that higher returns cannot reliably replicate.</p>
+<h2>Common CAGR Mistakes</h2>
+<ul>
+<li>Comparing CAGRs over different time periods.</li>
+<li>Ignoring that CAGR hides volatility — two identical CAGRs can feel completely different.</li>
+<li>Projecting a short, lucky CAGR decades into the future.</li>
+<li>Forgetting inflation: a 12% nominal CAGR at 6% inflation is only ~5.7% real.</li>
+<li>Using CAGR for SIPs or irregular cash flows — that needs XIRR.</li>
+</ul>
+<h2>How This Calculator Helps</h2>
+<p>CagrCalc walks you through the full workflow in steps: compute the CAGR of what you have, compare it against an alternative on equal footing, reverse-engineer the CAGR your goal demands, and inspect the year-by-year compounding table. One number, four perspectives — which is how professionals actually use it.</p>
+<h2>Using CAGR to Choose Funds</h2>
+<p>When comparing mutual funds, always compare CAGR over identical periods — ideally rolling 3-year and 5-year windows, not cherry-picked point-to-point stretches. A fund that outperformed over the last 5 years but lagged on rolling 3-year CAGRs may have had one lucky year. Also compare against the benchmark's CAGR for the same window: a 14% CAGR means little if the index did 15%. Finally, prefer funds whose CAGR is consistent across market cycles over those with a higher but erratic number — consistency compounds better in real portfolios because investors actually stay invested.</p>
+<h2>The Maths Behind the Formula</h2>
+<p>CAGR is the geometric mean of annual growth factors. If yearly returns are r1, r2, …, rn, the total growth factor is (1+r1)(1+r2)…(1+rn), and CAGR is that product raised to 1/n, minus 1. This is why volatility drag exists: by the AM-GM inequality, the geometric mean is always below the arithmetic mean when returns vary. A quick sanity check — the Rule of 72 — falls out of the same maths: ln(2)/ln(1+r) is close to 72/(100r) for typical rates. Understanding that CAGR is a geometric mean tells you exactly when to trust it (lump sums, full periods) and when not to (SIPs, partial data).</p>
+<h2>Real vs Nominal CAGR: The Inflation Cut</h2>
+<p>A 12% nominal CAGR sounds excellent until you subtract inflation. The exact conversion is (1+nominal)/(1+inflation)−1: at 6% inflation, 12% nominal is only 5.66% real. Over long periods this cut is brutal — it halves the apparent growth. Always state which one you mean: fund marketing quotes nominal, but your purchasing power compounds at the real rate. When comparing investments across countries or eras with different inflation, real CAGR is the only honest metric. As a rule of thumb, subtract roughly the inflation rate for quick estimates, but use the division formula when precision matters.</p>
+<h2>Worked Example: Comparing Two Funds</h2>
+<p>Suppose Fund A grew a lump sum from ten thousand to nineteen thousand over six years, while Fund B grew the same starting amount to seventeen thousand over four years. Fund A's absolute gain looks bigger, but the annualised rates tell the real story: Fund A compounds at roughly eleven percent while Fund B compounds near fourteen percent — Fund B is the stronger performer per year of risk taken. Now add the benchmark, which delivered about twelve percent across both windows: Fund A lagged its benchmark while Fund B beat it. This is the professional workflow in miniature.</p>
+<table><thead><tr><th>Investment</th><th>Period</th><th>Absolute gain</th><th>CAGR</th><th>Verdict</th></tr></thead><tbody><tr><td>Fund A</td><td>Six years</td><td>Ninety percent</td><td>About eleven percent</td><td>Lagged benchmark</td></tr><tr><td>Fund B</td><td>Four years</td><td>Seventy percent</td><td>About fourteen percent</td><td>Beat benchmark</td></tr></tbody></table>
+<p>Notice how the table reorders your intuition: the bigger absolute gain belongs to the weaker fund. Always equalise the lens with CAGR first, then judge against the benchmark — never against raw rupees.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How is CAGR calculated?</summary><p>CAGR = (End Value ÷ Start Value)^(1 ÷ Years) − 1, expressed as a percentage. For example, ₹10,000 growing to ₹20,000 in 5 years gives (2)^(0.2) − 1 = 14.87%.</p></details>
+<details><summary>What is the difference between CAGR and absolute return?</summary><p>CAGR smooths growth into one steady yearly rate, while absolute return just states total growth without time. A 100% absolute return over 5 years (14.87% CAGR) is very different from 100% over 2 years (41.42% CAGR).</p></details>
+<details><summary>Can I use CAGR for SIP returns?</summary><p>No. CAGR assumes a single lump sum invested at the start. For SIPs or irregular deposits and withdrawals, use XIRR, which accounts for the timing of each cash flow.</p></details>
+<details><summary>What does a negative CAGR mean?</summary><p>A negative CAGR means the investment lost value overall — the end value is below the start value. For instance, ₹10,000 falling to ₹8,000 over 3 years is a −7.17% CAGR.</p></details>
+<details><summary>What is a good CAGR?</summary><p>It depends on the asset and period, but as a rough guide: 7–8% for safe fixed income, 11–13% for long-term Indian equity, and anything above 15% sustained over a decade is exceptional.</p></details>
+<details><summary>How do I find the CAGR needed to reach a goal?</summary><p>Yes — that is the reverse CAGR question. Required CAGR = (Goal ÷ Current)^(1 ÷ Years) − 1. If the required rate looks unrealistically high, increase your investment amount or extend the timeline instead of chasing risk.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">CagrCalc</div>
+    <p>CagrCalc computes compound annual growth rate, compares investments and reverses any target CAGR.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function cagr(start,end,years){if(!(start>0)||!(years>0))return{cagr:null};var r=(Math.pow(end/start,1/years)-1)*100;return{cagr:Math.round(r*100)/100};}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){function v(id){return parseFloat(document.getElementById(id).value)||0;}function show(id){document.getElementById(id).classList.add('show');}document.getElementById('cg-go1').addEventListener('click',function(){var r=cagr(v('cg-start'),v('cg-end'),v('cg-years'));document.getElementById('cg-cagr1').textContent=r.cagr===null?'Enter valid inputs':r.cagr+'%';show('cg-r1');});document.getElementById('cg-go2').addEventListener('click',function(){var a=cagr(v('cg-start'),v('cg-end'),v('cg-years'));var b=cagr(v('cg-start2'),v('cg-end2'),v('cg-years2'));var el=document.getElementById('cg-cagr2');if(a.cagr===null||b.cagr===null){el.textContent='Enter valid inputs';}else{el.textContent=b.cagr+'%';var d=(b.cagr-a.cagr).toFixed(2);document.getElementById('cg-verdict').textContent=d>0?'Investment B wins by '+d+' pts per year.':'Investment A wins by '+Math.abs(d)+' pts per year.';}show('cg-r2');});document.getElementById('cg-go3').addEventListener('click',function(){var r=cagr(v('cg-cur'),v('cg-goal'),v('cg-gyears'));var el=document.getElementById('cg-cagr3');if(r.cagr===null){el.textContent='Enter valid inputs';}else{el.textContent=r.cagr+'%';var ad=document.getElementById('cg-advice');if(r.cagr>20)ad.textContent='Above 20%: speculative territory — consider investing more or extending the timeline.';else if(r.cagr>14)ad.textContent='Above 14%: needs strong equity exposure; outcomes will be uncertain.';else if(r.cagr>8)ad.textContent='Achievable with a balanced equity-oriented plan.';else ad.textContent='Conservative — even fixed income may get you there.';}show('cg-r3');});document.getElementById('cg-go4').addEventListener('click',function(){var s=v('cg-start'),e=v('cg-end'),y=v('cg-years');var r=cagr(s,e,y);var tb=document.querySelector('#cg-table tbody');tb.innerHTML='';if(r.cagr===null||y>50){tb.innerHTML='<tr><td colspan="3">Enter a valid Step 1 first (max 50 years).</td></tr>';}else{var rate=r.cagr/100,val=s;var n=Math.min(50,Math.floor(y));for(var i=1;i<=n;i++){var nv=s*Math.pow(1+rate,i);var tr=document.createElement('tr');tr.innerHTML='<td>'+i+'</td><td>₹'+Math.round(nv).toLocaleString('en-IN')+'</td><td>+₹'+Math.round(nv-val).toLocaleString('en-IN')+'</td>';tb.appendChild(tr);val=nv;}}show('cg-r4');});});}
+</script>
+</body>
+</html>
