@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rule of 72 Calculator: Doubling Time Chart – DoubleMoney</title>
+<meta name="description" content="Rule of 72 calculator: doubling, tripling and quadrupling timelines, a visual doubling chart and reverse mode to find the rate you need by your date.">
+<link rel="canonical" href="https://finance.fixoraa.tech/doublemoney/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Rule of 72 Calculator: Doubling Time Chart – DoubleMoney">
+<meta property="og:description" content="Rule of 72 calculator: doubling, tripling and quadrupling timelines, a visual doubling chart and reverse mode to find the rate you need by your date.">
+<meta property="og:url" content="https://finance.fixoraa.tech/doublemoney/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "DoubleMoney",
+      "url": "https://finance.fixoraa.tech/doublemoney/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Rule of 72 calculator: doubling, tripling and quadrupling timelines, a visual doubling chart and reverse mode to find the rate you need by your date.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Rule of 72?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide 72 by the annual interest rate as a whole number. At 8%, money doubles in 72 / 8 = 9 years. It approximates the exact logarithmic doubling formula and is accurate for rates between roughly 4% and 20%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why 72 and not some other number?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "72 has many divisors (2, 3, 4, 6, 8, 9, 12), so it gives clean whole-number answers for common rates. 69.3 is mathematically closer, but 72 is easier mental arithmetic and close enough."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take money to triple?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Money triples in about 114.6 / rate years and quadruples in 144 / rate years. At 10%, that is roughly 11.5 years to triple and 14.4 years to quadruple."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I find the rate needed to double money by a date?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use 72 / years. To double in 6 years you need roughly 12% per year; to double in 10 years, about 7.2%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the Rule of 72 work with volatile returns?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The rule assumes a constant rate. With volatile returns, actual compounding is slower than the rule suggests because losses hurt more than equal gains help \u2014 this is called volatility drag."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use the Rule of 72 for inflation-adjusted planning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, but run it on the real (inflation-adjusted) return. At 8% nominal return with 6% inflation, your purchasing power doubles in 72 / 2 = 36 years, not 9."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F2FBF6; --surface:#FFFFFF; --accent:#0B7A55; --accent-ink:#FFFFFF;
+  --ink:#0C2B21; --muted:#4E6B5F; --line:#CFE8D9;
+  --display:'DM Serif Display',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.dm-wrap{max-width:960px;margin:0 auto;padding:8px 4px;font-family:Inter,system-ui,sans-serif;color:#0C2B21}.dm-head{text-align:center;padding:36px 14px 10px}.dm-logo{font-size:46px}.dm-h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3rem);margin:12px 0 8px;font-weight:400}.dm-tag{color:#4E6B5F;font-size:1.05rem;max-width:580px;margin:0 auto}.dm-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}.dm-tile{background:#fff;border:1px solid #CFE8D9;border-radius:18px;padding:20px 18px;text-align:center;box-shadow:0 12px 34px -26px rgba(11,122,85,.4)}.dm-tile .dm-k{font-size:.78rem;font-weight:700;color:#4E6B5F;text-transform:uppercase;letter-spacing:.06em}.dm-tile .dm-v{font-family:'DM Serif Display',serif;font-size:2rem;margin-top:8px;color:#0B7A55}.dm-tile.dm-hero{background:#0B7A55;border-color:#0B7A55}.dm-tile.dm-hero .dm-k{color:#CDE9DB}.dm-tile.dm-hero .dm-v{color:#fff}.dm-panel{background:#fff;border:1px solid #CFE8D9;border-radius:20px;padding:24px;margin-bottom:18px}.dm-h2{font-family:'DM Serif Display',serif;font-size:1.4rem;margin:0 0 16px;font-weight:400}.dm-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.dm-field{display:grid;gap:8px;font-size:.85rem;font-weight:600;color:#4E6B5F}.dm-field input[type=number]{border:1.5px solid #CFE8D9;border-radius:12px;padding:12px 14px;font-size:1rem;min-height:48px;width:100%;box-sizing:border-box;color:#0C2B21}.dm-field input[type=range]{min-height:48px;accent-color:#0B7A55;width:100%}.dm-rate-out{font-family:'DM Serif Display',serif;font-size:1.3rem;color:#0B7A55}.dm-bars{display:flex;align-items:flex-end;gap:14px;height:220px;padding:10px 6px 0;justify-content:center}.dm-barwrap{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:150px}.dm-bar{width:100%;background:linear-gradient(180deg,#12a56f,#0B7A55);border-radius:10px 10px 4px 4px;min-height:8px;transition:height .4s}.dm-barlbl{font-size:.8rem;font-weight:600;color:#4E6B5F;text-align:center}.dm-rev{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end}.dm-btn{background:#0B7A55;color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:700;cursor:pointer;min-height:48px;font-size:.95rem}.dm-btn:hover{background:#096543}.dm-revout{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#0B7A55}.dm-disc{font-size:.78rem;color:#4E6B5F;line-height:1.6;margin-top:14px}@media(max-width:700px){.dm-tiles{grid-template-columns:repeat(2,1fr)}.dm-controls{grid-template-columns:1fr}.dm-rev{grid-template-columns:1fr}.dm-bars{height:170px}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="DoubleMoney home">
+      <span class="fx-logo-tile" aria-hidden="true">⏳</span>
+      <span class="fx-brand">DoubleMoney</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-stat-dash" aria-label="DoubleMoney tool">
+<div class='dm-wrap'>
+  <div class='dm-head'><div class='dm-logo'>⏳</div><h1 class='dm-h1'>Rule of 72 Calculator</h1><p class='dm-tag'>Watch your money double, triple, quadruple — on a timeline you can see.</p></div>
+  <div class='dm-tiles'>
+    <div class='dm-tile dm-hero'><div class='dm-k'>Doubles in</div><div class='dm-v' id='dm-d'>–</div></div>
+    <div class='dm-tile'><div class='dm-k'>Triples in</div><div class='dm-v' id='dm-t'>–</div></div>
+    <div class='dm-tile'><div class='dm-k'>Quadruples in</div><div class='dm-v' id='dm-q'>–</div></div>
+    <div class='dm-tile'><div class='dm-k'>Future value</div><div class='dm-v' id='dm-f'>–</div></div>
+  </div>
+  <div class='dm-panel'>
+    <h2 class='dm-h2'>Tune the numbers</h2>
+    <div class='dm-controls'>
+      <label class='dm-field'>Annual return: <span class='dm-rate-out' id='dm-rateout'>8%</span><input type='range' id='dm-rate' min='1' max='30' step='0.5' value='8'></label>
+      <label class='dm-field'>Amount (₹)<input type='number' id='dm-amt' min='0' value='10000'></label>
+      <label class='dm-field'>Years<input type='number' id='dm-yrs' min='0' value='20'></label>
+    </div>
+  </div>
+  <div class='dm-panel'>
+    <h2 class='dm-h2'>The doubling curve</h2>
+    <div class='dm-bars' id='dm-bars'></div>
+    <p class='dm-disc'>Each bar is twice the money of the one before — compounding looks flat, then explodes.</p>
+  </div>
+  <div class='dm-panel'>
+    <h2 class='dm-h2'>Reverse mode: rate needed by your date</h2>
+    <div class='dm-rev'>
+      <label class='dm-field'>I want to double my money in (years)<input type='number' id='dm-target' min='0' step='any' value='6'></label>
+      <div><div class='dm-k' style='font-size:.78rem;font-weight:700;color:#4E6B5F'>YOU NEED</div><div class='dm-revout' id='dm-revout'>–</div></div>
+      <button class='dm-btn' id='dm-revgo' type='button'>Find rate</button>
+    </div>
+  </div>
+</div>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>The Rule of 72: Finance's Favourite Shortcut</h2>
+<p>Divide 72 by your annual return percentage and you get the years needed to double your money. At 8%, money doubles in 9 years. At 12%, in 6 years. The Rule of 72 is not magic — it is a neat approximation of the logarithmic truth that doubling time equals ln(2) divided by ln(1 + r), which for typical rates sits very close to 72 divided by r. Bankers, investors and textbook authors have used it for centuries because it turns compounding from a formula into a feeling.</p>
+<p>Why 72 and not 70 or 69.3, the mathematically closer constant? Because 72 has more divisors — 1, 2, 3, 4, 6, 8, 9, 12 — so it produces clean whole numbers for the rates people actually encounter. The approximation is excellent between about 6% and 12%, and stays respectable from 4% to 20%. Outside that range, use the exact formula — or this calculator, which blends the rule with precise compounding for the future-value figure.</p>
+<h2>Doubling, Tripling, Quadrupling</h2>
+<p>The same logic extends: money triples in roughly 114.6 divided by rate years and quadruples in 144 divided by rate years. Notice that quadrupling takes exactly twice the doubling time — because quadrupling is just doubling twice. At 8%, ₹10,000 becomes ₹20,000 in 9 years, ₹40,000 in 18 years, and roughly ₹46,610 in 20 years. The tripling point (about 14.3 years at 8%) is the one most people never think about, yet it is often the most relevant: tripling is what turns a house down payment into the house.</p>
+<h3>The doubling bar chart</h3>
+<p>The visual in the calculator shows each doubling as a bar twice the height of the last. This is the single best antidote to linear thinking: most people intuitively expect money to grow in a straight line, but compounding is a curve that looks flat for years and then explodes. Seeing the fourth bar tower over the first three makes the cost of withdrawing early visceral — the biggest absolute gains always come last.</p>
+<h2>The Reverse Question: What Rate Do You Need?</h2>
+<p>Flip the rule around: to double money in a target number of years, you need roughly 72 divided by years percent. Want to double in 6 years? You need about 12%. Want to double by the time your child starts college in 10 years? About 7.2%. This reverse mode is brutally honest — it converts vague hopes into the concrete return the market must deliver, which you can then sanity-check against reality.</p>
+<p>The sanity check matters because required rates above 12–14% sustained over many years are historically equity-bull-market territory, not a planning assumption. If the reverse mode says you need 18%, the right response is not to hunt for 18%-return products (which usually means hidden risk) but to save more, spend less, or extend the deadline. The rule exposes fantasy plans in five seconds.</p>
+<h2>Where the Rule Breaks Down</h2>
+<ul>
+<li><strong>Very low rates:</strong> at 1–2%, the rule overstates doubling time; use exact compounding.</li>
+<li><strong>Very high rates:</strong> above about 25%, the approximation drifts — 72 divided by 30 says 2.4 years, exact maths says 2.64.</li>
+<li><strong>Volatile returns:</strong> the rule assumes a steady rate. A portfolio averaging 10% with wild swings compounds slower than a steady 10% — volatility drag again.</li>
+<li><strong>Inflation:</strong> doubling nominal money in 9 years at 8% while inflation runs 6% means your purchasing power barely grew. Always run the rule on real (inflation-adjusted) returns for honest planning.</li>
+<li><strong>Taxes and fees:</strong> a 12% gross return minus 2% fees and 15% tax is really about 8.5% — doubling in 8.5 years, not 6.</li>
+</ul>
+<h2>Everyday Uses Beyond Investing</h2>
+<p>The Rule of 72 is secretly a general-purpose exponential intuition pump. Inflation at 6% halves your money's purchasing power in 12 years. A 3% annual fee drag on a portfolio halves its terminal value over roughly 24 years. Population, GDP, and even debt all follow the same doubling logic. Once the rule clicks, you start seeing doubling times everywhere — which is precisely why it is worth internalising rather than just calculating.</p>
+<h3>Quick mental benchmarks</h3>
+<ul>
+<li>6% doubles money in 12 years — the classic baseline.</li>
+<li>8% doubles money in 9 years; ₹10 lakh becomes ₹20 lakh.</li>
+<li>10% doubles money in 7.2 years; the standard equity planning figure.</li>
+<li>12% doubles money in 6 years; aggressive but historically plausible for equities.</li>
+<li>18% doubles money in 4 years; exceptional — treat with scepticism as a plan.</li>
+</ul>
+<h2>Combining the Rule with Real Planning</h2>
+<p>Use the rule for intuition and the exact future-value figure for decisions. The calculator gives you both: rule-based timelines for doubling, tripling and quadrupling, plus the precisely compounded future value of your amount over your horizon. Adjust the rate slider and watch the bars — the exercise builds the single most valuable investing instinct there is: a feel for how time and rate multiply each other.</p>
+<h2>How This Calculator Helps</h2>
+<p>DoubleMoney puts the four key stats on tiles, draws the doubling curve as bars you can feel, and includes the reverse mode that tells you what rate your deadline demands. Play with the sliders for two minutes and compounding stops being abstract.</p>
+<h2>The Rule of 72 for Debt</h2>
+<p>The rule cuts both ways. Credit-card debt at 36% annual interest doubles in just 2 years (72/36) — the unpaid balance you ignore today is twice as large before you know it. A personal loan at 18% doubles in 4 years. This mirror image is arguably the rule's most valuable use: it converts abstract interest rates on borrowing into visceral doubling times. Whenever you consider debt, run the rule first — if the doubling time is shorter than the loan tenure, think very carefully.</p>
+<h2>Teaching Compounding to Beginners</h2>
+<p>The Rule of 72 is the best first lesson in investing because it needs no algebra. Ask a teenager: at 12%, how long to double birthday money? Six years — they can verify it on the calculator's bars. Then show the quadrupling bar: the same money, twelve years, four times the amount, with zero extra effort. That single image teaches patience better than any lecture. The reverse mode completes the lesson: want to double in 4 years? You need 18% — now discuss whether that sounds realistic, and what happens when plans demand unrealistic returns.</p>
+<h2>Variations: 70, 69.3, 114 and 144</h2>
+<p>72 is not the only magic number. Purists use 69.3 — the mathematically exact constant (100 × ln 2) — for the most accurate doubling estimate, though it is harder mental arithmetic. For tripling, use 114 (or precisely 114.6); for quadrupling, 144. There is also the Rule of 70, popular in economics for its roundness. And the rule inverts neatly for halving: at 6% inflation, purchasing power halves in 72/6 = 12 years. Memorise the family — 72 double, 114 triple, 144 quadruple — and you can estimate any exponential growth or decay in seconds, from investments to inflation to population.</p>
+<p>The approximation quality depends on the rate. Between 6% and 10% the error is under 1%; at 2% the rule says 36 years while the truth is 35 — still fine; at 30% it says 2.4 years versus 2.64 actual, a 10% miss. For back-of-envelope work that is perfectly acceptable, and this calculator's future-value figure uses exact compounding anyway, so you get both: instant intuition from the rule and precision where it counts.</p>
+<h2>Mistakes to Avoid with the Rule of 72</h2>
+<ul>
+<li>Using nominal returns for real goals — always subtract inflation first.</li>
+<li>Applying it to volatile portfolios without a margin of safety — use a conservative rate.</li>
+<li>Forgetting taxes and fees — a twelve percent gross return is often eight or nine net.</li>
+<li>Extrapolating short lucky streaks — three great years do not make a thirty-year plan.</li>
+<li>Ignoring the reverse direction — debt doubles just as relentlessly as savings.</li>
+</ul>
+<p>The rule is a compass, not a map. It tells you the direction and rough distance; the calculator's exact future-value figure, your asset allocation, and your savings rate fill in the route. Revisit the numbers yearly — compounding rewards those who check the compass often and adjust the course early, and punishes those who set a fantasy rate once and never look again.</p>
+<p>One final habit seals the lesson: every year, update the rate slider with your portfolio's actual return and watch the doubling timeline move. When markets disappoint, the bars stretch and the required patience grows — that discomfort is the price of honest expectations. Investors who revisit this simple arithmetic annually make calmer decisions than those who never quantify time at all.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is the Rule of 72?</summary><p>Divide 72 by the annual interest rate as a whole number. At 8%, money doubles in 72 / 8 = 9 years. It approximates the exact logarithmic doubling formula and is accurate for rates between roughly 4% and 20%.</p></details>
+<details><summary>Why 72 and not some other number?</summary><p>72 has many divisors (2, 3, 4, 6, 8, 9, 12), so it gives clean whole-number answers for common rates. 69.3 is mathematically closer, but 72 is easier mental arithmetic and close enough.</p></details>
+<details><summary>How long does it take money to triple?</summary><p>Money triples in about 114.6 / rate years and quadruples in 144 / rate years. At 10%, that is roughly 11.5 years to triple and 14.4 years to quadruple.</p></details>
+<details><summary>How do I find the rate needed to double money by a date?</summary><p>Use 72 / years. To double in 6 years you need roughly 12% per year; to double in 10 years, about 7.2%.</p></details>
+<details><summary>Does the Rule of 72 work with volatile returns?</summary><p>The rule assumes a constant rate. With volatile returns, actual compounding is slower than the rule suggests because losses hurt more than equal gains help — this is called volatility drag.</p></details>
+<details><summary>Can I use the Rule of 72 for inflation-adjusted planning?</summary><p>Yes, but run it on the real (inflation-adjusted) return. At 8% nominal return with 6% inflation, your purchasing power doubles in 72 / 2 = 36 years, not 9.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">DoubleMoney</div>
+    <p>DoubleMoney applies the Rule of 72 to doubling, tripling and quadrupling timelines with visuals.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function doubleMoney(rate,amount,years){if(!(rate>0)||!(amount>0)||!(years>0))return{doubleYears:null,tripleYears:null,quadYears:null,future:null};function r2(x){return Math.round(x*100)/100;}return{doubleYears:r2(72/rate),tripleYears:r2(114.6/rate),quadYears:r2(144/rate),future:Math.round(amount*Math.pow(1+rate/100,years))};}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){function fmtRs(n){return'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:0});}function fmtY(y){return y===null?'—':(Math.round(y*10)/10)+' yrs';}function recalc(){var rate=parseFloat(document.getElementById('dm-rate').value)||0;var amt=parseFloat(document.getElementById('dm-amt').value)||0;var yrs=parseFloat(document.getElementById('dm-yrs').value)||0;document.getElementById('dm-rateout').textContent=rate+'%';var r=doubleMoney(rate,amt,yrs);document.getElementById('dm-d').textContent=fmtY(r.doubleYears);document.getElementById('dm-t').textContent=fmtY(r.tripleYears);document.getElementById('dm-q').textContent=fmtY(r.quadYears);document.getElementById('dm-f').textContent=r.future===null?'—':fmtRs(r.future);var bars=document.getElementById('dm-bars');bars.innerHTML='';var labels=['1×','2×','4×','8×'];for(var i=0;i<4;i++){var w=document.createElement('div');w.className='dm-barwrap';var b=document.createElement('div');b.className='dm-bar';b.style.height=(12.5*Math.pow(2,i))+'%';var lb=document.createElement('div');lb.className='dm-barlbl';lb.textContent=labels[i]+(amt>0?' = '+fmtRs(amt*Math.pow(2,i)):'');w.appendChild(b);w.appendChild(lb);bars.appendChild(w);}}function reverse(){var t=parseFloat(document.getElementById('dm-target').value)||0;document.getElementById('dm-revout').textContent=t>0?(Math.round((72/t)*10)/10)+'% p.a.':'—';}['dm-rate','dm-amt','dm-yrs'].forEach(function(id){document.getElementById(id).addEventListener('input',recalc);});document.getElementById('dm-revgo').addEventListener('click',reverse);document.getElementById('dm-target').addEventListener('input',reverse);recalc();reverse();});}
+</script>
+</body>
+</html>
