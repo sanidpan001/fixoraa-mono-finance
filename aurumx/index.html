@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Investment Calculator - Gold SIP & Gold Return Calculator 2026 | AurumX</title>
+<meta name="description" content="Free Gold Investment Calculator - Calculate Gold SIP returns, physical gold, digital gold future value. Best gold calculator for 2026 with 11% CAGR. No subscription, unlimited free.">
+<meta name="keywords" content="gold investment calculator, gold SIP calculator, gold return calculator, gold price calculator, digital gold calculator, gold investment return">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://finance.fixoraa.tech/aurumx/">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;600;700&display=swap');
+:root{--bg:#0d0d0a;--card:#171410;--card2:#221e18;--gold:#facc15;--gold2:#eab308;--gold3:#a16207;--border:#2a251c;--text:#f5f3ef;--muted:#a8a29e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(800px at 20% 0%,#2a2212 0%,#0d0d0a 60%);color:var(--text);font-family:'Manrope',sans-serif;min-height:100vh}
+h1,h2{font-family:'Cormorant Garamond',serif}
+header{background:rgba(13,13,10,0.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:14px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;font-size:22px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;letter-spacing:-0.3px}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;display:grid;place-items:center;border-radius:10px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px}
+nav a{margin-left:18px;text-decoration:none;color:var(--muted);font-weight:600;font-size:14px}
+nav a.cta{background:var(--text);color:#000;padding:10px 18px;border-radius:100px}
+.container{max-width:1150px;margin:0 auto;padding:22px 5%}
+.ad-box{background:var(--card);border:1px dashed #3f3828;border-radius:16px;min-height:90px;display:flex;align-items:center;justify-content:center;margin:20px 0}
+@media(max-width:768px){.ad-box{min-height:70px}.hide-d{display:none}.show-m{display:block!important}}
+.show-m{display:none}
+.main{display:grid;grid-template-columns:1.15fr 0.85fr;gap:24px}
+@media(max-width:950px){.main{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card),#13100c);border:1px solid var(--border);border-radius:24px;padding:26px;box-shadow:0 20px 40px rgba(0,0,0,0.4)}
+.badge{display:inline-flex;background:rgba(250,204,21,0.1);border:1px solid rgba(250,204,21,0.2);color:var(--gold);font-size:11px;font-weight:700;padding:6px 12px;border-radius:100px;letter-spacing:0.6px}
+.card h1{font-size:32px;line-height:1.1;margin:12px 0 8px;letter-spacing:-0.5px}
+.card h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.tabs{display:flex;gap:10px;margin-bottom:18px}
+.tab{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card2);color:var(--muted);font-weight:700;cursor:pointer;text-align:center;font-size:13px}
+.tab.active{background:var(--gold);color:#000;border-color:var(--gold)}
+.input{margin-bottom:16px}
+.input label{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;display:block;letter-spacing:1px;text-transform:uppercase}
+.input input,.input select{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:14px;background:#0f0d09;color:var(--text);font-size:15px;font-weight:600;outline:none}
+.input input:focus{border-color:var(--gold)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.range{width:100%;accent-color:var(--gold);margin-top:8px}
+.btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:16px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:6px;letter-spacing:0.3px}
+.result{background:radial-gradient(500px at 80% 0%,rgba(250,204,21,0.15),transparent),linear-gradient(180deg,#1c1912,#0f0d09);border:1px solid #3a3323;border-radius:24px;padding:26px;position:relative}
+.kicker{font-size:11px;letter-spacing:2px;color:var(--gold)}
+.big{font-size:42px;font-weight:800;margin:10px 0 6px;font-family:'Cormorant Garamond',serif;letter-spacing:-1px}
+.big small{font-size:16px;font-family:'Manrope',sans-serif;color:var(--muted)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.stat{background:rgba(255,255,255,0.04);border:1px solid var(--border);padding:14px;border-radius:14px}
+.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px}
+.stat b{font-size:17px}
+.gold-bar{background:linear-gradient(90deg,var(--gold3),var(--gold),var(--gold2));height:6px;border-radius:100px;margin-top:18px}
+.content{background:#12100c;border:1px solid var(--border);border-radius:24px;padding:32px;margin-top:26px}
+.content h2{font-size:26px;margin:28px 0 12px;color:var(--text)}
+.content h2:first-child{margin-top:0}
+.content p{color:#a8a29e;font-size:15px;margin-bottom:14px;line-height:1.85}
+.faq div{padding:16px 0;border-bottom:1px solid var(--border)}
+.faq b{color:var(--text)}
+footer{background:#080703;border-top:1px solid var(--border);padding:40px 5%;margin-top:40px;text-align:center;border-radius:28px 28px 0 0}
+footer a{color:var(--muted);text-decoration:none;margin:0 10px;font-size:14px}
+footer a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+<a href="/" class="logo"><div class="logo-mark">A</div> AurumX</a>
+<nav>
+<a href="/">Home</a>
+<a href="https://fixoraa.tech" class="cta" target="_blank">More Tools →</a>
+</nav>
+</header>
+
+<div class="container">
+<div class="ad-box">
+<div class="hide-d">
+<script>
+  atOptions = {
+    'key' : '4e68ac77881c17fe128a46565d9a4e8c',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+</div>
+<div class="show-m">
+<script>
+  atOptions = {
+    'key' : '4e68ac77881c17fe128a46565d9a4e8c',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+</div>
+</div>
+
+<div class="main">
+<div class="card">
+<div class="badge">✦ NO SUBSCRIPTION • INDICATIVE GOLD RATE • UNLIMITED</div>
+<h1>Gold Investment <em>Calculator</em></h1>
+<p class="sub">Calculate Gold SIP, physical gold & digital gold future value. With 22K/24K purity.</p>
+
+<div class="tabs">
+<div class="tab active" id="tSIP" onclick="switchMode('SIP')">Gold SIP (Monthly)</div>
+<div class="tab" id="tLump" onclick="switchMode('LUMP')">Lump Sum Gold</div>
+</div>
+
+<div class="grid2">
+<div class="input"><label>Gold Type</label><select id="purity"><option value="1">24K (99.9% Pure)</option><option value="0.916">22K (Jewellery)</option></select></div>
+<div class="input"><label>Current Gold Price / 10g (₹)</label><input type="number" id="goldPrice" value="148000"></div>
+</div>
+
+<div id="sipBox">
+<div class="input"><label>Monthly Gold Investment (₹)</label><input type="number" id="monthly" value="10000"><input type="range" class="range" min="1000" max="100000" step="1000" id="monthlyR" oninput="document.getElementById('monthly').value=this.value;calcGold()"></div>
+</div>
+
+<div id="lumpBox" style="display:none">
+<div class="input"><label>One-Time Gold Investment (₹)</label><input type="number" id="lumpSum" value="500000"></div>
+</div>
+
+<div class="grid2">
+<div class="input"><label>Time Period (Years)</label><input type="number" id="years" value="10" min="1" max="50"></div>
+<div class="input"><label>Expected Gold Growth (%)</label><input type="number" id="growth" value="11" step="0.5"></div>
+</div>
+
+<button class="btn" onclick="calcGold()">Calculate Gold Wealth →</button>
+<p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">Gold 20Y CAGR: 11.2% • Beating Inflation & FD</p>
+</div>
+
+<div class="result">
+<div class="kicker">YOUR GOLD PORTFOLIO VALUE</div>
+<div class="big" id="futureVal">₹ 21,89,873 <small>future</small></div>
+<div style="color:var(--muted);font-size:13px" id="goldGrams">≈ 52.1 grams future buying power • 4.47 Tola Gold</div>
+
+<div class="stats">
+<div class="stat"><span>Total Invested</span><b id="totalInv">₹ 12,00,000</b></div>
+<div class="stat"><span>Total Gain</span><b id="gain" style="color:var(--gold)">₹ 9,89,873</b></div>
+<div class="stat"><span>Gold Bought</span><b id="goldBought">81.1 g</b></div>
+<div class="stat"><span>Future Gold Price</span><b id="futurePrice">₹ 4,20,234 /10g</b></div>
+</div>
+<div class="gold-bar"></div>
+<div style="margin-top:14px;background:rgba(250,204,21,0.08);border:1px solid rgba(250,204,21,0.18);padding:12px;border-radius:12px;font-size:12px;color:#fde68a">💡 Physical gold has making charges 10-20%. Digital options like Gold ETFs track the gold price without making charges. Sovereign Gold Bonds paid an extra 2.5% yearly interest, but new SGB issues are currently paused. Our calc is for pure gold value.</div>
+</div>
+</div>
+
+<div class="ad-box">
+<div data-banner-id="1501463"></div>
+</div>
+
+<div class="content">
+<h2>What is Gold Investment Calculator? Complete Guide 2026</h2>
+<p>Gold is world's oldest and most trusted investment for 5000 years. Our AurumX Gold Investment Calculator helps you calculate future value of your gold SIP, lump sum gold, jewellery, digital gold, Gold ETF, Sovereign Gold Bond (SGB). This calculator is 100% free, no subscription, no watermark, unlimited usage worldwide. Works for India (₹/10g), USA ($/ounce), Dubai (AED/gram), UK.</p>
+<p>Gold investment has two types: Physical gold (jewellery, coin, biscuit) and Digital gold (Gold ETF, SGB, Digital Gold on PhonePe/Paytm). Physical gold has purity 24K (99.9% pure, investment) and 22K (91.6% pure, jewellery). Digital gold is 24K and safe, no making charge. Gold price in India is around Rs 1,48,000 per 10g for 24K (mid-October 2026, indicative). Internationally, gold is around $4,150 per ounce.</p>
+
+<h2>How Gold Calculator Works? Formula</h2>
+<p>Gold SIP Formula: Future Value = Monthly Investment * [((1+r/12)^(n*12)-1)/(r/12)]*(1+r/12) where r is expected annual gold price growth. Gold Lump Sum: Future Value = Investment * (1+r)^n * (Future Gold Price / Current Gold Price). We also show grams of gold you will own.</p>
+<p>Example: Monthly Rs 10,000 Gold SIP for 10 years at 11% growth: Total invested Rs 12,00,000. Future value Rs 21,89,873. Gain Rs 9,89,873 (about 82% return). Gold bought: If gold price today Rs 1,48,000/10g = Rs 14,800/g, monthly 10k buys about 0.68g per month. At today's price your total investment buys about 81.1g of gold, and its future value is higher because gold price will be ~Rs 4,20,234/10g after 10 years at 11% growth.</p>
+
+<h2>Why Gold Investment is Best for 2026?</h2>
+<p>1. Inflation Hedge: When inflation rises, gold rises. 2. 11.2% CAGR: Last 20 years gold gave 11.2% CAGR in INR, beating FD 7% and beating inflation 6%. 3. No Default Risk: Unlike stocks, gold never goes to zero. 4. Worldwide Liquid: Sell gold anywhere in world instantly. 5. Portfolio Diversifier: Many advisors suggest keeping a small part of a portfolio — often 5-15% — in gold as a diversifier.</p>
+<p>Our calculator shows future gold price: Future Price = Current Price * (1+growth)^years. At 11% for 10 years, Rs 1,48,000 becomes about Rs 4,20,234 per 10g. This is why starting a gold SIP early helps — if you had started 10k/month back in 2015, when gold was around Rs 26,000/10g, the same habit would be worth far more than you put in today.</p>
+
+<h2>Gold SIP vs Gold Lump Sum vs Jewellery - Which is Better?</h2>
+<p>Gold SIP (Monthly): Best for salaried people, averages price, no timing risk, disciplined. Gold Lump Sum: Best if you have large cash and gold price just corrected 10-15%. Jewellery: Worst for investment because 15-20% making charges + 10% wastage, 22K only, resale value low. Digital Gold Best: Gold ETF (0.4% expense, real-time, no GST), Sovereign Gold Bond (2.5% extra yearly interest + tax-free after 8 years — new issues currently paused), Digital Gold (MMTC-PAMP).</p>
+<p>Smart Strategy: Do Rs 10k Gold SIP in Gold ETF, and add SGBs when new issues open. At retirement, you will have physical gold + pension. Don't buy jewellery for investment, buy 24K coin/biscuit or ETF. Making charges eat 20% return in jewellery.</p>
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+<div><b>Q1. What is current gold price today 2026?</b><br>24K gold is around Rs 1,48,000 per 10g in India and about $4,150 per ounce internationally (mid-October 2026, indicative). Changes daily. You can edit price in calculator for exact calculation.</div>
+<div><b>Q2. What is expected gold return?</b><br>Last 20 years gold gave 11.2% CAGR in India, 8% in USD. We use 11% default, you can change to 8-12%.</div>
+<div><b>Q3. Is gold SIP better than physical gold?</b><br>Yes, Gold SIP in ETF has no making charge, no theft risk, 99.9% purity, sell anytime in 1 second, loan possible.</div>
+<div><b>Q4. 22K vs 24K gold which is better for investment?</b><br>24K is 99.9% pure, best for investment. 22K is 91.6% pure for jewellery with copper mixed. For investment always buy 24K.</div>
+<div><b>Q5. Is this gold calculator free?</b><br>Yes, AurumX Gold Investment Calculator is 100% free, no watermark, unlimited, works worldwide for any currency.</div>
+</div>
+</div>
+</div>
+
+<div style="max-width:300px;margin:0 auto;text-align:center;padding:12px 0"><span style="display:block;font-size:10px;letter-spacing:0.18em;color:#94a3b8;margin-bottom:6px">ADVERTISEMENT</span>
+<script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+</div>
+<footer>
+<p>© 2026 AurumX - Free Gold Investment Calculator</p>
+<div style="margin-top:12px">
+<a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="https://fixoraa.tech">More Tools</a><a href="/">Home</a>
+</div>
+<p style="margin-top:10px;font-size:11px;color:#57534e">Disclaimer: Gold price is volatile. Past return not guarantee future. For education only.</p>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script>
+let mode='SIP';
+function switchMode(m){
+mode=m;
+document.getElementById('tSIP').classList.toggle('active',m==='SIP');
+document.getElementById('tLump').classList.toggle('active',m==='LUMP');
+document.getElementById('sipBox').style.display=m==='SIP'?'block':'none';
+document.getElementById('lumpBox').style.display=m==='LUMP'?'block':'none';
+calcGold();
+}
+function calcGold(){
+let pricePer10g=parseFloat(document.getElementById('goldPrice').value)||148000;
+let pricePerGram=pricePer10g/10;
+let purity=parseFloat(document.getElementById('purity').value)||1;
+let years=parseFloat(document.getElementById('years').value)||10;
+let growth=parseFloat(document.getElementById('growth').value)/100||0.11;
+let futurePricePer10g = pricePer10g * Math.pow(1+growth, years);
+let futurePricePerGram = futurePricePer10g/10;
+let totalInvested=0, futureValue=0, goldGrams=0;
+
+if(mode==='SIP'){
+let monthly=parseFloat(document.getElementById('monthly').value)||10000;
+totalInvested=monthly*years*12;
+let r= growth/12;
+if(r>0){
+futureValue = monthly * ( (Math.pow(1+r, years*12)-1)/r ) * (1+r);
+} else { futureValue=totalInvested; }
+goldGrams = totalInvested / pricePerGram * purity;
+} else {
+let lump=parseFloat(document.getElementById('lumpSum').value)||500000;
+totalInvested=lump;
+futureValue = lump * Math.pow(1+growth, years);
+goldGrams = lump / pricePerGram * purity;
+}
+let gain=futureValue-totalInvested;
+let futureGoldGramsEqui = futureValue / futurePricePerGram;
+
+document.getElementById('futureVal').innerHTML='₹ '+Math.round(futureValue).toLocaleString('en-IN')+' <small>future</small>';
+document.getElementById('totalInv').innerText='₹ '+Math.round(totalInvested).toLocaleString('en-IN');
+document.getElementById('gain').innerText='₹ '+Math.round(gain).toLocaleString('en-IN');
+document.getElementById('goldBought').innerText=goldGrams.toFixed(1)+' g';
+document.getElementById('futurePrice').innerText='₹ '+Math.round(futurePricePer10g).toLocaleString('en-IN')+' /10g';
+document.getElementById('goldGrams').innerText='≈ '+futureGoldGramsEqui.toFixed(1)+' grams future buying power • '+(futureGoldGramsEqui/11.66).toFixed(2)+' Tola Gold';
+}
+calcGold();
+document.querySelectorAll('input, select').forEach(el=>el.addEventListener('input',calcGold));
+</script>
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"FAQPage",
+"mainEntity":[
+{"@type":"Question","name":"What is current gold price today 2026?","acceptedAnswer":{"@type":"Answer","text":"24K gold is around Rs 1,48,000 per 10g in India and about $4,150 per ounce internationally (indicative, mid-October 2026)."}},
+{"@type":"Question","name":"Is gold calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes 100% free, unlimited, no watermark, worldwide."}}
+]
+}
+</script>
+</body>
+</html>
