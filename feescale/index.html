@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/feescale/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeeScale — Freelance Rate Calculator: Hourly, Day & Project Rates</title>
+<meta name="description" content="FeeScale is a free freelance rate calculator. Turn your take-home income goal into survival, sustainable and walk-away rates — hourly, day, project and retainer — with tax, expenses, time off and scope-creep buffer built in.">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 9999px; background: #374151; outline: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #F59E0B; cursor: pointer; border: 3px solid #111827; box-shadow: 0 0 0 1px #F59E0B; }
+  input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #F59E0B; cursor: pointer; border: 3px solid #111827; box-shadow: 0 0 0 1px #F59E0B; }
+  input[type=range].teal-range::-webkit-slider-thumb { background: #14B8A6; box-shadow: 0 0 0 1px #14B8A6; }
+  input[type=range].teal-range::-moz-range-thumb { background: #14B8A6; box-shadow: 0 0 0 1px #14B8A6; }
+  .num-input { background: #0B1220; border: 1px solid #374151; border-radius: 0.5rem; padding: 0.5rem 0.75rem; width: 100%; color: #F9FAFB; }
+  .num-input:focus { outline: none; border-color: #F59E0B; box-shadow: 0 0 0 2px rgba(245,158,11,.25); }
+  select.num-input { appearance: none; }
+  .tier-card { transition: transform .15s ease, box-shadow .15s ease; }
+  .tier-card:hover { transform: translateY(-2px); }
+  .faq-answer { display: none; }
+  .faq-item.open .faq-answer { display: block; }
+  .faq-item.open .faq-chev { transform: rotate(180deg); }
+  .faq-chev { transition: transform .2s ease; }
+  @media print { .no-print { display: none !important; } }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much should I charge as a freelancer?", "acceptedAnswer": { "@type": "Answer", "text": "Start from the annual take-home income you want, then gross it up: add your yearly business expenses and divide by one minus your effective income-tax rate. Divide that revenue target by your realistic annual billable hours (working days minus time off, times billable hours per day, times your utilization rate). The result is your sustainable hourly rate. FeeScale automates this entire freelance rate calculation, including survival and walk-away tiers." } },
+    { "@type": "Question", "name": "How do I calculate my hourly rate from a salary target?", "acceptedAnswer": { "@type": "Answer", "text": "Take your target take-home pay, add annual business expenses, and divide by (1 - tax rate) to get the revenue you must earn. Then divide by billable hours per year. Example: $60,000 take-home + $4,800 expenses at 25% tax needs $86,400 of revenue; at 1,128 billable hours per year that is about $77 per hour. An hourly rate calculator for freelancers like FeeScale does this math instantly and converts it to day, project and retainer rates." } },
+    { "@type": "Question", "name": "Should I charge hourly, daily, project-based, or on retainer?", "acceptedAnswer": { "@type": "Answer", "text": "Charge hourly when scope is uncertain, daily for on-site or intensive consulting days, project-based when deliverables are well defined (it rewards efficiency), and monthly retainer for ongoing availability. FeeScale's freelance day rate calculator and project rate calculator convert between all four units from one base rate, so your pricing stays consistent no matter how the client wants to buy." } },
+    { "@type": "Question", "name": "What is a walk-away rate and why do I need one?", "acceptedAnswer": { "@type": "Answer", "text": "A walk-away rate is the minimum rate below which you decline the work — typically 25-35% above your sustainable rate. It protects you from desperation pricing, signals value to clients, and gives you a hard floor in negotiations. FeeScale shows your walk-away rate next to survival and sustainable tiers so you always know your numbers before a sales call." } },
+    { "@type": "Question", "name": "How do I account for taxes and expenses in my freelance rate?", "acceptedAnswer": { "@type": "Answer", "text": "Add up everything the business costs you per year — software, hardware, insurance, accounting, coworking, marketing — and add it to your take-home target before grossing up for income tax. Most freelancers forget expenses entirely and undercharge by 10-20%. FeeScale's itemized breakdown shows exactly how much of your gross revenue goes to tax, expenses, and your pocket." } },
+    { "@type": "Question", "name": "How much buffer should I add for scope creep?", "acceptedAnswer": { "@type": "Answer", "text": "Add a 10-20% scope-creep buffer to every fixed quote. Projects almost always expand: extra revision rounds, stakeholder feedback, and 'one small thing' requests. Quoting your base project rate plus an explicit buffer keeps you profitable when scope drifts, and you can frame it to clients as a fixed, all-inclusive price. FeeScale applies your chosen buffer to project and retainer quotes automatically." } }
+  ]
+}
+</script>
+</head>
+<body id="top" class="bg-[#0B1220] text-slate-100 antialiased">
+
+<!-- ============ STICKY HEADER ============ -->
+<header class="sticky top-0 z-50 bg-[#0B1220]/95 backdrop-blur border-b border-slate-800">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="text-2xl font-extrabold tracking-tight">
+      <span class="text-amber-400">Fee</span><span class="text-teal-400">Scale</span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm font-medium">
+      <a href="#top" class="text-slate-300 hover:text-amber-400 transition">Home</a>
+      <a href="https://fixoraa.tech" class="text-slate-300 hover:text-amber-400 transition">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-teal-500/10 pointer-events-none"></div>
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-8 text-center">
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-teal-400/40 bg-teal-400/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-teal-300 uppercase">
+      <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      Unlimited Free Usage
+    </span>
+    <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+      Freelance Rate <span class="text-amber-400">Calculator</span>
+    </h1>
+    <p class="mt-3 max-w-2xl mx-auto text-slate-400 text-sm sm:text-base">
+      Start with the take-home income you want. FeeScale grosses it up for tax and expenses,
+      divides by your real billable hours, and gives you three rates — survival, sustainable, walk-away —
+      in hourly, day, project and retainer units.
+    </p>
+  </div>
+</section>
+
+<!-- TOP AD (verbatim) -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOOL ============ -->
+<main id="tool" class="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- ===== LEFT: INPUT PANEL ===== -->
+    <section class="lg:col-span-4 bg-[#1F2937] border border-slate-700/60 rounded-2xl p-5 sm:p-6 h-fit lg:sticky lg:top-20">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-bold text-white">Rate Builder</h2>
+        <span class="text-[10px] font-semibold uppercase tracking-widest text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-full px-2.5 py-1">Free forever</span>
+      </div>
+
+      <div class="space-y-5">
+        <div>
+          <label for="curSel" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Currency</label>
+          <select id="curSel" class="num-input">
+            <option value="USD">USD — US Dollar ($)</option>
+            <option value="EUR">EUR — Euro (€)</option>
+            <option value="GBP">GBP — British Pound (£)</option>
+            <option value="INR">INR — Indian Rupee (₹)</option>
+            <option value="AUD">AUD — Australian Dollar (A$)</option>
+            <option value="CAD">CAD — Canadian Dollar (C$)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="takeHome" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Target take-home income <span class="text-slate-500 normal-case">/ year</span></label>
+          <input id="takeHome" type="number" min="0" step="500" value="60000" class="num-input text-lg font-semibold text-amber-300">
+          <p class="mt-1 text-[11px] text-slate-500">What you want in your pocket after tax &amp; expenses.</p>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="taxRange" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Income tax rate</label>
+            <span class="text-sm font-bold text-amber-300"><span id="taxNum">25</span>%</span>
+          </div>
+          <input id="taxRange" type="range" min="0" max="50" step="0.5" value="25">
+        </div>
+
+        <div>
+          <label for="expMonthly" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Business expenses <span class="text-slate-500 normal-case">/ month</span></label>
+          <input id="expMonthly" type="number" min="0" step="25" value="400" class="num-input">
+          <p class="mt-1 text-[11px] text-slate-500">Software, hardware, insurance, accounting, coworking…</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="daysOff" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Days off / year</label>
+            <input id="daysOff" type="number" min="0" max="365" step="1" value="25" class="num-input">
+          </div>
+          <div>
+            <label for="daysPerWeek" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Work days / week</label>
+            <input id="daysPerWeek" type="number" min="1" max="7" step="1" value="5" class="num-input">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="hrsPerDay" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Billable hours / day</label>
+            <span class="text-sm font-bold text-amber-300"><span id="hrsNum">6</span>h</span>
+          </div>
+          <input id="hrsPerDay" type="range" min="2" max="12" step="0.5" value="6">
+        </div>
+
+        <div class="rounded-xl border border-teal-400/30 bg-teal-400/5 p-4">
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="utilRange" class="text-xs font-semibold uppercase tracking-wider text-teal-300">Billable utilization</label>
+            <span class="text-sm font-bold text-teal-300"><span id="utilNum">80</span>%</span>
+          </div>
+          <input id="utilRange" type="range" min="20" max="100" step="1" value="80" class="teal-range">
+          <p class="mt-1.5 text-[11px] text-slate-500">Share of your work hours that are actually billed. The rest is admin, marketing &amp; pitching.</p>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="bufferRange" class="text-xs font-semibold uppercase tracking-wider text-slate-400">Scope-creep buffer</label>
+            <span class="text-sm font-bold text-amber-300">+<span id="bufferNum">15</span>%</span>
+          </div>
+          <input id="bufferRange" type="range" min="0" max="50" step="1" value="15">
+        </div>
+
+        <div>
+          <label for="projHours" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Typical project size <span class="text-slate-500 normal-case">(hours)</span></label>
+          <input id="projHours" type="number" min="1" step="1" value="40" class="num-input">
+        </div>
+
+        <div id="warnBox" class="hidden rounded-xl border border-red-400/40 bg-red-400/10 p-3 text-xs text-red-300"></div>
+
+        <div class="pt-1">
+          <div class="rounded-xl bg-[#0B1220] border border-slate-700 p-3.5 text-xs text-slate-400 leading-relaxed">
+            <span class="font-semibold text-slate-200">How it's computed:</span>
+            revenue = (take-home + expenses) ÷ (1 − tax) → hourly = revenue ÷ billable hours/yr.
+            Survival = 70% of target · Sustainable = 100% · Walk-away = 130%.
+          </div>
+        </div>
+
+        <button id="resetBtn" class="w-full rounded-xl border border-slate-600 text-slate-300 text-sm font-semibold py-2.5 hover:border-amber-400 hover:text-amber-300 transition">Reset to defaults</button>
+      </div>
+    </section>
+
+    <!-- ===== RIGHT: RESULTS ===== -->
+    <section class="lg:col-span-8 space-y-6">
+
+      <!-- Tier cards -->
+      <div>
+        <h2 class="text-lg font-bold text-white mb-1">Your three rates</h2>
+        <p class="text-xs text-slate-500 mb-4">Quoted project &amp; retainer rates include your <span id="bufferEcho" class="text-amber-300 font-semibold">15%</span> scope buffer.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+          <div class="tier-card rounded-2xl border border-slate-700 bg-[#1F2937] p-5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Survival</h3>
+              <span class="text-[10px] font-semibold text-slate-500">70% of target</span>
+            </div>
+            <div class="mt-2 text-3xl font-extrabold text-slate-200"><span id="tSurvHourly">—</span><span class="text-sm font-medium text-slate-500">/hr</span></div>
+            <p class="mt-1 text-[11px] text-slate-500">Take-home target: <span id="tSurvTarget" class="text-slate-300 font-semibold">—</span>/yr</p>
+            <dl class="mt-4 space-y-2 text-sm">
+              <div class="flex justify-between"><dt class="text-slate-500">Day</dt><dd id="tSurvDay" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project</dt><dd id="tSurvProj" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project (quoted)</dt><dd id="tSurvProjQ" class="font-semibold text-teal-300">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Retainer / mo</dt><dd id="tSurvRet" class="font-semibold text-slate-200">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="tier-card rounded-2xl border-2 border-amber-400 bg-[#1F2937] p-5 shadow-[0_0_30px_rgba(245,158,11,0.15)] relative">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 text-[#1F2937] text-[10px] font-extrabold uppercase tracking-widest px-3 py-1">Recommended</span>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-amber-400">Sustainable</h3>
+              <span class="text-[10px] font-semibold text-slate-500">100% of target</span>
+            </div>
+            <div class="mt-2 text-3xl font-extrabold text-amber-300"><span id="tSustHourly">—</span><span class="text-sm font-medium text-slate-500">/hr</span></div>
+            <p class="mt-1 text-[11px] text-slate-500">Take-home target: <span id="tSustTarget" class="text-slate-300 font-semibold">—</span>/yr</p>
+            <dl class="mt-4 space-y-2 text-sm">
+              <div class="flex justify-between"><dt class="text-slate-500">Day</dt><dd id="tSustDay" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project</dt><dd id="tSustProj" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project (quoted)</dt><dd id="tSustProjQ" class="font-semibold text-teal-300">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Retainer / mo</dt><dd id="tSustRet" class="font-semibold text-slate-200">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="tier-card rounded-2xl border border-teal-400/50 bg-[#1F2937] p-5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-teal-300">Walk-away</h3>
+              <span class="text-[10px] font-semibold text-slate-500">130% of target</span>
+            </div>
+            <div class="mt-2 text-3xl font-extrabold text-teal-300"><span id="tWalkHourly">—</span><span class="text-sm font-medium text-slate-500">/hr</span></div>
+            <p class="mt-1 text-[11px] text-slate-500">Take-home target: <span id="tWalkTarget" class="text-slate-300 font-semibold">—</span>/yr</p>
+            <dl class="mt-4 space-y-2 text-sm">
+              <div class="flex justify-between"><dt class="text-slate-500">Day</dt><dd id="tWalkDay" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project</dt><dd id="tWalkProj" class="font-semibold text-slate-200">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Project (quoted)</dt><dd id="tWalkProjQ" class="font-semibold text-teal-300">—</dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Retainer / mo</dt><dd id="tWalkRet" class="font-semibold text-slate-200">—</dd></div>
+            </dl>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Converter + Quick quote -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-slate-700 bg-[#1F2937] p-5">
+          <h3 class="text-sm font-bold text-white mb-1">Unit converter</h3>
+          <p class="text-[11px] text-slate-500 mb-4">Convert any rate between hourly, day, project &amp; retainer.</p>
+          <div class="flex gap-2">
+            <input id="convAmount" type="number" min="0" step="any" value="500" class="num-input" aria-label="Amount to convert">
+            <select id="convFrom" class="num-input max-w-[7.5rem]" aria-label="From unit">
+              <option value="hour">/ hour</option>
+              <option value="day" selected>/ day</option>
+              <option value="project">/ project</option>
+              <option value="retainer">/ month</option>
+            </select>
+          </div>
+          <label class="mt-3 flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+            <input id="convBufferChk" type="checkbox" class="w-4 h-4 accent-amber-400" checked>
+            Apply scope buffer to project &amp; retainer
+          </label>
+          <div id="convOut" class="mt-4 grid grid-cols-2 gap-2 text-sm"></div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-700 bg-[#1F2937] p-5">
+          <h3 class="text-sm font-bold text-white mb-1">Quick quote</h3>
+          <p class="text-[11px] text-slate-500 mb-4">Enter estimated hours → price at each tier, buffer included.</p>
+          <div class="flex items-center gap-2">
+            <input id="quoteHours" type="number" min="0" step="1" value="40" class="num-input" aria-label="Estimated hours">
+            <span class="text-sm text-slate-500 whitespace-nowrap">hours</span>
+          </div>
+          <div id="quoteOut" class="mt-4 space-y-2.5 text-sm"></div>
+        </div>
+      </div>
+
+      <!-- Itemized breakdown -->
+      <div class="rounded-2xl border border-slate-700 bg-[#1F2937] p-5 sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h3 class="text-sm font-bold text-white">Where the money goes <span class="text-slate-500 font-normal">— itemized breakdown</span></h3>
+          <div class="flex rounded-lg overflow-hidden border border-slate-700 text-xs font-semibold" role="tablist" aria-label="Breakdown tier">
+            <button id="bdTabSurv" class="px-3 py-1.5 text-slate-400 hover:text-white" role="tab">Survival</button>
+            <button id="bdTabSust" class="px-3 py-1.5 bg-amber-400 text-[#1F2937]" role="tab">Sustainable</button>
+            <button id="bdTabWalk" class="px-3 py-1.5 text-slate-400 hover:text-white" role="tab">Walk-away</button>
+          </div>
+        </div>
+        <div class="h-4 rounded-full overflow-hidden flex bg-[#0B1220] border border-slate-700">
+          <div id="bdBarTax" class="bg-red-400/80" style="width:25%"></div>
+          <div id="bdBarExp" class="bg-teal-400/80" style="width:6%"></div>
+          <div id="bdBarTake" class="bg-amber-400/90" style="width:69%"></div>
+        </div>
+        <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+          <div class="rounded-xl bg-[#0B1220] border border-slate-700 p-3">
+            <div class="text-[11px] uppercase tracking-wider text-slate-500">Gross revenue</div>
+            <div id="bdGross" class="mt-1 text-lg font-extrabold text-white">—</div>
+          </div>
+          <div class="rounded-xl bg-[#0B1220] border border-slate-700 p-3">
+            <div class="text-[11px] uppercase tracking-wider text-slate-500">Income tax <span id="bdTaxPct" class="text-red-300">25%</span></div>
+            <div id="bdTax" class="mt-1 text-lg font-extrabold text-red-300">—</div>
+          </div>
+          <div class="rounded-xl bg-[#0B1220] border border-slate-700 p-3">
+            <div class="text-[11px] uppercase tracking-wider text-slate-500">Expenses</div>
+            <div id="bdExp" class="mt-1 text-lg font-extrabold text-teal-300">—</div>
+          </div>
+          <div class="rounded-xl bg-[#0B1220] border border-slate-700 p-3">
+            <div class="text-[11px] uppercase tracking-wider text-slate-500">Your take-home</div>
+            <div id="bdTake" class="mt-1 text-lg font-extrabold text-amber-300">—</div>
+          </div>
+        </div>
+        <p class="mt-3 text-[11px] text-slate-500">Based on <span id="bdHours" class="text-slate-300 font-semibold">—</span> billable hours / year at <span id="bdUtil" class="text-slate-300 font-semibold">—</span> utilization.</p>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ===== SUMMARY STRIP ===== -->
+  <section class="mt-6 rounded-2xl border border-amber-400/40 bg-gradient-to-r from-[#1F2937] via-[#1F2937] to-[#1F2937] p-5 sm:p-6">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+      <h3 class="text-sm font-bold text-white">Copy-ready rate summary</h3>
+      <div class="flex flex-wrap items-center gap-2">
+        <input id="profileName" type="text" placeholder="Profile name…" maxlength="40" class="num-input !w-40 text-sm" aria-label="Profile name">
+        <button id="saveProfileBtn" class="rounded-lg bg-teal-500/15 border border-teal-400/50 text-teal-300 text-xs font-bold px-3 py-2 hover:bg-teal-500/25 transition">Save profile</button>
+        <select id="profileSel" class="num-input !w-40 text-sm" aria-label="Saved profiles"><option value="">Saved profiles…</option></select>
+        <button id="delProfileBtn" class="rounded-lg border border-slate-600 text-slate-400 text-xs font-bold px-3 py-2 hover:border-red-400 hover:text-red-300 transition">Delete</button>
+      </div>
+    </div>
+    <pre id="summaryText" class="whitespace-pre-wrap rounded-xl bg-[#0B1220] border border-slate-700 p-4 text-xs sm:text-sm text-slate-300 font-mono leading-relaxed"></pre>
+    <div class="mt-3 flex items-center gap-3">
+      <button id="copyBtn" class="rounded-xl bg-amber-400 text-[#1F2937] text-sm font-extrabold px-5 py-2.5 hover:bg-amber-300 transition">Copy summary</button>
+      <span id="copyMsg" class="text-xs text-teal-300 opacity-0 transition-opacity">Copied to clipboard ✓</span>
+    </div>
+  </section>
+</main>
+
+<!-- BOTTOM AD (verbatim) -->
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEO ARTICLE ============ -->
+<article id="seo-article" class="mx-auto max-w-4xl px-4 sm:px-6 py-10 text-slate-300">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Freelance Rate Calculator: How to Price Your Work So You Actually Take Home What You Want</h2>
+  <p class="mt-4 text-sm sm:text-base leading-relaxed">Ask a room of freelancers how much to charge as a freelancer and you will hear everything from confident six-figure hourly numbers to embarrassed silence. Pricing is the single hardest business decision an independent worker makes, and most people get it wrong — usually by undercharging. A freelance rate calculator removes the guesswork: instead of copying a competitor's number or picking a figure that "sounds reasonable," you start from the income you want to take home and work backwards through taxes, expenses, time off, and non-billable hours. This guide explains the full method behind FeeScale's hourly rate calculator for freelancers, so you understand every number on the screen — and can defend your quotes with confidence.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Why most freelancers undercharge</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">The classic mistake is converting a salary directly into an hourly rate: divide a $60,000 salary by 2,080 working hours and charge $29 an hour. That math quietly ignores four realities. First, a salary already has taxes withheld and benefits paid by an employer; a freelancer pays all of that themselves. Second, employees get paid holidays, sick days, and slow weeks — freelancers bill only the hours clients actually pay for. Third, running a business costs money: software subscriptions, a decent laptop, accounting, insurance, marketing, and a workspace all come out of your revenue. Fourth, a large slice of every freelancer's week — pitching, admin, invoicing, learning — is never billed to anyone. Skip any one of these and your "rate" quietly becomes a pay cut. An honest freelance rate calculation accounts for all four before a single quote goes out.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Start with your take-home target, not your hourly rate</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">The most reliable way to answer "how much should I charge?" is to flip the question: how much do you want to keep? Pick an annual take-home number that covers your life — rent, food, savings, the holiday you keep postponing — and treat it as the non-negotiable output of the whole exercise. Everything else is a cost layered on top. This target-first approach is why FeeScale asks for take-home income before anything else: your rate is then whatever number delivers that life, not whatever the market happens to whisper. If the resulting rate feels high, the answer is rarely to shrink your target; it is to find better clients, sharper positioning, or a more valuable offer.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">The gross-up: taxes and expenses eat first</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Revenue is not income. Before a dollar reaches your pocket, two claims are settled: the tax authority and your business itself. Suppose you want $60,000 take-home, spend $400 a month on business expenses ($4,800 a year), and face an effective income-tax rate of 25%. The revenue you must earn is not $64,800 — because tax is charged on revenue, not on what's left. The correct formula is revenue = (take-home + expenses) ÷ (1 − tax rate), which gives ($60,000 + $4,800) ÷ 0.75 = $86,400. That extra $21,600 is invisible in salary thinking and is exactly where undercharging hides. List every business expense honestly: tools, hosting, devices, professional insurance, an accountant, courses, coworking, even the coffee you buy to work from cafés. Most freelancers discover their real costs are 10–20% higher than their first guess, and every missing dollar comes straight out of their own pay.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Time off is a business cost too</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Employees get roughly 20–30 paid days off a year without thinking about it. Freelancers who forget to price in their own holidays, sick days, and family time end up funding their vacations out of thin air. A freelance day rate calculator should subtract your days off before computing billable capacity: with a five-day week (260 working days) minus 25 days off, you have 235 potential workdays — and every one of them has to carry the revenue target. Be generous here. A rate built on zero holidays is a rate that chains you to your desk, and burnout is the most expensive business cost of all.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Utilization: you will not bill 100% of your hours</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Billable utilization is the percentage of your work hours that clients actually pay for. The rest goes to proposals, discovery calls that go nowhere, admin, bookkeeping, marketing, and keeping your skills sharp. New freelancers often assume 90–100% utilization; experienced ones plan for 60–80%. The difference is enormous: at 1,410 potential hours a year, dropping from 100% to 80% utilization cuts billable hours to 1,128, which raises the required hourly rate by 25%. That is not pessimism — it is the honest price of running a one-person business. FeeScale's utilization slider lets you feel this trade-off instantly: drag it down and watch your sustainable rate climb, because fewer billable hours must carry the same annual target.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Three tiers: survival, sustainable, and walk-away rates</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">One rate is not enough, because not every situation deserves the same price. FeeScale computes three tiers from your inputs. The <strong class="text-white">survival rate</strong> covers 70% of your take-home target plus full taxes and expenses — your absolute floor for slow months or strategic low-margin work. Never quote below it; work priced under survival literally costs you money. The <strong class="text-white">sustainable rate</strong> delivers 100% of your target and is your default quote: the number that makes freelancing a genuinely good living, not a stressful hobby. The <strong class="text-white">walk-away rate</strong> sits at 130% of target and is your negotiation anchor — the price below which you politely decline. Having all three visible before a sales call changes the conversation: instead of nervously naming a number, you know your floor, your fair price, and your premium, and you can move between them deliberately.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Hourly, day, project, or retainer: picking the right unit</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">The same underlying rate can be sold four ways, and the unit you choose shapes client psychology. <strong class="text-white">Hourly</strong> suits uncertain scope — maintenance, consulting, research — because the meter matches the work. <strong class="text-white">Day rates</strong> work for intensive on-site or workshop engagements; a day rate is simply your hourly rate times billable hours per day, and clients love its simplicity. <strong class="text-white">Project rates</strong> reward efficiency: quote a fixed price for defined deliverables and faster work means a higher effective hourly rate — just make sure scope is written down. <strong class="text-white">Retainers</strong> trade a small discount for predictable monthly income, the holy grail of freelancing; price them as your hourly rate times monthly billable hours. A good project rate calculator keeps all four consistent so you never accidentally discount yourself by switching units — which is exactly what FeeScale's converter does.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">The scope-creep buffer: quote for the project you'll actually deliver</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Nearly every fixed-price project expands: an extra revision round, a stakeholder who appears in week three, "one small thing" that is never small. Freelancers who quote their raw costed hours absorb all of that for free, watching their effective hourly rate melt. The professional fix is a scope-creep buffer of 10–20% baked into every quote. It is not padding or dishonesty — it is the actuarial price of reality, and you can present it to clients as a fixed, all-inclusive price that protects them from surprise invoices too. FeeScale applies your chosen buffer to project and retainer quotes automatically, so the number you copy into a proposal already includes the messiness of real projects.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Raising your rates without losing clients</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Rates are not tattoos; review them every six months. If your calendar is full for the next two months, your rates are too low — scarcity should raise prices, not just lengthen your hours. Raise rates for new clients first, then grandfather existing ones with 30–60 days' notice and a clear explanation tied to demand and results, not apologies. Productize what you can: defined packages with fixed project rates convert better than open-ended hourly billing and make increases feel natural. And keep your walk-away rate sacred — every project accepted below it teaches the market (and yourself) that your floor is negotiable. Over a career, the freelancers who earn the most are rarely the most talented; they are the ones who priced like a business from day one.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">A worked example</h3>
+  <p class="mt-3 text-sm sm:text-base leading-relaxed">Let's run the full freelance rate calculation with realistic numbers. Target take-home: $60,000 a year. Business expenses: $400 a month ($4,800 a year). Effective tax rate: 25%. Required revenue = ($60,000 + $4,800) ÷ 0.75 = $86,400. Time: five-day weeks minus 25 days off = 235 workdays; at 6 billable hours a day and 80% utilization, that's 1,128 billable hours a year. Sustainable hourly rate = $86,400 ÷ 1,128 ≈ $77/hour. Day rate (6 hours) ≈ $460. A typical 40-hour project ≈ $3,064, or $3,523 quoted with a 15% scope buffer. Monthly retainer ≈ $7,200. The survival floor lands near $55/hour and the walk-away rate near $98/hour. Notice how far this is from the naïve $29/hour salary conversion — that gap is the difference between a hobby and a business, and it is why doing the math properly matters more than any single pricing tactic.</p>
+
+  <h3 class="mt-8 text-xl font-bold text-white">Frequently asked questions</h3>
+  <div class="mt-4 space-y-3">
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">How much should I charge as a freelancer?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">Start from the annual take-home income you want, add yearly business expenses, and divide by one minus your effective tax rate to get required revenue. Divide that by your realistic annual billable hours (workdays minus time off, times billable hours per day, times utilization). The result is your sustainable rate — FeeScale's freelance rate calculator does this in seconds and shows survival and walk-away tiers alongside it.</p>
+    </div>
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">How do I calculate my hourly rate from a salary target?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">Never just divide salary by 2,080 hours — that ignores tax, expenses, holidays, and non-billable time. Use the gross-up formula: (take-home + annual expenses) ÷ (1 − tax rate) ÷ billable hours per year. For example, $60,000 take-home with $4,800 expenses at 25% tax and 1,128 billable hours gives roughly $77/hour — nearly triple the naïve conversion. An hourly rate calculator for freelancers applies this correctly every time.</p>
+    </div>
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">Should I charge hourly, daily, project-based, or on retainer?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">Match the unit to the engagement: hourly for uncertain scope, day rates for intensive on-site work, fixed project pricing for well-defined deliverables (it rewards your efficiency), and monthly retainers for ongoing availability. Keep all four derived from one base hourly rate so switching units never accidentally discounts you — FeeScale's freelance day rate calculator and project rate calculator handle the conversions.</p>
+    </div>
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">What is a walk-away rate and why do I need one?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">A walk-away rate is the minimum price below which you decline the work — typically about 30% above your sustainable rate. It stops desperation pricing, anchors negotiations in your favor, and protects your positioning. Decide it before the sales call, not during it; FeeScale displays it next to your survival and sustainable tiers so all three numbers are in front of you.</p>
+    </div>
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">How do I account for taxes and expenses in my freelance rate?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">Total every annual business cost — software, hardware, insurance, accounting, marketing, workspace — add it to your take-home target, then gross up for income tax with revenue = (take-home + expenses) ÷ (1 − tax rate). Forgetting expenses is the most common pricing error and typically underprices you by 10–20%. FeeScale's itemized breakdown shows exactly how gross revenue splits into tax, expenses, and take-home.</p>
+    </div>
+    <div class="faq-item rounded-xl border border-slate-700 bg-[#1F2937]">
+      <button class="faq-q w-full flex items-center justify-between gap-3 text-left px-5 py-4 font-semibold text-white text-sm sm:text-base">How much buffer should I add for scope creep?<svg class="faq-chev w-5 h-5 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+      <p class="faq-answer px-5 pb-5 text-sm text-slate-400 leading-relaxed">Add 10–20% to every fixed quote. Extra revisions, late-appearing stakeholders, and "one small thing" requests are the norm, not the exception. A buffer keeps you profitable when scope drifts and lets you offer clients a fixed, all-inclusive price with no surprise invoices. FeeScale's scope-creep buffer applies automatically to project and retainer quotes.</p>
+    </div>
+  </div>
+</article>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-slate-800 mt-4">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="text-xl font-extrabold tracking-tight"><span class="text-amber-400">Fee</span><span class="text-teal-400">Scale</span></div>
+    <p class="text-xs text-slate-500 text-center">Free freelance rate calculator. Your inputs never leave your browser — no signup, no tracking.</p>
+    <nav class="flex items-center gap-5 text-sm font-medium">
+      <a href="#top" class="text-slate-400 hover:text-amber-400 transition">Home</a>
+      <a href="https://fixoraa.tech" class="text-slate-400 hover:text-amber-400 transition">More Tools</a>
+    </nav>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script>
+/*__PURE_START__*/
+var FS_TIER_TARGETS = { survival: 0.7, sustainable: 1.0, walkaway: 1.3 };
+var FS_TIER_ORDER = ['survival', 'sustainable', 'walkaway'];
+var FS_TIER_LABELS = { survival: 'Survival', sustainable: 'Sustainable', walkaway: 'Walk-away' };
+var FS_CURRENCIES = {
+  USD: { symbol: '$',  label: 'USD' },
+  EUR: { symbol: '\u20AC', label: 'EUR' },
+  GBP: { symbol: '\u00A3', label: 'GBP' },
+  INR: { symbol: '\u20B9', label: 'INR' },
+  AUD: { symbol: 'A$', label: 'AUD' },
+  CAD: { symbol: 'C$', label: 'CAD' }
+};
+var FS_DEFAULTS = { currency: 'USD', takeHome: 60000, taxPct: 25, expensesMonthly: 400, daysOff: 25, daysPerWeek: 5, hrsPerDay: 6, utilization: 80, scopeBuffer: 15, projectHours: 40 };
+var FS_PROFILE_KEY = 'feescale-profiles-v1';
+
+function fsToNum(v, dflt) { var n = parseFloat(v); return (typeof n === 'number' && isFinite(n)) ? n : dflt; }
+function fsClamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
+
+function fsSanitize(raw) {
+  var r = raw || {};
+  var takeHome = Math.max(0, fsToNum(r.takeHome, FS_DEFAULTS.takeHome));
+  var taxPct = fsClamp(fsToNum(r.taxPct, FS_DEFAULTS.taxPct), 0, 99);
+  var expensesMonthly = Math.max(0, fsToNum(r.expensesMonthly, FS_DEFAULTS.expensesMonthly));
+  var daysOff = fsClamp(fsToNum(r.daysOff, FS_DEFAULTS.daysOff), 0, 365);
+  var daysPerWeek = fsClamp(fsToNum(r.daysPerWeek, FS_DEFAULTS.daysPerWeek), 1, 7);
+  var hrsPerDay = fsClamp(fsToNum(r.hrsPerDay, FS_DEFAULTS.hrsPerDay), 0.5, 16);
+  var utilization = fsClamp(fsToNum(r.utilization, FS_DEFAULTS.utilization), 0, 100);
+  var scopeBuffer = fsClamp(fsToNum(r.scopeBuffer, FS_DEFAULTS.scopeBuffer), 0, 100);
+  var projectHours = fsClamp(fsToNum(r.projectHours, FS_DEFAULTS.projectHours), 1, 2000);
+  var currency = FS_CURRENCIES[r.currency] ? r.currency : 'USD';
+  var expensesAnnual = expensesMonthly * 12;
+  var workDays = Math.max(0, daysPerWeek * 52 - daysOff);
+  var billableHours = workDays * hrsPerDay * (utilization / 100);
+  return { currency: currency, takeHome: takeHome, taxPct: taxPct, expensesMonthly: expensesMonthly,
+    expensesAnnual: expensesAnnual, daysOff: daysOff, daysPerWeek: daysPerWeek, hrsPerDay: hrsPerDay,
+    utilization: utilization, scopeBuffer: scopeBuffer, projectHours: projectHours,
+    workDays: workDays, billableHours: billableHours };
+}
+
+function fsGrossRequired(takeHome, taxPct, expensesAnnual) {
+  if (!(takeHome >= 0) || !(expensesAnnual >= 0)) return NaN;
+  if (!(taxPct >= 0) || !(taxPct < 100)) return NaN;
+  return (takeHome + expensesAnnual) / (1 - taxPct / 100);
+}
+
+function fsBreakdown(takeHome, taxPct, expensesAnnual) {
+  var gross = fsGrossRequired(takeHome, taxPct, expensesAnnual);
+  if (!isFinite(gross)) return null;
+  return { gross: gross, tax: gross * (taxPct / 100), expenses: expensesAnnual, takeHome: takeHome };
+}
+
+function fsTierRates(inp) {
+  var out = {};
+  for (var i = 0; i < FS_TIER_ORDER.length; i++) {
+    var tier = FS_TIER_ORDER[i];
+    var target = inp.takeHome * FS_TIER_TARGETS[tier];
+    var gross = fsGrossRequired(target, inp.taxPct, inp.expensesAnnual);
+    var hourly = (inp.billableHours > 0 && isFinite(gross)) ? gross / inp.billableHours : NaN;
+    var day = isFinite(hourly) ? hourly * inp.hrsPerDay : NaN;
+    var project = isFinite(hourly) ? hourly * inp.projectHours : NaN;
+    var retainer = isFinite(hourly) ? hourly * inp.billableHours / 12 : NaN;
+    var mult = 1 + inp.scopeBuffer / 100;
+    out[tier] = {
+      target: target, gross: gross, hourly: hourly, day: day, project: project, retainer: retainer,
+      projectQuoted: isFinite(project) ? project * mult : NaN,
+      retainerQuoted: isFinite(retainer) ? retainer * mult : NaN,
+      breakdown: fsBreakdown(target, inp.taxPct, inp.expensesAnnual)
+    };
+  }
+  return out;
+}
+
+function fsUnitHours(inp) {
+  return { hour: 1, day: inp.hrsPerDay, project: inp.projectHours, retainer: inp.billableHours / 12 };
+}
+
+function fsConvert(amount, fromUnit, toUnit, inp) {
+  var uh = fsUnitHours(inp);
+  if (!(amount >= 0) || !uh[fromUnit] || !uh[toUnit]) return NaN;
+  return amount * uh[toUnit] / uh[fromUnit];
+}
+
+function fsQuote(hours, inp) {
+  var tiers = fsTierRates(inp);
+  var out = {};
+  for (var i = 0; i < FS_TIER_ORDER.length; i++) {
+    var t = FS_TIER_ORDER[i];
+    var base = isFinite(tiers[t].hourly) ? tiers[t].hourly * hours : NaN;
+    out[t] = { base: base, quoted: isFinite(base) ? base * (1 + inp.scopeBuffer / 100) : NaN };
+  }
+  return out;
+}
+
+function fsMoney(n, currency) {
+  if (!isFinite(n)) return '\u2014';
+  var sym = (FS_CURRENCIES[currency] || FS_CURRENCIES.USD).symbol;
+  return sym + Math.round(n).toLocaleString('en-US');
+}
+function fsMoney2(n, currency) {
+  if (!isFinite(n)) return '\u2014';
+  var sym = (FS_CURRENCIES[currency] || FS_CURRENCIES.USD).symbol;
+  return sym + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fsCopySummary(inp, tiers) {
+  var s = tiers.sustainable, v = tiers.survival, w = tiers.walkaway;
+  var L = [];
+  L.push('My freelance rates (calculated with FeeScale):');
+  L.push('\u2022 Hourly: ' + fsMoney2(s.hourly, inp.currency) + '/hr  (survival floor ' + fsMoney2(v.hourly, inp.currency) + ' \u00B7 walk-away ' + fsMoney2(w.hourly, inp.currency) + ')');
+  L.push('\u2022 Day rate (' + inp.hrsPerDay + 'h): ' + fsMoney(s.day, inp.currency) + '/day');
+  L.push('\u2022 Project (' + inp.projectHours + 'h): ' + fsMoney(s.project, inp.currency) + ' \u2014 quoted ' + fsMoney(s.projectQuoted, inp.currency) + ' incl. ' + inp.scopeBuffer + '% scope buffer');
+  L.push('\u2022 Monthly retainer: ' + fsMoney(s.retainer, inp.currency) + '/mo');
+  L.push('Assumptions: ' + fsMoney(inp.takeHome, inp.currency) + '/yr take-home target, ' + inp.taxPct + '% income tax, ' +
+    fsMoney(inp.expensesAnnual, inp.currency) + '/yr expenses, ' + Math.round(inp.billableHours).toLocaleString('en-US') +
+    ' billable hrs/yr (' + inp.utilization + '% utilization, ' + Math.round(inp.workDays) + ' workdays).');
+  return L.join('\n');
+}
+/*__PURE_END__*/
+
+/* ================= UI WIRING (DOM only, not part of pure logic) ================= */
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  var INPUT_IDS = ['curSel','takeHome','taxRange','expMonthly','daysOff','daysPerWeek','hrsPerDay','utilRange','bufferRange','projHours'];
+  var bdTier = 'sustainable';
+
+  function readInputs() {
+    return {
+      currency: $('curSel').value,
+      takeHome: $('takeHome').value,
+      taxPct: $('taxRange').value,
+      expensesMonthly: $('expMonthly').value,
+      daysOff: $('daysOff').value,
+      daysPerWeek: $('daysPerWeek').value,
+      hrsPerDay: $('hrsPerDay').value,
+      utilization: $('utilRange').value,
+      scopeBuffer: $('bufferRange').value,
+      projectHours: $('projHours').value
+    };
+  }
+
+  function setTier(prefix, t) {
+    $('t' + prefix + 'Hourly').textContent = fsMoney2(t.hourly, lastInp.currency);
+    $('t' + prefix + 'Target').textContent = fsMoney(t.target, lastInp.currency);
+    $('t' + prefix + 'Day').textContent = fsMoney(t.day, lastInp.currency) + '/day';
+    $('t' + prefix + 'Proj').textContent = fsMoney(t.project, lastInp.currency);
+    $('t' + prefix + 'ProjQ').textContent = fsMoney(t.projectQuoted, lastInp.currency);
+    $('t' + prefix + 'Ret').textContent = fsMoney(t.retainer, lastInp.currency) + '/mo';
+  }
+
+  var lastInp = null, lastTiers = null;
+
+  function render() {
+    lastInp = fsSanitize(readInputs());
+    lastTiers = fsTierRates(lastInp);
+    var inp = lastInp, cur = inp.currency;
+
+    // slider readouts
+    $('taxNum').textContent = inp.taxPct;
+    $('hrsNum').textContent = inp.hrsPerDay;
+    $('utilNum').textContent = inp.utilization;
+    $('bufferNum').textContent = inp.scopeBuffer;
+    $('bufferEcho').textContent = inp.scopeBuffer + '%';
+
+    // warnings
+    var warn = $('warnBox');
+    if (inp.billableHours <= 0) {
+      warn.classList.remove('hidden');
+      warn.textContent = 'Billable hours are zero — raise utilization or billable hours/day, or reduce days off.';
+    } else if (inp.utilization < 40) {
+      warn.classList.remove('hidden');
+      warn.textContent = 'Very low utilization (' + inp.utilization + '%) pushes rates high — typical freelancers bill 60–80% of work hours.';
+    } else { warn.classList.add('hidden'); }
+
+    // tier cards
+    setTier('Surv', lastTiers.survival);
+    setTier('Sust', lastTiers.sustainable);
+    setTier('Walk', lastTiers.walkaway);
+
+    renderConverter();
+    renderQuote();
+    renderBreakdown();
+    $('summaryText').textContent = fsCopySummary(inp, lastTiers);
+  }
+
+  var UNIT_LABELS = { hour: '/hour', day: '/day', project: '/project', retainer: '/month' };
+  function renderConverter() {
+    var inp = lastInp, cur = inp.currency;
+    var amt = fsToNum($('convAmount').value, 0);
+    var from = $('convFrom').value;
+    var applyBuf = $('convBufferChk').checked;
+    var mult = 1 + inp.scopeBuffer / 100;
+    var box = $('convOut');
+    box.innerHTML = '';
+    ['hour','day','project','retainer'].forEach(function (u) {
+      var val = fsConvert(amt, from, u, inp);
+      if (applyBuf && (u === 'project' || u === 'retainer') && isFinite(val)) val *= mult;
+      var cell = document.createElement('div');
+      cell.className = 'rounded-lg bg-[#0B1220] border border-slate-700 px-3 py-2.5';
+      cell.innerHTML = '<div class="text-[10px] uppercase tracking-wider text-slate-500">' + u + '</div>' +
+        '<div class="font-bold ' + (u === from ? 'text-teal-300' : 'text-white') + '">' + fsMoney(val, cur) +
+        '<span class="text-[10px] font-normal text-slate-500">' + UNIT_LABELS[u] + '</span></div>';
+      box.appendChild(cell);
+    });
+  }
+
+  function renderQuote() {
+    var inp = lastInp, cur = inp.currency;
+    var hours = fsToNum($('quoteHours').value, 0);
+    var q = fsQuote(hours, inp);
+    var box = $('quoteOut');
+    box.innerHTML = '';
+    FS_TIER_ORDER.forEach(function (t) {
+      var row = document.createElement('div');
+      var color = t === 'sustainable' ? 'text-amber-300' : (t === 'walkaway' ? 'text-teal-300' : 'text-slate-300');
+      row.className = 'flex items-center justify-between rounded-lg bg-[#0B1220] border border-slate-700 px-3 py-2.5';
+      row.innerHTML = '<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">' + FS_TIER_LABELS[t] + '</span>' +
+        '<span class="text-right"><span class="' + color + ' font-bold">' + fsMoney(q[t].quoted, cur) + '</span>' +
+        '<span class="block text-[10px] text-slate-500">base ' + fsMoney(q[t].base, cur) + ' + ' + inp.scopeBuffer + '% buffer</span></span>';
+      box.appendChild(row);
+    });
+  }
+
+  function renderBreakdown() {
+    var inp = lastInp, cur = inp.currency;
+    var t = lastTiers[bdTier];
+    var b = t.breakdown;
+    if (!b) return;
+    $('bdGross').textContent = fsMoney(b.gross, cur);
+    $('bdTax').textContent = fsMoney(b.tax, cur);
+    $('bdTaxPct').textContent = inp.taxPct + '%';
+    $('bdExp').textContent = fsMoney(b.expenses, cur);
+    $('bdTake').textContent = fsMoney(b.takeHome, cur);
+    var g = b.gross || 1;
+    $('bdBarTax').style.width = (b.tax / g * 100).toFixed(1) + '%';
+    $('bdBarExp').style.width = (b.expenses / g * 100).toFixed(1) + '%';
+    $('bdBarTake').style.width = (b.takeHome / g * 100).toFixed(1) + '%';
+    $('bdHours').textContent = Math.round(inp.billableHours).toLocaleString('en-US');
+    $('bdUtil').textContent = inp.utilization + '%';
+    // tab styles
+    [['bdTabSurv','survival'],['bdTabSust','sustainable'],['bdTabWalk','walkaway']].forEach(function (p) {
+      var el = $(p[0]);
+      if (p[1] === bdTier) { el.className = 'px-3 py-1.5 bg-amber-400 text-[#1F2937]'; }
+      else { el.className = 'px-3 py-1.5 text-slate-400 hover:text-white'; }
+    });
+  }
+
+  // events
+  INPUT_IDS.forEach(function (id) { $(id).addEventListener('input', render); });
+  ['convAmount','convFrom'].forEach(function (id) { $(id).addEventListener('input', renderConverter); });
+  $('convBufferChk').addEventListener('change', renderConverter);
+  $('quoteHours').addEventListener('input', renderQuote);
+  $('bdTabSurv').addEventListener('click', function () { bdTier = 'survival'; renderBreakdown(); });
+  $('bdTabSust').addEventListener('click', function () { bdTier = 'sustainable'; renderBreakdown(); });
+  $('bdTabWalk').addEventListener('click', function () { bdTier = 'walkaway'; renderBreakdown(); });
+
+  $('resetBtn').addEventListener('click', function () {
+    $('curSel').value = FS_DEFAULTS.currency;
+    $('takeHome').value = FS_DEFAULTS.takeHome;
+    $('taxRange').value = FS_DEFAULTS.taxPct;
+    $('expMonthly').value = FS_DEFAULTS.expensesMonthly;
+    $('daysOff').value = FS_DEFAULTS.daysOff;
+    $('daysPerWeek').value = FS_DEFAULTS.daysPerWeek;
+    $('hrsPerDay').value = FS_DEFAULTS.hrsPerDay;
+    $('utilRange').value = FS_DEFAULTS.utilization;
+    $('bufferRange').value = FS_DEFAULTS.scopeBuffer;
+    $('projHours').value = FS_DEFAULTS.projectHours;
+    render();
+  });
+
+  $('copyBtn').addEventListener('click', function () {
+    var txt = $('summaryText').textContent;
+    function done() {
+      var m = $('copyMsg');
+      m.classList.remove('opacity-0');
+      setTimeout(function () { m.classList.add('opacity-0'); }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, function () { fallbackCopy(txt); done(); });
+    } else { fallbackCopy(txt); done(); }
+  });
+  function fallbackCopy(txt) {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  // profiles (localStorage)
+  function loadProfiles() {
+    try { return JSON.parse(localStorage.getItem(FS_PROFILE_KEY) || '{}'); }
+    catch (e) { return {}; }
+  }
+  function saveProfiles(p) { try { localStorage.setItem(FS_PROFILE_KEY, JSON.stringify(p)); } catch (e) {} }
+  function refreshProfileSel() {
+    var sel = $('profileSel'), keep = sel.value, ps = loadProfiles();
+    sel.innerHTML = '<option value="">Saved profiles…</option>';
+    Object.keys(ps).forEach(function (name) {
+      var o = document.createElement('option'); o.value = name; o.textContent = name; sel.appendChild(o);
+    });
+    sel.value = keep;
+  }
+  $('saveProfileBtn').addEventListener('click', function () {
+    var name = $('profileName').value.trim();
+    if (!name) { $('profileName').focus(); return; }
+    var ps = loadProfiles(); ps[name] = readInputs(); saveProfiles(ps);
+    $('profileName').value = ''; refreshProfileSel(); $('profileSel').value = name;
+  });
+  $('profileSel').addEventListener('change', function () {
+    var ps = loadProfiles(), p = ps[$('profileSel').value];
+    if (!p) return;
+    INPUT_IDS.forEach(function (id) { if (p[id] !== undefined) $(id).value = p[id]; });
+    render();
+  });
+  $('delProfileBtn').addEventListener('click', function () {
+    var name = $('profileSel').value; if (!name) return;
+    var ps = loadProfiles(); delete ps[name]; saveProfiles(ps); refreshProfileSel();
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item .faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () { btn.closest('.faq-item').classList.toggle('open'); });
+  });
+
+  refreshProfileSel();
+  render();
+})();
+</script>
+</body>
+</html>
