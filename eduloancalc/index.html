@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Education Loan EMI Calculator with Moratorium – EduLoanCalc</title>
+<meta name="description" content="Education loan EMI calculator with moratorium toggle, prepayment impact and total-interest donut. See your true EMI and lifetime interest cost.">
+<link rel="canonical" href="https://finance.fixoraa.tech/eduloancalc/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Education Loan EMI Calculator with Moratorium – EduLoanCalc">
+<meta property="og:description" content="Education loan EMI calculator with moratorium toggle, prepayment impact and total-interest donut. See your true EMI and lifetime interest cost.">
+<meta property="og:url" content="https://finance.fixoraa.tech/eduloancalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "EduLoanCalc",
+      "url": "https://finance.fixoraa.tech/eduloancalc/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "Education loan EMI calculator with moratorium toggle, prepayment impact and total-interest donut. See your true EMI and lifetime interest cost.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is education loan EMI calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "EMI = P \u00d7 r \u00d7 (1+r)^n / ((1+r)^n \u2212 1), where P is principal, r the monthly rate (annual/12) and n the months. For \u20b95,00,000 at 10% over 5 years, EMI \u2248 \u20b910,624."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does interest accrue during the moratorium period?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually yes \u2014 interest accrues during the moratorium and, if unpaid, is capitalised into the principal. Paying interest during the study period avoids this and saves lakhs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is education loan interest tax deductible in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under Section 80E, interest paid on education loans is fully deductible with no upper limit for up to 8 years. Only interest qualifies, not principal repayment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a prepayment penalty on education loans?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most floating-rate education loans in India have no prepayment penalty, but always confirm in your sanction letter. Prepaying early saves the most interest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I choose a longer tenure for lower EMI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A longer tenure lowers EMI but raises total interest sharply. On \u20b95,00,000 at 10%, 5 years costs ~\u20b91.37 lakh interest while 10 years costs ~\u20b93.12 lakh. Choose the shortest tenure whose EMI fits your budget."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it better to prepay an education loan or invest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Prepaying a 10% loan equals a guaranteed ~10% return. Prepay as early as possible \u2014 the same lump sum in year 1 saves roughly double the interest versus year 5."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#FDFDF8; --surface:#FFFFFF; --accent:#8A5F14; --accent-ink:#FFFFFF;
+  --ink:#2A2415; --muted:#6E6552; --line:#E8DFC8;
+  --display:'Outfit',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.el-wrap{max-width:620px;margin:0 auto;padding:8px 4px;font-family:Inter,system-ui,sans-serif;color:#2A2415;text-align:center}.el-logo{font-size:44px;margin-top:34px}.el-h1{font-family:Outfit,sans-serif;font-size:clamp(2rem,5vw,2.9rem);margin:14px 0 8px;font-weight:600;letter-spacing:-.01em}.el-tag{color:#6E6552;font-size:1.05rem;max-width:480px;margin:0 auto 30px}.el-emi{font-family:Outfit,sans-serif;font-size:clamp(3rem,9vw,4.4rem);font-weight:700;color:#8A5F14;line-height:1;margin:6px 0}.el-emi-label{font-size:.85rem;font-weight:600;color:#6E6552;text-transform:uppercase;letter-spacing:.08em}.el-card{background:#fff;border:1px solid #E8DFC8;border-radius:24px;padding:28px;margin-top:26px;text-align:left;box-shadow:0 18px 46px -32px rgba(183,121,31,.4)}.el-h2{font-family:Outfit,sans-serif;font-size:1.2rem;margin:0 0 18px;font-weight:600}.el-field{display:grid;gap:8px;font-size:.88rem;font-weight:600;color:#6E6552;margin-bottom:16px}.el-field input{border:1.5px solid #E3D7B8;border-radius:14px;padding:14px 16px;font-size:1.05rem;min-height:52px;width:100%;box-sizing:border-box;color:#2A2415;background:#FFFDF6}.el-field input:focus{outline:2px solid #8A5F14;border-color:#8A5F14}.el-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.el-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FBF7EA;border:1px solid #E8DFC8;border-radius:14px;padding:14px 16px;margin:6px 0 16px;cursor:pointer;min-height:56px}.el-toggle span{font-size:.92rem;font-weight:600;color:#2A2415}.el-toggle input{width:26px;height:26px;accent-color:#8A5F14}.el-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}.el-stat{background:#FBF7EA;border:1px solid #EFE5C6;border-radius:16px;padding:16px;text-align:center}.el-stat .k{font-size:.76rem;font-weight:700;color:#6E6552;text-transform:uppercase;letter-spacing:.05em}.el-stat .v{font-family:Outfit,sans-serif;font-size:1.35rem;font-weight:700;margin-top:6px}.el-donutwrap{display:flex;gap:20px;align-items:center;margin-top:18px;flex-wrap:wrap;justify-content:center}.el-legend{font-size:.85rem;color:#6E6552;line-height:2}.el-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px}.el-disc{font-size:.78rem;color:#6E6552;line-height:1.6;margin-top:20px}@media(max-width:640px){.el-row,.el-stats{grid-template-columns:1fr}.el-card{padding:22px 18px}.el-emi{font-size:3rem}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="EduLoanCalc home">
+      <span class="fx-logo-tile" aria-hidden="true">🎓</span>
+      <span class="fx-brand">EduLoanCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-zen-single" aria-label="EduLoanCalc tool">
+<div class='el-wrap'>
+  <div class='el-logo'>🎓</div>
+  <h1 class='el-h1'>Education Loan EMI Calculator</h1>
+  <p class='el-tag'>Your degree's true price, in one calm number.</p>
+  <div class='el-emi-label'>Your monthly EMI</div>
+  <div class='el-emi' id='el-emi'>–</div>
+  <div class='el-card'>
+    <h2 class='el-h2'>Loan details</h2>
+    <div class='el-field'>Loan amount (₹)<input type='number' id='el-p' min='0' value='500000'></div>
+    <div class='el-row'>
+      <div class='el-field'>Interest rate (% p.a.)<input type='number' id='el-rate' min='0' step='any' value='10'></div>
+      <div class='el-field'>Tenure (years)<input type='number' id='el-yrs' min='0' step='any' value='5'></div>
+    </div>
+    <label class='el-toggle'><span>Moratorium: interest capitalised during study (adds to principal)</span><input type='checkbox' id='el-mor'></label>
+    <div class='el-row' id='el-morrow' style='display:none'>
+      <div class='el-field'>Moratorium (years)<input type='number' id='el-moryrs' min='0' step='any' value='2'></div>
+      <div class='el-field'>Interest paid during moratorium (₹)<input type='number' id='el-morpaid' min='0' value='0'></div>
+    </div>
+    <h2 class='el-h2' style='margin-top:22px'>Prepayment</h2>
+    <div class='el-row'>
+      <div class='el-field'>Lump sum (₹)<input type='number' id='el-pre' min='0' value='0'></div>
+      <div class='el-field'>After year<input type='number' id='el-preyr' min='0' step='any' value='2'></div>
+    </div>
+    <div class='el-stats'>
+      <div class='el-stat'><div class='k'>Total interest</div><div class='v' id='el-ti'>–</div></div>
+      <div class='el-stat'><div class='k'>Total payable</div><div class='v' id='el-tp'>–</div></div>
+      <div class='el-stat'><div class='k'>Interest saved by prepay</div><div class='v' id='el-sv' style='color:#0E7C5B'>–</div></div>
+      <div class='el-stat'><div class='k'>Effective principal</div><div class='v' id='el-ep'>–</div></div>
+    </div>
+    <div class='el-donutwrap'>
+      <svg width='150' height='150' viewBox='0 0 42 42' id='el-donut' role='img' aria-label='Principal versus interest donut chart'><circle cx='21' cy='21' r='15.9' fill='none' stroke='#EFE5C6' stroke-width='8'/><circle id='el-slice' cx='21' cy='21' r='15.9' fill='none' stroke='#8A5F14' stroke-width='8' stroke-dasharray='0 100' stroke-dashoffset='25' stroke-linecap='round'/></svg>
+      <div class='el-legend'><div><span class='el-dot' style='background:#8A5F14'></span>Interest <b id='el-leg-i'></b></div><div><span class='el-dot' style='background:#EFE5C6'></span>Principal <b id='el-leg-p'></b></div></div>
+    </div>
+  </div>
+  <p class='el-disc'>Estimate only. Actual EMI depends on reducing-balance method, rate type and lender fees. Interest on education loans is deductible under Section 80E.</p>
+</div>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>How Education Loan EMI Works</h2>
+<p>An education loan EMI (equated monthly instalment) is computed exactly like any other amortising loan: EMI = P × r × (1+r)^n ÷ ((1+r)^n − 1), where P is the principal, r the monthly interest rate and n the number of months. What makes education loans special is not the formula but the structure around it — the moratorium period, the tax deduction on interest, and the long tenures that make small rate differences enormously expensive.</p>
+<p>For a ₹5,00,000 loan at 10% over 5 years, the EMI is about ₹10,624 and the total interest is roughly ₹1,37,409 — meaning you repay nearly 27% more than you borrowed. Stretch the same loan to 10 years and the EMI falls to about ₹6,607, but total interest balloons to roughly ₹2,92,891. The calculator above shows both numbers side by side precisely so this trade-off is impossible to miss: lower EMI today always means more interest tomorrow.</p>
+<h2>The Moratorium Period: Free Time That Is Not Free</h2>
+<p>Most education loans offer a moratorium — typically the course duration plus 6–12 months — during which you pay nothing. But interest usually keeps accruing, and unless you service it, it gets capitalised: added to the principal. A ₹10,00,000 loan at 10% with a 4-year course plus 1-year moratorium accrues about ₹6,10,510 in unpaid interest if you pay nothing — so repayment starts on a principal of roughly ₹16,10,510, not ₹10,00,000. That single feature can add lakhs to your total cost.</p>
+<p>The moratorium toggle in the calculator models both paths. Paying even the simple interest during the study years — about ₹8,333 a month on a ₹10 lakh loan at 10% — prevents capitalisation and can save more than the total of those payments, because every rupee of capitalised interest itself accrues interest for the entire repayment tenure. If your family can afford interest-only payments during the course, it is among the highest-return uses of that money.</p>
+<h3>Should you take the full moratorium?</h3>
+<p>Take it only if cash flow genuinely requires it. The moratorium exists to protect students with no income, not to optimise cost. Partial payments during the moratorium — even irregular ones — cut the capitalised base and compound in your favour for years. Some lenders also offer a small rate concession (often 0.5–1%) for servicing interest during the moratorium; always ask.</p>
+<h2>Why Small Rate Differences Matter So Much</h2>
+<p>On a ₹20,00,000 loan over 10 years, the difference between 9% and 11% is about ₹2,600 per month — but the total interest difference is roughly ₹3,60,000. Two percentage points, one-third of a million rupees. This is why negotiating the rate, maintaining a good co-applicant credit score, and choosing lenders with floating-rate reset clauses that actually pass on rate cuts matters far more than haggling over processing fees.</p>
+<p>Also compare effective tenures, not just headline rates. A lender offering 10.5% over 15 years can look cheaper monthly than 9.5% over 10 years while costing far more overall. Always decide on total interest payable, which the calculator surfaces prominently, not on EMI comfort alone.</p>
+<h2>Prepayment: The Highest-Return Investment You Can Make</h2>
+<p>Prepaying a 10% loan is equivalent to earning a guaranteed, tax-free 10% return — better than nearly any fixed-income product and without market risk. A single ₹1,00,000 prepayment in year 2 of a ₹10,00,000, 10-year, 10% loan saves roughly ₹1,90,000 in interest and cuts about 1.5 years off the tenure. The prepayment panel in the calculator shows this impact instantly: enter any lump sum and any timing, and watch the interest donut shrink.</p>
+<p>Two practical notes. First, most education loans in India carry no prepayment penalty on floating-rate loans — confirm this in your sanction letter. Second, prepay early: a prepayment in year 1 saves roughly twice the interest of the same prepayment in year 5, because early payments kill principal that would otherwise accrue interest for the longest.</p>
+<h3>The interest donut</h3>
+<p>The total-interest visualisation splits your repayment into principal versus interest. If the interest slice approaches or exceeds half the donut, treat it as a warning sign: you are buying the degree twice. Shortening tenure or prepaying are the only levers that shrink that slice.</p>
+<h2>Tax Benefit: Section 80E</h2>
+<p>Interest paid on education loans is deductible under Section 80E with no upper limit, for up to 8 years starting from the year repayment begins. On a loan where you pay ₹1,50,000 in interest in a year while in the 30% slab, the deduction saves ₹46,800 in tax — effectively reducing your interest cost by nearly a third. Note that only interest qualifies, not principal, and the deduction applies to loans for higher education of self, spouse, children or a legal ward.</p>
+<h2>Choosing a Lender: Beyond the Rate</h2>
+<ul>
+<li><strong>Moratorium terms:</strong> how interest is treated during the course period, and whether interest servicing earns a rate concession.</li>
+<li><strong>Margin money:</strong> many lenders fund only 85–90% of expenses above certain amounts; ensure the gap is planned.</li>
+<li><strong>Collateral thresholds:</strong> loans above ₹7.5 lakh typically need collateral or a strong co-applicant.</li>
+<li><strong>Disbursement mechanics:</strong> fee paid directly to the institution versus to you affects forex and timing for foreign universities.</li>
+<li><strong>Floating vs fixed:</strong> floating rates with honest reset clauses usually win over long horizons.</li>
+</ul>
+<h2>A Sensible Borrowing Checklist</h2>
+<p>Borrow only the gap between total costs and confirmed funding (savings, scholarships, family). Model the EMI against a realistic starting salary — lenders suggest keeping total EMIs under 40–50% of income, but for a first job, under 30% is far more comfortable. Service interest during the moratorium if at all possible. And set a prepayment habit from the first salary hike: even ₹5,000 extra a month from year two compounds into lakhs saved.</p>
+<h2>How This Calculator Helps</h2>
+<p>EduLoanCalc keeps the interface calm and the numbers loud: one oversized EMI figure, a moratorium toggle that reveals the true cost of free time, a prepayment simulator, and an interest donut that shows exactly how much of your repayment is really the degree. Decide with total interest, not monthly comfort.</p>
+<h2>Floating vs Fixed Rates</h2>
+<p>Most education loans are floating-rate, linked to an external benchmark, which means your EMI can rise or fall with rate cycles. Over a 10-year tenure you will live through multiple cycles, so ask how quickly the lender passes on cuts — some reset annually, others quarterly — and whether the reset changes your EMI or your tenure. Fixed-rate education loans are rare and usually priced higher to compensate the lender; they buy certainty at a premium. For most borrowers, a floating rate from a lender with honest, frequent resets wins on total cost.</p>
+<h3>The co-applicant's role</h3>
+<p>A parent or guardian almost always co-signs, and their credit history directly affects your rate — a co-applicant with a 750+ credit score can shave meaningful basis points off the offer. Treat the application as a joint financial product: compare offers with the same co-applicant profile, and remember the co-applicant is equally liable if repayment falters.</p>
+<h2>When to Refinance</h2>
+<p>If rates fall meaningfully after you borrow — or your credit profile improves — refinancing (balance transfer) can cut total interest sharply. The maths favours early refinancing: transferring a large balance from 11% to 9.5% in year 2 of a 10-year loan saves well over a lakh in interest. Watch for processing fees and reset the tenure thoughtfully — extending tenure while refinancing can wipe out the saving. Compare the total-interest figures, not just the EMI, exactly as this calculator frames it.</p>
+<h2>Scholarships First, Loans Second</h2>
+<p>Every rupee of scholarship is a rupee you never pay interest on, yet families often treat loans as the default and scholarships as a bonus. Invert that: apply to every merit and need-based scholarship available, negotiate financial aid with the institution, and consider a gap year of earning if the funding gap is large. A modest scholarship on a large loan at typical rates saves nearly double its face value in total repayment over a decade. Borrow only the irreducible gap — the calculator above shows you exactly what each borrowed lakh costs over the full tenure, which makes the value of every scholarship rupee concrete.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How is education loan EMI calculated?</summary><p>EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is principal, r the monthly rate (annual/12) and n the months. For ₹5,00,000 at 10% over 5 years, EMI ≈ ₹10,624.</p></details>
+<details><summary>Does interest accrue during the moratorium period?</summary><p>Usually yes — interest accrues during the moratorium and, if unpaid, is capitalised into the principal. Paying interest during the study period avoids this and saves lakhs.</p></details>
+<details><summary>Is education loan interest tax deductible in India?</summary><p>Under Section 80E, interest paid on education loans is fully deductible with no upper limit for up to 8 years. Only interest qualifies, not principal repayment.</p></details>
+<details><summary>Is there a prepayment penalty on education loans?</summary><p>Most floating-rate education loans in India have no prepayment penalty, but always confirm in your sanction letter. Prepaying early saves the most interest.</p></details>
+<details><summary>Should I choose a longer tenure for lower EMI?</summary><p>A longer tenure lowers EMI but raises total interest sharply. On ₹5,00,000 at 10%, 5 years costs ~₹1.37 lakh interest while 10 years costs ~₹3.12 lakh. Choose the shortest tenure whose EMI fits your budget.</p></details>
+<details><summary>Is it better to prepay an education loan or invest?</summary><p>Prepaying a 10% loan equals a guaranteed ~10% return. Prepay as early as possible — the same lump sum in year 1 saves roughly double the interest versus year 5.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">EduLoanCalc</div>
+    <p>EduLoanCalc computes education loan EMI with moratorium, prepayment and interest breakdowns.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function emiCalc(p,annualRate,years){var r=annualRate/12,n=Math.round(years*12);if(!(p>0)||!(r>0)||!(n>0))return{emi:0,totalInterest:0,totalPayable:0};var f=Math.pow(1+r,n);var emi=p*r*f/(f-1);emi=Math.round(emi*100)/100;var totalPayable=Math.round(emi*n*100)/100;var totalInterest=Math.round((totalPayable-p)*100)/100;return{emi:emi,totalInterest:totalInterest,totalPayable:totalPayable};}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){function v(id){return parseFloat(document.getElementById(id).value)||0;}function fr(n){return'₹'+Math.round(n).toLocaleString('en-IN');}function recalc(){var p=v('el-p'),rate=v('el-rate')/100,yrs=v('el-yrs');var effP=p;if(document.getElementById('el-mor').checked){var my=v('el-moryrs'),paid=v('el-morpaid');var accrued=p*(Math.pow(1+rate,my)-1);effP=Math.max(p,Math.round((p+accrued-paid)*100)/100);}var base=emiCalc(effP,rate,yrs);var pre=v('el-pre'),preYr=v('el-preyr');var saved=0;if(pre>0&&preYr>0&&preYr<yrs){var r=rate/12,n=Math.round(yrs*12),k=Math.round(preYr*12);var f=Math.pow(1+r,n);var emi=base.emi;var bal=effP*Math.pow(1+r,k)-emi*((Math.pow(1+r,k)-1)/r);bal=Math.max(0,bal-pre);var rem=n-k;var newEmi=rem>0?bal*r*Math.pow(1+r,rem)/(Math.pow(1+r,rem)-1):0;var newTotal=emi*k+newEmi*rem;saved=Math.max(0,Math.round(base.totalPayable-newTotal));}document.getElementById('el-emi').textContent=base.emi>0?fr(base.emi):'–';document.getElementById('el-ti').textContent=fr(base.totalInterest);document.getElementById('el-tp').textContent=fr(base.totalPayable);document.getElementById('el-sv').textContent=fr(saved);document.getElementById('el-ep').textContent=fr(effP);var tot=base.totalPayable;var ipct=tot>0?Math.round(base.totalInterest/tot*100):0;document.getElementById('el-slice').setAttribute('stroke-dasharray',ipct+' '+(100-ipct));document.getElementById('el-leg-i').textContent=ipct+'%';document.getElementById('el-leg-p').textContent=(100-ipct)+'%';}document.getElementById('el-mor').addEventListener('change',function(){document.getElementById('el-morrow').style.display=this.checked?'grid':'none';recalc();});['el-p','el-rate','el-yrs','el-moryrs','el-morpaid','el-pre','el-preyr'].forEach(function(id){document.getElementById(id).addEventListener('input',recalc);});recalc();});}
+</script>
+</body>
+</html>
