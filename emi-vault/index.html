@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/emi-vault/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan EMI Calculator with Prepayment 2026 - Best EMI Planner</title>
+    <meta name="description" content="Free Home Loan EMI Calculator with Prepayment option. Calculate EMI, total interest, prepayment savings. No watermark, unlimited usage.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root{ --primary:#4F46E5; --primary-dark:#4338CA; --bg:#F8FAFF; --card:#ffffff; --text:#0F172A; --muted:#64748B; --border:#E2E8F0; --success:#10B981; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+        h1,h2,h3{font-family:'Outfit',sans-serif}
+        header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+        .nav{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
+        .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px;color:var(--primary);text-decoration:none}
+        .logo-icon{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+        .nav-links{display:flex;gap:24px;align-items:center}
+        .nav-links a{text-decoration:none;color:var(--text);font-weight:500;transition:0.2s}
+        .nav-links a:hover{color:var(--primary)}
+        .btn-more{background:var(--primary);color:#fff !important;padding:8px 18px;border-radius:20px}
+        .ad-container{max-width:1200px;margin:20px auto;padding:0 20px;text-align:center}
+        .ad-box{background:linear-gradient(135deg,#E0E7FF,#F3E8FF);border:2px dashed #A5B4FC;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600}
+        .ad-top{height:120px;font-size:18px} 
+        .ad-bottom{height:250px;font-size:20px}
+        @media(max-width:768px){ .ad-top{height:70px;font-size:14px} .ad-bottom{height:120px;font-size:14px} }
+        .main-wrap{max-width:1200px;margin:auto;padding:20px;display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px}
+        @media(max-width:900px){ .main-wrap{grid-template-columns:1fr} }
+        .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.04)}
+        .card h1{font-size:28px;margin-bottom:8px}
+        .card .sub{color:var(--muted);margin-bottom:24px}
+        .input-group{margin-bottom:18px}
+        .input-group label{display:flex;justify-content:space-between;font-weight:500;margin-bottom:6px;font-size:14px}
+        .input-group label span{color:var(--primary);font-weight:700}
+        input[type=range]{width:100%;accent-color:var(--primary)}
+        input[type=number]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);font-size:16px;font-weight:600}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .result-card{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border-radius:20px;padding:28px}
+        .result-item{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.2)}
+        .result-item:last-child{border:none}
+        .result-item b{font-size:18px}
+        .big-emi{text-align:center;padding:20px 0}
+        .big-emi h2{font-size:16px;opacity:0.9;font-weight:400}
+        .big-emi .amt{font-size:42px;font-weight:800;margin-top:6px}
+        .chart-box{margin-top:20px}
+        .bar{height:12px;background:var(--bg);border-radius:10px;overflow:hidden;display:flex;margin-top:8px}
+        .bar-principal{background:var(--primary);height:100%}
+        .bar-interest{background:#FBBF24;height:100%}
+        .btn{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
+        .btn:hover{background:var(--primary-dark)}
+        .content{max-width:1200px;margin:40px auto;padding:0 20px}
+        .content h2{font-size:26px;margin:30px 0 14px}
+        .content h3{font-size:19px;margin:22px 0 10px;color:var(--primary-dark)}
+        .content p{color:#334155;margin-bottom:14px;font-size:16px;line-height:1.8}
+        .content ul{margin-left:20px;margin-bottom:18px;color:#334155}
+        .faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px}
+        .faq-item b{display:block;margin-bottom:6px}
+        footer{background:#0F172A;color:#94A3B8;padding:40px 20px;margin-top:50px}
+        .footer-inner{max-width:1200px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
+        @media(max-width:700px){ .footer-inner{grid-template-columns:1fr} }
+        footer a{color:#CBD5E1;text-decoration:none;display:block;margin:6px 0}
+        footer a:hover{color:#fff}
+        .copy{max-width:1200px;margin:30px auto 0;padding-top:20px;border-top:1px solid #1E293B;text-align:center;font-size:14px}
+    </style>
+</head>
+<body>
+<header>
+    <div class="nav">
+        <a class="logo" href="/"><div class="logo-icon">E</div> EMI Vault</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="https://fixoraa.tech" class="btn-more">More Tools →</a>
+        </div>
+    </div>
+</header>
+
+<div style="max-width:728px;margin:0 auto;text-align:center;padding:12px 0"><span style="display:block;font-size:10px;letter-spacing:0.18em;color:#94a3b8;margin-bottom:6px">ADVERTISEMENT</span>
+<script>
+  atOptions = {
+    'key': '4e68ac77881c17fe128a46565d9a4e8c',
+    'format': 'iframe',
+    'height': 90,
+    'width': 728,
+    'params': {}
+};
+</script>
+<script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+</div>
+
+
+<div class="ad-container">
+    <div class="ad-box ad-top">AD BANNER TOP - Your AdSense Code Here (Responsive - PC: 728x90 / Mobile: 320x50)</div>
+</div>
+
+<div class="main-wrap">
+    <div class="card">
+        <h1>Home Loan EMI Calculator with Prepayment</h1>
+        <p class="sub">No Watermark • No Subscription • Unlimited Usage • 100% Free</p>
+        
+        <div class="input-group">
+            <label>Loan Amount <span id="loanVal">₹ 50,00,000</span></label>
+            <input type="range" id="loan" min="100000" max="20000000" step="50000" value="5000000" oninput="calc()">
+            <input type="number" id="loanNum" value="5000000" oninput="syncLoan(this.value)">
+        </div>
+        <div class="row">
+            <div class="input-group">
+                <label>Interest Rate <span id="rateVal">8.5%</span></label>
+                <input type="range" id="rate" min="5" max="18" step="0.05" value="8.5" oninput="calc()">
+            </div>
+            <div class="input-group">
+                <label>Loan Tenure <span id="tenureVal">20 Years</span></label>
+                <input type="range" id="tenure" min="1" max="35" step="1" value="20" oninput="calc()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                <label>Monthly Prepayment</label>
+                <input type="number" id="prepay" value="5000" placeholder="Ex: 5000" oninput="calc()">
+            </div>
+            <div class="input-group">
+                <label>One-time Prepayment</label>
+                <input type="number" id="onePrepay" value="0" placeholder="Ex: 100000" oninput="calc()">
+            </div>
+        </div>
+        <button class="btn" onclick="calc()">Calculate EMI Now</button>
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:10px;">Unlimited calculations • Works offline • No login needed</p>
+    </div>
+
+    <div class="result-card" id="resultCard">
+        <div class="big-emi">
+            <h2>Your Monthly EMI</h2>
+            <div class="amt" id="emiAmt">₹ 43,391</div>
+        </div>
+        <div class="result-item"><span>Total Principal</span><b id="rPrincipal">₹ 50L</b></div>
+        <div class="result-item"><span>Total Interest</span><b id="rInterest">₹ 54L</b></div>
+        <div class="result-item"><span>Total Amount Payable</span><b id="rTotal">₹ 1.04Cr</b></div>
+        <div class="result-item" style="color:#FDE68A"><span>Interest Saved with Prepayment</span><b id="rSaved">₹ 0</b></div>
+        <div class="result-item"><span>Loan Finished Early By</span><b id="rMonths">0 Months</b></div>
+        <div class="chart-box">
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span>Principal</span><span>Interest</span></div>
+            <div class="bar"><div class="bar-principal" id="barP" style="width:50%"></div><div class="bar-interest" id="barI" style="width:50%"></div></div>
+        </div>
+    </div>
+</div>
+
+<div class="ad-container">
+    <div class="ad-box ad-bottom">AD BANNER BOTTOM - Your AdSense Code Here (Responsive - PC: 970x250 / Mobile: 300x100)</div>
+</div>
+
+<div class="content">
+    <h2>Home Loan EMI Calculator with Prepayment - Complete Guide (2026)</h2>
+    <p>A Home Loan EMI Calculator is the most important tool for every home buyer in India. Buying a home is the biggest financial decision of life. In 2026, with home loan interest rates ranging from 8.35% to 11%, even a 0.5% difference can cost you lakhs of rupees. Our EMI Vault Home Loan EMI Calculator with Prepayment feature helps you plan exactly.</p>
+    <p>This tool is 100% free, with no watermark, no subscription, and unlimited usage. You can calculate unlimited times for SBI, HDFC, ICICI, Axis Bank and any other bank.</p>
+
+    <h3>What is Home Loan EMI?</h3>
+    <p>EMI stands for Equated Monthly Installment. It is the fixed amount you pay to the bank every month. EMI has two parts: Principal (actual loan amount) and Interest. In early years, your EMI has more interest part, and later it has more principal part. Formula used is: EMI = [P x R x (1+R)^N] / [(1+R)^N - 1] where P is principal, R is monthly interest rate, N is number of months.</p>
+    
+    <h3>What is Prepayment and Why is it Powerful?</h3>
+    <p>Prepayment means paying extra money over your normal EMI. There are two types we have added in this tool: 1. Monthly Prepayment (e.g., you pay ₹5000 extra every month), 2. One-time Prepayment (e.g., you got a bonus of ₹2 Lakh and you pay it once). Prepayment directly reduces your principal amount, which reduces your interest drastically. For example, if you take a ₹50 Lakh loan for 20 years at 8.5%, your total interest is ₹54 Lakh. If you just pay ₹5000 extra per month, you will save nearly ₹12 Lakh in interest and your loan will finish 3 years early! This is the secret of rich people.</p>
+
+    <h3>How to Use This Calculator?</h3>
+    <p>Step 1: Enter your Loan Amount using slider. Step 2: Enter Interest Rate offered by your bank. Step 3: Select Tenure in years. Step 4: Enter Monthly Prepayment if you want to save interest. Step 5: Click Calculate. You will instantly see EMI, Total Interest, Total Payable, Interest Saved, and How many months early your loan will close. This tool is mobile responsive and works super fast.</p>
+
+    <h3>Benefits of Using EMI Vault Calculator</h3>
+    <ul>
+        <li>100% Free and No Login Required - Use unlimited times.</li>
+        <li>Accurate for All Indian Banks - SBI, HDFC, LIC Housing, PNB.</li>
+        <li>Prepayment Planning - See how small extra payment saves lakhs.</li>
+        <li>Fast and Beautiful UI - Works on PC, Tablet and Mobile perfectly.</li>
+        <li>No Watermark - You can take screenshot and share with family.</li>
+        <li>Privacy Focused - We don't store your financial data.</li>
+    </ul>
+
+    <h3>Example: ₹50 Lakh Home Loan Calculation</h3>
+    <p>Let's take real example. Loan Amount: ₹50,00,000. Interest: 8.5%. Tenure: 20 Years (240 Months). Monthly EMI = ₹43,391. Total Interest Payable = ₹54,13,879. Total Amount = ₹1,04,13,879. Now if you add ₹5000 monthly prepayment, EMI remains same but tenure reduces to 17 years 2 months. Total Interest becomes ₹42,10,000 approx. You save ₹12,03,879. This is huge. You can use this saved money for your child's education.</p>
+
+    <h3>Tips to Reduce Home Loan Interest</h3>
+    <p>1. Make Part-Payment Whenever You Get Bonus. 2. Increase EMI by 5% Every Year as Salary Increases. 3. Choose Shorter Tenure if Possible. 4. Compare Rates Before Taking Loan - SBI usually has lowest. 5. Keep Good CIBIL Score Above 750 to Get Lower Rate. Our calculator helps you test all these scenarios instantly.</p>
+
+    <p>In conclusion, our Home Loan EMI Calculator with Prepayment is not just a calculator, it is your financial planner. It helps you become debt-free faster. Use it unlimited times, share with friends, and plan your dream home smartly. For more such useful tools, visit fixoraa.tech - India's fastest growing tools platform with 100+ tools.</p>
+
+    <h2>Frequently Asked Questions (FAQ)</h2>
+    <div class="faq-item"><b>Q1. Is this calculator free?</b><span>Yes, 100% free, no subscription, no watermark, unlimited usage for lifetime.</span></div>
+    <div class="faq-item"><b>Q2. Is prepayment charge applicable?</b><span>As per RBI rules, for floating rate home loans, there is NO prepayment charge for individual borrowers. For fixed rate, some banks charge 2%.</span></div>
+    <div class="faq-item"><b>Q3. Can I use this for SBI, HDFC, ICICI?</b><span>Yes, this works for all banks in India, just enter interest rate of your bank.</span></div>
+    <div class="faq-item"><b>Q4. Does extra payment reduce EMI or tenure?</b><span>By default banks reduce tenure, keeping EMI same. This saves maximum interest. Our tool shows tenure reduction.</span></div>
+    <div class="faq-item"><b>Q5. What is ideal prepayment amount?</b><span>Financial experts say if you can prepay 5-10% of your EMI every month, you can close 20 year loan in 12-14 years.</span></div>
+</div>
+
+<div style="max-width:300px;margin:0 auto;text-align:center;padding:12px 0"><span style="display:block;font-size:10px;letter-spacing:0.18em;color:#94a3b8;margin-bottom:6px">ADVERTISEMENT</span>
+<script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div><div class="logo" style="color:#fff"><div class="logo-icon">E</div> EMI Vault</div><p style="margin-top:12px">EMI Vault is India's best free tools platform. We provide 100+ calculators, converters and AI tools with no watermark and unlimited free usage.</p></div>
+        <div><b style="color:#fff">Quick Links</b><a href="/">Home</a><a href="https://fixoraa.tech">More Tools</a><a href="https://fixoraa.tech">All Calculators</a></div>
+        <div><b style="color:#fff">Legal</b><a href="https://fixoraa.tech/terms">Terms & Conditions</a><a href="https://fixoraa.tech/privacy">Privacy Policy</a><a href="https://fixoraa.tech/contact">Contact Us</a></div>
+    </div>
+    <div class="copy">© 2026 EMI Vault - All Rights Reserved. Made with ❤️ in India. No Watermark • Unlimited Usage</div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script>
+    function formatINR(num){ return '₹ ' + new Intl.NumberFormat('en-IN').format(Math.round(num)); }
+    function syncLoan(val){ document.getElementById('loan').value = val; document.getElementById('loanVal').innerText = formatINR(val); calc(); }
+    function calc(){
+        let P = parseFloat(document.getElementById('loan').value) || 0;
+        let annualRate = parseFloat(document.getElementById('rate').value) || 0;
+        let years = parseFloat(document.getElementById('tenure').value) || 0;
+        let monthlyPrepay = parseFloat(document.getElementById('prepay').value) || 0;
+        let onePrepay = parseFloat(document.getElementById('onePrepay').value) || 0;
+        
+        document.getElementById('loanVal').innerText = formatINR(P);
+        document.getElementById('loanNum').value = P;
+        document.getElementById('rateVal').innerText = annualRate + '%';
+        document.getElementById('tenureVal').innerText = years + ' Years';
+
+        let R = annualRate / 12 / 100;
+        let N = years * 12;
+        let emi = (P * R * Math.pow(1+R, N)) / (Math.pow(1+R, N)-1);
+        if(isNaN(emi)) emi=0;
+
+        let totalPayNormal = emi * N;
+        let totalInterestNormal = totalPayNormal - P;
+
+        let balance = P - onePrepay;
+        if(balance<0) balance=0;
+        let totalInterestPrepay = 0;
+        let monthsTaken = 0;
+        let tempBalance = balance;
+        for(let i=0;i<1000;i++){
+            if(tempBalance<=0) break;
+            let interestMonth = tempBalance * R;
+            let principalMonth = emi - interestMonth + monthlyPrepay;
+            if(principalMonth > tempBalance) principalMonth = tempBalance;
+            tempBalance -= principalMonth;
+            totalInterestPrepay += interestMonth;
+            monthsTaken++;
+            if(monthsTaken > N*2) break;
+        }
+        let interestSaved = totalInterestNormal - totalInterestPrepay;
+        if(interestSaved<0) interestSaved=0;
+        let monthsSaved = N - monthsTaken;
+        if(monthsSaved<0) monthsSaved=0;
+
+        document.getElementById('emiAmt').innerText = formatINR(emi);
+        document.getElementById('rPrincipal').innerText = formatINR(P);
+        document.getElementById('rInterest').innerText = formatINR(totalInterestNormal);
+        document.getElementById('rTotal').innerText = formatINR(totalPayNormal);
+        document.getElementById('rSaved').innerText = formatINR(interestSaved);
+        document.getElementById('rMonths').innerText = monthsSaved + ' Months (' + (monthsSaved/12).toFixed(1) + ' Years)';
+
+        let pPercent = (P/totalPayNormal*100).toFixed(0);
+        let iPercent = (100-pPercent).toFixed(0);
+        document.getElementById('barP').style.width = pPercent+'%';
+        document.getElementById('barI').style.width = iPercent+'%';
+    }
+    calc();
+</script>
+</body> 
+</html>
