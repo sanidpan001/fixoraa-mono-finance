@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="canonical" href="https://finance.fixoraa.tech/dripvault/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DripVault — Recurring Deposit (RD) Calculator</title>
+<meta name="description" content="DripVault is a free Recurring Deposit (RD) Calculator with a deposit timeline chart, missed-installment impact, and side-by-side tenure comparison.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter',sans-serif;background:#F0F9FF;color:#0C4A6E}
+  h1,h2,h3,.font-display{font-family:'Sora',sans-serif}
+  .drip-bg{background:radial-gradient(600px 300px at 85% -50px,rgba(56,189,248,.35),transparent 60%),radial-gradient(500px 260px at 5% 0,rgba(125,211,252,.4),transparent 60%),linear-gradient(#F0F9FF,#E0F2FE)}
+  .step-card{transition:transform .2s ease, box-shadow .2s ease}
+  .step-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -12px rgba(2,132,199,.35)}
+  input[type=range]{accent-color:#0284C7}
+  .drop{border-radius:0 50% 50% 50%;transform:rotate(45deg)}
+  details summary{cursor:pointer}
+  @media print{.no-print{display:none}}
+</style>
+<script id="lib-dripvault">
+var DripVaultLib = (function () {
+  'use strict';
+
+  function isFiniteNum(x) { return typeof x === 'number' && isFinite(x); }
+
+  function monthlyRateFromAnnual(annualRatePct) {
+    if (!isFiniteNum(annualRatePct) || annualRatePct < 0) return 0;
+    // Quarterly compounding converted to an equivalent monthly rate.
+    return Math.pow(1 + annualRatePct / 400, 1 / 3) - 1;
+  }
+
+  function validate(monthly, annualRatePct, months) {
+    var errors = [];
+    if (!isFiniteNum(monthly) || monthly <= 0) errors.push('Monthly deposit must be a positive number.');
+    if (isFiniteNum(monthly) && monthly > 100000000) errors.push('Monthly deposit is unreasonably large.');
+    if (!isFiniteNum(annualRatePct) || annualRatePct < 0 || annualRatePct > 30) errors.push('Interest rate must be between 0% and 30%.');
+    if (!isFiniteNum(months) || months < 1 || months > 600 || Math.floor(months) !== months) errors.push('Tenure must be a whole number of months between 1 and 600.');
+    return errors;
+  }
+
+  // missedMonths: array of 1-based month numbers whose installment is skipped.
+  function computeRD(monthly, annualRatePct, months, missedMonths) {
+    var errors = validate(monthly, annualRatePct, months);
+    if (errors.length) return { ok: false, errors: errors };
+    var missed = {};
+    var missedCount = 0;
+    if (Array.isArray(missedMonths)) {
+      for (var i = 0; i < missedMonths.length; i++) {
+        var m = missedMonths[i];
+        if (isFiniteNum(m) && m >= 1 && m <= months && !missed[m]) { missed[m] = true; missedCount++; }
+      }
+    }
+    var mr = monthlyRateFromAnnual(annualRatePct);
+    var balance = 0, deposited = 0;
+    var schedule = [];
+    for (var month = 1; month <= months; month++) {
+      var dep = missed[month] ? 0 : monthly;
+      deposited += dep;
+      balance = (balance + dep) * (1 + mr);
+      schedule.push({ month: month, deposit: dep, missed: !!missed[month], balance: Math.round(balance * 100) / 100 });
+    }
+    var maturity = Math.round(balance * 100) / 100;
+    return {
+      ok: true,
+      monthly: monthly,
+      annualRatePct: annualRatePct,
+      months: months,
+      missedCount: missedCount,
+      paidInstallments: months - missedCount,
+      totalDeposited: Math.round(deposited * 100) / 100,
+      maturityValue: maturity,
+      interestEarned: Math.round((maturity - deposited) * 100) / 100,
+      schedule: schedule
+    };
+  }
+
+  // Impact of missing `count` consecutive installments starting at month `startMonth` (1-based).
+  function missedImpact(monthly, annualRatePct, months, count, startMonth) {
+    var base = computeRD(monthly, annualRatePct, months, []);
+    if (!base.ok) return base;
+    if (!isFiniteNum(count) || count <= 0) {
+      return { ok: true, base: base, withMissed: base, lostInterest: 0, skippedDeposits: 0, missedMonths: [] };
+    }
+    count = Math.min(Math.floor(count), months);
+    var start = isFiniteNum(startMonth) ? Math.max(1, Math.min(Math.floor(startMonth), months)) : 1;
+    var list = [];
+    for (var k = 0; k < count && start + k <= months; k++) list.push(start + k);
+    var wm = computeRD(monthly, annualRatePct, months, list);
+    return {
+      ok: true,
+      base: base,
+      withMissed: wm,
+      missedMonths: list,
+      skippedDeposits: wm.totalDeposited >= 0 ? (base.totalDeposited - wm.totalDeposited) : 0,
+      lostInterest: Math.round((base.interestEarned - wm.interestEarned) * 100) / 100,
+      maturityDrop: Math.round((base.maturityValue - wm.maturityValue) * 100) / 100
+    };
+  }
+
+  function compareTenures(monthly, annualRatePct, monthsA, monthsB, missedMonths) {
+    var a = computeRD(monthly, annualRatePct, monthsA, missedMonths);
+    var b = computeRD(monthly, annualRatePct, monthsB, missedMonths);
+    if (!a.ok || !b.ok) return { ok: false, errors: (a.errors || []).concat(b.errors || []) };
+    return {
+      ok: true,
+      a: a, b: b,
+      extraDeposited: Math.round((b.totalDeposited - a.totalDeposited) * 100) / 100,
+      extraInterest: Math.round((b.interestEarned - a.interestEarned) * 100) / 100,
+      extraMaturity: Math.round((b.maturityValue - a.maturityValue) * 100) / 100
+    };
+  }
+
+  // Yearly snapshot rows for the drip-step visual + table.
+  function yearlyBreakdown(result) {
+    if (!result || !result.ok) return [];
+    var rows = [], cumDep = 0;
+    for (var i = 0; i < result.schedule.length; i++) {
+      cumDep += result.schedule[i].deposit;
+      if ((i + 1) % 12 === 0 || i === result.schedule.length - 1) {
+        rows.push({
+          year: Math.ceil((i + 1) / 12),
+          month: i + 1,
+          deposited: Math.round(cumDep * 100) / 100,
+          balance: result.schedule[i].balance,
+          interest: Math.round((result.schedule[i].balance - cumDep) * 100) / 100
+        });
+      }
+    }
+    return rows;
+  }
+
+  // SVG polyline points for the deposit timeline chart.
+  function timelinePoints(result, width, height, pad) {
+    if (!result || !result.ok || !result.schedule.length) return '';
+    pad = isFiniteNum(pad) ? pad : 8;
+    var max = result.schedule[result.schedule.length - 1].balance || 1;
+    var n = result.schedule.length;
+    var pts = [];
+    for (var i = 0; i < n; i++) {
+      var x = n === 1 ? width / 2 : pad + (width - 2 * pad) * (i / (n - 1));
+      var y = height - pad - (height - 2 * pad) * (result.schedule[i].balance / max);
+      pts.push(Math.round(x * 10) / 10 + ',' + Math.round(y * 10) / 10);
+    }
+    return pts.join(' ');
+  }
+
+  function formatINR(n) {
+    if (!isFiniteNum(n)) return '—';
+    var neg = n < 0; n = Math.abs(Math.round(n));
+    var s = String(n), out = s;
+    if (s.length > 3) {
+      var last3 = s.slice(-3), rest = s.slice(0, -3), parts = [];
+      while (rest.length > 2) { parts.unshift(rest.slice(-2)); rest = rest.slice(0, -2); }
+      if (rest) parts.unshift(rest);
+      out = parts.join(',') + ',' + last3;
+    }
+    return (neg ? '-₹' : '₹') + out;
+  }
+
+  return {
+    monthlyRateFromAnnual: monthlyRateFromAnnual,
+    validate: validate,
+    computeRD: computeRD,
+    missedImpact: missedImpact,
+    compareTenures: compareTenures,
+    yearlyBreakdown: yearlyBreakdown,
+    timelinePoints: timelinePoints,
+    formatINR: formatINR
+  };
+})();
+if (typeof module !== 'undefined' && module.exports) { module.exports = DripVaultLib; }
+
+</script>
+</head>
+<body id="top">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-sky-200">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5">
+      <span class="drop inline-block w-6 h-6 bg-gradient-to-br from-sky-400 to-sky-600 shadow"></span>
+      <span class="font-display font-800 text-xl font-extrabold tracking-tight text-sky-900">Drip<span class="text-sky-500">Vault</span></span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm font-semibold">
+      <a href="#top" class="text-sky-800 hover:text-sky-500">Home</a>
+      <a href="https://fixoraa.tech" class="text-sky-800 hover:text-sky-500">More Tools</a>
+    </nav>
+  </div>
+</header>
+
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="drip-bg">
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-6 text-center">
+    <span class="inline-block bg-sky-600 text-white text-xs font-bold tracking-wide px-3 py-1.5 rounded-full shadow">💧 Unlimited Free Usage</span>
+    <h1 class="mt-4 text-3xl sm:text-5xl font-extrabold text-sky-950 leading-tight">Recurring Deposit Calculator,<br class="hidden sm:block"> One Drip at a Time</h1>
+    <p class="mt-3 max-w-2xl mx-auto text-sky-800/80">Small monthly deposits, compounded quarterly, growing step by step. See your maturity value, watch the drip timeline fill up, test what a missed installment really costs, and compare two tenures side by side.</p>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 pb-10">
+    <div class="grid lg:grid-cols-5 gap-6">
+      <!-- Inputs -->
+      <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl shadow-sky-200/60 border border-sky-100 p-6">
+        <h2 class="font-bold text-lg text-sky-950">Your RD plan</h2>
+        <label class="block mt-5 text-sm font-semibold text-sky-900">Monthly deposit (₹)</label>
+        <input id="inMonthly" type="number" min="100" step="100" value="5000" class="mt-1 w-full border border-sky-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400">
+        <input id="rgMonthly" type="range" min="500" max="100000" step="500" value="5000" class="w-full mt-2">
+        <label class="block mt-5 text-sm font-semibold text-sky-900">Interest rate (% per year)</label>
+        <input id="inRate" type="number" min="0" max="30" step="0.05" value="7.1" class="mt-1 w-full border border-sky-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400">
+        <input id="rgRate" type="range" min="3" max="12" step="0.1" value="7.1" class="w-full mt-2">
+        <label class="block mt-5 text-sm font-semibold text-sky-900">Tenure</label>
+        <div class="flex gap-2 mt-1">
+          <input id="inTenure" type="number" min="1" max="50" step="1" value="5" class="w-full border border-sky-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-400">
+          <select id="inTenureUnit" class="border border-sky-200 rounded-xl px-2 py-2.5 bg-white">
+            <option value="years" selected>Years</option>
+            <option value="months">Months</option>
+          </select>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-3">
+          <button data-years="1" class="tenure-chip px-3 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-bold hover:bg-sky-200">1 yr</button>
+          <button data-years="3" class="tenure-chip px-3 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-bold hover:bg-sky-200">3 yrs</button>
+          <button data-years="5" class="tenure-chip px-3 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-bold hover:bg-sky-200">5 yrs</button>
+          <button data-years="10" class="tenure-chip px-3 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-bold hover:bg-sky-200">10 yrs</button>
+        </div>
+
+        <div class="mt-6 bg-sky-50 border border-sky-200 rounded-2xl p-4">
+          <label class="flex items-center justify-between gap-3 cursor-pointer">
+            <span class="text-sm font-bold text-sky-950">Missed-installment impact</span>
+            <input id="missToggle" type="checkbox" class="w-5 h-5 accent-sky-600">
+          </label>
+          <div id="missPanel" class="hidden mt-3">
+            <label class="block text-xs font-semibold text-sky-900">Installments missed</label>
+            <input id="missCount" type="number" min="0" max="120" step="1" value="2" class="mt-1 w-full border border-sky-200 rounded-lg px-3 py-2 bg-white">
+            <label class="block mt-3 text-xs font-semibold text-sky-900">Starting from month</label>
+            <input id="missStart" type="number" min="1" max="600" step="1" value="10" class="mt-1 w-full border border-sky-200 rounded-lg px-3 py-2 bg-white">
+            <p id="missNote" class="mt-3 text-sm text-rose-600 font-medium"></p>
+          </div>
+        </div>
+
+        <button id="calcBtn" class="mt-6 w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-3 rounded-2xl shadow-lg shadow-sky-300 transition">Calculate maturity</button>
+        <p id="errBox" class="hidden mt-3 text-sm text-rose-600 font-medium"></p>
+      </div>
+
+      <!-- Results -->
+      <div class="lg:col-span-3 space-y-6">
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div class="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-200/50 p-5">
+            <p class="text-xs font-bold tracking-wide text-sky-500 uppercase">You deposit</p>
+            <p id="resDeposited" class="mt-1 text-2xl font-extrabold text-sky-950">—</p>
+          </div>
+          <div class="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-200/50 p-5">
+            <p class="text-xs font-bold tracking-wide text-sky-500 uppercase">Interest earned</p>
+            <p id="resInterest" class="mt-1 text-2xl font-extrabold text-emerald-600">—</p>
+          </div>
+          <div class="bg-gradient-to-br from-sky-500 to-sky-700 rounded-3xl shadow-lg shadow-sky-300 p-5 text-white">
+            <p class="text-xs font-bold tracking-wide text-sky-100 uppercase">Maturity value</p>
+            <p id="resMaturity" class="mt-1 text-2xl font-extrabold">—</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-200/50 p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h3 class="font-bold text-sky-950">Deposit timeline</h3>
+            <span class="text-xs text-sky-600 font-medium">Each point is one monthly drip landing in your vault</span>
+          </div>
+          <svg id="chart" viewBox="0 0 640 240" class="w-full mt-3" role="img" aria-label="RD growth chart">
+            <defs>
+              <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.45"/>
+                <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.03"/>
+              </linearGradient>
+            </defs>
+            <polygon id="chartFill" fill="url(#fillGrad)" points=""></polygon>
+            <polyline id="chartLine" fill="none" stroke="#0284C7" stroke-width="3" stroke-linejoin="round" points=""></polyline>
+            <g id="chartDots"></g>
+          </svg>
+          <div class="flex justify-between text-xs text-sky-500 font-medium"><span id="chartStart">Start</span><span id="chartEnd">Maturity</span></div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-sky-100 shadow-lg shadow-sky-200/50 p-6">
+          <h3 class="font-bold text-sky-950">The drip steps — year by year</h3>
+          <div id="steps" class="mt-4 grid sm:grid-cols-2 gap-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compare -->
+    <div class="mt-8 bg-white rounded-3xl border border-sky-100 shadow-xl shadow-sky-200/60 p-6">
+      <h2 class="font-bold text-xl text-sky-950">Compare two tenures side by side</h2>
+      <p class="text-sm text-sky-800/70 mt-1">Same monthly drip, same rate — how much does patience pay? Pick a second tenure to compare against your main plan.</p>
+      <div class="flex flex-wrap items-end gap-3 mt-4">
+        <div>
+          <label class="block text-xs font-semibold text-sky-900">Compare with tenure (years)</label>
+          <input id="cmpYears" type="number" min="1" max="50" step="1" value="10" class="mt-1 w-40 border border-sky-200 rounded-xl px-3 py-2.5">
+        </div>
+        <button id="cmpBtn" class="bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold px-5 py-2.5 rounded-xl">Compare</button>
+      </div>
+      <div id="cmpOut" class="mt-5"></div>
+    </div>
+  </section>
+</main>
+
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+(function(grnp){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = grnp || {};
+s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+    </div>
+  </div>
+</div>
+
+<article class="mx-auto max-w-4xl px-4 sm:px-6 py-10">
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-sky-950">Recurring Deposits Explained: How Small Monthly Drips Become a Serious Sum</h2>
+  <p class="mt-4 leading-7 text-sky-950/80">A recurring deposit, usually shortened to RD, is one of the simplest and most dependable savings products a bank or post office offers. Instead of handing over one large lump sum on day one, you commit to depositing a fixed amount every month for a fixed period. Each of those monthly deposits is like a drip of water falling into a bucket. On its own, a single drip looks insignificant. Together, month after month, the drips fill the bucket — and because every drip starts earning interest from the moment it lands, the bucket fills a little faster than you might expect. DripVault exists to make that process visible, so you can see exactly how your bucket fills before you commit a single rupee.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">The core idea behind a recurring deposit is discipline without drama. Many people find it hard to save a large amount at once, but a modest monthly amount — five hundred, two thousand, or ten thousand rupees — fits comfortably inside a salary cycle. When the deposit is automated through a standing instruction, the money leaves your account before you have a chance to spend it. Over twelve, thirty-six, or sixty months, that quiet automation builds a corpus that can fund a festival, a gadget, a course fee, a holiday, or the down payment on something bigger. The RD does not promise excitement. It promises arrival: a known amount, on a known date, earned by a habit you barely had to think about.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">How RD interest is calculated</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">Interest on a recurring deposit in India is compounded quarterly, which means the interest you earn is added to your balance every three months and then itself starts earning interest. This compounding is why the timing of each deposit matters. Your first installment works for you for the entire tenure, while your last installment earns interest for only a short while. DripVault models this faithfully: it converts the quoted annual rate into its exact quarterly-compounding equivalent and grows your balance month by month, so the maturity figure you see reflects the same mathematics your bank applies, subject to rounding and the bank's own day-count conventions.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">The formula behind the scenes is a close cousin of the future-value-of-an-annuity formula. If you deposit an amount P every month, at an annual rate R compounded quarterly, over N quarters, the maturity value behaves like P multiplied by a factor that depends on the quarterly rate and the number of quarters, adjusted because deposits arrive monthly while compounding happens quarterly. You do not need to memorise any of this — the calculator does it instantly — but it helps to understand the two levers that move your result most: the monthly amount and the tenure. The interest rate matters, of course, but it is largely set by the market and the institution you choose. Your deposit amount and your patience are the levers actually in your hands.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">Why tenure changes everything</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">Extend an RD from three years to five and two things happen at once. First, you deposit more money, simply because there are more months. Second — and this is the part people underestimate — every earlier deposit gets two extra years of compounding. Interest begins to earn interest on interest, and the growth curve bends upward. That is why the side-by-side tenure comparison on this page is so revealing: it separates the extra money you put in from the extra money compounding gives you for free. In many comparisons, the longer tenure earns disproportionately more interest per rupee deposited, which is the quiet mathematical reward for starting early and staying the course.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">There is a trade-off, naturally. A longer RD locks your money away for longer, and breaking it early usually means a penalty and a lower interest rate applied to the period completed. The wise approach is to match the tenure to a real goal with a real date. Saving for a laptop you need in fourteen months? A tenure slightly longer than the goal date gives you a buffer. Building a general emergency cushion? A ladder of shorter RDs maturing at staggered dates can keep some money always within reach. The calculator cannot choose your goal for you, but by letting you test tenures in seconds, it helps you choose a tenure you can genuinely honour.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">What happens if you miss an installment?</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">Life is not always as regular as a standing instruction. A month arrives with an unexpected expense, a salary is delayed, or a debit simply fails. Banks typically charge a small penalty for a missed RD installment — often a few rupees per hundred per month of delay — and if installments are missed repeatedly, some institutions may close the account prematurely. But the penalty is usually the smaller cost. The larger, invisible cost is the interest that skipped deposit would have earned for every remaining month of the tenure. Miss an installment early in a long RD and you lose years of compounding on that money; miss one near the end and the loss is modest.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">That is exactly what the missed-installment toggle on DripVault shows you. Switch it on, enter how many installments you might miss and from which month, and the calculator recomputes your maturity with those drips removed, telling you precisely how much interest evaporates. For most people the number is reassuringly small — a motivation to restart the habit rather than abandon the plan. An RD is forgiving in one important way: a missed month does not erase the months before it. Your earlier deposits keep compounding regardless. The habit can be resumed, and the bucket keeps filling.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">RD versus fixed deposit versus savings account</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">A fixed deposit and a recurring deposit are close relatives. Both offer a guaranteed rate for a chosen tenure, both compound quarterly at most banks, and both are covered by deposit insurance up to the applicable limit per depositor per bank. The difference is the shape of the money going in: a fixed deposit starts with a lump sum, an RD builds with installments. If you already have a lump sum sitting idle, a fixed deposit puts all of it to work immediately and will usually produce more total interest over the same period, because every rupee is invested for the full term. If your money arrives monthly, as salaries do, the RD is the natural fit — it converts a flow of income into a stock of savings.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">Against an ordinary savings account, the RD wins on two counts. The rate is typically higher, and — more importantly — the money is committed. A savings balance is psychologically spendable; it quietly leaks into everyday expenses. An RD balance is psychologically spoken for. Behavioural economists call this mental accounting, and it is a large part of why RD holders so often reach goals that pure willpower misses. Some savers go further and pair the two products: a monthly RD for a defined goal, plus a sweep-in facility or a liquid fund for emergencies, so that a genuine crisis never forces them to break the RD itself.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">Taxes, TDS, and senior citizens</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">Interest earned on a recurring deposit is taxable as income from other sources at your applicable slab rate, in the year it accrues. Banks deduct tax at source when the interest credited across your deposits with them crosses the threshold in force — commonly forty thousand rupees in a financial year for most depositors, and fifty thousand for senior citizens, though thresholds and rules change with budgets and you should confirm the current figures before relying on them. Senior citizens also typically enjoy a small premium on RD rates, often a quarter to half a percentage point above the standard card rate, which compounds into a meaningful difference over a five-year tenure. If your total income falls below the taxable limit, submitting the appropriate declaration forms to your bank can prevent unnecessary deduction, saving you a refund chase later.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">Post office recurring deposits deserve a mention too. The post office RD runs for five years, accepts very small monthly deposits, allows an extension after maturity, and carries a sovereign backing that many savers find comforting. Its rate is set by the government and revised periodically. The arithmetic is the same quarterly compounding, so everything you model here — tenure comparisons, missed installments, drip timelines — applies equally well, with the post office rate typed into the calculator.</p>
+  <h3 class="mt-8 text-xl font-bold text-sky-950">How to use this calculator well</h3>
+  <p class="mt-3 leading-7 text-sky-950/80">Start with the amount you can truly afford every month without fail, not the amount you wish you could afford. Consistency beats ambition in an RD, because the plan punishes interruption and rewards completion. Then try the tenure comparison: place your realistic tenure beside a longer one and look at the interest gap. If the gap tempts you to stretch, check the stretched tenure against your goal date honestly. Next, stress-test the plan with the missed-installment toggle — assume two missed months somewhere in the middle and confirm the outcome still satisfies you. A plan that survives a realistic stress test is a plan you will actually finish.</p>
+  <p class="mt-4 leading-7 text-sky-950/80">Finally, remember what this tool is and is not. DripVault is an educational calculator: it models standard quarterly compounding with monthly deposits and shows results rounded to the nearest rupee. Your bank's actual maturity value may differ slightly because of deposit dates within a month, the exact day interest is credited, penalty rules, and tax deducted at source. Always confirm the final figure with your institution's official schedule before making decisions. Used with that understanding, this page gives you something genuinely valuable — a clear, honest preview of your savings future, one drip at a time.</p>
+
+  <h2 class="mt-10 text-2xl font-extrabold text-sky-950">Frequently asked questions</h2>
+  <div class="mt-4 space-y-3">
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">How is RD maturity calculated?</summary><p class="mt-2 text-sky-950/80 leading-7">Each monthly deposit earns interest compounded quarterly. DripVault converts the annual rate into its quarterly-compounding monthly equivalent and grows every deposit for the months it stays invested, then adds up the final balance. Deposits made earlier earn more, because they compound for longer.</p></details>
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">What happens if I miss an RD installment?</summary><p class="mt-2 text-sky-950/80 leading-7">Your bank usually charges a small penalty, and the missed deposit never earns interest. The missed-installment toggle on this page quantifies the bigger, hidden cost: the interest that skipped deposit would have earned for the rest of the tenure.</p></details>
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">Is a longer RD tenure always better?</summary><p class="mt-2 text-sky-950/80 leading-7">A longer tenure earns more total interest thanks to compounding, but it also locks your money away for longer and early closure usually reduces your rate. Match the tenure to a real goal date, and use the comparison tool above to see the exact trade-off.</p></details>
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">Is RD interest taxable?</summary><p class="mt-2 text-sky-950/80 leading-7">Yes. RD interest is taxed as income from other sources at your slab rate, and banks deduct TDS once credited interest crosses the applicable threshold in a financial year. Senior citizens generally get a higher threshold and often a better rate too.</p></details>
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">Can I open an RD with a small monthly amount?</summary><p class="mt-2 text-sky-950/80 leading-7">Usually yes. Many banks accept recurring deposits starting from as little as one hundred rupees a month, and post office RDs accept even smaller amounts. The habit matters more than the size — you can always raise the amount in your next RD.</p></details>
+    <details class="bg-sky-50 border border-sky-100 rounded-2xl p-4"><summary class="font-bold text-sky-950">Does DripVault store or send my financial data anywhere?</summary><p class="mt-2 text-sky-950/80 leading-7">No. Every calculation runs entirely in your browser. Nothing you type is uploaded, stored, or shared — close the tab and it is gone. The figures are educational estimates, so confirm your final maturity value with your bank.</p></details>
+  </div>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"How is RD maturity calculated?","acceptedAnswer":{"@type":"Answer","text":"Each monthly deposit earns interest compounded quarterly. DripVault converts the annual rate into its quarterly-compounding monthly equivalent and grows every deposit for the months it stays invested, then adds up the final balance. Deposits made earlier earn more, because they compound for longer."}},
+      {"@type":"Question","name":"What happens if I miss an RD installment?","acceptedAnswer":{"@type":"Answer","text":"Your bank usually charges a small penalty, and the missed deposit never earns interest. The missed-installment toggle on this page quantifies the bigger, hidden cost: the interest that skipped deposit would have earned for the rest of the tenure."}},
+      {"@type":"Question","name":"Is a longer RD tenure always better?","acceptedAnswer":{"@type":"Answer","text":"A longer tenure earns more total interest thanks to compounding, but it also locks your money away for longer and early closure usually reduces your rate. Match the tenure to a real goal date, and use the comparison tool above to see the exact trade-off."}},
+      {"@type":"Question","name":"Is RD interest taxable?","acceptedAnswer":{"@type":"Answer","text":"Yes. RD interest is taxed as income from other sources at your slab rate, and banks deduct TDS once credited interest crosses the applicable threshold in a financial year. Senior citizens generally get a higher threshold and often a better rate too."}},
+      {"@type":"Question","name":"Can I open an RD with a small monthly amount?","acceptedAnswer":{"@type":"Answer","text":"Usually yes. Many banks accept recurring deposits starting from as little as one hundred rupees a month, and post office RDs accept even smaller amounts. The habit matters more than the size — you can always raise the amount in your next RD."}},
+      {"@type":"Question","name":"Does DripVault store or send my financial data anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. Every calculation runs entirely in your browser. Nothing you type is uploaded, stored, or shared — close the tab and it is gone. The figures are educational estimates, so confirm your final maturity value with your bank."}}
+    ]
+  }
+  </script>
+</article>
+
+<footer class="border-t border-sky-200 bg-white">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-sky-800/70">
+    <span class="font-display font-bold text-sky-900">DripVault</span>
+    <span>Educational estimates only — confirm final figures with your bank.</span>
+  </div>
+<p class="fx-credit" style="text-align:center;font-size:12.5px;opacity:.62;margin:10px auto 2px;letter-spacing:.01em">Made by <a href="https://fixoraa.tech" target="_blank" rel="noopener" style="color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px">Fixoraa</a></p>
+</footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var fmt = DripVaultLib.formatINR;
+  function monthsFromInputs(){
+    var v = parseFloat($('inTenure').value);
+    if (!isFinite(v)) return NaN;
+    return $('inTenureUnit').value === 'years' ? Math.round(v * 12) : Math.round(v);
+  }
+  function currentMissed(){
+    if (!$('missToggle').checked) return null;
+    return DripVaultLib.missedImpact(parseFloat($('inMonthly').value), parseFloat($('inRate').value), monthsFromInputs(), parseInt($('missCount').value,10)||0, parseInt($('missStart').value,10)||1);
+  }
+  function render(){
+    var monthly = parseFloat($('inMonthly').value), rate = parseFloat($('inRate').value), months = monthsFromInputs();
+    var err = $('errBox');
+    var impact = currentMissed();
+    var res = DripVaultLib.computeRD(monthly, rate, months, impact && impact.ok ? impact.missedMonths : []);
+    if (!res.ok) {
+      err.textContent = res.errors.join(' ');
+      err.classList.remove('hidden');
+      $('resDeposited').textContent = '—'; $('resInterest').textContent = '—'; $('resMaturity').textContent = '—';
+      return;
+    }
+    err.classList.add('hidden');
+    $('resDeposited').textContent = fmt(res.totalDeposited);
+    $('resInterest').textContent = fmt(res.interestEarned);
+    $('resMaturity').textContent = fmt(res.maturityValue);
+    // chart
+    var pts = DripVaultLib.timelinePoints(res, 640, 240, 12);
+    $('chartLine').setAttribute('points', pts);
+    $('chartFill').setAttribute('points', '12,228 ' + pts + ' 628,228');
+    var dots = '';
+    var rows = DripVaultLib.yearlyBreakdown(res);
+    rows.forEach(function(r){
+      var totalMonths = res.schedule.length;
+      var x = totalMonths === 1 ? 320 : 12 + 616 * ((r.month - 1) / Math.max(1, totalMonths - 1));
+      var max = res.schedule[totalMonths-1].balance || 1;
+      var y = 228 - 216 * (r.balance / max);
+      dots += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="5" fill="#0284C7" stroke="#fff" stroke-width="2"/>';
+    });
+    $('chartDots').innerHTML = dots;
+    $('chartStart').textContent = 'Month 1 · ' + fmt(monthly);
+    $('chartEnd').textContent = 'Month ' + res.months + ' · ' + fmt(res.maturityValue);
+    // steps
+    var html = '';
+    rows.forEach(function(r, i){
+      html += '<div class="step-card bg-gradient-to-br from-sky-50 to-white border border-sky-200 rounded-2xl p-4" style="margin-left:' + Math.min(i*14,42) + 'px">'
+        + '<div class="flex items-center gap-2"><span class="drop inline-block w-4 h-4 bg-sky-500"></span><span class="font-bold text-sky-950">Year ' + r.year + '</span></div>'
+        + '<p class="mt-2 text-sm text-sky-900">Deposited <strong>' + fmt(r.deposited) + '</strong></p>'
+        + '<p class="text-sm text-sky-900">Interest so far <strong class="text-emerald-600">' + fmt(r.interest) + '</strong></p>'
+        + '<p class="text-sm text-sky-900">Vault value <strong>' + fmt(r.balance) + '</strong></p></div>';
+    });
+    $('steps').innerHTML = html || '<p class="text-sm text-sky-700">Enter a plan to see your yearly steps.</p>';
+    // missed note
+    if (impact && impact.ok) {
+      $('missNote').textContent = impact.missedMonths.length
+        ? 'Skipping ' + impact.missedMonths.length + ' installment(s) drops maturity by ' + fmt(impact.maturityDrop) + ' — of which ' + fmt(impact.lostInterest) + ' is interest that will never be earned.'
+        : 'No installments are being skipped.';
+    }
+    renderCompare(res);
+  }
+  function renderCompare(baseRes){
+    var cy = parseInt($('cmpYears').value, 10);
+    var out = $('cmpOut');
+    if (!isFinite(cy) || cy < 1 || cy > 50) { out.innerHTML = '<p class="text-sm text-rose-600 font-medium">Enter a comparison tenure between 1 and 50 years.</p>'; return; }
+    var monthly = parseFloat($('inMonthly').value), rate = parseFloat($('inRate').value), months = monthsFromInputs();
+    var cmp = DripVaultLib.compareTenures(monthly, rate, months, cy * 12, []);
+    if (!cmp.ok) { out.innerHTML = '<p class="text-sm text-rose-600 font-medium">' + cmp.errors.join(' ') + '</p>'; return; }
+    function col(title, r, highlight){
+      return '<div class="flex-1 min-w-[240px] rounded-2xl border ' + (highlight ? 'border-sky-500 bg-sky-50' : 'border-sky-200 bg-white') + ' p-5">'
+        + '<h3 class="font-bold text-sky-950">' + title + '</h3>'
+        + '<p class="mt-2 text-sm">Deposited: <strong>' + fmt(r.totalDeposited) + '</strong></p>'
+        + '<p class="text-sm">Interest: <strong class="text-emerald-600">' + fmt(r.interestEarned) + '</strong></p>'
+        + '<p class="text-sm">Maturity: <strong>' + fmt(r.maturityValue) + '</strong></p></div>';
+    }
+    out.innerHTML = '<div class="flex flex-wrap gap-4">' + col('Your plan · ' + (months/12) + ' yr', cmp.a, false) + col('Comparison · ' + cy + ' yr', cmp.b, true) + '</div>'
+      + '<p class="mt-4 text-sm text-sky-900">Going from ' + (months/12) + ' to ' + cy + ' years adds <strong>' + fmt(cmp.extraDeposited) + '</strong> in deposits and earns <strong class="text-emerald-600">' + fmt(cmp.extraInterest) + '</strong> in extra interest — a maturity difference of <strong>' + fmt(cmp.extraMaturity) + '</strong>.</p>';
+  }
+  ['inMonthly','inRate','inTenure','missCount','missStart'].forEach(function(id){ $(id).addEventListener('input', render); });
+  $('inTenureUnit').addEventListener('change', render);
+  $('rgMonthly').addEventListener('input', function(){ $('inMonthly').value = this.value; render(); });
+  $('inMonthly').addEventListener('input', function(){ var v = parseFloat(this.value); if (isFinite(v)) $('rgMonthly').value = Math.max(500, Math.min(100000, v)); });
+  $('rgRate').addEventListener('input', function(){ $('inRate').value = this.value; render(); });
+  $('missToggle').addEventListener('change', function(){ $('missPanel').classList.toggle('hidden', !this.checked); render(); });
+  $('calcBtn').addEventListener('click', render);
+  $('cmpBtn').addEventListener('click', render);
+  $('cmpYears').addEventListener('input', render);
+  document.querySelectorAll('.tenure-chip').forEach(function(b){ b.addEventListener('click', function(){ $('inTenure').value = b.getAttribute('data-years'); $('inTenureUnit').value = 'years'; render(); }); });
+  render();
+})();
+</script>
+</body>
+</html>
