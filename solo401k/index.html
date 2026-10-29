@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solo 401(k) Contribution Calculator — Self-Employed | Solo401k</title>
+<meta name="description" content="Solo 401(k) limits split by employee/employer, with SEP comparison.">
+<link rel="canonical" href="https://finance.fixoraa.tech/solo401k/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Solo 401(k) Contribution Calculator — Self-Employed | Solo401k">
+<meta property="og:description" content="Solo 401(k) limits split by employee/employer, with SEP comparison.">
+<meta property="og:url" content="https://finance.fixoraa.tech/solo401k/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Solo401k",
+      "url": "https://finance.fixoraa.tech/solo401k/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Solo 401(k) limits split by employee/employer, with SEP comparison.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much can I contribute to a solo 401(k) in 2026?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Up to $72,000 total: $24,500 as employee elective deferral plus employer profit-sharing of 20% of net self-employment earnings (25% of W-2 wages for S-corps). At 50+ add an $8,000 catch-up ($11,250 for ages 60\u201363)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the employee and employer contributions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The employee elective deferral (up to $24,500) comes off your compensation first and does not scale with income. The employer profit-sharing (20%/25%) scales with earnings. Combined they cannot exceed the $72,000 cap \u2014 the employer piece is reduced first if they would."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Solo 401(k) vs SEP IRA \u2014 which is better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Below ~$300k of income, the solo 401(k) allows strictly more because of the $24,500 employee deferral a SEP cannot hold. The SEP wins on simplicity and can be opened retroactively up to the filing deadline. The solo 401(k) also offers Roth deferrals and loans; the SEP offers neither."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does an S-corp change the calculation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes: the employer profit-sharing is 25% of your W-2 salary, not of total profit. A low salary saves payroll tax but shrinks contribution room \u2014 model the trade-off before setting your salary."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When must I open a solo 401(k)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The plan must be established by December 31 of the tax year \u2014 miss that and the year's employee deferral is gone. Contributions themselves can be made up to the tax filing deadline (profit-sharing up to the extended deadline)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I contribute to a solo 401(k) if I also have a day-job 401(k)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, but the $24,500 employee deferral limit applies across ALL your 401(k)s combined. The $72,000 total cap applies per plan (per employer), so coordinate deferrals between the two plans to avoid excess contributions."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#F2E1F9; --surface:#FFFFFF; --tint:#E9D2F4;
+  --accent:#601584; --accent-deep:#6E481B; --btn-ink:#FFFFFF;
+  --ink:#33291C; --muted:#6B5B40; --line:#E6D8BE;
+  --display:'Public Sans',system-ui,sans-serif; --body:'Public Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:var(--surface)}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--btn-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:40px 0;max-width:780px}
+.article-sec h2{font-size:24px;letter-spacing:-.02em;margin:34px 0 12px;font-weight:800;color:var(--ink)}
+.article-sec p{margin-bottom:14px;color:var(--ink)}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px;color:var(--ink)}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--ink)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;padding:0;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px;color:var(--ink)}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;color:var(--ink);font-size:15px}
+.fx-footer{background:var(--footbg,#26211c);color:#f0e6da;margin-top:44px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#cbb9a8;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#ffd9a8;font-weight:700}
+.no-print{}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+
+.sk-hero{padding:46px 0 6px}
+.sk-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.sk-hero h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.sk-hero p{font-size:17px;color:var(--muted);max-width:640px}
+.sk-split{margin:28px 0 10px}
+.sk-top{display:grid;grid-template-columns:360px 1fr;gap:22px;align-items:stretch;margin-bottom:22px}
+.sk-card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:26px}
+.sk-card h2{font-size:18px;font-weight:800;margin-bottom:4px}
+.sk-card .sub{font-size:14px;color:var(--muted);margin-bottom:20px}
+.sk-f{margin-bottom:18px}
+.sk-f label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.sk-f .hint{font-weight:400;color:var(--muted);font-size:13px}
+.sk-f input{font:inherit;font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff}
+.sk-f input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.sk-seg{display:flex;gap:8px}
+.sk-seg button{flex:1;font:inherit;font-weight:700;font-size:14px;border:2px solid var(--line);background:#fff;border-radius:12px;padding:11px;cursor:pointer;color:var(--ink)}
+.sk-seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.sk-visual{display:flex;flex-direction:column;justify-content:center}
+.sk-bar{margin-bottom:22px}
+.sk-bar .row{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:8px}
+.sk-bar .row span:last-child{color:var(--accent-deep);font-variant-numeric:tabular-nums}
+.sk-track{height:30px;border-radius:999px;background:var(--tint);border:2px solid var(--line);overflow:hidden;display:flex}
+.sk-track i{display:block;height:100%;transition:width .3s}
+.sk-e{background:var(--accent)}
+.sk-p{background:repeating-linear-gradient(-45deg,var(--accent-deep),var(--accent-deep) 8px,#601584 8px,#601584 16px)}
+.sk-total{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;border-radius:16px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.sk-total .l{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.92}
+.sk-total .n{font-size:44px;font-weight:800;letter-spacing:-.02em}
+.sk-vs{background:var(--surface);border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.sk-vs-head{padding:16px 24px;border-bottom:2px solid var(--line);background:var(--tint)}
+.sk-vs-head h2{font-size:18px;font-weight:800}
+.sk-table{width:100%;border-collapse:collapse;font-size:15px}
+.sk-table th,.sk-table td{padding:13px 24px;text-align:left;border-bottom:1px solid var(--line)}
+.sk-table th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.sk-table td:last-child,.sk-table th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.sk-table tr.win td{background:#FDF8EE;font-weight:700}
+.sk-table tr.win td:first-child{color:var(--accent-deep)}
+.sk-note{padding:14px 24px;font-size:13px;color:var(--muted)}
+@media(max-width:920px){.sk-top{grid-template-columns:1fr}.sk-table th,.sk-table td{padding:10px 12px}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/solo401k/" aria-label="Solo401k home">
+      <span class="fx-tile" aria-hidden="true">S</span>
+      <span class="fx-name">Solo401k</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="sk-hero">
+    <span class="sk-eyebrow">Owner's ledger · 2026 limits</span>
+    <h1>Solo401k</h1>
+    <p>You are both the employee and the employer — so you get to contribute twice. Split your solo 401(k) into elective deferral and profit-sharing, and see how it beats a SEP IRA.</p>
+  </section>
+
+  <section class="sk-split" aria-label="Solo401k tool">
+
+  <div class="sk-top">
+    <div class="sk-card">
+      <h2>Your business</h2>
+      <p class="sub">2026 IRS limits built in.</p>
+      <div class="sk-f"><label>Business type</label>
+        <div class="sk-seg" id="sk-entity" role="group" aria-label="Business type">
+          <button type="button" data-e="soleprop" class="on">Sole prop</button>
+          <button type="button" data-e="scorp">S-corp</button>
+        </div></div>
+      <div class="sk-f"><label for="sk-inc" id="sk-inc-lbl">Net self-employment earnings <span class="hint">— $</span></label>
+        <input type="number" id="sk-inc" value="100000" min="0" max="10000000" step="1000"></div>
+      <div class="sk-f"><label for="sk-age">Your age this year</label>
+        <input type="number" id="sk-age" value="40" min="18" max="100"></div>
+    </div>
+    <div class="sk-card sk-visual" aria-live="polite">
+      <div class="sk-bar">
+        <div class="row"><span>👤 Employee elective deferral</span><span id="sk-emp-n">$24,500</span></div>
+        <div class="sk-track"><i class="sk-e" id="sk-emp-b" style="width:34%"></i></div>
+      </div>
+      <div class="sk-bar">
+        <div class="row"><span>🏢 Employer profit-sharing</span><span id="sk-er-n">$20,000</span></div>
+        <div class="sk-track"><i class="sk-p" id="sk-er-b" style="width:28%"></i></div>
+      </div>
+      <div class="sk-total">
+        <div><div class="l">Maximum total contribution</div><div class="n" id="sk-total">$44,500</div></div>
+        <div class="l" id="sk-cap-note">of $72,000 IRS cap</div>
+      </div>
+    </div>
+  </div>
+  <div class="sk-vs">
+    <div class="sk-vs-head"><h2>Solo 401(k) vs SEP IRA</h2></div>
+    <table class="sk-table">
+      <thead><tr><th></th><th>Solo 401(k)</th><th>SEP IRA</th></tr></thead>
+      <tbody>
+        <tr class="win"><td>Total you can contribute</td><td id="sk-vs-solo">$44,500</td><td id="sk-vs-sep">$20,000</td></tr>
+        <tr><td>Employee deferral allowed</td><td>Yes — up to $24,500</td><td>No</td></tr>
+        <tr><td>Roth option</td><td>Yes (designated Roth)</td><td>No</td></tr>
+        <tr><td>Loan from account</td><td>Allowed (plan permitting)</td><td>Not allowed</td></tr>
+      </tbody>
+    </table>
+    <div class="sk-note" id="sk-note">At this income the solo 401(k) wins by $24,500 — the employee deferral is money a SEP simply cannot hold.</div>
+  </div>
+
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+
+<h2>Two Hats, Two Contributions</h2>
+<p>A solo 401(k) lets a self-employed person contribute as <strong>both employee and employer</strong> — the only retirement plan that does. As employee, you make elective deferrals up to <strong>$24,500 for 2026</strong> ($32,500 at 50+, with a special $35,750 for ages 60–63). As employer, your business adds profit-sharing of up to <strong>20% of net self-employment earnings</strong> (25% of W-2 wages for S-corps). Combined, everything must fit under the <strong>$72,000 total cap</strong> for 2026. No other plan for the self-employed stacks contributions this way — it is the structural reason the solo 401(k) usually wins.</p>
+<p>Eligibility is simple: you must have <strong>self-employment income and no full-time employees</strong> other than yourself and a spouse. Freelancers, consultants, sole proprietors, single-member LLCs, and owner-only S-corps all qualify. Hire your first full-time employee and the solo 401(k) must convert to a regular 401(k) — a good problem to have.</p>
+<h2>The Employee Piece: $24,500 Off the Top</h2>
+<p>The elective deferral is the solo 401(k)'s superpower at moderate incomes. It comes straight off your compensation before the employer math even starts, and — unlike profit-sharing — it does not scale with income. Earn $60,000 and you can still defer the full $24,500; a SEP IRA at the same income allows only about $12,000. That flat $24,500 is why the solo 401(k) dominates for six-figure-and-under earners.</p>
+<p>Deferrals can be <strong>pre-tax or Roth</strong> (designated Roth account), and you can split between them. The Roth option is unavailable in SEP IRAs entirely — another structural edge. Catch-up contributions at 50+ ($8,000 standard; $11,250 for the 60–63 "super catch-up" under SECURE 2.0) apply to the employee piece only.</p>
+<h2>The Employer Piece: 20% (or 25%)</h2>
+<p>Profit-sharing is where entity type matters. <strong>Sole proprietors</strong> (and partnerships, single-member LLCs) may contribute up to <strong>20% of net adjusted self-employment income</strong> — the 20% figure already accounts for the self-employment tax deduction circularity, so just use 20% of net profit. <strong>S-corps</strong> may contribute up to <strong>25% of W-2 wages</strong> paid to the owner.</p>
+<p>The S-corp wrinkle: profit-sharing is based on your <em>salary</em>, not total profit. Pay yourself a $60,000 salary on $200,000 of profit and the employer piece caps at $15,000 — the remaining profit generates no contribution room. This is the hidden cost of an aggressively low S-corp salary: you save payroll tax but shrink your retirement contribution ceiling. Model both before setting salary.</p>
+<h2>The $72,000 Cap and How It Binds</h2>
+<p>Employee plus employer cannot exceed <strong>$72,000 for 2026</strong> ($80,000 at 50+ with catch-up; $83,250 for 60–63). At high incomes the cap binds and the employer piece gets squeezed: with $300,000 of net earnings at 55, the math wants $32,500 employee + $60,000 employer = $92,500, so the employer piece is cut to $39,500 to land exactly on $72,000. The calculator applies this automatically — the employee deferral is never reduced; only profit-sharing gives way.</p>
+<h2>Solo 401(k) vs SEP IRA: The Honest Comparison</h2>
+<p>A SEP IRA allows only the employer piece — 20% of net (25% of W-2) up to the same $72,000 cap — with <strong>no employee deferral, no Roth option, and no loans</strong>. Below roughly $300,000 of income, the solo 401(k)'s extra $24,500 deferral means it allows strictly more contributions at every income level. The comparison table above shows your exact gap.</p>
+<p>When does the SEP win? <strong>Simplicity and timing.</strong> A SEP can be opened and funded up to the tax filing deadline (including extensions) — even for the prior year, retroactively. A solo 401(k) must be <em>established</em> by December 31 (though contributions can come later), and elective deferrals must be elected during the plan year. The SEP also has essentially zero administration. If you need dead-simple and you are already past year-end, the SEP is the fallback.</p>
+<h2>Deadlines That Actually Matter</h2>
+<p><strong>Establish the plan by December 31</strong> of the tax year — this is the one hard deadline, and missing it costs you the entire year's employee deferral. <strong>Elective deferrals</strong> must be contributed by your tax filing deadline. <strong>Employer profit-sharing</strong> can be contributed up to the filing deadline including extensions. If you are reading this in December and have no plan yet: open one this week; funding can follow.</p>
+<h2>Roth vs Pre-Tax: Which Deferral?</h2>
+<p>Pre-tax deferrals cut this year's bill — valuable at high marginal rates. Roth deferrals cost tax now but grow tax-free forever, with no RMDs on the Roth portion for the owner. The classic heuristic: <strong>Roth in low-income years, pre-tax in peak years</strong>. Early-career freelancers with volatile income often benefit from Roth; established consultants in high brackets usually take the deduction. You can also hedge — split the $24,500 between both.</p>
+<h2>Loans and Other Solo 401(k) Perks</h2>
+<p>Unlike any IRA, a 401(k) — solo included — may allow <strong>loans</strong> up to $50,000 or 50% of the balance. It is not free money (you pay yourself back with interest, and unpaid loans become taxable distributions), but as emergency liquidity it beats raiding the account. Solo 401(k)s also enjoy stronger <strong>creditor protection</strong> under federal law than IRAs in most states — relevant for litigious professions.</p>
+<h2>Common Mistakes</h2>
+<p>Mistake one: <strong>no plan by December 31</strong> — the year's deferral room evaporates. Mistake two: <strong>S-corp salary too low</strong>, starving the 25%-of-wages employer piece. Mistake three: <strong>contributing as both</strong> — maxing a solo 401(k) <em>and</em> a day-job 401(k) beyond the combined $24,500 employee limit; the employee cap applies across all plans. Mistake four: <strong>forgetting Form 5500-EZ</strong> once assets exceed $250,000 — a simple filing, but the penalties for skipping it are not simple.</p>
+<h2>Hiring Your Spouse: Doubling the Plan</h2>
+<p>A solo 401(k) covers the owner <strong>and a spouse</strong> who works in the business — and that second participant doubles the household's contribution room. Each spouse gets their own $24,500 employee deferral (plus catch-ups), while the shared $72,000 cap applies per person, not per plan. A couple netting $200,000 can shelter up to $144,000 between two solo 401(k) accounts — a number no IRA combination touches.</p>
+<p>The spouse must earn <strong>legitimate compensation</strong> from the business — real work, reasonable pay, documented. Their employee deferral cannot exceed their own earnings, and profit-sharing follows the same 20%/25% rules on their share. Done properly, this is the highest-octane retirement setup available to a family business; done sloppily (a "salary" with no work behind it), it is an audit flag. Pay for real work, keep timesheets, and enjoy the doubled ceiling.</p>
+<h2>Putting It All Together</h2>
+<p>Pick your entity, enter income and age, and read the split: employee deferral first, profit-sharing second, capped at $72,000. Compare against the SEP to see your margin. Then act on the deadlines — establish by December 31, fund by filing. For the self-employed, the solo 401(k) is the highest-octane retirement vehicle in the code; the only mistake is leaving its contribution room on the table.</p>
+
+  <h2>Five Solo 401(k) Mistakes That Cost Thousands</h2><p>First, <strong>missing the establishment deadline</strong>. You must open the solo 401(k) by December 31 of the tax year — unlike a SEP IRA, which can be opened at filing time. Miss New Year's Eve and the year's employee deferral room is gone forever. Second, <strong>botching the S-corp calculation</strong>: S-corp owners can only base contributions on W-2 wages, not total profit. Paying yourself too little salary to "save on payroll tax" directly shrinks your allowable 401(k) contribution — run both numbers before setting salary.</p><p>Third, <strong>forgetting the 5500-EZ</strong>. Once plan assets exceed $250,000, you must file Form 5500-EZ annually; the penalty for not filing starts at $250 per day. Fourth, <strong>double-counting limits across jobs</strong>. The $24,500 employee deferral cap applies across ALL 401(k)s combined — if you also contribute to an employer's plan at a day job, coordinate the total. Fifth, <strong>ignoring the Roth option</strong>. Many solo 401(k) providers now offer a Roth sub-account; if you're in a low-income year (early business, grad school side gig), Roth deferrals can beat pre-tax. Review these five every December and the plan stays clean.</p>
+</article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How much can I contribute to a solo 401(k) in 2026?</summary><p>Up to $72,000 total: $24,500 as employee elective deferral plus employer profit-sharing of 20% of net self-employment earnings (25% of W-2 wages for S-corps). At 50+ add an $8,000 catch-up ($11,250 for ages 60–63).</p></details>
+    <details><summary>What is the difference between the employee and employer contributions?</summary><p>The employee elective deferral (up to $24,500) comes off your compensation first and does not scale with income. The employer profit-sharing (20%/25%) scales with earnings. Combined they cannot exceed the $72,000 cap — the employer piece is reduced first if they would.</p></details>
+    <details><summary>Solo 401(k) vs SEP IRA — which is better?</summary><p>Below ~$300k of income, the solo 401(k) allows strictly more because of the $24,500 employee deferral a SEP cannot hold. The SEP wins on simplicity and can be opened retroactively up to the filing deadline. The solo 401(k) also offers Roth deferrals and loans; the SEP offers neither.</p></details>
+    <details><summary>Does an S-corp change the calculation?</summary><p>Yes: the employer profit-sharing is 25% of your W-2 salary, not of total profit. A low salary saves payroll tax but shrinks contribution room — model the trade-off before setting your salary.</p></details>
+    <details><summary>When must I open a solo 401(k)?</summary><p>The plan must be established by December 31 of the tax year — miss that and the year's employee deferral is gone. Contributions themselves can be made up to the tax filing deadline (profit-sharing up to the extended deadline).</p></details>
+    <details><summary>Can I contribute to a solo 401(k) if I also have a day-job 401(k)?</summary><p>Yes, but the $24,500 employee deferral limit applies across ALL your 401(k)s combined. The $72,000 total cap applies per plan (per employer), so coordinate deferrals between the two plans to avoid excess contributions.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">Solo401k</div>
+    <p>Solo401k splits self-employed 401(k) contributions into employee deferral and employer profit-sharing — for sole proprietors and S-corps — with a head-to-head SEP IRA comparison.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+var SOLO = {deferral:24500, total:72000, catchup:8000, supercatchup:11250};
+function solo401k(entity, income, age){
+  var cu = (age >= 60 && age <= 63) ? SOLO.supercatchup : (age >= 50 ? SOLO.catchup : 0);
+  var employee = Math.min(SOLO.deferral + cu, Math.max(0, income));
+  var rate = entity === 'scorp' ? 0.25 : 0.20;
+  var employer = Math.min(rate * income, SOLO.total - employee);
+  employer = Math.max(0, Math.round(employer * 100) / 100);
+  var total = Math.round((employee + employer) * 100) / 100;
+  var sep = Math.min(rate * income, SOLO.total);
+  return {employee:employee, employer:Math.round(employer*100)/100, total:total,
+          sep:Math.round(sep*100)/100, catchup:cu};
+}
+
+
+(function(){
+var entity='soleprop';
+var $=function(id){return document.getElementById(id);};
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+$('sk-entity').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  entity=b.getAttribute('data-e');
+  this.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  $('sk-inc-lbl').innerHTML=entity==='scorp'
+    ? 'W-2 wages you pay yourself <span class="hint">— $</span>'
+    : 'Net self-employment earnings <span class="hint">— $</span>';
+  calc();
+});
+function calc(){
+  var income=parseFloat($('sk-inc').value)||0;
+  var age=parseInt($('sk-age').value,10)||0;
+  var r=solo401k(entity,income,age);
+  $('sk-emp-n').textContent=money(r.employee);
+  $('sk-er-n').textContent=money(r.employer);
+  $('sk-total').textContent=money(r.total);
+  $('sk-emp-b').style.width=Math.min(100,r.employee/SOLO.total*100)+'%';
+  $('sk-er-b').style.width=Math.min(100,r.employer/SOLO.total*100)+'%';
+  $('sk-vs-solo').textContent=money(r.total);
+  $('sk-vs-sep').textContent=money(r.sep);
+  var diff=r.total-r.sep;
+  $('sk-note').textContent=diff>0
+    ? 'At this income the solo 401(k) wins by '+money(diff)+' — the employee deferral is money a SEP simply cannot hold.'
+    : 'At this income both plans allow the same total — the solo 401(k)’s edge here is the Roth option and loan feature, not the amount.';
+  var capNote=$('sk-cap-note');
+  if(r.catchup>0)capNote.textContent='includes '+money(r.catchup)+' catch-up · of '+money(SOLO.total)+' IRS cap';
+  else capNote.textContent='of '+money(SOLO.total)+' IRS cap';
+}
+['sk-inc','sk-age'].forEach(function(id){$(id).addEventListener('input',calc);});
+calc();
+})();
+
+</script>
+</body>
+</html>
