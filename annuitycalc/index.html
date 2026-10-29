@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://peacefulbicycle.com"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AnnuityCalc — Annuity Payout Calculator: Monthly Income From a Lump Sum</title>
+<meta name="description" content="Estimate monthly annuity income from a lump sum with AnnuityCalc, including payout period, total received and inflation-adjusted comparisons.">
+<link rel="canonical" href="https://finance.fixoraa.tech/annuitycalc/">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"AnnuityCalc","applicationCategory":"Finance","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "How is an annuity payment calculated?", "acceptedAnswer": {"@type": "Answer", "text": "It uses the amortisation formula: lump sum multiplied by the monthly rate, divided by one minus the discount factor over the total number of months."}},{"@type": "Question", "name": "Does a longer payout period increase total received?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, more payments are made, so the total is usually larger, but each monthly payment is smaller."}},{"@type": "Question", "name": "Why does the rate matter so much?", "acceptedAnswer": {"@type": "Answer", "text": "Interest compounds over many years, so even a one-point rate change moves monthly income and total received noticeably."}},{"@type": "Question", "name": "Are annuity payments guaranteed?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the product: some guarantee payments for life or a fixed term, while illustrations may be projections rather than guarantees."}},{"@type": "Question", "name": "Does this include tax or fees?", "acceptedAnswer": {"@type": "Answer", "text": "No, this is a simple pre-tax illustration without provider fees, so real spendable income may differ."}},{"@type": "Question", "name": "Should I buy an annuity?", "acceptedAnswer": {"@type": "Answer", "text": "That depends on health, other income, inflation protection and flexibility needs, so regulated personal advice is recommended for large decisions."}}]}</script>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:'Playfair Display',serif;background:#FDF8EE;color:#292524;line-height:1.6}
+a{color:#B45309} header{background:#44403C;color:#FFFFFF;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:#FFFFFF;text-decoration:none}
+.mark{width:44px;height:44px;border-radius:6px;background:#B45309;color:#fff;display:grid;place-items:center;font-size:24px}
+.btn{display:inline-block;padding:10px 16px;border-radius:999px;background:#B45309;color:#fff;text-decoration:none;font-weight:700;border:0;cursor:pointer}
+.btn2{background:transparent;color:#FFFFFF;border:2px solid #FFFFFF}
+.wrap{max-width:960px;margin:0 auto;padding:16px} .badge{display:inline-block;background:#FDEED3;color:#292524;border:1px solid #B45309;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}
+.card{background:#fff;border:1px solid #FDEED3;border-radius:6px;padding:20px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.res{font-family:'Playfair Display',serif}
+label{display:block;font-weight:700;margin:12px 0 4px} input,select,textarea{width:100%;padding:12px;border:1.5px solid #FDEED3;border-radius:10px;font-size:16px;font-family:inherit}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px} @media(max-width:600px){.grid{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start}}
+.res{margin-top:16px;padding:16px;background:#FDEED3;border-radius:6px;font-size:18px} .res b{font-size:26px}
+.err{color:#b91c1c;font-weight:700} article{background:#fff;border-radius:6px;padding:24px;margin-top:20px} article h2{margin-top:28px}
+.faq details{background:#fff;border:1px solid #FDEED3;border-radius:12px;padding:14px;margin:10px 0} .faq summary{font-weight:700;cursor:pointer}
+footer{background:#44403C;color:#FFFFFF;padding:28px 16px;margin-top:24px} footer a{color:#FFFFFF;font-weight:700}
+.hist{font-size:14px;background:#fff;border:1px dashed #B45309;padding:10px;border-radius:10px;margin-top:12px;white-space:pre-wrap}
+</style></head>
+<body>
+<header><a class="logo" href="https://fixoraa.tech"><span class="mark">§</span>AnnuityCalc</a>
+<nav><a class="btn btn2" href="https://fixoraa.tech">Home</a> <a class="btn btn2" href="https://fixoraa.tech">More Tools</a></nav></header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="wrap">
+<p><span class='badge'>§ Unlimited Free Usage</span></p><h1>Annuity Payout Calculator</h1><p>Ledger-style clarity: lump sum in, monthly income out, with the total you would receive over the full payout period written underneath.</p>
+<section class="card" aria-label="Tool">
+<div class="grid"><div><label for="P">Lump sum ($)</label><input id="P" type="number" step="any" value="100000" placeholder="Lump sum ($)"></div><div><label for="ra">Annual rate (%)</label><input id="ra" type="number" step="any" value="5" placeholder="Annual rate (%)"></div><div><label for="yrs">Payout years</label><input id="yrs" type="number" step="any" value="20" placeholder="Payout years"></div></div><div style="margin-top:14px"><button class="btn" onclick="calc()">Calculate</button> <button class="btn" onclick="resetF()">Reset</button></div><div style="margin-top:10px">Presets: <button class="btn" type="button" onclick="applyPreset({"P": 100000, "ra": 5, "yrs": 20})">100k · 5% · 20y</button> <button class="btn" type="button" onclick="applyPreset({"P": 250000, "ra": 4, "yrs": 25})">250k · 4% · 25y</button> <button class="btn" type="button" onclick="applyPreset({"P": 50000, "ra": 3, "yrs": 10})">50k · 3% · 10y</button> </div>
+<div id="err" class="err" role="alert"></div>
+<div id="res" class="res" style="display:none"></div>
+<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+<button class="btn" onclick="saveHist()">Save to history</button>
+<button class="btn" onclick="copyRes()">Copy result</button>
+<button class="btn" onclick="dlCSV()">Export CSV</button></div>
+<div id="hist" class="hist" style="display:none"></div>
+<p style='margin-top:12px'>Comparison: the same lump sum paid over a longer period gives a smaller monthly figure but a larger total number of payments.</p>
+</section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<article><p>An annuity converts a lump sum into regular income, and the monthly figure depends on three things: how much you hand over, the assumed interest rate, and how long payments last. A higher rate or a shorter payout period raises the monthly payment, while a longer period spreads the same money more thinly, and this annuity payout calculator makes those trade-offs visible in seconds. It uses the standard amortisation formula for a level monthly payment, so it is ideal for comparing headline offers, planning retirement income, or checking whether a quoted payout looks reasonable before speaking to an adviser.</p>
+<h2>How to use this calculator</h2>
+<p>Enter the lump sum available, the annual interest rate as a percentage, and the payout period in years. The tool assumes level monthly payments with monthly compounding, which matches many quoted annuity illustrations, although real products may include guarantees, indexation, survivor benefits or fees that change the figure. Read the monthly payment first, then the total received, then the interest component, which shows how much of the total comes from earnings rather than your original capital.</p>
+<ol><li>Enter the lump sum you could use to buy the annuity, for example 100,000.</li><li>Enter the annual rate as a percentage, using the illustration rate from a provider if you have one.</li><li>Enter the payout period in years, such as 20 for a fixed-term illustration.</li><li>Press Calculate and record the monthly payment and total received.</li><li>Repeat with a longer period to see how monthly income falls as payments stretch out.</li><li>Repeat with a different rate to see how sensitive income is to the rate environment.</li></ol>
+<h2>Understanding your results</h2>
+<p><strong>Monthly payment.</strong> The level amount received each month under the stated rate and period. It is the figure most people compare across providers, but it should not be compared without checking what guarantees and benefits are included.</p>
+<p><strong>Total received.</strong> Monthly payment multiplied by the number of months. A longer period almost always raises this total, even though each monthly payment is smaller, because more payments are made.</p>
+<p><strong>Interest component.</strong> Total received minus the original lump sum. It shows the earnings contribution and helps explain why a higher rate produces a much larger total over long periods.</p>
+<p><strong>Rate sensitivity.</strong> Not a separate output, but visible by re-running: small rate changes compound over decades, so a one-point difference can move monthly income noticeably.</p>
+<h2>Practical tips</h2><ul><li>Compare like with like, checking guarantees, inflation linking and survivor benefits before ranking offers by monthly amount alone.</li><li>Test both a fixed term and a lifetime illustration, because a fixed term can look generous while ending earlier.</li><li>Consider inflation, since a level payment buys less each year if prices rise.</li><li>Ask providers about fees and charges, which this simple illustration does not include.</li><li>Use the total received alongside the monthly figure, so a high monthly payment over a short term is not mistaken for the best lifetime value.</li><li>Take regulated advice for large retirement decisions, because annuities are often difficult to reverse once purchased.</li></ul>
+<h2>Common mistakes to avoid</h2><ul><li>Comparing monthly payments without checking whether they include a guarantee period or survivor benefit.</li><li>Assuming the illustration rate is guaranteed forever, when some illustrations are projections rather than promises.</li><li>Forgetting tax, which can reduce the spendable monthly income from the headline figure.</li><li>Choosing the highest monthly payment without considering what happens if you live longer than the term.</li><li>Entering a lump sum after tax when the provider quote is before tax, or vice versa, which distorts the comparison.</li></ul>
+<h2>Who benefits most</h2>
+<p>People approaching retirement, lottery or settlement recipients considering income options, financial educators, and anyone comparing annuity illustrations all benefit. The tool is also useful for journalists and students who need a transparent, repeatable calculation rather than a black-box quote. It does not replace personalised advice, but it gives users a clear starting point for informed conversations.</p>
+<h2>Worked example</h2>
+<p>A lump sum of 100,000 at five percent over twenty years gives about 659.96 per month, because the monthly rate is about 0.4167 percent and there are 240 payments. Total received is about 158,390, of which about 58,390 is the interest component. At a zero rate the same sum would pay only 416.67 per month, which is simply 100,000 divided by 240, showing how much of the illustrated income depends on the assumed rate rather than the capital alone.</p>
+<h2>Checking and re-running your result</h2>
+<p>Re-run the calculator with the exact rate and term from any provider illustration and see whether the monthly figure matches closely. If it differs materially, ask what benefits, guarantees or charges explain the gap. Re-check your plan if health, tax or inflation assumptions change, and keep a written record of each scenario so later comparisons stay consistent.</p><h2>Three real scenarios</h2>
+<p>A sixty-five-year-old retiring with 200,000 and a five percent illustration over twenty years would see about 1,319.91 per month, a figure that looks comfortable until inflation is considered, because the same payment buys noticeably less after a decade of rising prices. A fifty-five-year-old with 80,000 choosing a thirty-year illustration at four percent receives only about 381.93 per month, showing how a longer period dilutes monthly income even though the total received is larger. A lottery winner considering a 500,000 annuity at three percent over ten years would receive about 4,828.04 per month, a high monthly figure that ends abruptly after ten years, which suits a bridge to other income but not lifetime security. Each case shows the same trade-off from a different angle: monthly income, total received and duration cannot all be maximised at once, and the right balance depends on other income, health and spending plans.</p>
+<h2>Edge cases and limits</h2>
+<p>Real annuities differ from this simple model in important ways. Lifetime annuities pay until death, so the effective period is unknown and depends on longevity, while joint-life annuities continue for a spouse at a reduced rate. Inflation-linked annuities start lower but rise with prices, and guarantee periods ensure payments continue to beneficiaries if death occurs early. Fees, commissions and insurer solvency all affect real offers, and tax treatment varies by country and by whether the lump sum came from a pension or from savings. Health matters too: enhanced annuities pay more to people with shorter life expectancies, a feature a generic calculator cannot capture. The illustration is therefore a comparison tool, not a quotation, and any figure that will drive a retirement decision deserves confirmation from regulated advice and from written provider illustrations.</p>
+<h2>Making the comparison a habit</h2>
+<p>Whenever a provider illustration arrives, re-run this calculator with the same lump sum, rate and term and note any gap, then ask the provider in writing what explains it: guarantees, survivor benefits, indexation, fees or a different rate basis. Keep a small table of every scenario tested, including monthly payment, total received and what happens on early death, so that a later conversation does not rely on memory of a single headline figure. Review the decision annually before purchase, because rates move, health changes and other income sources evolve, and an annuity that looked unattractive at fifty-five may look sensible at sixty-five. Above all, avoid rushing: annuities are usually irreversible, so the cost of an extra week of comparison is negligible compared with decades of payments.</p>
+<h2>A final check before you commit</h2><p>Before signing, request the illustration in writing with every assumption stated: the lump sum, the rate, the term, any guarantee period, survivor provisions and indexation. Compare those assumptions with this calculator, and ask for a written explanation of any material difference. Discuss the decision with a regulated adviser if the sum is large or if the annuity will be your main retirement income, because the choice is usually irreversible. A week spent verifying assumptions is a small price for decades of monthly payments that you can rely on.</p>
+</article>
+<section class="faq"><h2>Frequently asked questions</h2><details><summary>How is an annuity payment calculated?</summary><p>It uses the amortisation formula: lump sum multiplied by the monthly rate, divided by one minus the discount factor over the total number of months.</p></details><details><summary>Does a longer payout period increase total received?</summary><p>Yes, more payments are made, so the total is usually larger, but each monthly payment is smaller.</p></details><details><summary>Why does the rate matter so much?</summary><p>Interest compounds over many years, so even a one-point rate change moves monthly income and total received noticeably.</p></details><details><summary>Are annuity payments guaranteed?</summary><p>It depends on the product: some guarantee payments for life or a fixed term, while illustrations may be projections rather than guarantees.</p></details><details><summary>Does this include tax or fees?</summary><p>No, this is a simple pre-tax illustration without provider fees, so real spendable income may differ.</p></details><details><summary>Should I buy an annuity?</summary><p>That depends on health, other income, inflation protection and flexibility needs, so regulated personal advice is recommended for large decisions.</p></details></section>
+</main>
+<footer><p><strong>AnnuityCalc</strong> — Turn a lump sum into a monthly income picture.</p>
+<p>AnnuityCalc estimates annuity payouts from a lump sum, rate and payout period, with totals and comparisons.</p>
+<p><a href="https://fixoraa.tech">Home</a> &nbsp;|&nbsp; <a href="https://fixoraa.tech">More Tools</a></p>
+<p>Made by <a href="https://fixoraa.tech">Fixoraa</a></p></footer>
+<script id="pure">function annuityMonthly(P,annPct,years){var r=annPct/100/12,n=years*12;if(P<=0||n<=0)return 0;if(r===0)return P/n;return P*r/(1-Math.pow(1+r,-n));}
+function annuityTotal(monthly,years){return monthly*years*12;}</script>
+<script>function calc(){showErr('');var P=num('P'),r=num('ra'),y=num('yrs');
+ if(P<=0||y<=0||r<0){showErr('Enter a positive lump sum and payout period, and a non-negative rate.');return;}
+ var m=annuityMonthly(P,r,y),t=annuityTotal(m,y);
+ showRes('<b>$'+m.toFixed(2)+' per month</b><br>Total received over '+y+' years: $'+t.toFixed(2)+' &nbsp;|&nbsp; Interest component: $'+(t-P).toFixed(2));}
+function applyPreset(o){for(var k in o){var e=document.getElementById(k);if(e)e.value=o[k];}calc();}
+function resetF(){var els=document.querySelectorAll('input,select');els.forEach(function(e){if(e.type!=='button')e.value='';});document.getElementById('res').style.display='none';document.getElementById('err').textContent='';}
+function num(id){var v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+
+function showRes(html){var r=document.getElementById('res');r.style.display='block';r.innerHTML=html;window._last=html.replace(/<[^>]+>/g,' ');}
+function showErr(m){document.getElementById('err').textContent=m;}
+function saveHist(){if(!window._last)return;var k='hist_annuitycalc';var a=JSON.parse(localStorage.getItem(k)||'[]');a.unshift(new Date().toLocaleString()+': '+window._last);localStorage.setItem(k,JSON.stringify(a.slice(0,10)));var d=document.getElementById('hist');d.style.display='block';d.textContent=a.join('\n');}
+function copyRes(){if(window._last&&navigator.clipboard)navigator.clipboard.writeText(window._last);}
+function dlCSV(){if(!window._last)return;var b=new Blob([window._last],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='annuitycalc-result.csv';a.click();}
+</script>
+</body></html>
