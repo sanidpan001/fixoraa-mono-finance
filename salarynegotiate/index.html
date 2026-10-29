@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salary Negotiation Calculator | SalaryNegotiate</title>
+<meta name="description" content="Salary negotiation calculator: compute your counter offer from any base and raise %, compare total compensation, and plan your BATNA. Free tool.">
+<link rel="canonical" href="https://finance.fixoraa.tech/salarynegotiate/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Salary Negotiation Calculator | SalaryNegotiate">
+<meta property="og:description" content="Salary negotiation calculator: compute your counter offer from any base and raise %, compare total compensation, and plan your BATNA. Free tool.">
+<meta property="og:url" content="https://finance.fixoraa.tech/salarynegotiate/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "SalaryNegotiate",
+      "url": "https://finance.fixoraa.tech/salarynegotiate/",
+      "applicationCategory": "Career Tools",
+      "operatingSystem": "Web",
+      "description": "Salary negotiation calculator: compute your counter offer from any base and raise %, compare total compensation, and plan your BATNA. Free tool.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can negotiating cause the employer to withdraw the offer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No \u2014 not if you do it professionally. Withdrawing an offer over a polite, data-backed counter is extremely rare; most hiring managers expect negotiation and respect it. Keep your tone warm, anchor to market data, and stay enthusiastic about the role."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What percentage should I counter with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 5\u201310% increase over the offer is the standard safe range when the offer is near market. 10\u201320% is reasonable when the offer is clearly below market. Above 20% needs strong justification like a competing offer or rare skills. The calculator above applies whatever percentage you choose."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I ask for a signing bonus instead of a higher base salary?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes \u2014 often it is the easiest lever to move. Base salary is constrained by pay bands and approval chains, while a signing bonus is a one-time cost a manager can frequently approve quickly. Use it to bridge gaps the base salary cannot cover."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a BATNA and why does it matter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your BATNA \u2014 Best Alternative To a Negotiated Agreement \u2014 is what happens if you walk away: a competing offer, a good current job, or strong market demand for your skills. A strong BATNA lets you hold firm; a weak one means you should still negotiate but prioritize closing the deal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I negotiate by email or phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By phone or video first, then confirm in writing. Voice carries warmth and lets you read reactions; the written follow-up documents the exact numbers. The script templates above give you wording for both the call and the email."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I negotiate when I'm currently underpaid?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anchor to the market rate for the role, not to your current pay. Saying 'I currently make X' hands the employer a discount; saying 'the market rate for this scope is Y, based on current data' gives them a fact to work with. Your counter should reflect the value of the new role."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#F8F2F5; --surface:#FFFFFF; --accent:#8B2E5F; --accent-ink:#FFFFFF;
+  --ink:#26282E; --muted:#5C6675; --line:#EAD9E2;
+  --display:'Mukta',serif; --body:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+.sn-wrap{font-family:'Mukta',Inter,system-ui,sans-serif;background:#F8F2F5;color:#26282E;padding:56px 20px 72px;}.sn-hero{max-width:860px;margin:0 auto 34px;text-align:center;}.sn-logo{width:76px;height:76px;margin:0 auto 18px;border-radius:22px;background:linear-gradient(135deg,#8B2E5F,#d4849e);font-size:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 28px rgba(139,46,95,.25);}.sn-hero h1{font-size:clamp(30px,5vw,48px);margin:0 0 12px;letter-spacing:-.02em;font-weight:800;line-height:1.1;}.sn-tag{font-size:18px;color:#5C6675;margin:0;}.sn-card{max-width:860px;margin:0 auto 22px;background:#FFFFFF;border:1px solid #EAD9E2;border-radius:26px;padding:38px;box-shadow:0 24px 60px rgba(139,46,95,.10);}.sn-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;}.sn-field label{display:block;font-weight:700;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:#5C6675;margin-bottom:8px;}.sn-field input,.sn-field select,.sn-field textarea{width:100%;padding:13px 14px;font-size:16px;border:2px solid #EAD9E2;border-radius:14px;font-family:inherit;color:#26282E;background:#F8F2F5;box-sizing:border-box;}.sn-field input:focus,.sn-field textarea:focus{outline:none;border-color:#8B2E5F;}.sn-btn{display:inline-block;padding:14px 28px;font-size:16px;font-weight:800;border-radius:14px;border:none;cursor:pointer;font-family:inherit;background:#8B2E5F;color:#fff;min-height:54px;margin:6px 0 4px;}.sn-btn.ghost{background:#fff;color:#8B2E5F;border:2px solid #8B2E5F;}.sn-result{background:#F8F2F5;border:2px solid #EAD9E2;border-radius:18px;padding:22px;margin:18px 0;display:none;}.sn-result.show{display:block;}.sn-bignum{font-size:44px;font-weight:800;color:#8B2E5F;letter-spacing:-.02em;}.sn-verdict{font-size:16px;margin-top:8px;line-height:1.55;}.sn-sub{font-size:20px;font-weight:800;margin:30px 0 6px;}.sn-msub{color:#5C6675;font-size:14.5px;margin:0 0 14px;}.sn-table{width:100%;border-collapse:collapse;font-size:15px;margin-top:6px;}.sn-table th,.sn-table td{padding:10px 8px;border-bottom:1px solid #EAD9E2;text-align:right;}.sn-table th:first-child,.sn-table td:first-child{text-align:left;}.sn-table th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:#5C6675;}.sn-table tr.total td{font-weight:800;border-bottom:none;font-size:17px;color:#8B2E5F;}.sn-table input{width:110px;padding:8px 10px;font-size:14px;border:2px solid #EAD9E2;border-radius:10px;font-family:inherit;text-align:right;box-sizing:border-box;}.sn-note{background:#F8F2F5;border-left:4px solid #8B2E5F;padding:14px 18px;border-radius:0 14px 14px 0;font-size:15.5px;line-height:1.6;margin-top:12px;display:none;}.sn-note.show{display:block;}.sn-scripts{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px;}.sn-scripts button{padding:11px 18px;border-radius:12px;border:2px solid #EAD9E2;background:#fff;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;color:#26282E;min-height:48px;}.sn-scripts button:hover{border-color:#8B2E5F;}.sn-scriptbox{min-height:190px;line-height:1.65;resize:vertical;}@media (max-width:640px){.sn-card{padding:26px 18px;}.sn-grid{grid-template-columns:1fr;}.sn-bignum{font-size:36px;}.sn-wrap{padding:40px 14px 56px;}.sn-table{font-size:13px;}.sn-table input{width:84px;}}
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="SalaryNegotiate home">
+      <span class="fx-logo-tile" aria-hidden="true">💼</span>
+      <span class="fx-brand">SalaryNegotiate</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-field-notes" aria-label="SalaryNegotiate tool">
+<section class='sn-wrap'><div class='sn-hero'><div class='sn-logo' aria-hidden='true'>💼</div><h1>Salary Negotiation Calculator</h1><p class='sn-tag'>Turn any offer into a counter-offer number — with the math to back it up.</p></div><div class='sn-card'><p class='sn-sub' style='margin-top:0'>Counter-offer calculator</p><p class='sn-msub'>Enter the offer and the raise you want. Counter = offer × (1 + raise).</p><div class='sn-grid'><div class='sn-field'><label for='sn-base'>Current offer (annual base)</label><input id='sn-base' type='number' min='0' step='1000' value='100000'></div><div class='sn-field'><label for='sn-pct'>Target raise (%)</label><input id='sn-pct' type='number' min='0' max='100' step='1' value='10'></div></div><button class='sn-btn' id='sn-calc' type='button'>Calculate counter offer</button><div class='sn-result' id='sn-result' role='status'><div class='sn-bignum' id='sn-counter'>—</div><div class='sn-verdict' id='sn-verdict'></div></div><div class='sn-grid' style='margin-top:18px'><div class='sn-field'><label for='sn-walk'>Your walk-away number (annual)</label><input id='sn-walk' type='number' min='0' step='1000' placeholder='e.g. 105000'></div></div><p class='sn-sub'>Total-compensation comparison</p><p class='sn-msub'>Base salary is only one lever. Add bonus, equity, and benefits to see the true gap.</p><div style='overflow-x:auto'><table class='sn-table'><thead><tr><th>Component (annual)</th><th>Current</th><th>Offer</th></tr></thead><tbody><tr><td>Base salary</td><td><input id='sn-c-base' type='number' min='0' step='500' value='90000'></td><td><input id='sn-o-base' type='number' min='0' step='500' value='100000'></td></tr><tr><td>Bonus</td><td><input id='sn-c-bonus' type='number' min='0' step='500' value='5000'></td><td><input id='sn-o-bonus' type='number' min='0' step='500' value='10000'></td></tr><tr><td>Equity / stock</td><td><input id='sn-c-eq' type='number' min='0' step='500' value='0'></td><td><input id='sn-o-eq' type='number' min='0' step='500' value='5000'></td></tr><tr><td>Benefits value</td><td><input id='sn-c-ben' type='number' min='0' step='500' value='8000'></td><td><input id='sn-o-ben' type='number' min='0' step='500' value='8000'></td></tr><tr class='total'><td>Total compensation</td><td id='sn-tot-cur'>—</td><td id='sn-tot-off'>—</td></tr></tbody></table></div><button class='sn-btn' id='sn-compare' type='button'>Compare totals</button><div class='sn-note' id='sn-cmpnote'></div><p class='sn-sub'>BATNA planner</p><p class='sn-msub'>Your best alternative to a negotiated agreement is your leverage. Name it honestly.</p><div class='sn-grid'><div class='sn-field'><label for='sn-batna'>Best alternative (annual value)</label><input id='sn-batna' type='number' min='0' step='1000' placeholder='e.g. 95000'></div><div class='sn-field'><label for='sn-batnaname'>Describe it</label><input id='sn-batnaname' type='text' placeholder='e.g. Stay at current job'></div></div><button class='sn-btn' id='sn-batnago' type='button'>Assess my leverage</button><div class='sn-note' id='sn-batnanote'></div><p class='sn-sub'>Negotiation script templates</p><p class='sn-msub'>Pick a frame — it fills in with your numbers. Copy, personalize, deliver warmly.</p><div class='sn-scripts'><button type='button' data-sn='grateful'>Grateful counter</button><button type='button' data-sn='hold'>Walk-away hold</button><button type='button' data-sn='email'>Follow-up email</button></div><div class='sn-field'><label for='sn-script'>Your script (editable)</label><textarea id='sn-script' class='sn-scriptbox' placeholder='Choose a template above, or write your own...'></textarea></div><button class='sn-btn ghost' id='sn-copy' type='button'>Copy script</button></div></section>
+  </section>
+  <article class="article-sec" aria-label="Guide">
+<h2>Why the First Offer Is Rarely the Final Offer</h2><p>Most job offers are built with negotiation in mind. Hiring managers typically extend an offer below the top of the approved range, expecting the candidate to push back — and surveys of recruiters consistently show that a large majority expect a counter and respect candidates who make one professionally. The risk most candidates fear — that negotiating will cause the offer to be withdrawn — is vanishingly rare when the counter is reasonable, polite, and grounded in market data. The real risk runs the other way: accepting the first number can cost tens of thousands over the life of your employment, because every future raise compounds from that starting base.</p><p>A counter offer is not a confrontation. It is a business conversation about the value of the work. The candidates who do it well share three habits: they <strong>anchor to data</strong> rather than feelings, they <strong>negotiate the whole package</strong> rather than just the base salary, and they <strong>stay warm</strong> — enthusiastic about the role while firm about the number. This tool handles the math behind all three.</p><h2>The Counter-Offer Formula</h2><p>The core calculation is simple: <strong>counter offer = current offer × (1 + target raise)</strong>. If you are offered $100,000 and you want a 10% lift, your counter is $110,000. The hard part is not the arithmetic — it is choosing the target raise. As a rule of thumb:</p><ul><li><strong>5–10%</strong> is a standard, almost-always-safe counter when the offer is already close to market.</li><li><strong>10–20%</strong> is reasonable when the offer sits clearly below market rate or below your current compensation.</li><li><strong>Above 20%</strong> needs strong justification — competing offers, rare skills, or a significantly bigger scope than the posted role.</li></ul><p>Enter your offer and your target percentage above, and the calculator gives you the exact counter number. Round it to a clean figure before you say it out loud — $112,000 lands better than $111,847, and round numbers signal confidence rather than spreadsheet fussiness.</p><h2>Know Your Walk-Away Number</h2><p>Before you counter, decide the number below which you will decline. This is your <strong>walk-away point</strong>, and it is the single most powerful concept in negotiation. It should reflect the minimum total value that makes the move worthwhile after accounting for your current pay, benefits you would lose, relocation or commute costs, and the risk of changing jobs.</p><p>The walk-away number does two things. First, it keeps you honest: without it, the excitement of an offer can pull you into accepting a deal you will resent in six months. Second, it changes how you negotiate. When you genuinely know you can say no, your tone shifts — you stop sounding desperate and start sounding like a peer having a business discussion. That tone is worth real money. Enter your walk-away number in the tool and it will tell you plainly whether your counter clears it.</p><h2>Negotiate Total Compensation, Not Just Salary</h2><p>Base salary is only one lever, and often the hardest one for a hiring manager to move — it is tied to salary bands, internal equity, and approval chains. The full package usually includes a <strong>signing bonus</strong>, an <strong>annual bonus target</strong>, <strong>equity or stock grants</strong>, <strong>retirement matching</strong>, <strong>health benefits</strong>, <strong>paid time off</strong>, and sometimes <strong>remote-work flexibility</strong> or a <strong>professional development budget</strong>.</p><p>This matters because the flexible items are frequently where the real gains hide. A manager who cannot move base salary by $10,000 can often add a $10,000 signing bonus with a single approval. Extra equity, an earlier performance review with a raise attached, additional vacation days, or a remote-work arrangement can be worth as much as a salary bump with far less friction. The comparison table above adds up base, bonus, equity, and benefits for your current role versus the offer so you can see the true gap — many "raises" disappear once total compensation is compared honestly.</p><table><thead><tr><th>Component</th><th>How flexible it usually is</th><th>What to ask for</th></tr></thead><tbody><tr><td>Base salary</td><td>Medium — bound by salary bands</td><td>A specific number backed by market data</td></tr><tr><td>Signing bonus</td><td>High — one-time cost, easy approval</td><td>Bridge any base-salary gap here</td></tr><tr><td>Annual bonus target</td><td>Medium — often formulaic</td><td>A higher target % or a first-year guarantee</td></tr><tr><td>Equity / stock</td><td>Medium-high at startups</td><td>More shares or a shorter vesting cliff</td></tr><tr><td>Start date / review timing</td><td>High</td><td>An early 6-month performance review with raise potential</td></tr><tr><td>Vacation / remote days</td><td>High — costs the company little</td><td>Extra days or a hybrid schedule in writing</td></tr></tbody></table><h2>BATNA: The Leverage Behind Every Number</h2><p>Negotiation theory has an ugly acronym for a beautiful idea: your <strong>BATNA — Best Alternative To a Negotiated Agreement</strong>. It is simply what happens if you walk away. A strong BATNA (a competing offer, a happy current job, in-demand skills with recruiters calling weekly) means you can hold firm. A weak BATNA (unemployed, one offer, urgent bills) means you should still negotiate — but prioritize getting the deal done over squeezing the last dollar.</p><p>The BATNA planner above turns this abstract idea into a leverage note: enter your best alternative and it tells you plainly whether your position is strong, decent, or thin. Two practical rules follow. First, <strong>never bluff a competing offer</strong> — it is a small industry and lies surface. Second, <strong>keep building alternatives even after you accept</strong>; the best time to improve your BATNA for the <em>next</em> negotiation is the day you start the job, by performing well and staying visible in your market.</p><h2>Scripts That Actually Work</h2><p>Most people know their number but freeze on the wording. The templates above give you three proven frames — a grateful counter, a walk-away hold, and a follow-up email — each filled with your actual figures. Notice what they share:</p><ul><li><strong>Enthusiasm first.</strong> Every script opens by affirming you want the role. This is not flattery; it tells the hiring manager you are negotiating <em>toward</em> yes, not away from it.</li><li><strong>One clear number.</strong> Vague asks ("a bit more") get vague answers. A specific counter invites a specific response.</li><li><strong>A reason, briefly.</strong> One or two sentences of justification — market data, scope, competing interest — then stop. Over-explaining sounds defensive.</li><li><strong>An open door.</strong> Every script ends by inviting their thoughts, which keeps the conversation collaborative and gives them room to meet you partway.</li></ul><p>Deliver counters by phone or video when you can — tone carries warmth that email flattens — then follow up in writing so the numbers are documented. And whatever the outcome, thank them for working with you; the relationship you build in negotiation is the relationship you start the job with.</p><h2>Timing and Tactics</h2><p>Do not negotiate until you have the <strong>written offer</strong> in hand. Negotiating from a verbal range wastes leverage because nothing is committed. Once the letter arrives, take 24–48 hours — "I want to review this carefully" is always respected — and use the time to run the numbers in this tool.</p><p>Make your counter once, make it reasonable, and then stop pushing on the same lever. If they cannot move the base, pivot immediately to the flexible items in the table above rather than grinding the salary number through three rounds. And get the final agreement <strong>in writing</strong> before you resign your current role: the email confirming your start date, salary, bonus, equity, and any extras is the real offer, not the phone call.</p><h2>Special Situations</h2><p><strong>Currently underpaid?</strong> Do not anchor your counter to your current salary — anchor it to the market rate for the role. "I currently make X" hands the employer a discount coupon; "the market rate for this scope is Y" hands them a fact.</p><p><strong>Switching industries or roles?</strong> Expect the market anchor to carry less weight and your transferable achievements to carry more. A 5–10% counter on a fair offer is still appropriate; the story you tell is about the value you bring, not the title you held.</p><p><strong>Multiple offers?</strong> You do not need to name names or share numbers. "I have another offer at a higher total compensation, but I prefer this role — can you close the gap?" is honest, effective, and keeps both doors open.</p><p>Run the numbers, know your walk-away, negotiate the whole package, and deliver it warmly. That is the entire game — and the calculator above does the arithmetic so you can focus on the conversation.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>Can negotiating cause the employer to withdraw the offer?</summary><p>No — not if you do it professionally. Withdrawing an offer over a polite, data-backed counter is extremely rare; most hiring managers expect negotiation and respect it. Keep your tone warm, anchor to market data, and stay enthusiastic about the role.</p></details>
+<details><summary>What percentage should I counter with?</summary><p>A 5–10% increase over the offer is the standard safe range when the offer is near market. 10–20% is reasonable when the offer is clearly below market. Above 20% needs strong justification like a competing offer or rare skills. The calculator above applies whatever percentage you choose.</p></details>
+<details><summary>Should I ask for a signing bonus instead of a higher base salary?</summary><p>Yes — often it is the easiest lever to move. Base salary is constrained by pay bands and approval chains, while a signing bonus is a one-time cost a manager can frequently approve quickly. Use it to bridge gaps the base salary cannot cover.</p></details>
+<details><summary>What is a BATNA and why does it matter?</summary><p>Your BATNA — Best Alternative To a Negotiated Agreement — is what happens if you walk away: a competing offer, a good current job, or strong market demand for your skills. A strong BATNA lets you hold firm; a weak one means you should still negotiate but prioritize closing the deal.</p></details>
+<details><summary>Should I negotiate by email or phone?</summary><p>By phone or video first, then confirm in writing. Voice carries warmth and lets you read reactions; the written follow-up documents the exact numbers. The script templates above give you wording for both the call and the email.</p></details>
+<details><summary>How do I negotiate when I&#x27;m currently underpaid?</summary><p>Anchor to the market rate for the role, not to your current pay. Saying 'I currently make X' hands the employer a discount; saying 'the market rate for this scope is Y, based on current data' gives them a fact to work with. Your counter should reflect the value of the new role.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">SalaryNegotiate</div>
+    <p>SalaryNegotiate computes your counter offer, compares total compensation line by line, and drafts the script to deliver it.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+function counterOffer(base,raisePct){return base*(1+raisePct);}
+if(typeof document!=='undefined'){document.addEventListener('DOMContentLoaded',function(){var wrap=document.querySelector('.sn-wrap');if(!wrap)return;function $(id){return document.getElementById(id);}function num(id){var el=$(id);if(!el)return 0;var v=parseFloat(el.value);return isNaN(v)?0:v;}function money(v){return '$'+Math.round(v).toLocaleString('en-US');}var base=$('sn-base'),pct=$('sn-pct'),walk=$('sn-walk');var res=$('sn-result'),counterEl=$('sn-counter'),verdict=$('sn-verdict');var calc=$('sn-calc');if(calc)calc.addEventListener('click',function(){var c=counterOffer(num('sn-base'),num('sn-pct')/100);if(res)res.classList.add('show');if(counterEl)counterEl.textContent=money(c);var w=num('sn-walk');var msg='';if(w>0){if(c>=w)msg='Your counter of '+money(c)+' clears your walk-away number of '+money(w)+'. You can hold this line comfortably.';else if(c>=w*0.95)msg='Your counter of '+money(c)+' is just under your walk-away of '+money(w)+' — consider nudging the raise % up or bridging the gap with a signing bonus.';else msg='Your counter of '+money(c)+' sits below your walk-away of '+money(w)+'. Raise the target % or strengthen the package with bonus/equity before you engage.';}else{msg='Counter computed from your offer and target raise. Add your walk-away number above to check it against your minimum.';}if(verdict)verdict.textContent=msg;});var cmp=$('sn-compare');if(cmp)cmp.addEventListener('click',function(){var cur=num('sn-c-base')+num('sn-c-bonus')+num('sn-c-eq')+num('sn-c-ben');var off=num('sn-o-base')+num('sn-o-bonus')+num('sn-o-eq')+num('sn-o-ben');var tc=$('sn-tot-cur'),to=$('sn-tot-off'),note=$('sn-cmpnote');if(tc)tc.textContent=money(cur);if(to)to.textContent=money(off);if(note){note.classList.add('show');var d=off-cur;note.textContent=d>=0?('The offer leads by '+money(d)+' in total compensation. Negotiate from this full-package gap, not just the base salary.'):('Your current package leads by '+money(-d)+' in total compensation. The offer needs to beat this — counter accordingly.');}});var batgo=$('sn-batnago');if(batgo)batgo.addEventListener('click',function(){var alt=num('sn-batna');var nm=$('sn-batnaname');var name=nm?nm.value.trim():'';var off=num('sn-o-base')+num('sn-o-bonus')+num('sn-o-eq')+num('sn-o-ben');var note=$('sn-batnanote');if(!note)return;note.classList.add('show');var label=name?('"'+name+'"'):'your best alternative';if(alt<=0){note.textContent='Enter the annual value of '+label+' to assess your leverage.';return;}var ratio=off>0?alt/off:0;if(ratio>=1)note.textContent='Strong leverage: '+label+' ('+money(alt)+') matches or beats the offer. You can hold a firm counter — walking away costs you nothing.';else if(ratio>=0.9)note.textContent='Decent leverage: '+label+' ('+money(alt)+') is close to the offer. Negotiate confidently but prioritize closing a good deal over the last dollar.';else note.textContent='Thin leverage: '+label+' ('+money(alt)+') trails the offer. Still counter — a polite 5–10% ask is expected — but keep the tone collaborative and be ready to close.';});var scriptBox=$('sn-script');var SCRIPTS={grateful:function(c){return 'Thank you so much for the offer — I\'m genuinely excited about the role and the team.\n\nBased on the scope of the position and current market data for this level, I was hoping we could get to '+money(c)+' in base salary. I\'m confident I\'ll deliver strong value from day one, and I want the compensation to reflect that.\n\nIs there flexibility to close that gap? I\'m eager to say yes and get started.';},hold:function(c){return 'I really appreciate the offer and I\'m very enthusiastic about joining.\n\nI\'ve run the numbers carefully, and '+money(c)+' is the figure that makes this move work for me given my current total compensation. Below that, I\'d have to respectfully decline — but I\'d much rather find a way to say yes.\n\nCan we make '+money(c)+' work, perhaps with a signing bonus if base flexibility is limited?';},email:function(c){return 'Subject: Excited about the offer — quick question on compensation\n\nHi [Name],\n\nThank you again for the offer — I\'m thrilled about the role and the team.\n\nI\'ve reviewed the package carefully. Based on market data for this scope and level, would it be possible to move the base to '+money(c)+'? I\'m flexible on structure — a signing bonus or adjusted equity could also bridge the gap.\n\nI\'m very keen to accept and would love to finalize this week.\n\nBest,\n[Your Name]';}};var sbtns=wrap.querySelectorAll('[data-sn]');for(var i=0;i<sbtns.length;i++){(function(btn){btn.addEventListener('click',function(){var kind=btn.getAttribute('data-sn');var c=counterOffer(num('sn-base'),num('sn-pct')/100);if(scriptBox&&SCRIPTS[kind])scriptBox.value=SCRIPTS[kind](c);});})(sbtns[i]);}var copyBtn=$('sn-copy');if(copyBtn&&scriptBox)copyBtn.addEventListener('click',function(){var t=scriptBox.value;if(!t)return;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){copyBtn.textContent='Copied!';setTimeout(function(){copyBtn.textContent='Copy script';},1500);});}else{scriptBox.select();try{document.execCommand('copy');}catch(e){}}});});}
+</script>
+</body>
+</html>
