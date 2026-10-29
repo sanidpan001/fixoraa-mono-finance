@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sinking Fund Calculator — Monthly Saving for Your Goal</title>
+<meta name="description" content="Calculate the monthly saving needed to reach any goal by its deadline with the free SinkingFund sinking fund calculator.">
+<link rel="canonical" href="https://finance.fixoraa.tech/sinkingfund/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Sinking Fund Calculator — Monthly Saving for Your Goal">
+<meta property="og:description" content="Calculate the monthly saving needed to reach any goal by its deadline with the free SinkingFund sinking fund calculator.">
+<meta property="og:url" content="https://finance.fixoraa.tech/sinkingfund/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://peacefulbicycle.com">
+<link rel="preconnect" href="https://www.highrevenueformat.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "SinkingFund",
+      "url": "https://finance.fixoraa.tech/sinkingfund/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Calculate the monthly saving needed to reach any goal by its deadline with the free SinkingFund sinking fund calculator.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a sinking fund?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Money set aside regularly for a known future expense, such as a holiday, car service, or annual insurance premium, so the expense is funded in advance instead of borrowed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the monthly amount calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Using the sinking-fund formula: the monthly deposit that grows to your target over the chosen months at the given interest rate, assuming monthly compounding."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What interest rate should I use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a conservative rate, such as a savings account rate, or zero for short-term goals. The plan should work even if interest disappoints."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I cannot afford the monthly amount?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Extend the timeline, trim the target, or start with a smaller deposit and raise it later. A partial fund beats borrowing the whole expense."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run several sinking funds at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Keep a separate labelled sub-account per goal so money for one goal is never accidentally spent on another."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if the deadline moves earlier?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Recalculate immediately. Fewer months means a higher monthly deposit, and the increase is steep when months shrink a lot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I add a contingency to the target?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Price goals from real quotes and add about 10 percent, so a price rise does not leave a shortfall at the worst moment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a sinking fund the same as an emergency fund?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A sinking fund covers known, planned expenses. An emergency fund covers unknown surprises. You need both, kept separate."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+
+:root{
+  --bg:#E6F9F0; --surface:#FFFFFF; --accent:#0F766E; --accent-ink:#FFFFFF;
+  --ink:#122E2A; --muted:#3C5A54; --line:#C7E8DE;
+  --display:'Bitter',serif; --body:'Work Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+.fx-container{max-width:72rem;margin:0 auto;padding-left:1rem;padding-right:1rem}
+@media(min-width:640px){.fx-container{padding-left:1.5rem;padding-right:1.5rem}}
+/* ad utilities (for the verbatim ad snippets) */
+.no-print{}
+.mx-auto{margin-left:auto;margin-right:auto}.max-w-6xl{max-width:72rem}
+.px-4{padding-left:1rem;padding-right:1rem}.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+@media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:scale-100{transform:scale(1)}}
+.text-center{text-align:center}.block{display:block}
+.text-\[10px\]{font-size:10px}.tracking-\[0\.18em\]{letter-spacing:.18em}.uppercase{text-transform:uppercase}
+.text-slate-400{color:#94a3b8}.mb-1\.5{margin-bottom:.375rem}
+.flex{display:flex}.justify-center{justify-content:center}.overflow-hidden{overflow:hidden}
+.origin-top{transform-origin:top}.scale-\[0\.44\]{transform:scale(.44)}.shrink-0{flex-shrink:0}
+/* header */
+.fx-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.fx-header-in{display:flex;align-items:center;gap:.9rem;padding:.8rem 0;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
+.fx-logo-tile{width:44px;height:44px;border-radius:14px;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.fx-brand{font-family:var(--display);font-size:1.45rem;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.fx-nav{margin-left:auto;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:.55rem 1.1rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.92rem;
+  border:2px solid var(--accent);color:var(--accent);background:transparent;transition:all .18s ease;min-height:44px;line-height:1.5}
+.fx-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-btn.solid:hover{filter:brightness(.94)}
+.fx-badge{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--accent);border:1.5px dashed var(--accent);border-radius:999px;padding:.3rem .8rem;white-space:nowrap}
+/* tool section */
+.tool-sec{padding:2.2rem 0 1rem}
+/* article */
+.article-sec{padding:2.5rem 0;max-width:46rem;margin:0 auto}
+.article-sec h2{font-family:var(--display);font-size:1.55rem;margin:2rem 0 .8rem;line-height:1.25;letter-spacing:-.01em}
+.article-sec h3{font-size:1.15rem;margin:1.5rem 0 .6rem}
+.article-sec p,.article-sec li{margin-bottom:.85rem;color:var(--ink)}
+.article-sec ul,.article-sec ol{padding-left:1.4rem;margin-bottom:1rem}
+.article-sec table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.95rem}
+.article-sec th,.article-sec td{border:1px solid var(--line);padding:.55rem .7rem;text-align:left}
+.article-sec th{background:var(--surface);font-weight:700}
+/* faq */
+.faq-sec{padding:1rem 0 3rem;max-width:46rem;margin:0 auto}
+.faq-sec h2{font-family:var(--display);font-size:1.55rem;margin-bottom:1.2rem}
+.faq-sec details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;overflow:hidden}
+.faq-sec summary{padding:1rem 1.2rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:44px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary::after{content:'+';font-size:1.4rem;color:var(--accent);flex-shrink:0}
+.faq-sec details[open] summary::after{content:'\2013'}
+.faq-sec details p{padding:0 1.2rem 1.1rem;color:var(--muted)}
+/* footer */
+.fx-footer{background:var(--surface);border-top:1px solid var(--line);padding:2.2rem 0;margin-top:1rem}
+.fx-footer .fx-brand{font-size:1.2rem}
+.fx-footer p{color:var(--muted);font-size:.95rem;max-width:44rem;margin:.5rem 0}
+.fx-footer nav{display:flex;gap:1.2rem;margin:1rem 0;flex-wrap:wrap}
+.fx-footer nav a{color:var(--accent);font-weight:600;text-decoration:none}
+.fx-footer nav a:hover{text-decoration:underline}
+.fx-credit{font-size:.9rem;color:var(--muted)}
+.fx-credit a{color:var(--accent);font-weight:700;text-decoration:none}
+@media(max-width:640px){.fx-brand{font-size:1.2rem}.tool-sec{padding:1.4rem 0 .6rem}}
+@media print{.no-print{display:none!important}}
+
+
+.tool-card{max-width:46rem;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:1.6rem;box-shadow:0 10px 30px rgba(0,0,0,.07)}
+.tool-card h1{font-family:var(--display);font-size:1.9rem;line-height:1.2;margin-bottom:.4rem;letter-spacing:-.01em}
+.tool-card .lead{color:var(--muted);margin-bottom:1.2rem}
+.tool-card label{display:block;font-weight:600;margin:.9rem 0 .3rem}
+.tool-card input,.tool-card select{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:1rem;background:var(--bg);color:var(--ink);min-height:44px}
+.tool-card .row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.tool-card button.calc{margin-top:1.2rem;width:100%;padding:.85rem;border:none;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:1.05rem;cursor:pointer;min-height:48px}
+.tool-card button.calc:hover{filter:brightness(.94)}
+.presets{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.presets button{padding:.5rem 1rem;border-radius:999px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px}
+.presets button:hover{background:var(--accent);color:var(--accent-ink)}
+.result{margin-top:1.2rem;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:1.1rem;font-size:1.05rem}
+.result strong{font-size:1.3rem}
+.mini-btn{margin-top:.7rem;padding:.55rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;min-height:40px}
+.hist{margin-top:1rem;color:var(--muted);font-size:.95rem}
+.hist ul{padding-left:1.2rem}
+@media (max-width:640px){.tool-card{padding:1rem;border-radius:16px}.tool-card h1{font-size:1.45rem}.tool-card .row{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container fx-header-in">
+    <a class="fx-logo" href="https://fixoraa.tech" aria-label="SinkingFund home">
+      <span class="fx-logo-tile" aria-hidden="true">💰</span>
+      <span class="fx-brand">SinkingFund</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge" aria-label="Free forever">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tool-sec tpl-sink-fund" aria-label="SinkingFund tool">
+
+<div class="tool-card">
+<h1>Sinking Fund Calculator</h1>
+<p class="lead">Work out the monthly saving that grows into your goal by the date you need it.</p>
+<div class="presets">
+<button type="button" data-preset='{"target":"12000","months":"12","rate":"6"}'>Holiday in a year</button>
+<button type="button" data-preset='{"target":"5000","months":"10","rate":"0"}'>No-interest baseline</button>
+</div>
+<div class="row">
+<div><label for="target">Target amount ($)</label><input id="target" type="number" value="12000" min="0"></div>
+<div><label for="months">Months until you need it</label><input id="months" type="number" value="12" min="1"></div>
+</div>
+<label for="rate">Expected annual interest rate (%)</label>
+<input id="rate" type="number" value="6" min="0" step="0.1">
+<button class="calc" id="calcBtn" type="button">Calculate monthly saving</button>
+<div class="result" id="result" aria-live="polite"></div>
+<button class="mini-btn" id="copyBtn" type="button">Copy result</button>
+<div class="hist" id="hist"></div>
+</div>
+
+  </section>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+  </div>
+</div>
+  <article class="article-sec" aria-label="Guide">
+
+<h2>What a sinking fund is — and why it beats borrowing</h2>
+<p>A sinking fund is money you set aside regularly for a known future expense: a holiday, a car replacement, Christmas, a new roof, next year's insurance premium, or a wedding. Instead of borrowing when the expense arrives and paying interest, you save in advance and earn a little interest along the way. The idea is old — businesses have used sinking funds for bond repayments for over a century — but as a household habit it is quietly revolutionary. It converts emergencies into plans: the car will need tyres, the boiler will eventually fail, and the holiday you want next summer has a price today. A sinking fund simply refuses to be surprised by predictable costs.</p>
+<p>The psychological benefit is as large as the financial one. People who fund expenses in advance report far less money stress, because a large bill stops being a crisis and becomes a withdrawal from a pot that exists for exactly that purpose. Compare the two paths for a 12,000 expense: borrow it on a card at 20 percent and repay over a year, and you pay roughly 1,300 in interest; save for it over a year in advance at a modest return and you pay nothing, earning a little instead. The gap between those paths — well over a thousand — is the price of not planning, paid every time an unplanned expense is put on credit. A sinking fund is how you stop paying it.</p>
+<h2>How the calculation works</h2>
+<p>You enter three numbers: the target amount, the number of months until you need it, and the expected annual interest rate on your savings. The calculator solves for the monthly deposit that grows to exactly the target, assuming deposits at the end of each month and monthly compounding. With a zero interest rate the answer is simply the target divided by the months — the honest baseline. With a positive rate, the required deposit is slightly lower, because each deposit earns interest for the months remaining after it is made. The formula is the standard sinking-fund factor: monthly deposit equals target multiplied by the monthly rate, divided by the growth of one unit over the term minus one. You do not need to remember that formula; you need to understand its implication, which is that starting earlier matters more than earning a higher rate, because time contributes more months of deposits and more months of compounding.</p>
+<p>Choose the rate conservatively. A regular savings account might pay 3 to 5 percent; a money-market fund varies; and assuming stock-market returns for a short-term goal is a mistake, because markets can fall just when you need the money. For goals under two years, use a low, safe rate or even zero — the plan should work even if interest disappoints. For goals five or more years away, a slightly higher assumed rate is reasonable, but the monthly deposit should still be affordable if returns come in lower than expected. The rate is the least important input; the monthly habit is the most important one.</p>
+<h2>Reading your results</h2>
+<table><tr><th>Result</th><th>What it means</th><th>What to check</th></tr>
+<tr><td>Monthly saving</td><td>The deposit needed each month</td><td>Does it fit your budget after essentials? If not, extend the timeline or trim the target</td></tr>
+<tr><td>Total you deposit</td><td>Monthly saving times months</td><td>The gap to the target is the interest you earn — small for short goals, meaningful for long ones</td></tr>
+<tr><td>Effect of starting late</td><td>Halving the months roughly doubles the deposit</td><td>Start today even with a small amount; you can raise it later</td></tr></table>
+<p>Worked example: saving 12,000 over 12 months at 6 percent requires about 973 per month — slightly less than the flat 1,000 you would need with no interest, because the deposits earn along the way. Saving 5,000 over 10 months at zero percent is exactly 500 per month. And saving 100,000 over 60 months at 8 percent needs roughly 1,363 per month, with interest covering several thousand of the target. Notice how the monthly figure for the long goal is far below a fifth of the short-goal arithmetic — time is doing real work for you, which is why the best day to start a sinking fund is always today.</p>
+<h2>Which expenses deserve a sinking fund</h2>
+<p>Almost any expense you can see coming qualifies, but some benefit most. Car costs top the list: tyres, servicing, and eventual replacement are entirely predictable in timing if not in exact price, yet they are the most common reason people reach for credit. Annual bills — insurance premiums, property taxes, subscriptions that bill yearly — should be funded monthly at one-twelfth of the annual cost, so the renewal month never hurts. Holidays and celebrations deserve funds too, because borrowing for a holiday means paying for it long after the memories fade. Home maintenance is the advanced case: setting aside 1 percent of the home's value per year in a maintenance fund turns a 15,000 roof from a crisis into a scheduled withdrawal. Even gifts and school costs reward the same treatment.</p>
+<h3>Running several funds at once</h3>
+<ul>
+<li>Keep one savings account per goal or use labelled sub-accounts — visibility prevents accidental spending of another goal's money.</li>
+<li>Automate the transfer for payday, so the deposit happens before discretionary spending gets a chance.</li>
+<li>Review targets twice a year — prices rise, and a holiday fund priced last year may be short this year.</li>
+<li>If a goal's deadline moves earlier, recalculate immediately; the monthly figure rises fast when months shrink.</li>
+<li>When a fund is fully funded, redirect its monthly deposit to the next goal rather than absorbing it into spending.</li>
+</ul>
+<h2>Mistakes that sink sinking funds</h2>
+<p>The classic failure is raiding the fund for something else. A holiday fund borrowed for a sale purchase is a holiday that will later go on a card, and the habit unravels from there. Treat each fund as already spent — the money belongs to the future expense, not to your present self. The second failure is underestimating the target: budgeting 8,000 for a car that will cost 11,000 produces a shortfall at exactly the wrong moment, so price goals from real quotes, not guesses, and add a 10 percent contingency. The third failure is perfectionism: people skip starting because they cannot afford the full monthly amount, when a partial deposit beats nothing and can be increased later. A half-funded goal plus a small top-up beats a fully borrowed expense every time.</p>
+<p>Start with one fund this week — the next annual bill, the next car service, the next holiday. Calculate the monthly figure, automate it, and watch a future expense quietly become affordable. Within a year you will have several funds running, and the experience of paying for something big without borrowing will change how you think about money permanently. That is the real return on a sinking fund, and it compounds far better than interest.</p>
+
+<h2>Automating the habit so willpower is irrelevant</h2>
+<p>The difference between people who maintain sinking funds and people who abandon them is rarely discipline — it is automation. A fund that depends on a manual transfer each month will be skipped in busy months, borrowed from in tempting months, and quietly forgotten within a year. A fund fed by an automatic transfer on payday, before the money reaches the spending account, survives all of that, because it never asks for a decision. Most banks now offer free sub-accounts or labelled pots, and most employers allow salary splits across accounts; combining the two means each fund receives its deposit before you ever see the balance. Set the automation once, review it twice a year, and the system carries the habit for you through holidays, busy periods, and moments of weak resolve.</p>
+<p>Windfalls deserve a rule decided in advance, because unplanned money is the easiest money to waste. A simple split works well: half of any bonus, refund, or gift goes to the most urgent sinking fund, a quarter tops up the emergency fund, and a quarter is guilt-free spending. Without a rule, the whole windfall tends to become spending, and the next planned expense still arrives unfunded. Similarly, when a fund reaches its target, do not let its monthly deposit evaporate into general spending — immediately redirect it to the next goal, and watch your funded goals stack up year after year. Automation plus a windfall rule plus immediate redirection turns sinking funds from a chore into a quiet machine that funds your plans while you get on with life.</p>
+
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>What is a sinking fund?</summary><p>Money set aside regularly for a known future expense, such as a holiday, car service, or annual insurance premium, so the expense is funded in advance instead of borrowed.</p></details>
+<details><summary>How is the monthly amount calculated?</summary><p>Using the sinking-fund formula: the monthly deposit that grows to your target over the chosen months at the given interest rate, assuming monthly compounding.</p></details>
+<details><summary>What interest rate should I use?</summary><p>Use a conservative rate, such as a savings account rate, or zero for short-term goals. The plan should work even if interest disappoints.</p></details>
+<details><summary>What if I cannot afford the monthly amount?</summary><p>Extend the timeline, trim the target, or start with a smaller deposit and raise it later. A partial fund beats borrowing the whole expense.</p></details>
+<details><summary>Can I run several sinking funds at once?</summary><p>Yes. Keep a separate labelled sub-account per goal so money for one goal is never accidentally spent on another.</p></details>
+<details><summary>What happens if the deadline moves earlier?</summary><p>Recalculate immediately. Fewer months means a higher monthly deposit, and the increase is steep when months shrink a lot.</p></details>
+<details><summary>Should I add a contingency to the target?</summary><p>Yes. Price goals from real quotes and add about 10 percent, so a price rise does not leave a shortfall at the worst moment.</p></details>
+<details><summary>Is a sinking fund the same as an emergency fund?</summary><p>No. A sinking fund covers known, planned expenses. An emergency fund covers unknown surprises. You need both, kept separate.</p></details>
+  </section>
+</main>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">SinkingFund</div>
+    <p>SinkingFund shows the monthly deposit that turns a future expense into a funded plan.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+function calcSinkingFund(target, months, ratePct) {
+  if (months <= 0) { return { monthlySaving: 0 }; }
+  if (ratePct === 0) { return { monthlySaving: Math.round(target / months * 100) / 100 }; }
+  var r = ratePct / 100 / 12;
+  var m = target * r / (Math.pow(1 + r, months) - 1);
+  return { monthlySaving: Math.round(m * 100) / 100 };
+}
+if (typeof document !== 'undefined') {
+  function runCalc() {
+    var target = parseFloat(document.getElementById('target').value) || 0;
+    var months = parseFloat(document.getElementById('months').value) || 0;
+    var rate = parseFloat(document.getElementById('rate').value) || 0;
+    var r = calcSinkingFund(target, months, rate);
+    var out = '<strong>Save $' + r.monthlySaving.toFixed(2) + ' per month</strong><br>That is $' + (r.monthlySaving * months).toFixed(2) + ' of your own deposits toward your goal.';
+    document.getElementById('result').innerHTML = out;
+    try {
+      var h = JSON.parse(localStorage.getItem('fx_hist') || '[]');
+      h.unshift(out.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 140));
+      localStorage.setItem('fx_hist', JSON.stringify(h.slice(0, 5)));
+      document.getElementById('hist').innerHTML = '<strong>Recent:</strong><ul>' + h.map(function(x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    } catch (e) {}
+  }
+  document.getElementById('calcBtn').addEventListener('click', runCalc);
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    var t = document.getElementById('result').innerText || '';
+    try { navigator.clipboard.writeText(t); } catch (e) {}
+  });
+  var ps = document.querySelectorAll('[data-preset]');
+  ps.forEach(function(b) {
+    b.addEventListener('click', function() {
+      var p = JSON.parse(b.getAttribute('data-preset'));
+      Object.keys(p).forEach(function(k) { var el = document.getElementById(k); if (el) el.value = p[k]; });
+      runCalc();
+    });
+  });
+  runCalc();
+}
+</script>
+</body>
+</html>
