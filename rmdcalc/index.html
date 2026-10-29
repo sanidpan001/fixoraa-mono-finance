@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RMD Calculator — Required Minimum Distributions After 73 | RmdCalc</title>
+<meta name="description" content="Required minimum distributions with IRS tables and multi-year projection.">
+<link rel="canonical" href="https://finance.fixoraa.tech/rmdcalc/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="RMD Calculator — Required Minimum Distributions After 73 | RmdCalc">
+<meta property="og:description" content="Required minimum distributions with IRS tables and multi-year projection.">
+<meta property="og:url" content="https://finance.fixoraa.tech/rmdcalc/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "RmdCalc",
+      "url": "https://finance.fixoraa.tech/rmdcalc/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Required minimum distributions with IRS tables and multi-year projection.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How is my RMD calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide your account balance on December 31 of last year by the IRS Uniform Lifetime Table divisor for your age. At 73 the divisor is 26.5, so a $500,000 balance gives an $18,868 RMD. The divisor shrinks each year, so RMDs grow as a share of the balance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "At what age do RMDs start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Under SECURE 2.0: age 73 if born 1951\u20131959, age 75 if born 1960 or later (age 72 for 1950 and earlier). Your first RMD may be delayed to April 1 of the following year, but taking two RMDs in one tax year often raises your bracket."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the penalty for missing an RMD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Up to 25% of the amount you failed to withdraw, reduced to 10% if you correct it promptly and file the proper forms. The deadline is December 31 each year \u2014 set a November review so year-end chaos never makes you miss it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do Roth IRAs have RMDs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No \u2014 Roth IRAs have no required minimum distributions for the original owner, ever. That is why Roth conversions in your 60s are the most popular way to shrink future RMDs from traditional accounts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a qualified charitable distribution (QCD)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "From age 70\u00bd, you can send up to $108,000 per year directly from your IRA to a charity. It counts toward your RMD but is excluded from taxable income entirely \u2014 better than a deduction, since it never hits your AGI. The transfer must go custodian-to-charity directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I aggregate RMDs across multiple accounts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For your own traditional, SEP, and SIMPLE IRAs: yes \u2014 compute each account's RMD, then withdraw the combined total from any of them. For 401(k)s and other employer plans: no \u2014 each plan's RMD must come out of that plan."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#ECE1F9; --surface:#FFFFFF; --tint:#E1D2F4;
+  --accent:#461584; --accent-deep:#6C1B6E; --btn-ink:#FFFFFF;
+  --ink:#33202F; --muted:#66516A; --line:#E4CFE4;
+  --display:'Libre Franklin',system-ui,sans-serif; --body:'Libre Franklin',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:var(--surface)}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--btn-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:40px 0;max-width:780px}
+.article-sec h2{font-size:24px;letter-spacing:-.02em;margin:34px 0 12px;font-weight:800;color:var(--ink)}
+.article-sec p{margin-bottom:14px;color:var(--ink)}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px;color:var(--ink)}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--ink)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;padding:0;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px;color:var(--ink)}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;color:var(--ink);font-size:15px}
+.fx-footer{background:var(--footbg,#26211c);color:#f0e6da;margin-top:44px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#cbb9a8;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#ffd9a8;font-weight:700}
+.no-print{}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+
+.rm-hero{padding:46px 0 6px}
+.rm-eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.rm-eyebrow::before{content:"C6  ";color:var(--accent)}
+.rm-hero h1{font-size:clamp(34px,5vw,52px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.rm-hero p{font-size:17px;color:var(--muted);max-width:640px}
+.rm-ledger{margin:28px 0 10px;display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:start}
+.rm-card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 10px 26px rgba(137,35,139,.08)}
+.rm-card h2{font-size:18px;font-weight:800;margin-bottom:4px}
+.rm-card .sub{font-size:14px;color:var(--muted);margin-bottom:20px}
+.rm-f{margin-bottom:18px}
+.rm-f label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.rm-f .hint{font-weight:400;color:var(--muted);font-size:13px}
+.rm-f input,.rm-f select{font:inherit;font-size:16px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff}
+.rm-f input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.rm-total{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;border-radius:16px;padding:24px;text-align:center;margin-top:6px}
+.rm-total .l{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.rm-total .n{font-size:52px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.rm-total .d{font-size:14px;opacity:.92;margin-top:6px}
+.rm-qcd{margin-top:16px;border:2px dashed var(--accent);border-radius:14px;padding:14px 16px;font-size:14px}
+.rm-qcd b{color:var(--accent-deep)}
+.rm-state{background:var(--surface);border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.rm-state-head{background:var(--tint);padding:16px 22px;border-bottom:2px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.rm-state-head h2{font-size:18px;font-weight:800}
+.rm-state-head span{font-size:13px;color:var(--muted);font-weight:600}
+.rm-table{width:100%;border-collapse:collapse;font-size:15px}
+.rm-table th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:right;padding:10px 14px;border-bottom:2px solid var(--line);background:#FFFDFE}
+.rm-table th:first-child,.rm-table td:first-child{text-align:left}
+.rm-table td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.rm-table tr:first-child td{font-weight:700;color:var(--accent-deep)}
+.rm-table tr:hover td{background:var(--tint)}
+.rm-foot{padding:12px 22px;font-size:13px;color:var(--muted);border-top:2px solid var(--line)}
+@media(max-width:920px){.rm-ledger{grid-template-columns:1fr}.rm-table{font-size:13px}.rm-table td,.rm-table th{padding:8px 8px}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/rmdcalc/" aria-label="RmdCalc home">
+      <span class="fx-tile" aria-hidden="true">R</span>
+      <span class="fx-name">RmdCalc</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="rm-hero">
+    <span class="rm-eyebrow">Retirement ledger · IRS tables</span>
+    <h1>RmdCalc</h1>
+    <p>Your required minimum distribution, down to the dollar. Enter your age and prior year-end balance for this year's RMD — plus a year-by-year projection and QCD planning.</p>
+  </section>
+
+  <section class="rm-ledger" aria-label="RmdCalc tool">
+
+  <div class="rm-card">
+    <h2>Your distribution</h2>
+    <p class="sub">Uses the IRS Uniform Lifetime Table (2022&ndash;present).</p>
+    <div class="rm-f">
+      <label for="rm-age">Age on Dec 31 this year</label>
+      <input type="number" id="rm-age" value="73" min="72" max="110" step="1">
+    </div>
+    <div class="rm-f">
+      <label for="rm-bal">Balance on Dec 31 last year <span class="hint">— $</span></label>
+      <input type="number" id="rm-bal" value="500000" min="0" max="100000000" step="1000">
+    </div>
+    <div class="rm-f">
+      <label for="rm-growth">Assumed annual growth <span class="hint">— %</span></label>
+      <input type="number" id="rm-growth" value="5" min="-20" max="20" step="0.5">
+    </div>
+    <div class="rm-f">
+      <label for="rm-qcd">QCD planned this year <span class="hint">— $ to charity, age 70½+</span></label>
+      <input type="number" id="rm-qcd" value="0" min="0" max="108000" step="500">
+    </div>
+    <div class="rm-total" aria-live="polite">
+      <div class="l">2026 RMD</div>
+      <div class="n" id="rm-rmd">$18,868</div>
+      <div class="d" id="rm-factor">divisor 26.5 · deadline Dec 31</div>
+    </div>
+    <div class="rm-qcd" id="rm-qcdn">A <b>qualified charitable distribution</b> counts toward your RMD but is excluded from taxable income — enter an amount above to see the effect.</div>
+  </div>
+  <div class="rm-state">
+    <div class="rm-state-head"><h2>10-year projection</h2><span>assumes steady growth, no extra withdrawals</span></div>
+    <table class="rm-table" id="rm-table">
+      <thead><tr><th>Year</th><th>Age</th><th>Divisor</th><th>RMD</th><th>End balance</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="rm-foot">Projection only — real balances move with markets, contributions, and withdrawals. RMDs generally must be taken by Dec 31 each year (April 1 only for your very first RMD).</div>
+  </div>
+
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+
+<h2>What an RMD Actually Is</h2>
+<p>Traditional IRAs and 401(k)s give you a tax deduction when money goes in — the IRS lets it grow tax-deferred, but not forever. <strong>Required minimum distributions</strong> are the mechanism that finally collects the tax: starting at a certain age, you must withdraw a minimum amount each year and pay ordinary income tax on it. Skip an RMD and the penalty is steep — up to <strong>25% of the amount you should have taken</strong> (reduced to 10% if corrected promptly).</p>
+<p>The formula is simple division: your <strong>account balance on December 31 of last year</strong> divided by a <strong>life-expectancy divisor</strong> from the IRS Uniform Lifetime Table. At 73 the divisor is 26.5, so a $500,000 balance means an $18,868 RMD. Each year the divisor shrinks as life expectancy shortens, so RMDs grow as a percentage of the balance — by 90 the divisor is 12.2, roughly 8.2% per year.</p>
+<h2>When RMDs Begin: The SECURE Rulebook</h2>
+<p>The starting age has moved twice. Under <strong>SECURE 2.0</strong>: if you were born <strong>1950 or earlier</strong>, RMDs began at 72; born <strong>1951–1959</strong>, they begin at <strong>73</strong>; born <strong>1960 or later</strong>, they begin at <strong>75</strong>. Your first RMD can be delayed until <strong>April 1 of the year after</strong> you reach the starting age — but that bunches two RMDs into one tax year, which often pushes you into a higher bracket. Most planners take the first RMD in the actual starting year.</p>
+<p>Which accounts? Traditional, SEP, and SIMPLE IRAs, plus 401(k), 403(b), and 457(b) plans from former employers. <strong>Roth IRAs have no RMDs</strong> for the original owner — ever — which is why Roth conversions in your 60s are such a popular RMD-reduction strategy. Roth 401(k)s used to have RMDs but no longer do as of 2024.</p>
+<h2>Reading the Uniform Lifetime Table</h2>
+<p>The table assumes a beneficiary 10 years younger than you — it is joint life expectancy, which is why the divisors look generous. Unless your spouse is more than 10 years younger (a special table applies) or you inherited the account (different rules entirely), the Uniform Lifetime Table is your table. The calculator above has the full current table built in, ages 72 through 120.</p>
+<p>One subtlety: the balance used is the <strong>prior December 31</strong> value, adjusted for any outstanding rollovers. Mid-year market swings do not change this year's RMD — good news in a down year is that next year's RMD drops with the balance; bad news in an up year is the reverse.</p>
+<h2>The 10-Year Projection: Why It Matters</h2>
+<p>A single year's RMD is a tax bill; the <strong>projection</strong> is a strategy tool. Watch how RMDs grow as divisors shrink: that $18,868 at 73 can exceed $40,000 by the mid-80s even with modest growth. For many retirees, RMDs eventually exceed spending needs, forcing taxable withdrawals that push up <strong>Medicare IRMAA surcharges</strong> and the taxation of Social Security benefits.</p>
+<p>Seeing the curve early — in your 60s, before RMDs start — is when you can still act: Roth conversions in low-income years, strategic QCDs from 70½ onward, and spending down traditional balances before the divisor math takes over. The projection assumes steady growth and no extra withdrawals; reality will wobble, but the shape of the curve does not lie.</p>
+<h2>QCDs: The Charitably Inclined Retiree's Best Friend</h2>
+<p>From age <strong>70½</strong>, you can send up to <strong>$108,000 per year (2025, indexed)</strong> directly from your IRA to charity as a <strong>qualified charitable distribution</strong>. The QCD counts toward your RMD but is <strong>excluded from taxable income entirely</strong> — better than a deduction, because it never hits your AGI. Lower AGI means lower Medicare premiums, less Social Security taxation, and more room under various thresholds.</p>
+<p>Rules that trip people up: the money must go <strong>directly</strong> from the IRA custodian to the charity — touch it and it is a taxable distribution. Donor-advised funds and private foundations do not qualify. And you cannot also claim a charitable deduction for the same dollars (no double dip). Enter a planned QCD above to see the taxable remainder of your RMD.</p>
+<h2>Strategies to Shrink Future RMDs</h2>
+<p><strong>Roth conversions</strong> in your 60s — especially the gap years between retirement and Social Security/RMDs — move money from "taxed later at unknown rates" to "never taxed again," directly reducing the balance that future RMDs divide. Convert up to the top of your current bracket each year; the calculator's projection shows what is at stake.</p>
+<p><strong>Delay Social Security to 70</strong> while living off traditional balances: you spend down the RMD base <em>and</em> maximize the inflation-protected benefit. <strong>Still working at 73?</strong> Your <em>current</em> employer's 401(k) is exempt from RMDs until you retire (the "still working" exception — though it does not apply to IRAs or old employers' plans). And <strong>QLACs</strong> (deferred annuities inside retirement accounts, up to $200,000) are excluded from the RMD calculation until payments begin at 85.</p>
+<h2>Deadlines and Penalties</h2>
+<p>The deadline is <strong>December 31</strong> every year, no exceptions after the first. Miss it and the excise tax is 25% of the shortfall — harsh, though Congress made it correctable to 10% if you fix it promptly and file the right forms. With multiple IRAs, you compute each account's RMD but may <strong>aggregate</strong> — withdraw the total from any combination of your IRAs. 401(k)s do not aggregate: each plan's RMD must come from that plan.</p>
+<p>Custodians calculate RMDs for you and will happily auto-distribute in December — convenient, but December auto-pilot forfeits all the planning above. Set a <strong>November review</strong>: confirm amounts, execute QCDs, and decide withholding before the year-end rush.</p>
+<h2>Inherited IRAs: Different Rules</h2>
+<p>If you inherited the account, stop — the Uniform Lifetime Table generally does not apply to you. Under SECURE, most non-spouse beneficiaries face the <strong>10-year rule</strong> (empty the account within 10 years, with annual RMDs in years 1–9 if the deceased was already taking them). Spouses get special options including treating it as their own. Inherited RMD math is its own maze; this calculator covers <strong>your own</strong> accounts.</p>
+<h2>State Taxes on RMDs: The Second Bill</h2>
+<p>Federal tax is only half the story — most states tax RMDs as ordinary income too. A handful of states (including Illinois, Mississippi, and Pennsylvania) <strong>exempt retirement income</strong> entirely, which makes them quietly popular retirement destinations. Others offer partial exclusions or senior deductions that phase in at certain ages. If you are choosing where to retire, run the state math: a 5% state rate on a $40,000 RMD is $2,000 a year, every year, for moving one border over.</p>
+<p>QCDs help at the state level as well, since the distribution never enters your income in most states that follow federal AGI. And if you are considering relocating, establish domicile <em>before</em> the big RMD years — states audit residency claims from high-income movers, so keep the driver's license, voter registration, and day counts clean.</p>
+<h2>Putting It All Together</h2>
+<p>Enter your age and last New Year's Eve balance, read this year's number, then study the 10-year curve. If the curve alarms you, the levers are: Roth conversions now, QCDs from 70½, spending traditional dollars before 73, and the still-working exception if it applies. RMDs are not optional, but with a few years of lead time, their tax bite is very negotiable.</p>
+
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How is my RMD calculated?</summary><p>Divide your account balance on December 31 of last year by the IRS Uniform Lifetime Table divisor for your age. At 73 the divisor is 26.5, so a $500,000 balance gives an $18,868 RMD. The divisor shrinks each year, so RMDs grow as a share of the balance.</p></details>
+    <details><summary>At what age do RMDs start?</summary><p>Under SECURE 2.0: age 73 if born 1951–1959, age 75 if born 1960 or later (age 72 for 1950 and earlier). Your first RMD may be delayed to April 1 of the following year, but taking two RMDs in one tax year often raises your bracket.</p></details>
+    <details><summary>What is the penalty for missing an RMD?</summary><p>Up to 25% of the amount you failed to withdraw, reduced to 10% if you correct it promptly and file the proper forms. The deadline is December 31 each year — set a November review so year-end chaos never makes you miss it.</p></details>
+    <details><summary>Do Roth IRAs have RMDs?</summary><p>No — Roth IRAs have no required minimum distributions for the original owner, ever. That is why Roth conversions in your 60s are the most popular way to shrink future RMDs from traditional accounts.</p></details>
+    <details><summary>What is a qualified charitable distribution (QCD)?</summary><p>From age 70½, you can send up to $108,000 per year directly from your IRA to a charity. It counts toward your RMD but is excluded from taxable income entirely — better than a deduction, since it never hits your AGI. The transfer must go custodian-to-charity directly.</p></details>
+    <details><summary>Can I aggregate RMDs across multiple accounts?</summary><p>For your own traditional, SEP, and SIMPLE IRAs: yes — compute each account's RMD, then withdraw the combined total from any of them. For 401(k)s and other employer plans: no — each plan's RMD must come out of that plan.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">RmdCalc</div>
+    <p>RmdCalc computes required minimum distributions from the IRS Uniform Lifetime Table, with multi-year projections and qualified charitable distribution planning.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+var ULT = {72:27.4,73:26.5,74:25.5,75:24.6,76:23.7,77:22.9,78:22.0,79:21.1,80:20.2,81:19.4,82:18.5,83:17.7,84:16.8,85:16.0,86:15.2,87:14.4,88:13.7,89:12.9,90:12.2,91:11.5,92:10.8,93:10.1,94:9.5,95:8.9,96:8.4,97:7.9,98:7.4,99:7.0,100:6.6,101:6.3,102:5.9,103:5.6,104:5.2,105:4.9,106:4.5,107:4.2,108:3.9,109:3.7,110:3.4,111:3.1,112:2.9,113:2.6,114:2.4,115:2.1,116:1.9,117:1.7,118:1.5,119:1.4,120:1.2};
+function rmdFor(balance, age){
+  var f = ULT[age];
+  if(f === undefined || balance <= 0) return null;
+  return Math.round(balance / f * 100) / 100;
+}
+function projectRMD(balance, startAge, years, growth){
+  var rows = [], bal = balance;
+  for(var i=0;i<years;i++){
+    var age = startAge + i, f = ULT[age];
+    if(f === undefined) break;
+    var r = bal / f;
+    var endBal = (bal - r) * (1 + growth);
+    rows.push({age:age, factor:f, rmd:Math.round(r*100)/100, endBal:Math.round(endBal*100)/100});
+    bal = endBal;
+  }
+  return rows;
+}
+function taxableRMD(rmd, qcd){ return Math.max(0, Math.round((rmd - Math.min(qcd, rmd))*100)/100); }
+
+
+(function(){
+var $=function(id){return document.getElementById(id);};
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function calc(){
+  var age=parseInt($('rm-age').value,10)||73;
+  var bal=parseFloat($('rm-bal').value)||0;
+  var growth=(parseFloat($('rm-growth').value)||0)/100;
+  var qcd=parseFloat($('rm-qcd').value)||0;
+  var r=rmdFor(bal,age);
+  if(r===null){$('rm-rmd').textContent='—';$('rm-factor').textContent='enter a valid age and balance';return;}
+  $('rm-rmd').textContent=money(r);
+  $('rm-factor').textContent='divisor '+ULT[age]+' · deadline Dec 31';
+  var tax=taxableRMD(r,qcd);
+  $('rm-qcdn').innerHTML=qcd>0
+    ? 'With a <b>'+money(qcd)+' QCD</b>, only <b>'+money(tax)+'</b> of this year’s RMD is taxable income. The QCD must go directly from the IRA to the charity.'
+    : 'A <b>qualified charitable distribution</b> counts toward your RMD but is excluded from taxable income — enter an amount above to see the effect.';
+  var rows=projectRMD(bal,age,10,growth);
+  var tb=$('rm-table').querySelector('tbody');tb.innerHTML='';
+  var year=new Date().getFullYear();
+  rows.forEach(function(row,i){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+(year+i)+'</td><td>'+row.age+'</td><td>'+row.factor+'</td><td>'+money(row.rmd)+'</td><td>'+money(row.endBal)+'</td>';
+    tb.appendChild(tr);
+  });
+}
+['rm-age','rm-bal','rm-growth','rm-qcd'].forEach(function(id){
+  $(id).addEventListener('input',calc);
+});
+calc();
+})();
+
+</script>
+</body>
+</html>
