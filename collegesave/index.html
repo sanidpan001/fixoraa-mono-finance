@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>College Savings Calculator — 529 Plan Projector | CollegeSave</title>
+<meta name="description" content="What college will really cost — and the monthly savings to get there.">
+<link rel="canonical" href="https://finance.fixoraa.tech/collegesave/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="College Savings Calculator — 529 Plan Projector | CollegeSave">
+<meta property="og:description" content="What college will really cost — and the monthly savings to get there.">
+<meta property="og:url" content="https://finance.fixoraa.tech/collegesave/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "CollegeSave",
+      "url": "https://finance.fixoraa.tech/collegesave/",
+      "applicationCategory": "Finance Calculators",
+      "operatingSystem": "Web",
+      "description": "What college will really cost \u2014 and the monthly savings to get there.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"How much should I save per month for college?","acceptedAnswer":{"@type":"Answer","text":"It depends on years until college, today's cost, tuition inflation (~4%/yr), and your investment return. As a rule of thumb, one year at a $30,000 public university in 18 years needs about $155/month at 6% returns starting from zero. Use the calculator above with your real numbers \u2014 aiming at today's price instead of the inflated price is the most common mistake."}},
+        {"@type":"Question","name":"What is a 529 plan and why is it recommended?","acceptedAnswer":{"@type":"Answer","text":"A 529 is a tax-advantaged college savings account: investments grow tax-deferred and withdrawals for education expenses are federally tax-free, with many states offering contribution deductions. You keep control of the account, can change beneficiaries to a sibling, and up to $35,000 of unused funds can now be rolled into the beneficiary's Roth IRA."}},
+        {"@type":"Question","name":"How fast does college tuition rise?","acceptedAnswer":{"@type":"Answer","text":"About 4% per year on average over recent decades \u2014 roughly double general inflation. At 4%, costs double every 18 years. Private universities have risen slightly faster than public ones. The calculator defaults to 4% but lets you adjust."}},
+        {"@type":"Question","name":"Is it better to invest a lump sum or save monthly?","acceptedAnswer":{"@type":"Answer","text":"A lump sum invested today needs to be much smaller than the total of monthly payments, because every dollar compounds the full period \u2014 time does the heavy lifting. But monthly saving is realistic for most families and builds the habit automatically. If you receive a windfall, invest it immediately rather than dribbling it in."}},
+        {"@type":"Question","name":"Will saving in a 529 hurt financial aid?","acceptedAnswer":{"@type":"Answer","text":"Barely. Parent-owned 529 assets count at about 5.64% in the federal aid formula \u2014 $50,000 saved reduces aid by roughly $2,820 \u2014 a small price for years of tax-free growth. Under current FAFSA rules, grandparent-owned 529 distributions are not reported as student income at all."}},
+        {"@type":"Question","name":"What return should I assume for college savings?","acceptedAnswer":{"@type":"Answer","text":"Around 6% is reasonable for an age-based 529 portfolio that starts aggressive and glides conservative as college nears; 3\u20134% fits conservative bond-heavy portfolios. Run the numbers at two rates and split the difference for a margin of safety \u2014 and revisit yearly rather than trusting one assumption for 18 years."}}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#F2F5FA;--surface:#FFFFFF;--tint:#DDE4F4;--accent:#2751A5;--accentdeep:#254688;--accent-ink:#FFFFFF;--ink:#1F2533;--muted:#546078;--line:#A6B8DC;--footmuted:#B3B7BE;--footlink:#F0F3FA;--bodyfont:'Alegreya Sans',system-ui,sans-serif;--headfont:'Alegreya Sans',system-ui,sans-serif}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--bodyfont);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accentdeep));color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em;font-family:var(--headfont)}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:transparent}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--accent-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accentdeep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:44px 0;max-width:800px}
+.article-sec h2{font-size:24px;letter-spacing:-.01em;margin:34px 0 12px;font-weight:800;font-family:var(--headfont)}
+.article-sec p{margin-bottom:14px}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:800px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.01em;margin-bottom:16px;font-family:var(--headfont)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;font-size:15px}
+.fx-footer{background:var(--ink);color:var(--bg);margin-top:48px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff;font-family:var(--headfont)}
+.fx-footer p{font-size:15px;color:var(--footmuted);max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:var(--footlink);font-weight:700}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+.cs-hero{padding:44px 0 6px;text-align:center}
+.cs-eyebrow{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:var(--tint);border:1px solid var(--line);padding:7px 16px;border-radius:999px;margin-bottom:16px}
+.cs-hero h1{font-size:clamp(32px,5vw,50px);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.cs-sub{font-size:18px;color:var(--muted);max-width:660px;margin:0 auto}
+.cs-deck{position:relative;max-width:720px;margin:34px auto 10px}
+.cs-card{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:28px;margin-bottom:-14px;box-shadow:0 10px 26px rgba(39,81,165,.08);position:relative}
+.cs-card:last-child{margin-bottom:0}
+.cs-card h2{font-size:19px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.cs-card h2 .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.cs-card .sub{font-size:14px;color:var(--muted);margin-bottom:16px}
+.cs-grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cs-field{margin-bottom:14px}
+.cs-field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}
+.cs-field input{font:inherit;font-size:17px;font-weight:600;padding:11px 13px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff}
+.cs-field input:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.cs-bignum{font-size:clamp(40px,7vw,60px);font-weight:800;color:var(--accent);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cs-bignum small{font-size:16px;color:var(--muted);font-weight:600;letter-spacing:0}
+.cs-rows{margin-top:10px}
+.cs-row{display:flex;justify-content:space-between;gap:10px;padding:9px 2px;border-bottom:1px dashed var(--line);font-size:15px}
+.cs-row:last-child{border-bottom:0}
+.cs-row .k{color:var(--muted)}
+.cs-row .v{font-weight:800;font-variant-numeric:tabular-nums}
+.cs-vs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.cs-vsbox{background:var(--tint);border-radius:14px;padding:18px;text-align:center}
+.cs-vsbox .v{font-size:28px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.cs-vsbox .k{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.cs-note{max-width:720px;margin:26px auto 0;font-size:14px;color:var(--muted);text-align:center}
+@media(max-width:640px){.cs-grid2,.cs-vs{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/collegesave/" aria-label="CollegeSave home">
+      <span class="fx-tile" aria-hidden="true">&#127891;</span>
+      <span class="fx-name">CollegeSave</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+<section class="cs-hero">
+    <span class="cs-eyebrow">529 plan projector</span>
+    <h1>College Savings Calculator</h1>
+    <p class="cs-sub">College costs rise ~4% a year — twice general inflation. See the real future price tag, then the monthly savings that gets you there.</p>
+  </section>
+  <section class="cs-deck" aria-label="CollegeSave tool">
+    <div class="cs-card">
+      <h2><span class="n">1</span> Your situation</h2>
+      <div class="sub">Today's numbers — the calculator handles the growth math.</div>
+      <div class="cs-grid2">
+        <div class="cs-field"><label for="cs-years">Years until college</label><input type="number" id="cs-years" value="18" min="0" max="30"></div>
+        <div class="cs-field"><label for="cs-cost">One year of college today ($)</label><input type="number" id="cs-cost" value="30000" min="0" step="500"></div>
+        <div class="cs-field"><label for="cs-infl">Tuition inflation (%/yr)</label><input type="number" id="cs-infl" value="4" min="0" max="15" step="0.1"></div>
+        <div class="cs-field"><label for="cs-ret">Investment return (%/yr)</label><input type="number" id="cs-ret" value="6" min="0" max="15" step="0.1"></div>
+      </div>
+      <div class="cs-field"><label for="cs-saved">Already saved ($)</label><input type="number" id="cs-saved" value="0" min="0" step="500"></div>
+    </div>
+    <div class="cs-card">
+      <h2><span class="n">2</span> The future price tag</h2>
+      <div class="sub">What one year of college will cost when the acceptance letter arrives.</div>
+      <div class="cs-bignum" id="cs-future">$0 <small>/ year</small></div>
+      <div class="cs-rows">
+        <div class="cs-row"><span class="k">Today's cost</span><span class="v" id="cs-today">$0</span></div>
+        <div class="cs-row"><span class="k">Inflation multiple</span><span class="v" id="cs-mult">×0.00</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <h2><span class="n">3</span> Your monthly number</h2>
+      <div class="sub">Saved monthly, every month, until the first tuition bill.</div>
+      <div class="cs-bignum" id="cs-monthly">$0 <small>/ month</small></div>
+      <div class="cs-rows">
+        <div class="cs-row"><span class="k">Current savings will grow to</span><span class="v" id="cs-grown">$0</span></div>
+        <div class="cs-row"><span class="k">Gap to cover</span><span class="v" id="cs-gap">$0</span></div>
+        <div class="cs-row"><span class="k">Total you will contribute</span><span class="v" id="cs-contrib">$0</span></div>
+      </div>
+    </div>
+    <div class="cs-card">
+      <h2><span class="n">4</span> Lump sum vs monthly</h2>
+      <div class="sub">Two ways to close the same gap — time is the difference.</div>
+      <div class="cs-vs">
+        <div class="cs-vsbox"><div class="v" id="cs-lump">$0</div><div class="k">Invested today instead</div></div>
+        <div class="cs-vsbox"><div class="v" id="cs-m2">$0</div><div class="k">Monthly for the win</div></div>
+      </div>
+      <div class="cs-rows">
+        <div class="cs-row"><span class="k">Interest earned on monthly plan</span><span class="v" id="cs-interest">$0</span></div>
+      </div>
+    </div>
+  </section>
+  <p class="cs-note">Targets one year of college costs. For a four-year degree, multiply the monthly number by roughly four — or better, run the numbers per child, per year. Assumes monthly compounding at the stated return.</p>
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+<h2>The Price Tag Is Bigger Than You Think</h2>
+    <p>Ask a new parent what college will cost in 18 years and most guess by adding a little to today's price. The math disagrees violently. College tuition has risen about 4 percent a year for decades — roughly double general inflation. A year of college that costs $30,000 today will cost about $60,800 in 18 years at 4 percent inflation. For a private university at $60,000 today, the 18-year price tag is over $121,000 per year — nearly half a million for four years. The sticker shock is the point: small monthly savings started early beat heroic savings started late, but only if you aim at the real target.</p>
+    <p>This is why generic savings advice fails parents. "Save $200 a month for college" sounds responsible, but $200 a month for 18 years at 6 percent returns grows to about $77,000 — barely more than one future year at a public university. The honest question is not "am I saving something" but "am I saving enough for the inflated price?" The calculator above answers exactly that.</p>
+    <h2>How the Projection Works</h2>
+    <p>Three moving parts drive the math. First, <strong>tuition inflation</strong> compounds the current cost forward: future cost equals today's cost times (1 + inflation) raised to the years until college. At 4 percent over 18 years, the multiplier is about 2.03 — the price more than doubles. Second, your <strong>current savings</strong> compound forward at the investment return: $10,000 saved today at 6 percent becomes about $28,500 in 18 years without adding a dime. Third, the <strong>gap</strong> between the future price and your grown savings must be closed by monthly contributions, which themselves compound — early contributions earn returns for the full 18 years.</p>
+    <p>The monthly number comes from the standard annuity formula: it is the payment that, invested monthly at the assumed return, grows to exactly the gap. Notice how sensitive it is to the return assumption — which is why the next section matters so much.</p>
+    <h2>Your Return Assumption Is Everything</h2>
+    <p>A 529 plan invested aggressively in stocks might average 7 to 8 percent over 18 years; the same plan in conservative bonds might earn 3 to 4 percent. That spread changes the monthly number dramatically. Covering a $60,000 gap over 18 years needs about $155 a month at 6 percent — but $245 a month at 3 percent. Be honest about your portfolio: a 6 percent assumption is reasonable for an age-based 529 portfolio that starts aggressive and glides conservative, while 3 percent fits money sitting in savings bonds or a 529 savings account.</p>
+    <p>The glide path matters. Most 529 age-based portfolios automatically shift from stocks to bonds as college approaches, which means your effective return declines over time. Using a single average rate slightly overstates growth; consider running the calculator once at 6 percent and once at 4.5 percent and splitting the difference for a margin of safety.</p>
+    <h2>Why 529 Plans Win</h2>
+    <p>The 529 college savings plan is the default right answer for most families: contributions grow tax-deferred, withdrawals for qualified education expenses are tax-free at the federal level, and many states offer a tax deduction for contributions. Contribution limits are high (often $300,000+ per beneficiary), and you keep control of the account — it is your asset, not the child's. If one child does not need it, you can change the beneficiary to a sibling penalty-free.</p>
+    <p>Recent rules made 529s even more flexible: up to $35,000 of unused 529 funds can now be rolled into the beneficiary's Roth IRA (subject to annual limits and a 15-year account age rule), which removes much of the old "what if they don't go to college" fear. Alternatives exist — Coverdell ESAs (tiny $2,000 annual limit), custodial UGMA/UTMA accounts (the child gets control at adulthood), and plain taxable accounts (maximum flexibility, no tax break) — but for dedicated college savings, the 529's tax treatment is hard to beat.</p>
+    <h2>Lump Sum vs Monthly: Time Does the Heavy Lifting</h2>
+    <p>The calculator's fourth card compares two paths to the same gap. A lump sum invested today needs to equal the gap discounted by the full compounding period — dramatically less than the sum of monthly payments, because every dollar works the entire time. If grandparents offer a one-time gift, investing it immediately beats spreading it out. But for most families the monthly plan is the realistic one, and its hidden power is dollar-cost averaging: you buy through market ups and downs automatically, and the habit survives in a way that "invest a windfall" resolutions often don't.</p>
+    <p>The interest-earned line tells the real story of compounding: on an 18-year monthly plan, roughly a third of the final amount is contributions and two-thirds is growth. Start five years late and you do not lose five-eighteenths of the result — you lose the most powerful five years, the ones where compounding does its heaviest work. The best time to start was at birth; the second-best time is this month.</p>
+    <h2>What About Financial Aid?</h2>
+    <p>Many parents under-save because they assume aid will cover the rest. Reality check: 529 assets owned by a parent count at about 5.64 percent in the federal aid formula — $50,000 in a 529 reduces aid by roughly $2,820, which is a small price for the tax-free growth. Grandparent-owned 529s used to hurt aid more, but under the current FAFSA rules, distributions from grandparent 529s are no longer reported as student income at all. Saving in a 529 rarely meaningfully harms aid eligibility, and the "we'll get aid" plan without savings is how families end up in high-interest Parent PLUS loans.</p>
+    <h2>Adjusting as Life Happens</h2>
+    <p>Re-run these numbers once a year. Tuition inflation varies by school type, your return will differ from the assumption, and life adds children, job changes, and market crashes. The annual review takes five minutes: update years-until, current cost, and saved amount, and adjust the monthly contribution. If you fall behind, increase the monthly amount before raiding the return assumption — rosy assumptions are how shortfalls hide until senior year of high school, when it is too late to fix them.</p>
+    <h2>The Bottom Line</h2>
+    <p>College savings is one of the few financial problems with a fully knowable target: the years are fixed, the inflation rate is well measured, and the math is simple compounding. The only variable is whether you aim at the inflated price or today's price. Run the calculator, set the monthly transfer to automatic, put it in an age-based 529 portfolio, and revisit yearly. Future you — the one writing tuition checks without panic — will be grateful.</p>
+    <h2>Saving for More Than One Child</h2>
+    <p>Multiple kids do not multiply the problem as badly as parents fear, because the timelines stagger. Run the calculator separately for each child — the oldest needs the most per month (least time), the youngest the least — and you will find the combined monthly number is manageable, especially since contributions for the oldest stop when college starts, freeing cash flow for the younger ones. One 529 per child keeps the accounting clean, and the beneficiary-change rule is your safety valve: leftover funds from the oldest roll to the next sibling with no penalty. Grandparent contributions deserve coordination too — a grandparent-owned 529 no longer hurts FAFSA aid, so it is often the best vehicle for their gifts. And remember the new Roth rollover option: up to $35,000 of unused 529 money per beneficiary can move to their Roth IRA, which means "over-saving" for college now doubles as a head start on retirement. That safety net should embolden you to aim at the full inflated target rather than hedging low.</p>
+  </article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+<details><summary>How much should I save per month for college?</summary><p>It depends on years until college, today&#x27;s cost, tuition inflation (~4%/yr), and your investment return. As a rule of thumb, one year at a $30,000 public university in 18 years needs about $155/month at 6% returns starting from zero. Use the calculator above with your real numbers — aiming at today&#x27;s price instead of the inflated price is the most common mistake.</p></details>
+<details><summary>What is a 529 plan and why is it recommended?</summary><p>A 529 is a tax-advantaged college savings account: investments grow tax-deferred and withdrawals for education expenses are federally tax-free, with many states offering contribution deductions. You keep control of the account, can change beneficiaries to a sibling, and up to $35,000 of unused funds can now be rolled into the beneficiary&#x27;s Roth IRA.</p></details>
+<details><summary>How fast does college tuition rise?</summary><p>About 4% per year on average over recent decades — roughly double general inflation. At 4%, costs double every 18 years. Private universities have risen slightly faster than public ones. The calculator defaults to 4% but lets you adjust.</p></details>
+<details><summary>Is it better to invest a lump sum or save monthly?</summary><p>A lump sum invested today needs to be much smaller than the total of monthly payments, because every dollar compounds the full period — time does the heavy lifting. But monthly saving is realistic for most families and builds the habit automatically. If you receive a windfall, invest it immediately rather than dribbling it in.</p></details>
+<details><summary>Will saving in a 529 hurt financial aid?</summary><p>Barely. Parent-owned 529 assets count at about 5.64% in the federal aid formula — $50,000 saved reduces aid by roughly $2,820 — a small price for years of tax-free growth. Under current FAFSA rules, grandparent-owned 529 distributions are not reported as student income at all.</p></details>
+<details><summary>What return should I assume for college savings?</summary><p>Around 6% is reasonable for an age-based 529 portfolio that starts aggressive and glides conservative as college nears; 3–4% fits conservative bond-heavy portfolios. Run the numbers at two rates and split the difference for a margin of safety — and revisit yearly rather than trusting one assumption for 18 years.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">CollegeSave</div>
+    <p>CollegeSave projects the inflation-adjusted cost of college and turns it into a monthly savings number — including what your current savings will grow into.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+/* CollegeSave — pure logic. Projects the future cost of one year of
+   college with tuition inflation, grows current savings, and solves the
+   monthly contribution needed to close the gap. */
+function collegeSave(yearsUntil, currentCost, inflationRate, returnRate, currentSavings) {
+  yearsUntil = Math.max(0, Number(yearsUntil) || 0);
+  currentCost = Math.max(0, Number(currentCost) || 0);
+  inflationRate = Math.max(0, Number(inflationRate) || 0);
+  returnRate = Math.max(0, Number(returnRate) || 0);
+  currentSavings = Math.max(0, Number(currentSavings) || 0);
+  var futureCost = currentCost * Math.pow(1 + inflationRate, yearsUntil);
+  var grown = currentSavings * Math.pow(1 + returnRate, yearsUntil);
+  var gap = Math.max(0, futureCost - grown);
+  var n = Math.round(yearsUntil * 12);
+  var monthly;
+  if (n <= 0) {
+    monthly = gap;
+  } else {
+    var r = returnRate / 12;
+    monthly = r > 0 ? gap * r / (Math.pow(1 + r, n) - 1) : gap / n;
+  }
+  return {
+    futureCost: futureCost,
+    grownSavings: grown,
+    savingsGap: gap,
+    monthlyNeeded: monthly,
+    totalContrib: monthly * n
+  };
+}
+
+if (typeof document !== 'undefined') {
+  // Page wiring (cards + comparison) goes in the HTML inline script.
+}
+
+</script>
+<script>
+(function(){
+  function v(id){return parseFloat(document.getElementById(id).value)||0;}
+  function fmt(n,d){return n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function calc(){
+    var r=collegeSave(v('cs-years'),v('cs-cost'),v('cs-infl')/100,v('cs-ret')/100,v('cs-saved'));
+    document.getElementById('cs-future').innerHTML='$'+fmt(r.futureCost,0)+' <small>/ year</small>';
+    document.getElementById('cs-today').textContent='$'+fmt(v('cs-cost'),0);
+    document.getElementById('cs-mult').textContent='\u00D7'+fmt(v('cs-cost')>0?r.futureCost/v('cs-cost'):0,2);
+    document.getElementById('cs-monthly').innerHTML='$'+fmt(r.monthlyNeeded,0)+' <small>/ month</small>';
+    document.getElementById('cs-grown').textContent='$'+fmt(r.grownSavings,0);
+    document.getElementById('cs-gap').textContent='$'+fmt(r.savingsGap,0);
+    document.getElementById('cs-contrib').textContent='$'+fmt(r.totalContrib,0);
+    document.getElementById('cs-lump').textContent='$'+fmt(r.savingsGap,0);
+    document.getElementById('cs-m2').textContent='$'+fmt(r.monthlyNeeded,0)+'/mo';
+    document.getElementById('cs-interest').textContent='$'+fmt(Math.max(0,r.savingsGap-r.totalContrib),0);
+  }
+  ['cs-years','cs-cost','cs-infl','cs-ret','cs-saved'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
