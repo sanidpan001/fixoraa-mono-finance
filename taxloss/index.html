@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tax-Loss Harvesting Calculator — Offset Gains & Wash Sales | TaxLoss</title>
+<meta name="description" content="Tax-loss harvesting savings with wash-sale checks and carryforward.">
+<link rel="canonical" href="https://finance.fixoraa.tech/taxloss/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Tax-Loss Harvesting Calculator — Offset Gains & Wash Sales | TaxLoss">
+<meta property="og:description" content="Tax-loss harvesting savings with wash-sale checks and carryforward.">
+<meta property="og:url" content="https://finance.fixoraa.tech/taxloss/">
+<meta property="og:type" content="website">
+<script defer src="https://t.fixoraa.tech/track.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "TaxLoss",
+      "url": "https://finance.fixoraa.tech/taxloss/",
+      "applicationCategory": "Finance",
+      "operatingSystem": "Web",
+      "description": "Tax-loss harvesting savings with wash-sale checks and carryforward.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does tax-loss harvesting work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sell investments at a loss to offset capital gains dollar for dollar. Leftover losses can offset up to $3,000 of ordinary income per year, and the rest carries forward indefinitely. You typically buy a similar-but-not-identical investment immediately so your portfolio stays invested."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the wash-sale rule?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you buy a substantially identical security within 30 days before or after selling at a loss, the IRS disallows the loss for that year. The 61-day window includes dividend reinvestments and purchases in your IRA or spouse's accounts \u2014 keep 31+ days of separation or swap to a different security."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much can harvested losses offset per year?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Losses first offset all capital gains without limit. After that, up to $3,000 per year ($1,500 if married filing separately) can offset ordinary income. Remaining losses carry forward to future years indefinitely, keeping their short/long-term character."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are short-term or long-term losses more valuable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Short-term losses are usually worth more per dollar because they first offset short-term gains taxed at ordinary rates (up to 37%), while long-term losses first offset gains taxed at 0\u201320%. The calculator values each bucket at its own rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I harvest losses inside my IRA or 401(k)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No \u2014 losses in retirement accounts are not deductible, so harvesting there is pointless. Worse, buying the same security in your IRA within the wash-sale window can permanently kill a loss harvested in your taxable account."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does 'substantially identical' mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The same stock or ETF definitely qualifies. Beyond that there is no bright-line IRS test, so the safe practice is swapping to a similar-but-clearly-different exposure \u2014 e.g., an S&P 500 fund for a Russell 1000 fund \u2014 rather than a different issuer's clone of the same index."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{
+  --bg:#F4E1F9; --surface:#FFFFFF; --tint:#EDD2F4;
+  --accent:#6E1584; --accent-deep:#486114; --btn-ink:#FFFFFF;
+  --ink:#2E331C; --muted:#62663F; --line:#DCE0BE;
+  --display:'IBM Plex Sans',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.65;font-size:16px}
+.fx-container{max-width:1120px;margin:0 auto;padding:0 20px}
+.fx-header{background:var(--surface);border-bottom:3px solid var(--accent);position:sticky;top:0;z-index:50}
+.fx-header .fx-container{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.fx-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.fx-tile{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.fx-name{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.fx-nav{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fx-btn{display:inline-block;padding:9px 18px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:2px solid var(--accent);color:var(--accent);transition:transform .12s ease;background:var(--surface)}
+.fx-btn:hover{transform:translateY(-1px)}
+.fx-btn.solid{background:var(--accent);color:var(--btn-ink)}
+.fx-badge{display:inline-block;padding:7px 14px;border-radius:999px;background:var(--tint);color:var(--accent-deep);font-weight:700;font-size:13px;border:1.5px dashed var(--accent)}
+.article-sec{margin:40px 0;max-width:780px}
+.article-sec h2{font-size:24px;letter-spacing:-.02em;margin:34px 0 12px;font-weight:800;color:var(--ink)}
+.article-sec p{margin-bottom:14px;color:var(--ink)}
+.article-sec ul,.article-sec ol{margin:0 0 14px 22px;color:var(--ink)}
+.article-sec li{margin-bottom:6px}
+.faq-sec{margin:36px 0;max-width:780px}
+.faq-sec h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;color:var(--ink)}
+.faq-sec details{background:var(--surface);border:2px solid var(--line);border-radius:14px;margin-bottom:10px;padding:0;overflow:hidden}
+.faq-sec summary{padding:16px 18px;font-weight:700;cursor:pointer;list-style:none;font-size:16px;color:var(--ink)}
+.faq-sec summary::-webkit-details-marker{display:none}
+.faq-sec summary:hover{color:var(--accent)}
+.faq-sec details[open] summary{border-bottom:2px solid var(--line);color:var(--accent)}
+.faq-sec details p{padding:14px 18px;color:var(--ink);font-size:15px}
+.fx-footer{background:var(--footbg,#26211c);color:#f0e6da;margin-top:44px;padding:40px 0 34px}
+.fx-footer .fx-brand{font-size:22px;font-weight:800;margin-bottom:8px;color:#fff}
+.fx-footer p{font-size:15px;color:#cbb9a8;max-width:640px;margin-bottom:14px}
+.fx-footer nav{display:flex;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.fx-footer nav a{color:#fff;font-weight:700;text-decoration:none;border-bottom:2px solid var(--accent)}
+.fx-credit{font-size:14px!important}
+.fx-credit a{color:#ffd9a8;font-weight:700}
+.no-print{}
+@media(max-width:760px){.fx-nav{margin-left:0}}
+
+
+.tl-hero{padding:46px 0 6px}
+.tl-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.tl-eyebrow::before{content:"B2  "}
+.tl-hero h1{font-size:clamp(34px,5vw,52px);font-weight:700;letter-spacing:-.03em;margin-bottom:10px}
+.tl-hero p{font-size:17px;color:var(--muted);max-width:640px}
+.tl-sheet{margin:28px 0 10px;display:grid;grid-template-columns:1.25fr .9fr;gap:22px;align-items:start}
+.tl-card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:26px}
+.tl-card h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.tl-card .sub{font-size:14px;color:var(--muted);margin-bottom:18px}
+.tl-lot{display:grid;grid-template-columns:1fr 110px 120px 40px;gap:8px;margin-bottom:8px;align-items:center}
+.tl-lot input,.tl-lot select{font:inherit;font-size:14px;padding:10px 12px;border:2px solid var(--line);border-radius:10px;width:100%;color:var(--ink);background:#fff}
+.tl-lot input:focus,.tl-lot select:focus{outline:3px solid var(--tint);border-color:var(--accent)}
+.tl-del{border:2px solid var(--line);background:#fff;border-radius:10px;font-size:17px;cursor:pointer;color:var(--muted);height:42px}
+.tl-del:hover{color:var(--accent);border-color:var(--accent)}
+.tl-add{border:2px dashed var(--accent);background:transparent;color:var(--accent);border-radius:10px;padding:10px;width:100%;font:inherit;font-weight:700;cursor:pointer;margin:6px 0 18px}
+.tl-add:hover{background:var(--tint)}
+.tl-f{margin-bottom:16px}
+.tl-f label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.tl-f .hint{font-weight:400;color:var(--muted);font-size:13px}
+.tl-f select{font:inherit;font-size:15px;padding:11px 13px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink);background:#fff}
+.tl-savings{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;border-radius:16px;padding:22px;text-align:center}
+.tl-savings .l{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.92}
+.tl-savings .n{font-size:50px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.tl-savings .d{font-size:14px;opacity:.92;margin-top:4px}
+.tl-guard{margin-top:18px;border:2px solid var(--line);border-radius:14px;padding:18px}
+.tl-guard.ok{border-color:var(--accent);background:var(--tint)}
+.tl-guard.bad{border-color:#B3261E;background:#FDECEA}
+.tl-guard h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.tl-guard .verdict{font-weight:700;font-size:15px;margin-top:10px}
+.tl-guard.ok .verdict{color:var(--accent-deep)}
+.tl-guard.bad .verdict{color:#B3261E}
+.tl-dates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.tl-dates label{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+.tl-dates input{font:inherit;font-size:14px;padding:10px;border:2px solid var(--line);border-radius:10px;width:100%;color:var(--ink)}
+.tl-carry{margin-top:18px;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:18px}
+.tl-carry h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.tl-cline{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.tl-cline:last-child{border-bottom:0;font-weight:700;color:var(--accent-deep)}
+@media(max-width:920px){.tl-sheet{grid-template-columns:1fr}.tl-lot{grid-template-columns:1fr 96px 104px 38px}}
+@media(max-width:560px){.tl-lot{grid-template-columns:1fr 1fr}.tl-lot input:first-child{grid-column:1/-1}}
+
+</style>
+</head>
+<body>
+<header class="fx-header">
+  <div class="fx-container">
+    <a class="fx-logo" href="https://finance.fixoraa.tech/taxloss/" aria-label="TaxLoss home">
+      <span class="fx-tile" aria-hidden="true">T</span>
+      <span class="fx-name">TaxLoss</span>
+    </a>
+    <nav class="fx-nav" aria-label="Site">
+      <a class="fx-btn" href="https://fixoraa.tech">Home</a>
+      <a class="fx-btn solid" href="https://fixoraa.tech">More Tools</a>
+      <span class="fx-badge">&#8734; Unlimited Free Usage</span>
+    </nav>
+  </div>
+</header>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pt-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:728px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    <div class="flex justify-center overflow-hidden">
+      <div class="origin-top scale-[0.44] sm:scale-100 shrink-0">
+        <script>
+          atOptions = { 'key' : '4e68ac77881c17fe128a46565d9a4e8c', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script src="https://www.highrevenueformat.com/4e68ac77881c17fe128a46565d9a4e8c/invoke.js"></script>
+      </div>
+    </div>
+  </div>
+</div>
+<main class="fx-container">
+  <section class="tl-hero">
+    <span class="tl-eyebrow">Harvest worksheet · Keep the IRS honest</span>
+    <h1>TaxLoss</h1>
+    <p>Turn red positions into tax savings. Value your harvested losses by bracket, check every sale against the 30-day wash-sale rule, and track what carries forward.</p>
+  </section>
+
+  <section class="tl-sheet" aria-label="TaxLoss tool">
+
+  <div class="tl-card">
+    <h2>📋 Harvest worksheet</h2>
+    <p class="sub">List each losing position you plan to sell. Short-term = held under a year.</p>
+    <div id="tl-lots"></div>
+    <button type="button" class="tl-add" id="tl-add">+ Add a position</button>
+    <div class="tl-f"><label for="tl-bracket">Your marginal tax bracket <span class="hint">— short-term losses offset at this rate</span></label>
+      <select id="tl-bracket">
+        <option value="0.10">10%</option><option value="0.12">12%</option>
+        <option value="0.22">22%</option><option value="0.24" selected>24%</option>
+        <option value="0.32">32%</option><option value="0.35">35%</option><option value="0.37">37%</option>
+      </select></div>
+    <div class="tl-f"><label for="tl-ltrate">Long-term capital gains rate <span class="hint">— usually 0/15/20%</span></label>
+      <select id="tl-ltrate">
+        <option value="0">0%</option><option value="0.15" selected>15%</option><option value="0.20">20%</option>
+      </select></div>
+    <div class="tl-savings" aria-live="polite">
+      <div class="l">Estimated tax savings</div>
+      <div class="n" id="tl-save">$0</div>
+      <div class="d" id="tl-breakdown">add positions above</div>
+    </div>
+  </div>
+  <div>
+    <div class="tl-card tl-guard ok" id="tl-guard">
+      <h3>🛡️ Wash-sale guardrail</h3>
+      <p class="sub">Selling at a loss and rebuying within 30 days (before <em>or</em> after) disallows the loss.</p>
+      <div class="tl-dates">
+        <div><label for="tl-sale">Sale date</label><input type="date" id="tl-sale" value="2026-12-01"></div>
+        <div><label for="tl-buy">Repurchase date</label><input type="date" id="tl-buy" value="2027-01-15"></div>
+      </div>
+      <div class="verdict" id="tl-verdict"></div>
+    </div>
+    <div class="tl-carry">
+      <h3>🔄 Carryforward tracker</h3>
+      <div class="tl-f"><label for="tl-gains">Capital gains this year <span class="hint">— $ losses offset first</span></label>
+        <input type="number" id="tl-gains" value="0" min="0" step="500" style="font:inherit;font-size:15px;padding:11px 13px;border:2px solid var(--line);border-radius:12px;width:100%;color:var(--ink)"></div>
+      <div id="tl-carryout" aria-live="polite"></div>
+    </div>
+  </div>
+
+  </section>
+
+  <div class="flex justify-center overflow-hidden">
+      <script>
+      (function(grnp){
+      var d = document,
+          s = d.createElement('script'),
+          l = d.currentScript || d.scripts[d.scripts.length - 1];
+      s.settings = grnp || {};
+      s.src = "\/\/peacefulbicycle.com\/bnXtVJsnd.GElF0oYVWQcY\/Qe\/mf9qu-ZqUtlZk\/PzTHcx1LM\/jWIZwkMTj\/U\/t-NrzmUnyOMsj\/AzydO\/Qx";
+      s.async = true;
+      s.referrerPolicy = 'no-referrer-when-downgrade';
+      l.parentNode.insertBefore(s, l);
+      })({})
+      </script>
+    </div>
+<article class="article-sec" aria-label="Guide">
+
+<h2>What Tax-Loss Harvesting Actually Does</h2>
+<p>Sell an investment at a loss and the tax code lets that loss <strong>cancel out gains</strong> dollar for dollar — then up to <strong>$3,000 per year</strong> of leftover losses can offset ordinary income (salary, interest), with anything beyond that <strong>carried forward</strong> indefinitely. Harvesting is simply doing this on purpose: realizing losses you already have, banking the tax benefit, and (usually) immediately buying a similar — but not identical — investment so your portfolio barely changes.</p>
+<p>The savings are real but bounded: a $10,000 short-term loss saves $3,200 at a 32% bracket, $2,400 at 24%. Nobody harvests their way to wealth — they harvest to keep more of the wealth their gains already created. Think of it as a <strong>discount on taxes you were going to pay anyway</strong>.</p>
+<h2>Short-Term vs Long-Term: The Ordering Rules</h2>
+<p>Not all losses are equal. <strong>Short-term</strong> losses (assets held one year or less) first offset short-term gains, which are taxed at high ordinary-income rates — making short-term losses the most valuable kind. <strong>Long-term</strong> losses first offset long-term gains, taxed at the gentler 0%/15%/20% rates. Only after netting within each category can leftovers cross over.</p>
+<p>Practical consequence: a short-term loss is worth more per dollar than a long-term loss for most earners, because it kills income that would have been taxed at 24–37% instead of 15–20%. The worksheet above values each bucket at its own rate — which is why entering the holding term per position matters.</p>
+<h2>The Wash-Sale Rule: The 61-Day Window</h2>
+<p>The IRS will not let you sell at a loss on Monday and buy it back on Tuesday. If you purchase a <strong>"substantially identical"</strong> security within <strong>30 days before or after</strong> the loss sale — a 61-day window — the loss is <strong>disallowed</strong>. It is not destroyed (it gets added to the replacement shares' cost basis), but the current-year tax benefit evaporates, which defeats the entire exercise.</p>
+<p>Traps that catch smart people: <strong>dividend reinvestment</strong> buying shares inside the window (turn off DRIP in taxable accounts before harvesting), purchases in your <strong>IRA or 401(k)</strong> (the IRS counts those too, and the disallowed loss is gone forever — no basis adjustment in a retirement account), and your <strong>spouse's</strong> accounts buying the same security. The guardrail above checks your dates; keep 31+ days of separation or swap to a similar-but-different fund.</p>
+<h2>What Counts as "Substantially Identical"?</h2>
+<p>The same stock or ETF is obviously identical. Beyond that, the IRS has never published a bright-line test, which creates the practical playbook: selling an S&amp;P 500 ETF from one issuer and buying another issuer's S&amp;P 500 ETF is <em>probably</em> fine (different fund, different structure) but not <em>certainly</em> fine — conservative harvesters swap to a <strong>similar but clearly different</strong> exposure instead, like S&amp;P 500 ↔ large-cap Russell 1000. For individual stocks, swapping to a competitor in the same sector is the standard move.</p>
+<p>Mutual fund share classes of the same fund are identical. Options on the same stock can trigger it. When in doubt, choose the clearly-different alternative — the tiny tracking difference costs far less than a disallowed loss.</p>
+<h2>The $3,000 Limit and Carryforward</h2>
+<p>After losses offset all your gains, only <strong>$3,000 per year</strong> ($1,500 married filing separately) can offset ordinary income. The rest <strong>carries forward indefinitely</strong> — it never expires, and it keeps its short/long-term character. Big harvest years (a $50,000 loss against no gains) create a carryforward that shelters income for a decade-plus: $3,000 a year, every year, until it is gone.</p>
+<p>The tracker above shows the waterfall: gains first, then the $3,000 ordinary offset, then carryforward. One planning note: carryforwards die with you unused (heirs get a stepped-up basis anyway), so very large carryforwards argue for realizing <em>gains</em> strategically — rebalancing, Roth conversions in disguise — to soak them up.</p>
+<h2>When Harvesting Makes Sense (and When It Doesn't)</h2>
+<p>Harvest when you <strong>have gains to offset</strong> (a rebalancing year, a property sale, RSUs vesting), when you are in a <strong>high bracket</strong> (the savings scale with your rate), and when you can <strong>stay invested</strong> via a replacement security. Year-end is the natural moment, but volatile markets hand out opportunities all year — the best harvests happen in March panics, not December calm.</p>
+<p>Do not harvest when the <strong>transaction costs exceed the benefit</strong> (a $200 loss at 12% saves $24 — not worth the paperwork), when you would have to go to cash and risk missing a rebound, or in <strong>retirement accounts</strong> (losses there are not deductible at all — harvesting inside an IRA is pure waste). And never let the tax tail wag the investment dog: if the replacement security is meaningfully worse, skip it.</p>
+<h2>Direct Indexing: Harvesting on Autopilot</h2>
+<p>Wealth managers now sell <strong>direct indexing</strong> — owning the individual stocks of an index instead of the ETF — largely as a harvesting machine: with 500 positions, <em>something</em> is always down, so the algorithm harvests year-round while tracking the index. It works, and the harvested losses are genuinely valuable. Whether the typical 0.2–40% fee earns its keep depends on your bracket and account size — at $500k+ taxable and a high bracket, the math often clears; below that, manual year-end harvesting captures most of the benefit free.</p>
+<h2>Recordkeeping: Boring but Mandatory</h2>
+<p>Every harvested loss needs a paper trail: <strong>trade confirmations</strong> with dates and amounts, the <strong>cost basis</strong> method used, and proof of the 61-day window (no repurchases). Brokers track basis for covered shares, but wash sales across <em>different accounts or brokers</em> are invisible to them — that reconciliation is on you. Keep a simple log: what you sold, what you bought instead, and the dates. An audit without records turns legitimate harvesting into disallowed losses plus penalties.</p>
+<h2>Tax-Gain Harvesting: The Mirror Image</h2>
+<p>Losses are not the only thing worth harvesting. In years when your income is unusually <strong>low</strong> — a sabbatical, early retirement before Social Security, a gap year — you may sit in the <strong>0% long-term capital gains bracket</strong> (up to $48,350 of taxable income for single filers in 2025, roughly double for joint). Selling winners and immediately rebuying them <strong>resets your cost basis higher at zero tax</strong>, shrinking all future tax bills. Unlike losses, gains have no wash-sale rule — you can rebuy the identical security the same minute.</p>
+<p>The two strategies pair beautifully across a lifetime: harvest losses in high-income years to bank deductions, harvest gains in low-income years to step up basis free. Retirees in the pre-RMD gap years (60s, delaying Social Security to 70) get the best of both — filling low brackets with Roth conversions <em>and</em> tax-gain harvesting. Run the numbers each December: the brackets reset January 1, and unused 0% space does not carry forward.</p>
+<h2>Putting It All Together</h2>
+<p>List your losers, value each bucket at its true rate, check every sale against the 61-day window (mind the IRA and DRIP traps), and track the carryforward so future gains meet it prepared. Harvesting will not make you rich — but done cleanly, year after year, it is one of the few reliable ways to keep more of what your portfolio already earned.</p>
+
+  <h2>When NOT to Tax-Loss Harvest</h2><p>Harvesting isn't always smart. <strong>Don't harvest in tax-advantaged accounts</strong> — losses inside an IRA or 401(k) are meaningless for taxes, and worse, buying a "substantially identical" security in your IRA within the window can trigger a wash sale that permanently disallows the taxable-account loss. <strong>Don't harvest tiny losses</strong> if transaction costs or your time exceed the benefit; a $200 loss saving $48 at a 24% bracket isn't worth an hour of paperwork and a tracking spreadsheet you'll neglect.</p><p><strong>Don't harvest if you'll need the cash soon</strong> and the replacement security is volatile — the wash-sale rule forces you to stay exposed to similar market risk for 31 days, which can backfire. And <strong>don't let the tax tail wag the investment dog</strong>: selling a great long-term holding just to book a loss, then watching it rebound while you're sidelined, is a classic blunder. Harvest methodically from positions you'd rebalance anyway, keep the replacement genuinely comparable, and remember the goal is keeping more of your returns — not manufacturing losses for their own sake.</p>
+</article>
+  <section class="faq-sec" aria-label="Frequently asked questions">
+    <h2>Frequently asked questions</h2>
+    <details><summary>How does tax-loss harvesting work?</summary><p>Sell investments at a loss to offset capital gains dollar for dollar. Leftover losses can offset up to $3,000 of ordinary income per year, and the rest carries forward indefinitely. You typically buy a similar-but-not-identical investment immediately so your portfolio stays invested.</p></details>
+    <details><summary>What is the wash-sale rule?</summary><p>If you buy a substantially identical security within 30 days before or after selling at a loss, the IRS disallows the loss for that year. The 61-day window includes dividend reinvestments and purchases in your IRA or spouse's accounts — keep 31+ days of separation or swap to a different security.</p></details>
+    <details><summary>How much can harvested losses offset per year?</summary><p>Losses first offset all capital gains without limit. After that, up to $3,000 per year ($1,500 if married filing separately) can offset ordinary income. Remaining losses carry forward to future years indefinitely, keeping their short/long-term character.</p></details>
+    <details><summary>Are short-term or long-term losses more valuable?</summary><p>Short-term losses are usually worth more per dollar because they first offset short-term gains taxed at ordinary rates (up to 37%), while long-term losses first offset gains taxed at 0–20%. The calculator values each bucket at its own rate.</p></details>
+    <details><summary>Can I harvest losses inside my IRA or 401(k)?</summary><p>No — losses in retirement accounts are not deductible, so harvesting there is pointless. Worse, buying the same security in your IRA within the wash-sale window can permanently kill a loss harvested in your taxable account.</p></details>
+    <details><summary>What does 'substantially identical' mean?</summary><p>The same stock or ETF definitely qualifies. Beyond that there is no bright-line IRS test, so the safe practice is swapping to a similar-but-clearly-different exposure — e.g., an S&P 500 fund for a Russell 1000 fund — rather than a different issuer's clone of the same index.</p></details>
+  </section>
+</main>
+<div class="no-print mx-auto max-w-6xl px-4 sm:px-6 pb-4" role="complementary" aria-label="Advertisement">
+  <div class="mx-auto text-center" style="max-width:300px">
+    <span class="block text-[10px] tracking-[0.18em] uppercase text-slate-400 mb-1.5">Advertisement</span>
+    
+  </div>
+</div>
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-brand">TaxLoss</div>
+    <p>TaxLoss values harvested investment losses by tax bracket, guards every sale with a 30-day wash-sale check, and tracks carryforward losses across tax years.</p>
+    <nav aria-label="Footer">
+      <a href="https://fixoraa.tech">Home</a>
+      <a href="https://fixoraa.tech">More Tools</a>
+    </nav>
+    <p class="fx-credit">Made by <a href="https://fixoraa.tech">Fixoraa</a> &middot; Free forever, no signup.</p>
+  </div>
+</footer>
+<script>
+
+function harvestSavings(stLoss, ltLoss, stRate, ltRate){
+  var st = Math.round(stLoss * stRate * 100) / 100;
+  var lt = Math.round(ltLoss * ltRate * 100) / 100;
+  return {st:st, lt:lt, total:Math.round((st + lt) * 100) / 100};
+}
+function daysBetween(d1, d2){
+  var a = new Date(d1 + 'T12:00:00'), b = new Date(d2 + 'T12:00:00');
+  return Math.round(Math.abs(b - a) / 86400000);
+}
+function washSale(saleDate, buyDate){
+  if(!saleDate || !buyDate) return null;
+  return daysBetween(saleDate, buyDate) <= 30;
+}
+function carryforward(totalLoss, gains){
+  var net = Math.max(0, totalLoss - gains);
+  var used = Math.min(3000, net);
+  return {used:Math.round(used*100)/100, carry:Math.round((net-used)*100)/100, offset:Math.min(totalLoss, gains)};
+}
+
+
+(function(){
+var lots=[{name:'Example ETF', term:'short', loss:8000},{name:'Example stock', term:'long', loss:4000}];
+var $=function(id){return document.getElementById(id);};
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function renderLots(){
+  var box=$('tl-lots');box.innerHTML='';
+  lots.forEach(function(l,i){
+    var row=document.createElement('div');row.className='tl-lot';
+    var nm=document.createElement('input');nm.value=l.name;nm.setAttribute('aria-label','Position name');
+    nm.addEventListener('input',function(){l.name=nm.value;});
+    var tm=document.createElement('select');tm.setAttribute('aria-label','Holding term');
+    tm.innerHTML='<option value="short">Short-term</option><option value="long">Long-term</option>';
+    tm.value=l.term;tm.addEventListener('change',function(){l.term=tm.value;calc();});
+    var ls=document.createElement('input');ls.type='number';ls.min='0';ls.step='100';ls.value=l.loss;ls.setAttribute('aria-label','Loss amount in dollars');
+    ls.addEventListener('input',function(){l.loss=parseFloat(ls.value)||0;calc();});
+    var del=document.createElement('button');del.type='button';del.className='tl-del';del.textContent='×';del.setAttribute('aria-label','Remove position');
+    del.addEventListener('click',function(){lots.splice(i,1);renderLots();calc();});
+    row.appendChild(nm);row.appendChild(tm);row.appendChild(ls);row.appendChild(del);
+    box.appendChild(row);
+  });
+}
+$('tl-add').addEventListener('click',function(){lots.push({name:'Position '+(lots.length+1),term:'short',loss:1000});renderLots();calc();});
+function calc(){
+  var st=0,lt=0;
+  lots.forEach(function(l){if(l.term==='short')st+=l.loss;else lt+=l.loss;});
+  var br=parseFloat($('tl-bracket').value), lr=parseFloat($('tl-ltrate').value);
+  var s=harvestSavings(st,lt,br,lr);
+  $('tl-save').textContent=money(s.total);
+  $('tl-breakdown').textContent=money(st)+' short-term × '+Math.round(br*100)+'% + '+money(lt)+' long-term × '+Math.round(lr*100)+'%';
+  var ws=washSale($('tl-sale').value,$('tl-buy').value);
+  var g=$('tl-guard');
+  if(ws===null){g.className='tl-card tl-guard';$('tl-verdict').textContent='Enter both dates to check.';}
+  else if(ws){g.className='tl-card tl-guard bad';$('tl-verdict').textContent='⚠️ Wash sale: only '+daysBetween($('tl-sale').value,$('tl-buy').value)+' days apart. The loss would be disallowed — wait until day 31+ or buy a similar-but-not-identical security.';}
+  else{g.className='tl-card tl-guard ok';$('tl-verdict').textContent='✅ Clear: '+daysBetween($('tl-sale').value,$('tl-buy').value)+' days apart. Outside the 61-day wash-sale window.';}
+  var gains=parseFloat($('tl-gains').value)||0;
+  var cf=carryforward(st+lt,gains);
+  $('tl-carryout').innerHTML=
+    '<div class="tl-cline"><span>Total harvested losses</span><span>'+money(st+lt)+'</span></div>'+
+    '<div class="tl-cline"><span>Offsetting capital gains</span><span>'+money(cf.offset)+'</span></div>'+
+    '<div class="tl-cline"><span>Offsetting ordinary income ($3k/yr)</span><span>'+money(cf.used)+'</span></div>'+
+    '<div class="tl-cline"><span>Carried forward</span><span>'+money(cf.carry)+'</span></div>';
+}
+['tl-bracket','tl-ltrate','tl-sale','tl-buy','tl-gains'].forEach(function(id){
+  $(id).addEventListener('input',calc);$(id).addEventListener('change',calc);
+});
+renderLots();calc();
+})();
+
+</script>
+</body>
+</html>
